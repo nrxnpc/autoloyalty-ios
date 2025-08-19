@@ -1,0 +1,636 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		08DB74192DF82926007D80CB /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08DB74172DF82926007D80CB /* ContentView.swift */; };
+		08DB741A2DF82926007D80CB /*  NSPApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08DB74162DF82926007D80CB /*  NSPApp.swift */; };
+		08DB741C2DF8296F007D80CB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 08DB741B2DF8296F007D80CB /* Assets.xcassets */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		08DB73D12DF6CC1D007D80CB /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 08DB73BB2DF6CC1B007D80CB /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 08DB73C22DF6CC1B007D80CB;
+			remoteInfo = "NSP app";
+		};
+		08DB73DB2DF6CC1D007D80CB /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 08DB73BB2DF6CC1B007D80CB /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 08DB73C22DF6CC1B007D80CB;
+			remoteInfo = "NSP app";
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		08526C2B2E0B219000D1751F /* APIModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIModels.swift; sourceTree = "<group>"; };
+		08526C2C2E0B21BC00D1751F /* TokenManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenManager.swift; sourceTree = "<group>"; };
+		08526C2F2E0B2B1A00D1751F /* NetworkStatusView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkStatusView.swift; sourceTree = "<group>"; };
+		08526C362E0B32A700D1751F /* NetworkComponents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkComponents.swift; sourceTree = "<group>"; };
+		08526C372E0B32FD00D1751F /* DateExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateExtensions.swift; sourceTree = "<group>"; };
+		08DB73C32DF6CC1B007D80CB /* NSP app.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "NSP app.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		08DB73D02DF6CC1D007D80CB /* NSP appTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "NSP appTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		08DB73DA2DF6CC1D007D80CB /* NSP appUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "NSP appUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		08DB74162DF82926007D80CB /*  NSPApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = " NSPApp.swift"; sourceTree = "<group>"; };
+		08DB74172DF82926007D80CB /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		08DB741B2DF8296F007D80CB /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFileSystemSynchronizedRootGroup section */
+		08DB73D32DF6CC1D007D80CB /* NSP appTests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = "NSP appTests";
+			sourceTree = "<group>";
+		};
+		08DB73DD2DF6CC1D007D80CB /* NSP appUITests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = "NSP appUITests";
+			sourceTree = "<group>";
+		};
+		08DB74292DF82B1D007D80CB /* ViewModels */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		08DB74332DF82C85007D80CB /* Views */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = Views;
+			sourceTree = "<group>";
+		};
+		08DB745E2DF82FEB007D80CB /* Services */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = Services;
+			sourceTree = "<group>";
+		};
+		08DB74652DF83087007D80CB /* Utils */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = Utils;
+			sourceTree = "<group>";
+		};
+		08DB746C2DF83251007D80CB /* Models */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = Models;
+			sourceTree = "<group>";
+		};
+/* End PBXFileSystemSynchronizedRootGroup section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		08DB73C02DF6CC1B007D80CB /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		08DB73CD2DF6CC1D007D80CB /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		08DB73D72DF6CC1D007D80CB /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		08526C2A2E0B218000D1751F /* Network */ = {
+			isa = PBXGroup;
+			children = (
+				08526C372E0B32FD00D1751F /* DateExtensions.swift */,
+				08526C362E0B32A700D1751F /* NetworkComponents.swift */,
+				08526C2F2E0B2B1A00D1751F /* NetworkStatusView.swift */,
+				08526C2B2E0B219000D1751F /* APIModels.swift */,
+				08526C2C2E0B21BC00D1751F /* TokenManager.swift */,
+			);
+			path = Network;
+			sourceTree = "<group>";
+		};
+		08DB73BA2DF6CC1B007D80CB = {
+			isa = PBXGroup;
+			children = (
+				08526C2A2E0B218000D1751F /* Network */,
+				08DB746C2DF83251007D80CB /* Models */,
+				08DB74652DF83087007D80CB /* Utils */,
+				08DB745E2DF82FEB007D80CB /* Services */,
+				08DB74332DF82C85007D80CB /* Views */,
+				08DB74292DF82B1D007D80CB /* ViewModels */,
+				08DB74182DF82926007D80CB /* App */,
+				08DB73D32DF6CC1D007D80CB /* NSP appTests */,
+				08DB73DD2DF6CC1D007D80CB /* NSP appUITests */,
+				08DB73C42DF6CC1B007D80CB /* Products */,
+				08DB741B2DF8296F007D80CB /* Assets.xcassets */,
+			);
+			sourceTree = "<group>";
+		};
+		08DB73C42DF6CC1B007D80CB /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				08DB73C32DF6CC1B007D80CB /* NSP app.app */,
+				08DB73D02DF6CC1D007D80CB /* NSP appTests.xctest */,
+				08DB73DA2DF6CC1D007D80CB /* NSP appUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		08DB74182DF82926007D80CB /* App */ = {
+			isa = PBXGroup;
+			children = (
+				08DB74172DF82926007D80CB /* ContentView.swift */,
+				08DB74162DF82926007D80CB /*  NSPApp.swift */,
+			);
+			path = App;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		08DB73C22DF6CC1B007D80CB /* NSP app */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 08DB73E42DF6CC1D007D80CB /* Build configuration list for PBXNativeTarget "NSP app" */;
+			buildPhases = (
+				08DB73BF2DF6CC1B007D80CB /* Sources */,
+				08DB73C02DF6CC1B007D80CB /* Frameworks */,
+				08DB73C12DF6CC1B007D80CB /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				08DB74292DF82B1D007D80CB /* ViewModels */,
+				08DB74332DF82C85007D80CB /* Views */,
+				08DB745E2DF82FEB007D80CB /* Services */,
+				08DB74652DF83087007D80CB /* Utils */,
+				08DB746C2DF83251007D80CB /* Models */,
+			);
+			name = "NSP app";
+			packageProductDependencies = (
+			);
+			productName = "NSP app";
+			productReference = 08DB73C32DF6CC1B007D80CB /* NSP app.app */;
+			productType = "com.apple.product-type.application";
+		};
+		08DB73CF2DF6CC1D007D80CB /* NSP appTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 08DB73E72DF6CC1D007D80CB /* Build configuration list for PBXNativeTarget "NSP appTests" */;
+			buildPhases = (
+				08DB73CC2DF6CC1D007D80CB /* Sources */,
+				08DB73CD2DF6CC1D007D80CB /* Frameworks */,
+				08DB73CE2DF6CC1D007D80CB /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				08DB73D22DF6CC1D007D80CB /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				08DB73D32DF6CC1D007D80CB /* NSP appTests */,
+			);
+			name = "NSP appTests";
+			packageProductDependencies = (
+			);
+			productName = "NSP appTests";
+			productReference = 08DB73D02DF6CC1D007D80CB /* NSP appTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		08DB73D92DF6CC1D007D80CB /* NSP appUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 08DB73EA2DF6CC1D007D80CB /* Build configuration list for PBXNativeTarget "NSP appUITests" */;
+			buildPhases = (
+				08DB73D62DF6CC1D007D80CB /* Sources */,
+				08DB73D72DF6CC1D007D80CB /* Frameworks */,
+				08DB73D82DF6CC1D007D80CB /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				08DB73DC2DF6CC1D007D80CB /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				08DB73DD2DF6CC1D007D80CB /* NSP appUITests */,
+			);
+			name = "NSP appUITests";
+			packageProductDependencies = (
+			);
+			productName = "NSP appUITests";
+			productReference = 08DB73DA2DF6CC1D007D80CB /* NSP appUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		08DB73BB2DF6CC1B007D80CB /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1640;
+				LastUpgradeCheck = 1640;
+				TargetAttributes = {
+					08DB73C22DF6CC1B007D80CB = {
+						CreatedOnToolsVersion = 16.4;
+					};
+					08DB73CF2DF6CC1D007D80CB = {
+						CreatedOnToolsVersion = 16.4;
+						TestTargetID = 08DB73C22DF6CC1B007D80CB;
+					};
+					08DB73D92DF6CC1D007D80CB = {
+						CreatedOnToolsVersion = 16.4;
+						TestTargetID = 08DB73C22DF6CC1B007D80CB;
+					};
+				};
+			};
+			buildConfigurationList = 08DB73BE2DF6CC1B007D80CB /* Build configuration list for PBXProject "NSP app" */;
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 08DB73BA2DF6CC1B007D80CB;
+			minimizedProjectReferenceProxies = 1;
+			preferredProjectObjectVersion = 77;
+			productRefGroup = 08DB73C42DF6CC1B007D80CB /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				08DB73C22DF6CC1B007D80CB /* NSP app */,
+				08DB73CF2DF6CC1D007D80CB /* NSP appTests */,
+				08DB73D92DF6CC1D007D80CB /* NSP appUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		08DB73C12DF6CC1B007D80CB /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				08DB741C2DF8296F007D80CB /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		08DB73CE2DF6CC1D007D80CB /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		08DB73D82DF6CC1D007D80CB /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		08DB73BF2DF6CC1B007D80CB /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				08DB74192DF82926007D80CB /* ContentView.swift in Sources */,
+				08DB741A2DF82926007D80CB /*  NSPApp.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		08DB73CC2DF6CC1D007D80CB /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		08DB73D62DF6CC1D007D80CB /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		08DB73D22DF6CC1D007D80CB /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 08DB73C22DF6CC1B007D80CB /* NSP app */;
+			targetProxy = 08DB73D12DF6CC1D007D80CB /* PBXContainerItemProxy */;
+		};
+		08DB73DC2DF6CC1D007D80CB /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 08DB73C22DF6CC1B007D80CB /* NSP app */;
+			targetProxy = 08DB73DB2DF6CC1D007D80CB /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		08DB73E22DF6CC1D007D80CB /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.5;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		08DB73E32DF6CC1D007D80CB /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.5;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		08DB73E52DF6CC1D007D80CB /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 9XTHT6Y7GW;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSCameraUsageDescription = "Приложение использует камеру для сканирования QR-кодов на упаковках автозапчастей. Это позволяет получать баллы в программе лояльности за покупки";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "Приложение может получить доступ к галерее для загрузки изображений в профиль пользователя или при создании обращений в поддержку";
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "NSP.NSP-app";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		08DB73E62DF6CC1D007D80CB /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 9XTHT6Y7GW;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSCameraUsageDescription = "Приложение использует камеру для сканирования QR-кодов на упаковках автозапчастей. Это позволяет получать баллы в программе лояльности за покупки";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "Приложение может получить доступ к галерее для загрузки изображений в профиль пользователя или при создании обращений в поддержку";
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "NSP.NSP-app";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		08DB73E82DF6CC1D007D80CB /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.5;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "NSP.NSP-appTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/NSP app.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/NSP app";
+			};
+			name = Debug;
+		};
+		08DB73E92DF6CC1D007D80CB /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.5;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "NSP.NSP-appTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/NSP app.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/NSP app";
+			};
+			name = Release;
+		};
+		08DB73EB2DF6CC1D007D80CB /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "NSP.NSP-appUITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = "NSP app";
+			};
+			name = Debug;
+		};
+		08DB73EC2DF6CC1D007D80CB /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "NSP.NSP-appUITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = "NSP app";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		08DB73BE2DF6CC1B007D80CB /* Build configuration list for PBXProject "NSP app" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				08DB73E22DF6CC1D007D80CB /* Debug */,
+				08DB73E32DF6CC1D007D80CB /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		08DB73E42DF6CC1D007D80CB /* Build configuration list for PBXNativeTarget "NSP app" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				08DB73E52DF6CC1D007D80CB /* Debug */,
+				08DB73E62DF6CC1D007D80CB /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		08DB73E72DF6CC1D007D80CB /* Build configuration list for PBXNativeTarget "NSP appTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				08DB73E82DF6CC1D007D80CB /* Debug */,
+				08DB73E92DF6CC1D007D80CB /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		08DB73EA2DF6CC1D007D80CB /* Build configuration list for PBXNativeTarget "NSP appUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				08DB73EB2DF6CC1D007D80CB /* Debug */,
+				08DB73EC2DF6CC1D007D80CB /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 08DB73BB2DF6CC1B007D80CB /* Project object */;
+}
