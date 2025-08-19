@@ -37,37 +37,27 @@ class DataManager: ObservableObject {
     func loadDataIfNeeded() async {
         for dataType in DataType.allCases {
             if !loadedDataTypes.contains(dataType) {
-                loadDataType(dataType)
+                await loadDataType(dataType)
             }
         }
     }
     
     // Загружаем конкретный тип данных только когда он нужен
-    func loadDataType(_ type: DataType) {
+    func loadDataType(_ type: DataType) async {
         guard !loadedDataTypes.contains(type) else { return }
         loadedDataTypes.insert(type)
         
         switch type {
-        case .cars:
-            await loadCars()
-        case .products:
-            await loadProducts()
-        case .users:
-            await loadUsers()
-        case .orders:
-            await loadOrders()
-        case .priceRequests:
-            await loadPriceRequests()
-        case .news:
-            await loadNews()
-        case .lotteries:
-            await loadLotteries()
-        case .pointTransactions:
-            await loadPointTransactions()
-        case .supportTickets:
-            await loadSupportTickets()
-        case .qrScans:
-            await loadQRScans()
+        case .cars: await loadCars()
+        case .products: await loadProducts()
+        case .users: await loadUsers()
+        case .orders: await loadOrders()
+        case .priceRequests: await loadPriceRequests()
+        case .news: await loadNews()
+        case .lotteries: await loadLotteries()
+        case .pointTransactions: await loadPointTransactions()
+        case .supportTickets: await loadSupportTickets()
+        case .qrScans: await loadQRScans()
         }
     }
     

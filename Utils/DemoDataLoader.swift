@@ -140,40 +140,185 @@ struct DemoDataLoader {
     // MARK: - Users
     static func loadUsers() -> [User] {
         return [
+            // Покупатель
             User(
-                id: "1",
-                name: "Иван Петров",
-                email: "ivan@example.com",
+                id: "customer1",
+                name: "Александр Петров",
+                email: "customer@nsp.com",
                 phone: "+7 (999) 123-45-67",
                 userType: .individual,
                 points: 1250,
-                role: .user,
+                role: .customer,
                 registrationDate: Date().addingTimeInterval(-86400 * 30),
-                isActive: true
+                isActive: true,
+                profileImageURL: nil,
+                currentTierId: "bronze",
+                supplierId: nil,
+                preferences: User.UserPreferences(
+                    favoriteCategories: [.autoparts, .oils],
+                    notificationsEnabled: true,
+                    emailNotifications: true,
+                    pushNotifications: true,
+                    preferredSuppliers: []
+                ),
+                statistics: User.UserStatistics(
+                    totalPointsEarned: 2500,
+                    totalPointsSpent: 1250,
+                    totalPurchases: 5,
+                    totalSpent: 15000,
+                    favoriteSupplier: nil,
+                    lastActivityDate: Date()
+                )
             ),
-            
+            // Участник
             User(
-                id: "2",
-                name: "Анна Сидорова",
-                email: "anna@example.com",
+                id: "participant1",
+                name: "Мария Иванова",
+                email: "participant@nsp.com",
                 phone: "+7 (999) 234-56-78",
                 userType: .individual,
-                points: 850,
-                role: .user,
-                registrationDate: Date().addingTimeInterval(-86400 * 15),
-                isActive: true
+                points: 3500,
+                role: .participant,
+                registrationDate: Date().addingTimeInterval(-86400 * 60),
+                isActive: true,
+                profileImageURL: nil,
+                currentTierId: "silver",
+                supplierId: nil,
+                preferences: User.UserPreferences(
+                    favoriteCategories: [.tires, .accessories],
+                    notificationsEnabled: true,
+                    emailNotifications: true,
+                    pushNotifications: true,
+                    preferredSuppliers: []
+                ),
+                statistics: User.UserStatistics(
+                    totalPointsEarned: 5000,
+                    totalPointsSpent: 1500,
+                    totalPurchases: 8,
+                    totalSpent: 25000,
+                    favoriteSupplier: nil,
+                    lastActivityDate: Date()
+                )
             ),
-            
+            // Администратор поставщика
             User(
-                id: "3",
-                name: "ООО \"Автозапчасти\"",
-                email: "info@autoparts.com",
+                id: "supplierAdmin1",
+                name: "Дмитрий Сидоров",
+                email: "supplier@nsp.com",
                 phone: "+7 (999) 345-67-89",
                 userType: .business,
-                points: 3200,
-                role: .user,
-                registrationDate: Date().addingTimeInterval(-86400 * 60),
-                isActive: true
+                points: 0,
+                role: .supplierAdmin,
+                registrationDate: Date().addingTimeInterval(-86400 * 180),
+                isActive: true,
+                profileImageURL: nil,
+                currentTierId: nil,
+                supplierId: "supplier1",
+                preferences: User.UserPreferences(
+                    favoriteCategories: [],
+                    notificationsEnabled: true,
+                    emailNotifications: true,
+                    pushNotifications: true,
+                    preferredSuppliers: []
+                ),
+                statistics: User.UserStatistics(
+                    totalPointsEarned: 0,
+                    totalPointsSpent: 0,
+                    totalPurchases: 0,
+                    totalSpent: 0,
+                    favoriteSupplier: nil,
+                    lastActivityDate: Date()
+                )
+            ),
+            // Менеджер поставщика
+            User(
+                id: "supplierManager1",
+                name: "Елена Козлова",
+                email: "manager@nsp.com",
+                phone: "+7 (999) 456-78-90",
+                userType: .business,
+                points: 0,
+                role: .supplierManager,
+                registrationDate: Date().addingTimeInterval(-86400 * 90),
+                isActive: true,
+                profileImageURL: nil,
+                currentTierId: nil,
+                supplierId: "supplier1",
+                preferences: User.UserPreferences(
+                    favoriteCategories: [],
+                    notificationsEnabled: true,
+                    emailNotifications: true,
+                    pushNotifications: true,
+                    preferredSuppliers: []
+                ),
+                statistics: User.UserStatistics(
+                    totalPointsEarned: 0,
+                    totalPointsSpent: 0,
+                    totalPurchases: 0,
+                    totalSpent: 0,
+                    favoriteSupplier: nil,
+                    lastActivityDate: Date()
+                )
+            ),
+            // Администратор платформы
+            User(
+                id: "platformAdmin1",
+                name: "Андрей Новиков",
+                email: "admin@nsp.com",
+                phone: "+7 (999) 000-00-00",
+                userType: .business,
+                points: 0,
+                role: .platformAdmin,
+                registrationDate: Date().addingTimeInterval(-86400 * 365),
+                isActive: true,
+                profileImageURL: nil,
+                currentTierId: nil,
+                supplierId: nil,
+                preferences: User.UserPreferences(
+                    favoriteCategories: [],
+                    notificationsEnabled: true,
+                    emailNotifications: true,
+                    pushNotifications: true,
+                    preferredSuppliers: []
+                ),
+                statistics: User.UserStatistics(
+                    totalPointsEarned: 0,
+                    totalPointsSpent: 0,
+                    totalPurchases: 0,
+                    totalSpent: 0,
+                    favoriteSupplier: nil,
+                    lastActivityDate: Date()
+                )
+            ),
+            // Оператор платформы
+            User(
+                id: "platformOperator1",
+                name: "Ольга Волкова",
+                email: "operator@nsp.com",
+                phone: "+7 (999) 567-89-01",
+                userType: .business,
+                points: 0,
+                role: .platformOperator,
+                registrationDate: Date().addingTimeInterval(-86400 * 120),
+                isActive: true,
+                profileImageURL: nil,
+                currentTierId: nil,
+                supplierId: nil,
+                preferences: User.UserPreferences(
+                    favoriteCategories: [],
+                    notificationsEnabled: true,
+                    emailNotifications: true,
+                    pushNotifications: true,
+                    preferredSuppliers: []
+                ),
+                statistics: User.UserStatistics(
+                    totalPointsEarned: 0,
+                    totalPointsSpent: 0,
+                    totalPurchases: 0,
+                    totalSpent: 0,
+                    favoriteSupplier: nil,
+                    lastActivityDate: Date()
+                )
             )
         ]
     }

@@ -1,69 +1,9 @@
 import SwiftUI
 
 struct AuthFlowView: View {
-    @EnvironmentObject var authViewModel: AuthViewModel
-    @State private var showingLogin = false
-    @State private var showingRegistration = false
-    
     var body: some View {
-        NavigationStack {
-            VStack(spacing: AppConstants.Spacing.extraLarge) {
-                // Logo и заголовок
-                VStack(spacing: AppConstants.Spacing.medium) {
-                    Image(systemName: AppConstants.Images.car)
-                        .font(.system(size: 80))
-                        .foregroundColor(AppConstants.Colors.primary)
-                    
-                    Text("NSP")
-                        .font(.largeTitle)
-                        .fontWeight(.bold)
-                    
-                    Text("Программа лояльности\nдля автолюбителей")
-                        .font(.subheadline)
-                        .foregroundColor(.secondary)
-                        .multilineTextAlignment(.center)
-                        .padding(.horizontal)
-                }
-                
-                Spacer()
-                
-                // Кнопки входа и регистрации
-                VStack(spacing: AppConstants.Spacing.medium) {
-                    Button(action: { showingLogin = true }) {
-                        Text("Войти")
-                            .frame(maxWidth: .infinity)
-                            .padding()
-                            .background(AppConstants.Colors.primary)
-                            .foregroundColor(.white)
-                            .cornerRadius(12)
-                    }
-                    
-                    Button(action: { showingRegistration = true }) {
-                        Text("Регистрация")
-                            .frame(maxWidth: .infinity)
-                            .padding()
-                            .background(Color.clear)
-                            .overlay(
-                                RoundedRectangle(cornerRadius: 12)
-                                    .stroke(AppConstants.Colors.primary, lineWidth: 2)
-                            )
-                            .foregroundColor(AppConstants.Colors.primary)
-                    }
-                    
-                    // Демо доступы
-                    DemoAccessButtons()
-                }
-                .padding(.horizontal)
-                
-                Spacer()
-            }
-            .padding()
-            .sheet(isPresented: $showingLogin) {
-                LoginView()
-            }
-            .sheet(isPresented: $showingRegistration) {
-                RegistrationView()
-            }
+        NavigationView {
+            LoginView()
         }
     }
 }
