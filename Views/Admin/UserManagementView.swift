@@ -263,7 +263,7 @@ struct UserStatsCard: View {
             LazyVGrid(columns: Array(repeating: GridItem(.flexible()), count: 2), spacing: 12) {
                 StatItem(title: "Баллы", value: "\(user.points)")
                 StatItem(title: "Покупки", value: "\(user.statistics.totalPurchases)")
-                StatItem(title: "Потрачено", value: "\(user.statistics.totalSpent, specifier: \"%.0f\") ₽")
+                StatItem(title: "Потрачено", value: String(format: "%.0f ₽", user.statistics.totalSpent))
                 StatItem(title: "Заработано", value: "\(user.statistics.totalPointsEarned)")
             }
         }
