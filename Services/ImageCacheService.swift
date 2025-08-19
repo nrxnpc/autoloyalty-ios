@@ -2,7 +2,8 @@ import UIKit
 import Combine
 import SwiftUI
 
-class ImageCacheService: ObservableObject {
+@MainActor
+class ImageCacheService: ObservableObject, @unchecked Sendable {
     static let shared = ImageCacheService()
     
     private let memoryCache = NSCache<NSURL, UIImage>()
@@ -86,8 +87,8 @@ class ImageCacheService: ObservableObject {
             memoryCache.setObject(image, forKey: url as NSURL)
             
             // Кешируем на диск асинхронно
-            Task.detached(priority: .utility) {
-                await self.saveToDisk(data: data, url: url)
+            Task.detached(priority: .utility) { [weak self] in
+                await self?.saveToDisk(data: data, url: url)
             }
             
             return image
@@ -130,7 +131,8 @@ class ImageCacheService: ObservableObject {
     func clearCache() {
         memoryCache.removeAllObjects()
         
-        cacheQueue.async {
+        cacheQueue.async { [weak self] in
+            guard let self = self else { return }
             try? FileManager.default.removeItem(at: self.diskCache)
             try? FileManager.default.createDirectory(at: self.diskCache, withIntermediateDirectories: true)
         }

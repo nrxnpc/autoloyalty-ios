@@ -15,7 +15,7 @@ struct AdminMainView: View {
             }
             
             NavigationStack {
-                AdminUsersView()
+                UserManagementView()
             }
             .tabItem {
                 Image(systemName: "person.3.fill")
