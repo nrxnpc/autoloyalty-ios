@@ -155,19 +155,19 @@ struct CarActionButtons: View {
     
     var body: some View {
         HStack(spacing: 40) {
-            ActionButton(
+            CarActionButton(
                 icon: "xmark",
                 color: .red,
                 action: onDislike
             )
             
-            ActionButton(
+            CarActionButton(
                 icon: "questionmark.circle.fill",
                 color: .blue,
                 action: onPriceRequest
             )
             
-            ActionButton(
+            CarActionButton(
                 icon: "heart.fill",
                 color: .green,
                 action: onLike
@@ -176,7 +176,7 @@ struct CarActionButtons: View {
     }
 }
 
-struct ActionButton: View {
+struct CarActionButton: View {
     let icon: String
     let color: Color
     let action: () -> Void
@@ -306,7 +306,7 @@ struct CarInfoSection: View {
                         .font(.title)
                         .fontWeight(.bold)
                     
-                    Text("\(car.year) год")
+                    Text("\(String(car.year)) год")
                         .font(.subheadline)
                         .foregroundColor(.secondary)
                 }
@@ -420,7 +420,7 @@ struct LikedCarRow: View {
                         .font(.headline)
                         .fontWeight(.medium)
                     
-                    Text("\(car.year) год")
+                    Text("\(String(car.year)) год")
                         .font(.subheadline)
                         .foregroundColor(.secondary)
                     
@@ -493,7 +493,7 @@ struct PriceRequestView: View {
                                 .font(.headline)
                                 .fontWeight(.medium)
                             
-                            Text("\(car.year) год")
+                            Text("\(String(car.year)) год")
                                 .font(.subheadline)
                                 .foregroundColor(.secondary)
                             

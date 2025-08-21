@@ -301,7 +301,7 @@ struct ProductDetailView: View {
     private func exchangeProduct() {
         guard let userId = authViewModel.currentUser?.id else { return }
         
-        let order = dataManager.createOrder(
+        let order = dataManager.addOrder(
             userId: userId,
             product: product,
             deliveryOption: selectedDeliveryOption,

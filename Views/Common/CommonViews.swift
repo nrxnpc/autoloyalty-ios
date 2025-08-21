@@ -148,67 +148,7 @@ struct EmptyNewsView: View {
     }
 }
 
-struct NewsDetailView: View {
-    let article: NewsArticle
-    
-    var body: some View {
-        ScrollView {
-            VStack(alignment: .leading, spacing: AppConstants.Spacing.medium) {
-                // Изображение
-                if let imageData = article.imageData, let image = UIImage(data: imageData) {
-                    Image(uiImage: image)
-                        .resizable()
-                        .aspectRatio(contentMode: .fill)
-                        .frame(height: 200)
-                        .clipped()
-                        .cornerRadius(12)
-                } else {
-                    Rectangle()
-                        .fill(Color.secondary.opacity(0.3))
-                        .frame(height: 200)
-                        .cornerRadius(12)
-                        .overlay(
-                            Image(systemName: "newspaper")
-                                .font(.system(size: 60))
-                                .foregroundColor(.secondary)
-                        )
-                }
-                
-                VStack(alignment: .leading, spacing: AppConstants.Spacing.medium) {
-                    // Важность
-                    if article.isImportant {
-                        ImportantBadge()
-                    }
-                    
-                    // Заголовок
-                    Text(article.title)
-                        .font(.title2)
-                        .fontWeight(.bold)
-                    
-                    // Дата
-                    if let publishedAt = article.publishedAt {
-                        Text(publishedAt.formattedDate())
-                            .font(.subheadline)
-                            .foregroundColor(.secondary)
-                    }
-                    
-                    // Контент
-                    Text(article.content)
-                        .font(.body)
-                        .lineSpacing(4)
-                    
-                    // Теги
-                    if !article.tags.isEmpty {
-                        TagsView(tags: article.tags)
-                    }
-                }
-            }
-            .padding()
-        }
-        .navigationTitle("Новость")
-        .navigationBarTitleDisplayMode(.inline)
-    }
-}
+
 
 struct TagsView: View {
     let tags: [String]
@@ -447,7 +387,7 @@ struct ParticipateButton: View {
     
     var body: some View {
         Button(action: {
-            // Логика участия в лотерее
+            participateInLottery()
         }) {
             Text(buttonText)
                 .frame(maxWidth: .infinity)
@@ -457,6 +397,23 @@ struct ParticipateButton: View {
                 .cornerRadius(8)
         }
         .disabled(!canParticipate)
+    }
+    
+    private func participateInLottery() {
+        guard let userId = authViewModel.currentUser?.id else { return }
+        
+        // Проверяем возможность участия
+        guard canParticipate else { return }
+        
+        // Списываем баллы
+        if authViewModel.spendPoints(lottery.minPointsRequired) {
+            // Добавляем пользователя в участники
+            var updatedLottery = lottery
+            updatedLottery.participants.append(userId)
+            
+            // Обновляем лотерею в данных
+            // dataManager.updateLottery(updatedLottery)
+        }
     }
 }
 
@@ -520,108 +477,7 @@ struct SettingsView: View {
     }
 }
 
-struct AboutView: View {
-    var body: some View {
-        ScrollView {
-            VStack(alignment: .leading, spacing: AppConstants.Spacing.large) {
-                VStack(spacing: AppConstants.Spacing.medium) {
-                    Image(systemName: AppConstants.Images.car)
-                        .font(.system(size: 80))
-                        .foregroundColor(AppConstants.Colors.primary)
-                    
-                    Text("NSP")
-                        .font(.largeTitle)
-                        .fontWeight(.bold)
-                    
-                    Text("Версия \(Bundle.main.version ?? "1.0.0")")
-                        .font(.subheadline)
-                        .foregroundColor(.secondary)
-                }
-                .frame(maxWidth: .infinity)
-                .padding()
-                
-                VStack(alignment: .leading, spacing: AppConstants.Spacing.medium) {
-                    Text("О приложении")
-                        .font(.title2)
-                        .fontWeight(.bold)
-                    
-                    Text("NSP - это инновательное мобильное приложение для любителей автомобилей, которое превращает каждую покупку автозапчастей в увлекательную игру с реальными призами.")
-                        .font(.body)
-                        .lineSpacing(4)
-                    
-                    Text("Основные возможности:")
-                        .font(.headline)
-                        .padding(.top)
-                    
-                    VStack(alignment: .leading, spacing: AppConstants.Spacing.small) {
-                        FeatureRow(icon: "qrcode", text: "Сканирование QR-кодов для получения баллов")
-                        FeatureRow(icon: "gift", text: "Обмен баллов на товары и призы")
-                        FeatureRow(icon: "car", text: "Автотиндер для выбора автомобилей")
-                        FeatureRow(icon: "questionmark.circle", text: "Запросы цены у дилеров")
-                        FeatureRow(icon: "trophy", text: "Участие в розыгрышах призов")
-                    }
-                }
-                .padding()
-                
-                ContactInfoSection()
-            }
-        }
-        .navigationTitle("О приложении")
-        .navigationBarTitleDisplayMode(.inline)
-    }
-}
 
-struct FeatureRow: View {
-    let icon: String
-    let text: String
-    
-    var body: some View {
-        HStack(spacing: AppConstants.Spacing.medium) {
-            Image(systemName: icon)
-                .font(.title3)
-                .foregroundColor(AppConstants.Colors.primary)
-                .frame(width: 24, height: 24)
-            
-            Text(text)
-                .font(.subheadline)
-        }
-    }
-}
-
-struct ContactInfoSection: View {
-    var body: some View {
-        VStack(alignment: .leading, spacing: AppConstants.Spacing.medium) {
-            Text("Контакты")
-                .font(.headline)
-            
-            VStack(alignment: .leading, spacing: AppConstants.Spacing.small) {
-                ContactRow(icon: "envelope", text: "support@nsp.app", color: .blue)
-                ContactRow(icon: "phone", text: "+7 (800) 123-45-67", color: .blue)
-                ContactRow(icon: "globe", text: "www.nsp.app", color: .blue)
-            }
-        }
-        .padding()
-    }
-}
-
-struct ContactRow: View {
-    let icon: String
-    let text: String
-    let color: Color
-    
-    var body: some View {
-        HStack(spacing: AppConstants.Spacing.medium) {
-            Image(systemName: icon)
-                .font(.subheadline)
-                .foregroundColor(color)
-                .frame(width: 20, height: 20)
-            
-            Text(text)
-                .font(.subheadline)
-                .foregroundColor(color)
-        }
-    }
-}
 
 // MARK: - Custom Layout for Tags
 

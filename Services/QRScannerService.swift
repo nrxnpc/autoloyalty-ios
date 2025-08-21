@@ -228,7 +228,7 @@ class QRScannerViewController: UIViewController {
         
         closeButton.frame = CGRect(
             x: (view.bounds.width - 100) / 2,
-            y: view.bounds.height - view.safeAreaInsets.bottom - 80,
+            y: view.bounds.height - view.safeAreaInsets.bottom - 120,
             width: 100,
             height: 50
         )

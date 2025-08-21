@@ -4,6 +4,10 @@ struct AdminMainView: View {
     @EnvironmentObject var authViewModel: AuthViewModel
     @EnvironmentObject var dataManager: DataManager
     
+    private var isSupplier: Bool {
+        authViewModel.currentUser?.role == .supplier
+    }
+    
     var body: some View {
         TabView {
             NavigationStack {
@@ -14,20 +18,22 @@ struct AdminMainView: View {
                 Text("Дашборд")
             }
             
-            NavigationStack {
-                UserManagementView()
-            }
-            .tabItem {
-                Image(systemName: "person.3.fill")
-                Text("Пользователи")
-            }
-            
-            NavigationStack {
-                AdminCarsView()
-            }
-            .tabItem {
-                Image(systemName: "car.fill")
-                Text("Автомобили")
+            if !isSupplier {
+                NavigationStack {
+                    UserManagementView()
+                }
+                .tabItem {
+                    Image(systemName: "person.3.fill")
+                    Text("Пользователи")
+                }
+                
+                NavigationStack {
+                    AdminCarsView()
+                }
+                .tabItem {
+                    Image(systemName: "car.fill")
+                    Text("Автомобили")
+                }
             }
             
             NavigationStack {
@@ -44,6 +50,16 @@ struct AdminMainView: View {
             .tabItem {
                 Image(systemName: "newspaper.fill")
                 Text("Новости")
+            }
+            
+            if !isSupplier {
+                NavigationStack {
+                    ModerationView()
+                }
+                .tabItem {
+                    Image(systemName: "checkmark.shield.fill")
+                    Text("Модерация")
+                }
             }
             
             NavigationStack {
@@ -143,8 +159,9 @@ struct AdminStatCard: View {
     var body: some View {
         VStack(spacing: AppConstants.Spacing.medium) {
             Image(systemName: icon)
-                .font(.title2)
+                .font(.system(size: 24))
                 .foregroundColor(color)
+                .frame(width: 32, height: 32)
             
             Text(value)
                 .font(.title)
@@ -278,8 +295,9 @@ struct QuickActionButton: View {
         NavigationLink(destination: destination) {
             VStack(spacing: AppConstants.Spacing.small) {
                 Image(systemName: icon)
-                    .font(.title2)
+                    .font(.system(size: 20))
                     .foregroundColor(color)
+                    .frame(width: 24, height: 24)
                 
                 Text(title)
                     .font(.caption)
@@ -415,9 +433,14 @@ struct AdminProfileView: View {
                     phone: "+7 (999) 123-45-67",
                     userType: .individual,
                     points: 1250,
-                    role: .user,
+                    role: .customer,
                     registrationDate: Date(),
-                    isActive: true
+                    isActive: true,
+                    profileImageURL: nil,
+                    supplierID: nil,
+                    preferences: User.UserPreferences.default,
+                    statistics: User.UserStatistics.default,
+                    lastLoginDate: nil
                 )
             }
         } message: {

@@ -28,16 +28,16 @@ struct UserManagementView: View {
         VStack(spacing: 0) {
             // Поиск и фильтры
             VStack(spacing: 12) {
-                SearchBar(text: $searchText)
+                UserSearchBar(text: $searchText)
                 
                 ScrollView(.horizontal, showsIndicators: false) {
                     HStack(spacing: 12) {
-                        FilterButton(title: "Все", isSelected: selectedRole == nil) {
+                        UserFilterButton(title: "Все", isSelected: selectedRole == nil) {
                             selectedRole = nil
                         }
                         
                         ForEach(User.UserRole.allCases, id: \.self) { role in
-                            FilterButton(
+                            UserFilterButton(
                                 title: role.displayName,
                                 isSelected: selectedRole == role
                             ) {
@@ -142,11 +142,8 @@ struct RoleBadge: View {
     private var roleColor: Color {
         switch role {
         case .customer: return .blue
-        case .participant: return .green
-        case .supplierAdmin: return .orange
-        case .supplierManager: return .yellow
+        case .supplier: return .green
         case .platformAdmin: return .red
-        case .platformOperator: return .purple
         }
     }
 }
@@ -507,12 +504,9 @@ struct RoleOption: View {
     
     private var roleDescription: String {
         switch role {
-        case .customer: return "Базовые функции лояльности"
-        case .participant: return "Создание контента + модерация"
-        case .supplierAdmin: return "Управление товарами и акциями"
-        case .supplierManager: return "Ограниченные права управления"
+        case .customer: return "Сканирование QR, просмотр автотиндера"
+        case .supplier: return "Создание товаров и новостей"
         case .platformAdmin: return "Полный доступ к платформе"
-        case .platformOperator: return "Модерация и аналитика"
         }
     }
 }
@@ -626,25 +620,18 @@ struct PointsAdjustmentView: View {
         dataManager.updateUser(user)
         
         // Создаем запись о транзакции
-        let transaction = PointTransaction(
-            id: UUID().uuidString,
+        dataManager.addPointTransaction(
             userId: user.id,
             type: adjustmentType == .add ? .bonus : .penalty,
             amount: amount,
-            description: "Корректировка администратора: \(reason)",
-            timestamp: Date(),
-            relatedId: nil
+            description: "Корректировка администратора: \(reason)"
         )
-        
-        Task {
-            await dataManager.addPointTransaction(transaction)
-        }
         
         dismiss()
     }
 }
 
-struct SearchBar: View {
+struct UserSearchBar: View {
     @Binding var text: String
     
     var body: some View {
@@ -670,7 +657,7 @@ struct SearchBar: View {
     }
 }
 
-struct FilterButton: View {
+struct UserFilterButton: View {
     let title: String
     let isSelected: Bool
     let action: () -> Void

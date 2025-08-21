@@ -9,7 +9,7 @@ class CollectionState<T: Identifiable & Equatable & Hashable>: ObservableObject 
     
     private var loadingTask: Task<Void, Never>?
     
-    func loadItems(_ loader: @escaping () async throws -> [T]) {
+    func loadItems(_ loader: @escaping () async throws -> [T]) async {
         loadingTask?.cancel()
         loadingTask = Task {
             isLoading = true
@@ -28,6 +28,7 @@ class CollectionState<T: Identifiable & Equatable & Hashable>: ObservableObject 
                 }
             }
         }
+        await loadingTask?.value
     }
     
     func setItems(_ newItems: [T]) {
@@ -70,8 +71,8 @@ class CollectionState<T: Identifiable & Equatable & Hashable>: ObservableObject 
         error = nil
     }
     
-    func refresh(_ loader: @escaping () async throws -> [T]) {
-        loadItems(loader)
+    func refresh(_ loader: @escaping () async throws -> [T]) async {
+        await loadItems(loader)
     }
     
     // MARK: - Convenient getters

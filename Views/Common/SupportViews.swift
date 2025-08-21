@@ -115,7 +115,7 @@ struct SupportChatHeader: View {
                 )
             
             VStack(alignment: .leading, spacing: 2) {
-                Text("Техподдержка NSP")
+                Text("Техподдержка Автолояльность")
                     .font(.headline)
                 
                 Text("Онлайн")
@@ -135,7 +135,7 @@ struct WelcomeMessage: View {
         SupportMessageBubble(
             message: ChatMessage(
                 id: "welcome",
-                content: "Добро пожаловать в службу поддержки NSP! Как мы можем вам помочь?",
+                content: "Добро пожаловать в службу поддержки Автолояльность! Как мы можем вам помочь?",
                 isFromUser: false,
                 timestamp: Date().addingTimeInterval(-7200)
             )
@@ -363,16 +363,16 @@ struct TicketMessageView: View {
     
     var body: some View {
         HStack {
-            if message.senderRole == .user {
+            if message.senderRole == .customer {
                 Spacer(minLength: 50)
             }
             
-            VStack(alignment: message.senderRole == .user ? .trailing : .leading, spacing: 4) {
+            VStack(alignment: message.senderRole == .customer ? .trailing : .leading, spacing: 4) {
                 Text(message.content)
                     .padding(.horizontal, AppConstants.Spacing.medium)
                     .padding(.vertical, 10)
-                    .background(message.senderRole == .user ? AppConstants.Colors.primary : Color.secondary.opacity(0.2))
-                    .foregroundColor(message.senderRole == .user ? .white : .primary)
+                    .background(message.senderRole == .customer ? AppConstants.Colors.primary : Color.secondary.opacity(0.2))
+                    .foregroundColor(message.senderRole == .customer ? .white : .primary)
                     .cornerRadius(16)
                 
                 Text(message.timestamp.timeAgoDisplay())
@@ -380,7 +380,7 @@ struct TicketMessageView: View {
                     .foregroundColor(.secondary)
             }
             
-            if message.senderRole != .user {
+            if message.senderRole != .customer {
                 Spacer(minLength: 50)
             }
         }
@@ -469,7 +469,7 @@ struct NewSupportTicketView: View {
             id: UUID().uuidString,
             content: message,
             senderId: userId,
-            senderRole: .user,
+            senderRole: .customer,
             timestamp: Date(),
             attachments: []
         )

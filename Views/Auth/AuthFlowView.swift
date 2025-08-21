@@ -17,113 +17,53 @@ struct DemoAccessButtons: View {
                 .font(.caption)
                 .foregroundColor(.secondary)
             
-            HStack(spacing: 12) {
-                Button("Пользователь") {
-                    authViewModel.login(email: "user@nsp.com", password: "123456")
+            VStack(spacing: 8) {
+                HStack(spacing: 12) {
+                    Button("Пользователь") {
+                        authViewModel.login(email: "user@nsp.com", password: "123456")
+                    }
+                    .font(.caption)
+                    .padding(.horizontal, 12)
+                    .padding(.vertical, 6)
+                    .background(Color.blue.opacity(0.1))
+                    .foregroundColor(.blue)
+                    .cornerRadius(8)
+                    
+                    Button("Поставщик") {
+                        authViewModel.login(email: "supplier@nsp.com", password: "123456")
+                    }
+                    .font(.caption)
+                    .padding(.horizontal, 12)
+                    .padding(.vertical, 6)
+                    .background(Color.orange.opacity(0.1))
+                    .foregroundColor(.orange)
+                    .cornerRadius(8)
+                    
+                    Button("Админ") {
+                        authViewModel.login(email: "admin@nsp.com", password: "123456")
+                    }
+                    .font(.caption)
+                    .padding(.horizontal, 12)
+                    .padding(.vertical, 6)
+                    .background(Color.green.opacity(0.1))
+                    .foregroundColor(.green)
+                    .cornerRadius(8)
                 }
-                .font(.caption)
-                .padding(.horizontal, 12)
-                .padding(.vertical, 6)
-                .background(Color.blue.opacity(0.1))
-                .foregroundColor(.blue)
-                .cornerRadius(8)
                 
-                Button("Администратор") {
-                    authViewModel.login(email: "admin@nsp.com", password: "123456")
-                }
-                .font(.caption)
-                .padding(.horizontal, 12)
-                .padding(.vertical, 6)
-                .background(Color.green.opacity(0.1))
-                .foregroundColor(.green)
-                .cornerRadius(8)
+                NavigationLink("Регистрация", destination: RegistrationView())
+                    .font(.caption)
+                    .padding(.horizontal, 12)
+                    .padding(.vertical, 6)
+                    .background(Color.purple.opacity(0.1))
+                    .foregroundColor(.purple)
+                    .cornerRadius(8)
             }
         }
         .padding(.top)
     }
 }
 
-struct LoginView: View {
-    @EnvironmentObject var authViewModel: AuthViewModel
-    @Environment(\.dismiss) private var dismiss
-    @State private var email = ""
-    @State private var password = ""
-    @FocusState private var isEmailFocused: Bool
-    @FocusState private var isPasswordFocused: Bool
-    
-    var body: some View {
-        NavigationStack {
-            VStack(spacing: AppConstants.Spacing.large) {
-                Text("Вход")
-                    .font(.title)
-                    .fontWeight(.bold)
-                    .padding(.top)
-                
-                VStack(spacing: AppConstants.Spacing.medium) {
-                    TextField("Email", text: $email)
-                        .textFieldStyle(RoundedBorderTextFieldStyle())
-                        .autocapitalization(.none)
-                        .keyboardType(.emailAddress)
-                        .focused($isEmailFocused)
-                    
-                    SecureField("Пароль", text: $password)
-                        .textFieldStyle(RoundedBorderTextFieldStyle())
-                        .focused($isPasswordFocused)
-                }
-                .padding(.horizontal)
-                
-                if !authViewModel.errorMessage.isEmpty {
-                    Text(authViewModel.errorMessage)
-                        .font(.caption)
-                        .foregroundColor(.red)
-                        .padding(.horizontal)
-                }
-                
-                Button(action: {
-                    authViewModel.login(email: email, password: password)
-                    if authViewModel.isAuthenticated {
-                        dismiss()
-                    }
-                }) {
-                    HStack {
-                        if authViewModel.isLoading {
-                            ProgressView()
-                                .progressViewStyle(CircularProgressViewStyle(tint: .white))
-                                .scaleEffect(0.8)
-                        } else {
-                            Text("Войти")
-                        }
-                    }
-                }
-                .frame(maxWidth: .infinity)
-                .padding()
-                .background(canLogin ? AppConstants.Colors.primary : Color.gray)
-                .foregroundColor(.white)
-                .cornerRadius(12)
-                .padding(.horizontal)
-                .disabled(!canLogin || authViewModel.isLoading)
-                
-                Spacer()
-            }
-            .navigationBarTitleDisplayMode(.inline)
-            .toolbar {
-                ToolbarItem(placement: .navigationBarLeading) {
-                    Button("Закрыть") {
-                        dismiss()
-                    }
-                }
-            }
-            .onTapGesture {
-                isEmailFocused = false
-                isPasswordFocused = false
-            }
-        }
-    }
-    
-    private var canLogin: Bool {
-        !email.isEmpty && !password.isEmpty
-    }
-}
+
 
 struct RegistrationView: View {
     @EnvironmentObject var authViewModel: AuthViewModel

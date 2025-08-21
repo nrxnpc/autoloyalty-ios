@@ -30,9 +30,35 @@ struct NewsArticle: Identifiable, Codable, Equatable, Hashable {
     let createdAt: Date
     var publishedAt: Date?
     var isPublished: Bool
+    var status: NewsStatus
     let authorId: String
     var tags: [String]
-    var imageData: Data? // Для локального хранения изображений
+    var imageData: Data?
+    
+    enum NewsStatus: String, CaseIterable, Codable {
+        case draft = "draft"
+        case pending = "pending"
+        case approved = "approved"
+        case rejected = "rejected"
+        
+        var displayName: String {
+            switch self {
+            case .draft: return "Черновик"
+            case .pending: return "На модерации"
+            case .approved: return "Опубликовано"
+            case .rejected: return "Отклонено"
+            }
+        }
+        
+        var color: Color {
+            switch self {
+            case .draft: return .gray
+            case .pending: return .orange
+            case .approved: return .green
+            case .rejected: return .red
+            }
+        }
+    }
     
     func hash(into hasher: inout Hasher) {
         hasher.combine(id)

@@ -57,9 +57,14 @@ struct APIUser: Codable {
             phone: phone,
             userType: User.UserType(rawValue: userType) ?? .individual,
             points: points,
-            role: User.UserRole(rawValue: role) ?? .user,
+            role: User.UserRole(rawValue: role) ?? .customer,
             registrationDate: ISO8601DateFormatter().date(from: registrationDate) ?? Date(),
-            isActive: isActive
+            isActive: isActive,
+            profileImageURL: nil,
+            supplierID: nil,
+            preferences: User.UserPreferences.default,
+            statistics: User.UserStatistics.default,
+            lastLoginDate: nil
         )
     }
 }
@@ -89,9 +94,11 @@ struct APIProduct: Codable {
             description: description,
             stockQuantity: stockQuantity,
             isActive: isActive,
+            status: isActive ? .approved : .pending,
             createdAt: ISO8601DateFormatter().date(from: createdAt) ?? Date(),
             deliveryOptions: deliveryEnum,
-            imageData: nil
+            imageData: nil,
+            supplierId: nil
         )
     }
 }
@@ -120,6 +127,7 @@ struct APINewsArticle: Codable {
             createdAt: ISO8601DateFormatter().date(from: createdAt) ?? Date(),
             publishedAt: publishedDate,
             isPublished: isPublished,
+            status: isPublished ? .approved : .pending,
             authorId: authorId,
             tags: tags,
             imageData: nil
@@ -203,28 +211,70 @@ class NetworkManager: ObservableObject {
     @Published var isConnected = true
     @Published var isLoading = false
     
-    private init() {}
+    private let session: URLSession
+    private let baseURL: String
+    
+    private init() {
+        self.baseURL = AppConfig.Environment.current.baseURL
+        
+        let config = URLSessionConfiguration.default
+        config.timeoutIntervalForRequest = AppConfig.requestTimeout
+        config.timeoutIntervalForResource = AppConfig.resourceTimeout
+        
+        self.session = URLSession(configuration: config)
+    }
     
     // MARK: - Authentication Methods
     func login(email: String, password: String) async throws -> APIUser {
         isLoading = true
         defer { isLoading = false }
         
-        try await Task.sleep(nanoseconds: 1_000_000_000)
+        // Используем только демо-данные пока бекенд не готов
+        return try await loginDemo(email: email)
+    }
+    
+    private func loginDemo(email: String) async throws -> APIUser {
+        try await Task.sleep(nanoseconds: 500_000_000)
         
-        if email == "admin@nsp.com" {
+        switch email {
+        case "customer@nsp.com":
             return APIUser(
-                id: "admin-1",
-                name: "Администратор",
+                id: "customer-001",
+                name: "Иван Петров",
                 email: email,
                 phone: "+7 (999) 123-45-67",
-                userType: "business",
-                points: 5000,
-                role: "admin",
+                userType: "individual",
+                points: 2500,
+                role: "customer",
                 registrationDate: ISO8601DateFormatter().string(from: Date()),
                 isActive: true
             )
-        } else {
+        case "supplier@nsp.com":
+            return APIUser(
+                id: "supplier-001",
+                name: "Алексей Козлов",
+                email: email,
+                phone: "+7 (999) 345-67-89",
+                userType: "business",
+                points: 0,
+                role: "supplier",
+                registrationDate: ISO8601DateFormatter().string(from: Date()),
+                isActive: true
+            )
+        case "admin@nsp.com":
+            return APIUser(
+                id: "platform-admin-001",
+                name: "Дмитрий Смирнов",
+                email: email,
+                phone: "+7 (999) 567-89-01",
+                userType: "business",
+                points: 0,
+                role: "platformAdmin",
+                registrationDate: ISO8601DateFormatter().string(from: Date()),
+                isActive: true
+            )
+
+        default:
             return APIUser(
                 id: UUID().uuidString,
                 name: "Демо пользователь",
@@ -232,7 +282,7 @@ class NetworkManager: ObservableObject {
                 phone: "+7 (999) 876-54-32",
                 userType: "individual",
                 points: 1250,
-                role: "user",
+                role: "customer",
                 registrationDate: ISO8601DateFormatter().string(from: Date()),
                 isActive: true
             )
@@ -243,7 +293,7 @@ class NetworkManager: ObservableObject {
         isLoading = true
         defer { isLoading = false }
         
-        try await Task.sleep(nanoseconds: 1_000_000_000)
+        try await Task.sleep(nanoseconds: 200_000_000)
         
         return APIUser(
             id: UUID().uuidString,
@@ -252,7 +302,7 @@ class NetworkManager: ObservableObject {
             phone: userData.phone,
             userType: userData.userType,
             points: 100,
-            role: "user",
+            role: "customer",
             registrationDate: ISO8601DateFormatter().string(from: Date()),
             isActive: true
         )
@@ -263,22 +313,33 @@ class NetworkManager: ObservableObject {
         isLoading = true
         defer { isLoading = false }
         
-        try await Task.sleep(nanoseconds: 500_000_000)
-        
-        let demoProducts = DemoDataLoader.loadProducts()
-        return demoProducts.map { product in
-            APIProduct(
-                id: product.id,
-                name: product.name,
-                category: product.category.rawValue,
-                pointsCost: product.pointsCost,
-                imageURL: product.imageURL,
-                description: product.description,
-                stockQuantity: product.stockQuantity,
-                isActive: product.isActive,
-                createdAt: ISO8601DateFormatter().string(from: product.createdAt),
-                deliveryOptions: product.deliveryOptions.map { $0.rawValue }
-            )
+        do {
+            let url = URL(string: "\(baseURL)/products")!
+            let (data, response) = try await session.data(from: url)
+            
+            guard let httpResponse = response as? HTTPURLResponse,
+                  httpResponse.statusCode == 200 else {
+                throw NetworkError.serverError(500)
+            }
+            
+            return try JSONDecoder().decode([APIProduct].self, from: data)
+        } catch {
+            // Fallback к демо-данным при ошибке
+            let demoProducts = DemoDataLoader.loadProducts()
+            return demoProducts.map { product in
+                APIProduct(
+                    id: product.id,
+                    name: product.name,
+                    category: product.category.rawValue,
+                    pointsCost: product.pointsCost,
+                    imageURL: product.imageURL,
+                    description: product.description,
+                    stockQuantity: product.stockQuantity,
+                    isActive: product.isActive,
+                    createdAt: ISO8601DateFormatter().string(from: product.createdAt),
+                    deliveryOptions: product.deliveryOptions.map { $0.rawValue }
+                )
+            }
         }
     }
     
@@ -349,25 +410,56 @@ class NetworkManager: ObservableObject {
         isLoading = true
         defer { isLoading = false }
         
-        try await Task.sleep(nanoseconds: 1_000_000_000)
+        // Используем улучшенный парсер с запросом к БД бота
+        if let scanResult = await QRCodeParser.parseQRCodeWithBotDB(request.qrCode) {
+            let scan = APIQRScan(
+                id: scanResult.id,
+                pointsEarned: scanResult.pointsEarned,
+                productName: scanResult.productName,
+                productCategory: scanResult.productCategory,
+                timestamp: request.timestamp,
+                qrCode: request.qrCode,
+                location: request.location
+            )
+            return QRScanResponse(success: true, scan: scan, error: nil)
+        }
         
-        let pointsEarned = Int.random(in: 10...100)
-        let productNames = ["Тормозные колодки Brembo", "Масляный фильтр Mann", "Свечи зажигания NGK", "Амортизаторы Bilstein", "Воздушный фильтр K&N"]
-        let categories = ["Тормозная система", "Система смазки", "Система зажигания", "Подвеска", "Система впуска"]
-        
-        let randomIndex = Int.random(in: 0..<productNames.count)
-        
-        let scan = APIQRScan(
-            id: UUID().uuidString,
-            pointsEarned: pointsEarned,
-            productName: productNames[randomIndex],
-            productCategory: categories[randomIndex],
-            timestamp: request.timestamp,
-            qrCode: request.qrCode,
-            location: request.location
-        )
-        
-        return QRScanResponse(success: true, scan: scan, error: nil)
+        // Если не удалось парсить, пытаемся отправить на сервер
+        do {
+            let url = URL(string: "\(baseURL)/qr/scan")!
+            var urlRequest = URLRequest(url: url)
+            urlRequest.httpMethod = "POST"
+            urlRequest.setValue("application/json", forHTTPHeaderField: "Content-Type")
+            urlRequest.httpBody = try JSONEncoder().encode(request)
+            
+            let (data, response) = try await session.data(for: urlRequest)
+            
+            guard let httpResponse = response as? HTTPURLResponse,
+                  httpResponse.statusCode == 200 else {
+                throw NetworkError.serverError(500)
+            }
+            
+            return try JSONDecoder().decode(QRScanResponse.self, from: data)
+        } catch {
+            // Fallback к демо-данным
+            let pointsEarned = Int.random(in: 10...100)
+            let productNames = ["Тормозные колодки Brembo", "Масляный фильтр Mann", "Свечи зажигания NGK"]
+            let categories = ["Тормозная система", "Система смазки", "Система зажигания"]
+            
+            let randomIndex = Int.random(in: 0..<productNames.count)
+            
+            let scan = APIQRScan(
+                id: UUID().uuidString,
+                pointsEarned: pointsEarned,
+                productName: productNames[randomIndex],
+                productCategory: categories[randomIndex],
+                timestamp: request.timestamp,
+                qrCode: request.qrCode,
+                location: request.location
+            )
+            
+            return QRScanResponse(success: true, scan: scan, error: nil)
+        }
     }
     
     // MARK: - Other Methods
@@ -389,6 +481,39 @@ class NetworkManager: ObservableObject {
     
     func uploadQRScan(_ scan: QRScanResult) async throws {
         try await Task.sleep(nanoseconds: 200_000_000)
+    }
+    
+    func getUsers() async throws -> [APIUser] {
+        isLoading = true
+        defer { isLoading = false }
+        
+        do {
+            let url = URL(string: "\(baseURL)/users")!
+            let (data, response) = try await session.data(from: url)
+            
+            guard let httpResponse = response as? HTTPURLResponse,
+                  httpResponse.statusCode == 200 else {
+                throw NetworkError.serverError(500)
+            }
+            
+            return try JSONDecoder().decode([APIUser].self, from: data)
+        } catch {
+            // Fallback к демо-данным
+            let demoUsers = DemoDataLoader.loadUsers()
+            return demoUsers.map { user in
+                APIUser(
+                    id: user.id,
+                    name: user.name,
+                    email: user.email,
+                    phone: user.phone,
+                    userType: user.userType.rawValue,
+                    points: user.points,
+                    role: user.role.rawValue,
+                    registrationDate: ISO8601DateFormatter().string(from: user.registrationDate),
+                    isActive: user.isActive
+                )
+            }
+        }
     }
 }
 

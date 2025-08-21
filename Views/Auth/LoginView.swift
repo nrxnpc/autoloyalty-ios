@@ -7,12 +7,9 @@ struct LoginView: View {
     @State private var showingRoleSelector = false
     
     private let productionUsers = [
-        ("customer@nsp.com", "Покупатель"),
-        ("participant@nsp.com", "Участник"),
-        ("supplier@nsp.com", "Администратор поставщика"),
-        ("manager@nsp.com", "Менеджер поставщика"),
-        ("admin@nsp.com", "Администратор платформы"),
-        ("operator@nsp.com", "Оператор платформы")
+        ("customer@nsp.com", "Пользователь"),
+        ("supplier@nsp.com", "Поставщик"),
+        ("admin@nsp.com", "Администратор платформы")
     ]
     
     var body: some View {
@@ -27,7 +24,7 @@ struct LoginView: View {
                     .font(.largeTitle)
                     .fontWeight(.bold)
                 
-                Text("Многопоставщическая платформа лояльности")
+                Text("Универсальная программа лояльности для автолюбителей")
                     .font(.subheadline)
                     .foregroundColor(.secondary)
                     .multilineTextAlignment(.center)
@@ -59,7 +56,7 @@ struct LoginView: View {
                 } else {
                     Button("Войти") {
                         Task {
-                            await authViewModel.login(email: email, password: password)
+                            authViewModel.login(email: email, password: password)
                         }
                     }
                     .frame(maxWidth: .infinity)
@@ -76,6 +73,10 @@ struct LoginView: View {
                         .font(.caption)
                         .multilineTextAlignment(.center)
                 }
+                
+                NavigationLink("Регистрация", destination: RegistrationView())
+                    .font(.subheadline)
+                    .foregroundColor(.blue)
             }
             
             Divider()
@@ -91,7 +92,7 @@ struct LoginView: View {
                             email = userEmail
                             password = "123456"
                             Task {
-                                await authViewModel.login(email: userEmail, password: "123456")
+                                authViewModel.login(email: userEmail, password: "123456")
                             }
                         }
                         .font(.caption)

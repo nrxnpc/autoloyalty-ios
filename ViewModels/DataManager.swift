@@ -31,6 +31,17 @@ class DataManager: ObservableObject {
                 }
             }
             .store(in: &cancellables)
+        
+        // Подписываемся на регистрацию нового пользователя
+        NotificationCenter.default.publisher(for: .userRegistered)
+            .sink { [weak self] notification in
+                if let user = notification.object as? User {
+                    Task { @MainActor in
+                        self?.addUser(user)
+                    }
+                }
+            }
+            .store(in: &cancellables)
     }
     
     // Ленивая загрузка всех необходимых данных
@@ -85,10 +96,12 @@ class DataManager: ObservableObject {
     
     private func loadUsers() async {
         await usersState.loadItems {
-            try await Task.detached(priority: .utility) {
-                try await Task.sleep(nanoseconds: 100_000_000)
+            if self.networkManager.isConnected {
+                let apiUsers = try await self.networkManager.getUsers()
+                return apiUsers.map { $0.toUser() }
+            } else {
                 return DemoDataLoader.loadUsers()
-            }.value
+            }
         }
     }
     
@@ -261,16 +274,16 @@ class DataManager: ObservableObject {
         usersState.removeItem(withId: userId)
     }
     
-    func addNews(_ article: NewsArticle) {
-        newsState.addItem(article)
+    func addNews(_ news: NewsArticle) {
+        newsState.addItem(news)
     }
     
-    func updateNews(_ article: NewsArticle) {
-        newsState.updateItem(article)
+    func updateNews(_ news: NewsArticle) {
+        newsState.updateItem(news)
     }
     
-    func deleteNews(_ articleId: String) {
-        newsState.removeItem(withId: articleId)
+    func deleteNews(_ newsId: String) {
+        newsState.removeItem(withId: newsId)
     }
     
     func addLottery(_ lottery: Lottery) {
@@ -285,7 +298,23 @@ class DataManager: ObservableObject {
         lotteriesState.removeItem(withId: lotteryId)
     }
     
-    func createOrder(userId: String, product: Product, deliveryOption: Product.DeliveryOption, deliveryAddress: String?) -> Order {
+    func createPriceRequest(userId: String, car: Car, message: String?) -> PriceRequest {
+        let request = PriceRequest(
+            id: UUID().uuidString,
+            userId: userId,
+            car: car,
+            userMessage: message,
+            status: .pending,
+            createdAt: Date(),
+            dealerResponse: nil,
+            estimatedPrice: nil,
+            respondedAt: nil
+        )
+        priceRequestsState.addItem(request)
+        return request
+    }
+    
+    func addOrder(userId: String, product: Product, deliveryOption: Product.DeliveryOption, deliveryAddress: String?) -> Order {
         let order = Order(
             id: UUID().uuidString,
             userId: userId,
@@ -313,63 +342,17 @@ class DataManager: ObservableObject {
         pointTransactionsState.addItem(transaction)
     }
     
-    func createPriceRequest(userId: String, car: Car, message: String?) -> PriceRequest {
-        let request = PriceRequest(
-            id: UUID().uuidString,
-            userId: userId,
-            car: car,
-            userMessage: message,
-            status: .pending,
-            createdAt: Date()
-        )
-        priceRequestsState.addItem(request)
-        return request
-    }
-    
-    // MARK: - Sync with Server
-    func syncWithServer() async {
-        guard networkManager.isConnected else {
-            print("Нет соединения с сетью, синхронизация отложена")
-            return
-        }
-        
-        do {
-            // Отправляем несинхронизированные QR сканы
-            for scan in qrScansState.items {
-                try await networkManager.uploadQRScan(scan)
-            }
-            
-            // Обновляем дату последней синхронизации
-            UserDefaults.standard.lastSyncDate = Date()
-            
-        } catch {
-            print("Ошибка синхронизации: \(error)")
-        }
-    }
-    
-    // MARK: - Connection Status
-    var connectionStatusText: String {
-        return networkManager.connectionsStatusText
-    }
-    
     func clearAllData() {
-        carsState.clearItems()
-        productsState.clearItems()
-        usersState.clearItems()
-        ordersState.clearItems()
-        priceRequestsState.clearItems()
-        newsState.clearItems()
-        lotteriesState.clearItems()
-        pointTransactionsState.clearItems()
-        supportTicketsState.clearItems()
-        qrScansState.clearItems()
         loadedDataTypes.removeAll()
-        
-        // Очищаем кеш изображений
-        ImageCacheService.shared.clearCache()
-    }
-    
-    deinit {
-        cancellables.removeAll()
+        carsState = CollectionState<Car>()
+        productsState = CollectionState<Product>()
+        usersState = CollectionState<User>()
+        ordersState = CollectionState<Order>()
+        priceRequestsState = CollectionState<PriceRequest>()
+        newsState = CollectionState<NewsArticle>()
+        lotteriesState = CollectionState<Lottery>()
+        pointTransactionsState = CollectionState<PointTransaction>()
+        supportTicketsState = CollectionState<SupportTicket>()
+        qrScansState = CollectionState<QRScanResult>()
     }
 }

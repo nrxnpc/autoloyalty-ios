@@ -9,7 +9,8 @@ struct ContentView: View {
         ZStack {
             Group {
                 if authViewModel.isAuthenticated {
-                    if authViewModel.currentUser?.role == .admin {
+                    if let role = authViewModel.currentUser?.role,
+                       [.platformAdmin, .supplier].contains(role) {
                         AdminMainView()
                     } else {
                         MainTabView()
@@ -22,11 +23,15 @@ struct ContentView: View {
             .environmentObject(dataManager)
             .environmentObject(networkManager)
             
-            // Баннер статуса сети
+            // Баннер статуса сети и уведомления
             VStack {
                 NetworkStatusBanner()
+                NotificationOverlay()
                 Spacer()
             }
+            
+            // Toast контейнер
+            ToastContainer()
         }
         .task {
             // Отложенная инициализация данных

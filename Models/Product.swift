@@ -10,9 +10,11 @@ struct Product: Identifiable, Codable, Equatable, Hashable {
     var description: String
     var stockQuantity: Int
     var isActive: Bool
+    var status: ProductStatus
     let createdAt: Date
     var deliveryOptions: [DeliveryOption]
-    var imageData: Data? // Для локального хранения изображений
+    var imageData: Data?
+    let supplierId: String?
     
     enum ProductCategory: String, CaseIterable, Codable {
         case merchandise = "merchandise"
@@ -49,6 +51,28 @@ struct Product: Identifiable, Codable, Equatable, Hashable {
             case .pickup: return "Самовывоз"
             case .delivery: return "Доставка"
             case .digital: return "Цифровая доставка"
+            }
+        }
+    }
+    
+    enum ProductStatus: String, CaseIterable, Codable {
+        case pending = "pending"
+        case approved = "approved"
+        case rejected = "rejected"
+        
+        var displayName: String {
+            switch self {
+            case .pending: return "На модерации"
+            case .approved: return "Одобрен"
+            case .rejected: return "Отклонен"
+            }
+        }
+        
+        var color: Color {
+            switch self {
+            case .pending: return .orange
+            case .approved: return .green
+            case .rejected: return .red
             }
         }
     }

@@ -7,10 +7,14 @@ struct User: Identifiable, Codable, Equatable, Hashable {
     var phone: String
     let userType: UserType
     var points: Int
-    let role: UserRole
+    var role: UserRole
     let registrationDate: Date
     var isActive: Bool
     var profileImageURL: String?
+    var supplierID: String?
+    var preferences: UserPreferences
+    var statistics: UserStatistics
+    var lastLoginDate: Date?
     
     enum UserType: String, CaseIterable, Codable {
         case individual = "individual"
@@ -25,15 +29,71 @@ struct User: Identifiable, Codable, Equatable, Hashable {
     }
     
     enum UserRole: String, CaseIterable, Codable {
-        case user = "user"
-        case admin = "admin"
-        case operator_ = "operator"
+        case customer = "customer"
+        case supplier = "supplier"
+        case platformAdmin = "platformAdmin"
         
         var displayName: String {
             switch self {
-            case .user: return "Пользователь"
-            case .admin: return "Администратор"
-            case .operator_: return "Оператор"
+            case .customer: return "Пользователь"
+            case .supplier: return "Поставщик"
+            case .platformAdmin: return "Администратор платформы"
+            }
+        }
+    }
+    
+    struct UserPreferences: Codable {
+        var notificationsEnabled: Bool
+        var emailNotifications: Bool
+        var pushNotifications: Bool
+        var preferredCategories: [ProductCategory]
+        
+        static let `default` = UserPreferences(
+            notificationsEnabled: true,
+            emailNotifications: true,
+            pushNotifications: true,
+            preferredCategories: []
+        )
+    }
+    
+    struct UserStatistics: Codable {
+        var totalPurchases: Int
+        var totalSpent: Double
+        var averageOrderValue: Double
+        var loyaltyTier: String
+        var joinedPromotions: Int
+        var createdContent: Int
+        var totalPointsEarned: Int
+        var lastActivityDate: Date
+        
+        static let `default` = UserStatistics(
+            totalPurchases: 0,
+            totalSpent: 0.0,
+            averageOrderValue: 0.0,
+            loyaltyTier: "Бронза",
+            joinedPromotions: 0,
+            createdContent: 0,
+            totalPointsEarned: 0,
+            lastActivityDate: Date()
+        )
+    }
+    
+    enum ProductCategory: String, CaseIterable, Codable {
+        case autoparts = "autoparts"
+        case oils = "oils"
+        case tires = "tires"
+        case accessories = "accessories"
+        case tools = "tools"
+        case electronics = "electronics"
+        
+        var displayName: String {
+            switch self {
+            case .autoparts: return "Автозапчасти"
+            case .oils: return "Масла и жидкости"
+            case .tires: return "Шины и диски"
+            case .accessories: return "Аксессуары"
+            case .tools: return "Инструменты"
+            case .electronics: return "Электроника"
             }
         }
     }

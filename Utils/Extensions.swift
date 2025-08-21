@@ -4,6 +4,7 @@ import SwiftUI
 // MARK: - Notification.Name Extensions
 extension Notification.Name {
     static let userLoggedOut = Notification.Name("userLoggedOut")
+    static let userRegistered = Notification.Name("userRegistered")
     static let dataCleared = Notification.Name("dataCleared")
     static let qrCodeScanned = Notification.Name("qrCodeScanned")
 }
@@ -37,17 +38,21 @@ struct RoundedCorner: Shape {
 // MARK: - Constants
 struct AppConstants {
     struct Colors {
-        static let primary = Color.red
-        static let secondary = Color.gray
-        static let background = Color(.systemBackground)
-        static let accent = Color.red
+        static let primary = DesignSystem.Colors.primary
+        static let secondary = DesignSystem.Colors.secondary
+        static let background = DesignSystem.Colors.background
+        static let accent = DesignSystem.Colors.accent
+        static let success = DesignSystem.Colors.success
+        static let warning = DesignSystem.Colors.warning
+        static let error = DesignSystem.Colors.error
+        static let text = DesignSystem.Colors.text
     }
     
     struct Spacing {
-        static let small: CGFloat = 8
-        static let medium: CGFloat = 16
-        static let large: CGFloat = 24
-        static let extraLarge: CGFloat = 32
+        static let small = DesignSystem.Spacing.small
+        static let medium = DesignSystem.Spacing.medium
+        static let large = DesignSystem.Spacing.large
+        static let extraLarge = DesignSystem.Spacing.xl
     }
     
     struct FontSizes {

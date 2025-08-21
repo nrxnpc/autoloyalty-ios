@@ -17,9 +17,12 @@ class AuthViewModel: ObservableObject {
         // Подписываемся на изменения состояния токена
         tokenManager.$isAuthenticated
             .sink { [weak self] isAuth in
-                if !isAuth && self?.isAuthenticated == true {
+                guard let self = self else { return }
+                if !isAuth && self.isAuthenticated == true {
                     // Токен был очищен, выходим
-                    self?.logout()
+                    Task { @MainActor in
+                        self.logout()
+                    }
                 }
             }
             .store(in: &cancellables)
@@ -29,7 +32,7 @@ class AuthViewModel: ObservableObject {
     }
     
     private func checkSavedAuth() {
-        if tokenManager.isAuthenticated, let token = tokenManager.getToken() {
+        if tokenManager.isAuthenticated, let _ = tokenManager.getToken() {
             // В реальном приложении здесь бы проверялась валидность токена
             // Для демо просто восстанавливаем состояние
             restoreUserFromToken()
@@ -46,9 +49,14 @@ class AuthViewModel: ObservableObject {
             phone: "+7 (999) 123-45-67",
             userType: .individual,
             points: 1250,
-            role: .user,
+            role: .customer,
             registrationDate: Date(),
-            isActive: true
+            isActive: true,
+            profileImageURL: nil,
+            supplierID: nil,
+            preferences: User.UserPreferences.default,
+            statistics: User.UserStatistics.default,
+            lastLoginDate: nil
         )
         isAuthenticated = true
     }
@@ -80,9 +88,6 @@ class AuthViewModel: ObservableObject {
                 self.tokenManager.saveToken(user.id)
             }
             
-            // Синхронизируем данные пользователя
-            try await networkManager.syncUserData(userId: user.id)
-            
         } catch let error as NetworkError {
             await MainActor.run {
                 self.isLoading = false
@@ -91,7 +96,7 @@ class AuthViewModel: ObservableObject {
         } catch {
             await MainActor.run {
                 self.isLoading = false
-                self.errorMessage = "Неизвестная ошибка: \(error.localizedDescription)"
+                self.errorMessage = "Ошибка входа. Попробуйте еще раз."
             }
         }
     }
@@ -129,6 +134,9 @@ class AuthViewModel: ObservableObject {
                 
                 // Сохраняем токен
                 self.tokenManager.saveToken(user.id)
+                
+                // Добавляем пользователя в DataManager
+                NotificationCenter.default.post(name: .userRegistered, object: user)
             }
             
         } catch let error as NetworkError {
