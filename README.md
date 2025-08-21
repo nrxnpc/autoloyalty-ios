@@ -39,7 +39,7 @@
 
 1. Клонируйте репозиторий:
 ```bash
-git clone https://github.com/aleksandrpestrakov/autoloyalty-ios.git
+git clone https://github.com/nrxnpc/autoloyalty-ios.git
 cd autoloyalty-ios
 ```
 
