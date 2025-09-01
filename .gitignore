@@ -1,0 +1,118 @@
+# ###################################################################
+# # Comprehensive .gitignore for Apple Platform Development
+# # (Xcode, Swift, macOS, iOS, watchOS, tvOS, visionOS)
+# ###################################################################
+
+# -------------------------------------------------------------------
+# macOS System Files
+# -------------------------------------------------------------------
+# General macOS clutter
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+
+# Thumbnails, caches, and icon previews
+Icon?
+.Spotlight-V100
+.Trashes
+
+# -------------------------------------------------------------------
+# Xcode Build Artifacts & Caches
+# -------------------------------------------------------------------
+# All build products, intermediate files, and indexing caches.
+# This is the most important directory to ignore.
+DerivedData/
+build/
+Build/
+
+# Compiled Interface Builder files
+*.storyboardc
+*.nib
+*.xib
+
+# Test results and bundles
+*.xcresult
+
+# -------------------------------------------------------------------
+# Xcode User-Specific Settings
+# -------------------------------------------------------------------
+# These files store your personal workspace settings like open files,
+# breakpoints, window positions, etc. Ignoring them prevents merge conflicts.
+*.xcodeproj/project.xcworkspace/xcshareddata/
+*.xcodeproj/project.xcworkspace/xcuserdata/
+*.xcodeproj/xcuserdata/
+*.xcworkspace/xcshareddata/
+*.xcworkspace/xcuserdata/
+xcuserdata/
+
+# -------------------------------------------------------------------
+# Dependency Managers
+# -------------------------------------------------------------------
+
+# Swift Package Manager (SPM)
+# Contains fetched and built package dependencies.
+.build/
+.swiftpm/
+
+# The Package.resolved file locks down the exact versions of your dependencies.
+# For APPLICATIONS: It's a best practice to COMMIT this file for reproducible builds.
+# For LIBRARIES: It's a best practice to IGNORE this file to allow version flexibility.
+# Uncomment the line below if you are building a library.
+# Package.resolved
+
+
+# CocoaPods
+# Contains downloaded pod source files and frameworks.
+Pods/
+
+# IMPORTANT: NEVER ignore Podfile.lock. It ensures everyone on the
+# team uses the exact same versions of all pods.
+
+
+# Carthage
+# Contains downloaded source and built frameworks.
+Carthage/Build
+Carthage/Checkouts
+
+# IMPORTANT: ALWAYS commit Cartfile.resolved to lock dependency versions.
+
+# -------------------------------------------------------------------
+# Secrets & Environment Variables
+# -------------------------------------------------------------------
+# Ignore all files intended to hold secrets, API keys, and other sensitive data.
+# This prevents accidentally committing credentials to the repository.
+*.secret
+*.secrets
+
+# Also ignore environment variable files, but allow example/template files.
+*.env*
+!*.env.example
+!*.env.template
+
+# -------------------------------------------------------------------
+# Testing & Code Coverage
+# -------------------------------------------------------------------
+# Code coverage report files generated during testing.
+*.gcno
+*.gcda
+*.gcov
+profile.d
+
+# -------------------------------------------------------------------
+# Tooling & Miscellaneous
+# -------------------------------------------------------------------
+# Fastlane - Automation tool output
+fastlane/report.xml
+fastlane/screenshots/
+fastlane/test_output/
+fastlane/Preview.html
+
+# Xcode Playgrounds - Temporary and user-specific files
+*.playground/timeline.xctimeline
+*.playground/playground.xcworkspace
+
+# Generated Code
+# It's often better to regenerate code as a build step than to commit it.
+# Customize this section for your project (e.g., SwiftGen, Sourcery).
+# *.generated.swift
