@@ -37,149 +37,8 @@ extension Optional where Wrapped == Date {
     }
 }
 
-// MARK: - API Models
-struct APIUser: Codable {
-    let id: String
-    let name: String
-    let email: String
-    let phone: String
-    let userType: String
-    let points: Int
-    let role: String
-    let registrationDate: String
-    let isActive: Bool
-    
-    func toUser() -> User {
-        return User(
-            id: id,
-            name: name,
-            email: email,
-            phone: phone,
-            userType: User.UserType(rawValue: userType) ?? .individual,
-            points: points,
-            role: User.UserRole(rawValue: role) ?? .customer,
-            registrationDate: ISO8601DateFormatter().date(from: registrationDate) ?? Date(),
-            isActive: isActive,
-            profileImageURL: nil,
-            supplierID: nil,
-            preferences: User.UserPreferences.default,
-            statistics: User.UserStatistics.default,
-            lastLoginDate: nil
-        )
-    }
-}
-
-struct APIProduct: Codable {
-    let id: String
-    let name: String
-    let category: String
-    let pointsCost: Int
-    let imageURL: String
-    let description: String
-    let stockQuantity: Int
-    let isActive: Bool
-    let createdAt: String
-    let deliveryOptions: [String]
-    
-    func toProduct() -> Product {
-        let categoryEnum = Product.ProductCategory(rawValue: category) ?? .merchandise
-        let deliveryEnum = deliveryOptions.compactMap { Product.DeliveryOption(rawValue: $0) }
-        
-        return Product(
-            id: id,
-            name: name,
-            category: categoryEnum,
-            pointsCost: pointsCost,
-            imageURL: imageURL,
-            description: description,
-            stockQuantity: stockQuantity,
-            isActive: isActive,
-            status: isActive ? .approved : .pending,
-            createdAt: ISO8601DateFormatter().date(from: createdAt) ?? Date(),
-            deliveryOptions: deliveryEnum,
-            imageData: nil,
-            supplierId: nil
-        )
-    }
-}
-
-struct APINewsArticle: Codable {
-    let id: String
-    let title: String
-    let content: String
-    let imageURL: String
-    let isImportant: Bool
-    let createdAt: String
-    let publishedAt: String?
-    let isPublished: Bool
-    let authorId: String
-    let tags: [String]
-    
-    func toNewsArticle() -> NewsArticle {
-        let publishedDate = publishedAt.flatMap { ISO8601DateFormatter().date(from: $0) }
-        
-        return NewsArticle(
-            id: id,
-            title: title,
-            content: content,
-            imageURL: imageURL,
-            isImportant: isImportant,
-            createdAt: ISO8601DateFormatter().date(from: createdAt) ?? Date(),
-            publishedAt: publishedDate,
-            isPublished: isPublished,
-            status: isPublished ? .approved : .pending,
-            authorId: authorId,
-            tags: tags,
-            imageData: nil
-        )
-    }
-}
-
-struct APIQRScan: Codable {
-    let id: String
-    let pointsEarned: Int
-    let productName: String
-    let productCategory: String
-    let timestamp: String
-    let qrCode: String
-    let location: String?
-    
-    func toQRScanResult() -> QRScanResult {
-        return QRScanResult(
-            id: id,
-            pointsEarned: pointsEarned,
-            productName: productName,
-            productCategory: productCategory,
-            timestamp: ISO8601DateFormatter().date(from: timestamp) ?? Date(),
-            qrCode: qrCode,
-            location: location
-        )
-    }
-}
-
-struct APIPointTransaction: Codable {
-    let id: String
-    let userId: String
-    let type: String
-    let amount: Int
-    let description: String
-    let timestamp: String
-    let relatedId: String?
-    
-    func toPointTransaction() -> PointTransaction {
-        let typeEnum = PointTransaction.TransactionType(rawValue: type) ?? .earned
-        
-        return PointTransaction(
-            id: id,
-            userId: userId,
-            type: typeEnum,
-            amount: amount,
-            description: description,
-            timestamp: ISO8601DateFormatter().date(from: timestamp) ?? Date(),
-            relatedId: relatedId
-        )
-    }
-}
+// MARK: - Legacy API Models (moved to RestEndpoint+Raw.swift)
+// These models are kept for backward compatibility with existing NetworkManager
 
 // MARK: - Request/Response Models
 struct QRScanRequest: Codable {
@@ -225,7 +84,7 @@ class NetworkManager: ObservableObject {
     }
     
     // MARK: - Authentication Methods
-    func login(email: String, password: String) async throws -> APIUser {
+    func login(email: String, password: String) async throws -> RestEndpoint.User {
         isLoading = true
         defer { isLoading = false }
         
@@ -233,7 +92,7 @@ class NetworkManager: ObservableObject {
         return try await loginDemo(email: email)
     }
     
-    private func loginDemo(email: String) async throws -> APIUser {
+    private func loginDemo(email: String) async throws -> RestEndpoint.User {
         try await Task.sleep(nanoseconds: 500_000_000)
         
         switch email {
@@ -289,7 +148,7 @@ class NetworkManager: ObservableObject {
         }
     }
     
-    func register(userData: UserRegistration) async throws -> APIUser {
+    func register(userData: UserRegistration) async throws -> RestEndpoint.User {
         isLoading = true
         defer { isLoading = false }
         

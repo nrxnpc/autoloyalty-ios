@@ -60,6 +60,7 @@
 		7ECC40252E66D8370014E97E /* Main+Router.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ECC40242E66D8370014E97E /* Main+Router.swift */; };
 		7ECC40272E66FBD80014E97E /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ECC40262E66FBD80014E97E /* MainView.swift */; };
 		7ECC402F2E6700E70014E97E /* RestEndpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ECC402E2E6700E70014E97E /* RestEndpoint.swift */; };
+		7ED1439F2E6740F1003BE287 /* Endpoint+Dependencies.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ED1439E2E6740F1003BE287 /* Endpoint+Dependencies.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -119,6 +120,7 @@
 		7ECC40242E66D8370014E97E /* Main+Router.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Main+Router.swift"; sourceTree = "<group>"; };
 		7ECC40262E66FBD80014E97E /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
 		7ECC402E2E6700E70014E97E /* RestEndpoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestEndpoint.swift; sourceTree = "<group>"; };
+		7ED1439E2E6740F1003BE287 /* Endpoint+Dependencies.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Endpoint+Dependencies.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -191,6 +193,7 @@
 		7ECC3FE52E65D03D0014E97E /* Entry Point */ = {
 			isa = PBXGroup;
 			children = (
+				7ED143A02E674141003BE287 /* Registry */,
 				08DB74162DF82926007D80CB /* EntryPoint.swift */,
 			);
 			path = "Entry Point";
@@ -335,6 +338,14 @@
 			path = Entiry;
 			sourceTree = "<group>";
 		};
+		7ED143A02E674141003BE287 /* Registry */ = {
+			isa = PBXGroup;
+			children = (
+				7ED1439E2E6740F1003BE287 /* Endpoint+Dependencies.swift */,
+			);
+			path = Registry;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -426,6 +437,7 @@
 				7ECC40112E6628E90014E97E /* CatalogView.swift in Sources */,
 				7ECC400E2E6628E90014E97E /* AdminManagementViews.swift in Sources */,
 				7ECC3FA32E65CF8D0014E97E /* DesignSystem.swift in Sources */,
+				7ED1439F2E6740F1003BE287 /* Endpoint+Dependencies.swift in Sources */,
 				7ECC400D2E6628E90014E97E /* AdminMainView.swift in Sources */,
 				7ECC3FA42E65CF8D0014E97E /* Extensions.swift in Sources */,
 				7ECC3FAC2E65CF8D0014E97E /* ImageCacheService.swift in Sources */,
