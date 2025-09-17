@@ -2,6 +2,7 @@
 //  RestEndpoint+Dependency.swift
 //
 import Dependencies
+import Foundation
 
 // MARK: - ResourceEndpoint Dependency
 
@@ -19,6 +20,6 @@ extension DependencyValues {
 
 private enum EndpointContextKey: DependencyKey {
     static var liveValue: RestEndpoint {
-        RestEndpoint()
+        RestEndpoint(baseURL: URL(string: "http://locahost:8080")!)
     }
 }

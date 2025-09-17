@@ -1,8 +1,11 @@
+import Dependencies
 import Foundation
 import Combine
 
 @MainActor
 class AuthViewModel: ObservableObject {
+    @Dependency(\.endpoint) var endpoint: RestEndpoint
+    
     @Published var isAuthenticated = false
     @Published var currentUser: User?
     @Published var isLoading = false
@@ -75,11 +78,19 @@ class AuthViewModel: ObservableObject {
         }
         
         do {
-            let apiUser = try await networkManager.login(email: email, password: password)
-            let user = apiUser.toUser()
+            
+            // let apiUser = try await networkManager.login(email: email, password: password)
+            // let user = apiUser.toUser()
+            let loginResponse = try await endpoint.login(email: email, password: password)
+            guard let user = loginResponse.user else {
+                // TODO: handle login error
+                fatalError()
+            }
+            
+            let currentUser = User(id: user.id, name: user.name, email: user.email, phone: user.phone, userType: .init(rawValue: user.userType) ?? .individual, points: user.points, role: .init(rawValue: user.role) ?? .customer, registrationDate: .now, isActive: user.isActive, preferences: .default, statistics: .default)
             
             await MainActor.run {
-                self.currentUser = user
+                self.currentUser = currentUser
                 self.isAuthenticated = true
                 self.isLoading = false
                 self.errorMessage = ""
@@ -115,19 +126,26 @@ class AuthViewModel: ObservableObject {
         }
         
         do {
-            let userData = UserRegistration(
-                name: name,
-                email: email,
-                phone: phone,
-                password: password,
-                userType: userType.rawValue
-            )
+            //let userData = UserRegistration(
+            //    name: name,
+            //    email: email,
+            //    phone: phone,
+            //    password: password,
+            //    userType: userType.rawValue
+            //)
+            // let apiUser = try await networkManager.register(userData: userData)
+            // let user = apiUser.toUser()
+            let registerResponse = try await endpoint.register(userData: .init(name: name, email: email, phone: phone, password: password, userType: userType.rawValue, deviceInfo: nil))
+            guard let user = registerResponse.user else {
+                // TODO: handle login error
+                fatalError()
+            }
             
-            let apiUser = try await networkManager.register(userData: userData)
-            let user = apiUser.toUser()
+            let currentUser = User(id: user.id, name: user.name, email: user.email, phone: user.phone, userType: .init(rawValue: user.userType) ?? .individual, points: user.points, role: .init(rawValue: user.role) ?? .customer, registrationDate: .now, isActive: user.isActive, preferences: .default, statistics: .default)
+            
             
             await MainActor.run {
-                self.currentUser = user
+                self.currentUser = currentUser
                 self.isAuthenticated = true
                 self.isLoading = false
                 self.errorMessage = ""

@@ -9,9 +9,11 @@
 /* Begin PBXBuildFile section */
 		08DB741A2DF82926007D80CB /* EntryPoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08DB74162DF82926007D80CB /* EntryPoint.swift */; };
 		08DB741C2DF8296F007D80CB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 08DB741B2DF8296F007D80CB /* Assets.xcassets */; };
-		7E5E885B2E6705EC00F64A0F /* Dependencies in Frameworks */ = {isa = PBXBuildFile; productRef = 7E5E885A2E6705EC00F64A0F /* Dependencies */; };
-		7E5E885D2E6705EC00F64A0F /* DependenciesMacros in Frameworks */ = {isa = PBXBuildFile; productRef = 7E5E885C2E6705EC00F64A0F /* DependenciesMacros */; };
 		7E5E88612E6707D000F64A0F /* UIDevice+Shake.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E5E88602E6707D000F64A0F /* UIDevice+Shake.swift */; };
+		7EA038F42E7AD0FB00972721 /* Dependencies in Frameworks */ = {isa = PBXBuildFile; productRef = 7EA038F32E7AD0FB00972721 /* Dependencies */; };
+		7EA038F62E7AD0FB00972721 /* DependenciesMacros in Frameworks */ = {isa = PBXBuildFile; productRef = 7EA038F52E7AD0FB00972721 /* DependenciesMacros */; };
+		7EA038F82E7AD0FB00972721 /* DependenciesTestSupport in Frameworks */ = {isa = PBXBuildFile; productRef = 7EA038F72E7AD0FB00972721 /* DependenciesTestSupport */; };
+		7EA038FA2E7AE04A00972721 /* RestEndpoint+Raw.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EA038F92E7AE04A00972721 /* RestEndpoint+Raw.swift */; };
 		7ECC3F942E65CF8D0014E97E /* Product.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ECC3F922E65CF8D0014E97E /* Product.swift */; };
 		7ECC3F952E65CF8D0014E97E /* OtherModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ECC3F912E65CF8D0014E97E /* OtherModels.swift */; };
 		7ECC3F962E65CF8D0014E97E /* Car.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ECC3F902E65CF8D0014E97E /* Car.swift */; };
@@ -67,12 +69,13 @@
 		08526C2B2E0B219000D1751F /* APIModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIModels.swift; sourceTree = "<group>"; };
 		08526C2C2E0B21BC00D1751F /* TokenManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenManager.swift; sourceTree = "<group>"; };
 		08526C2F2E0B2B1A00D1751F /* NetworkStatusView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkStatusView.swift; sourceTree = "<group>"; };
-		08526C362E0B32A700D1751F /* NetworkComponents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkComponents.swift; sourceTree = "<group>"; };
+		08526C362E0B32A700D1751F /* NetworkComponents 2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NetworkComponents 2.swift"; sourceTree = "<group>"; };
 		08526C372E0B32FD00D1751F /* DateExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateExtensions.swift; sourceTree = "<group>"; };
 		08DB73C32DF6CC1B007D80CB /* Application.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Application.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		08DB74162DF82926007D80CB /* EntryPoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntryPoint.swift; sourceTree = "<group>"; };
 		08DB741B2DF8296F007D80CB /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		7E5E88602E6707D000F64A0F /* UIDevice+Shake.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIDevice+Shake.swift"; sourceTree = "<group>"; };
+		7EA038F92E7AE04A00972721 /* RestEndpoint+Raw.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RestEndpoint+Raw.swift"; sourceTree = "<group>"; };
 		7ECC3F372E65CEEF0014E97E /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		7ECC3F382E65CEFD0014E97E /* BACKEND_SETUP.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = BACKEND_SETUP.md; sourceTree = "<group>"; };
 		7ECC3F8F2E65CF8D0014E97E /* Achievement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Achievement.swift; sourceTree = "<group>"; };
@@ -130,9 +133,10 @@
 			files = (
 				7ECC3FEA2E66280A0014E97E /* Endpoint in Frameworks */,
 				7ECC3FEC2E66280A0014E97E /* EndpointUI in Frameworks */,
-				7E5E885D2E6705EC00F64A0F /* DependenciesMacros in Frameworks */,
+				7EA038F62E7AD0FB00972721 /* DependenciesMacros in Frameworks */,
 				7ECC3FEF2E6628260014E97E /* SwiftUIComponents in Frameworks */,
-				7E5E885B2E6705EC00F64A0F /* Dependencies in Frameworks */,
+				7EA038F42E7AD0FB00972721 /* Dependencies in Frameworks */,
+				7EA038F82E7AD0FB00972721 /* DependenciesTestSupport in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -143,8 +147,8 @@
 			isa = PBXGroup;
 			children = (
 				7ECC402E2E6700E70014E97E /* RestEndpoint.swift */,
+				7EA038F92E7AE04A00972721 /* RestEndpoint+Raw.swift */,
 				08526C372E0B32FD00D1751F /* DateExtensions.swift */,
-				08526C362E0B32A700D1751F /* NetworkComponents.swift */,
 				08526C2B2E0B219000D1751F /* APIModels.swift */,
 				08526C2C2E0B21BC00D1751F /* TokenManager.swift */,
 				7ECC3FDF2E65CF8D0014E97E /* NetworkManager.swift */,
@@ -236,6 +240,7 @@
 				08526C2F2E0B2B1A00D1751F /* NetworkStatusView.swift */,
 				7ECC3FDE2E65CF8D0014E97E /* NetworkComponents.swift */,
 				7ECC3F992E65CF8D0014E97E /* AnimationSystem.swift */,
+				08526C362E0B32A700D1751F /* NetworkComponents 2.swift */,
 			);
 			path = SwiftUI;
 			sourceTree = "<group>";
@@ -366,8 +371,9 @@
 				7ECC3FE92E66280A0014E97E /* Endpoint */,
 				7ECC3FEB2E66280A0014E97E /* EndpointUI */,
 				7ECC3FEE2E6628260014E97E /* SwiftUIComponents */,
-				7E5E885A2E6705EC00F64A0F /* Dependencies */,
-				7E5E885C2E6705EC00F64A0F /* DependenciesMacros */,
+				7EA038F32E7AD0FB00972721 /* Dependencies */,
+				7EA038F52E7AD0FB00972721 /* DependenciesMacros */,
+				7EA038F72E7AD0FB00972721 /* DependenciesTestSupport */,
 			);
 			productName = "NSP app";
 			productReference = 08DB73C32DF6CC1B007D80CB /* Application.app */;
@@ -400,7 +406,7 @@
 			packageReferences = (
 				7ECC3FE82E66280A0014E97E /* XCLocalSwiftPackageReference "Packages/swift-endpoint" */,
 				7ECC3FED2E6628260014E97E /* XCLocalSwiftPackageReference "Packages/swift-components" */,
-				7E5E88592E6705EC00F64A0F /* XCRemoteSwiftPackageReference "swift-dependencies" */,
+				7EA038F22E7AD0FB00972721 /* XCRemoteSwiftPackageReference "swift-dependencies" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 08DB73C42DF6CC1B007D80CB /* Products */;
@@ -475,6 +481,7 @@
 				7ECC40182E6628E90014E97E /* StatsView.swift in Sources */,
 				7ECC3FE32E65CF8D0014E97E /* CollectionState.swift in Sources */,
 				7ECC3FE42E65CF8D0014E97E /* DataManager.swift in Sources */,
+				7EA038FA2E7AE04A00972721 /* RestEndpoint+Raw.swift in Sources */,
 				7ECC40082E6628E90014E97E /* CommonViews.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -704,9 +711,9 @@
 /* End XCLocalSwiftPackageReference section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		7E5E88592E6705EC00F64A0F /* XCRemoteSwiftPackageReference "swift-dependencies" */ = {
+		7EA038F22E7AD0FB00972721 /* XCRemoteSwiftPackageReference "swift-dependencies" */ = {
 			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "git@github.com:pointfreeco/swift-dependencies.git";
+			repositoryURL = "https://github.com/pointfreeco/swift-dependencies.git";
 			requirement = {
 				kind = upToNextMajorVersion;
 				minimumVersion = 1.9.4;
@@ -715,15 +722,20 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		7E5E885A2E6705EC00F64A0F /* Dependencies */ = {
+		7EA038F32E7AD0FB00972721 /* Dependencies */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 7E5E88592E6705EC00F64A0F /* XCRemoteSwiftPackageReference "swift-dependencies" */;
+			package = 7EA038F22E7AD0FB00972721 /* XCRemoteSwiftPackageReference "swift-dependencies" */;
 			productName = Dependencies;
 		};
-		7E5E885C2E6705EC00F64A0F /* DependenciesMacros */ = {
+		7EA038F52E7AD0FB00972721 /* DependenciesMacros */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 7E5E88592E6705EC00F64A0F /* XCRemoteSwiftPackageReference "swift-dependencies" */;
+			package = 7EA038F22E7AD0FB00972721 /* XCRemoteSwiftPackageReference "swift-dependencies" */;
 			productName = DependenciesMacros;
+		};
+		7EA038F72E7AD0FB00972721 /* DependenciesTestSupport */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 7EA038F22E7AD0FB00972721 /* XCRemoteSwiftPackageReference "swift-dependencies" */;
+			productName = DependenciesTestSupport;
 		};
 		7ECC3FE92E66280A0014E97E /* Endpoint */ = {
 			isa = XCSwiftPackageProductDependency;
