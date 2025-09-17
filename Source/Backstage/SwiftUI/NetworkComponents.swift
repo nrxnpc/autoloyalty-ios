@@ -1,14 +1,16 @@
 import SwiftUI
 import Network
+import Dependencies
 
 // MARK: - Network Status Banner
 struct NetworkStatusBanner: View {
-    @ObservedObject var networkManager = NetworkManager.shared
+    @Dependency(\.endpoint) var endpoint: RestEndpoint
     @State private var showBanner = false
+    @State private var isConnected = true
     
     var body: some View {
         VStack(spacing: 0) {
-            if !networkManager.isConnected && showBanner {
+            if !isConnected && showBanner {
                 HStack {
                     Image(systemName: "wifi.slash")
                         .foregroundColor(.white)
@@ -33,7 +35,7 @@ struct NetworkStatusBanner: View {
             }
         }
         .animation(.easeInOut, value: showBanner)
-        .onChange(of: networkManager.isConnected) { _, connected in
+        .onChange(of: isConnected) { _, connected in
             if !connected {
                 withAnimation {
                     showBanner = true
@@ -44,29 +46,42 @@ struct NetworkStatusBanner: View {
                 }
             }
         }
+        .task {
+            await checkConnection()
+        }
+    }
+    
+    private func checkConnection() async {
+        do {
+            isConnected = try await endpoint.checkConnectionStatus()
+        } catch {
+            isConnected = false
+        }
     }
 }
 
 // MARK: - Connection Settings View
 struct ConnectionSettingsView: View {
-    @ObservedObject var networkManager = NetworkManager.shared
+    @Dependency(\.endpoint) var endpoint: RestEndpoint
     @State private var autoSync = true
     @State private var wifiOnly = false
     @State private var lowDataMode = false
+    @State private var isConnected = true
+    @State private var isLoading = false
     
     var body: some View {
         List {
             Section("Состояние сети") {
                 HStack {
-                    Image(systemName: networkManager.isConnected ? "wifi" : "wifi.slash")
-                        .foregroundColor(networkManager.isConnected ? .green : .red)
+                    Image(systemName: isConnected ? "wifi" : "wifi.slash")
+                        .foregroundColor(isConnected ? .green : .red)
                     
-                    Text(networkManager.isConnected ? "Подключено" : "Нет соединения")
+                    Text(isConnected ? "Подключено" : "Нет соединения")
                         .font(.subheadline)
                     
                     Spacer()
                     
-                    if networkManager.isLoading {
+                    if isLoading {
                         ProgressView()
                             .scaleEffect(0.8)
                     }
@@ -87,10 +102,12 @@ struct ConnectionSettingsView: View {
             Section("Действия") {
                 Button("Принудительная синхронизация") {
                     Task {
-                        // Логика принудительной синхронизации
+                        isLoading = true
+                        await checkConnection()
+                        isLoading = false
                     }
                 }
-                .disabled(!networkManager.isConnected || networkManager.isLoading)
+                .disabled(!isConnected || isLoading)
                 
                 Button("Очистить кеш") {
                     ImageCacheService.shared.clearCache()
@@ -116,6 +133,17 @@ struct ConnectionSettingsView: View {
         }
         .navigationTitle("Подключение")
         .navigationBarTitleDisplayMode(.inline)
+        .task {
+            await checkConnection()
+        }
+    }
+    
+    private func checkConnection() async {
+        do {
+            isConnected = try await endpoint.checkConnectionStatus()
+        } catch {
+            isConnected = false
+        }
     }
 }
 
@@ -125,19 +153,16 @@ class NetworkMonitor: ObservableObject {
     @Published var connectionType: String = "wifi"
     
     init() {
-        // Упрощённый мониторинг для демо
         startSimpleMonitoring()
     }
     
     private func startSimpleMonitoring() {
         Timer.scheduledTimer(withTimeInterval: 10, repeats: true) { _ in
-            // Простая проверка подключения
             self.checkConnection()
         }
     }
     
     private func checkConnection() {
-        // Демо логика проверки сети
         isConnected = true
         connectionType = "wifi"
     }
@@ -145,27 +170,28 @@ class NetworkMonitor: ObservableObject {
 
 // MARK: - Sync Status View
 struct SyncStatusView: View {
-    @ObservedObject var networkManager = NetworkManager.shared
     @State private var lastSyncDate: Date?
+    @State private var isConnected = true
+    @State private var isLoading = false
     
     var body: some View {
         HStack {
-            if networkManager.isLoading {
+            if isLoading {
                 ProgressView()
                     .scaleEffect(0.8)
                 Text("Синхронизация...")
                     .font(.caption)
                     .foregroundColor(.secondary)
             } else {
-                Image(systemName: networkManager.isConnected ? "checkmark.circle.fill" : "exclamationmark.circle.fill")
-                    .foregroundColor(networkManager.isConnected ? .green : .orange)
+                Image(systemName: isConnected ? "checkmark.circle.fill" : "exclamationmark.circle.fill")
+                    .foregroundColor(isConnected ? .green : .orange)
                 
                 if let lastSync = lastSyncDate {
                     Text("Обновлено \(lastSync.timeAgoDisplay())")
                         .font(.caption)
                         .foregroundColor(.secondary)
                 } else {
-                    Text(networkManager.isConnected ? "Онлайн" : "Оффлайн")
+                    Text(isConnected ? "Онлайн" : "Оффлайн")
                         .font(.caption)
                         .foregroundColor(.secondary)
                 }
@@ -179,10 +205,10 @@ struct SyncStatusView: View {
 
 // MARK: - Offline Mode Banner
 struct OfflineModeBanner: View {
-    @ObservedObject var networkManager = NetworkManager.shared
+    @State private var isConnected = true
     
     var body: some View {
-        if !networkManager.isConnected {
+        if !isConnected {
             HStack {
                 Image(systemName: "airplane")
                     .foregroundColor(.orange)
@@ -255,29 +281,5 @@ struct DataUsageRow: View {
                 .fontWeight(.medium)
                 .foregroundColor(color)
         }
-    }
-}
-
-// MARK: - Simple Connection Test
-extension NetworkManager {
-    func testSimpleConnection() async -> Bool {
-        // Простая проверка без использования baseURL
-        do {
-            let url = URL(string: "https://www.apple.com")!
-            let (_, response) = try await URLSession.shared.data(from: url)
-            if let httpResponse = response as? HTTPURLResponse {
-                return httpResponse.statusCode == 200
-            }
-            return false
-        } catch {
-            return false
-        }
-    }
-    
-    func getNetworkStats() -> (uploaded: Int, downloaded: Int) {
-        return (
-            uploaded: UserDefaults.standard.integer(forKey: "uploadedBytes"),
-            downloaded: UserDefaults.standard.integer(forKey: "downloadedBytes")
-        )
     }
 }

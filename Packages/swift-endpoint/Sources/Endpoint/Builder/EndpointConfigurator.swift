@@ -86,6 +86,17 @@ public struct EndpointConfigurator: SessionBuilder {
         return new
     }
     
+    /// Adds a single header to the request
+    /// - Parameters:
+    ///   - name: Header name
+    ///   - value: Header value
+    /// - Returns: EndpointConfigurator for chaining
+    public func header(_ name: String, _ value: String) -> EndpointConfigurator {
+        var new = self
+        new.headers[name] = value
+        return self
+    }
+    
     /// Adds a URL query parameter.
     /// - Parameters:
     ///   - key: The name of the query parameter.

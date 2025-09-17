@@ -11,35 +11,36 @@ class AuthViewModel: ObservableObject {
     @Published var isLoading = false
     @Published var errorMessage = ""
     
-    private let networkManager = NetworkManager.shared
     private let tokenManager = TokenManager.shared
     private var authTask: Task<Void, Never>?
     private var cancellables = Set<AnyCancellable>()
     
     init() {
+        // TODO: Use authenticator
         // Подписываемся на изменения состояния токена
-        tokenManager.$isAuthenticated
-            .sink { [weak self] isAuth in
-                guard let self = self else { return }
-                if !isAuth && self.isAuthenticated == true {
-                    // Токен был очищен, выходим
-                    Task { @MainActor in
-                        self.logout()
-                    }
-                }
-            }
-            .store(in: &cancellables)
+        // tokenManager.$isAuthenticated
+        //     .sink { [weak self] isAuth in
+        //         guard let self = self else { return }
+        //         if !isAuth && self.isAuthenticated == true {
+        //             // Токен был очищен, выходим
+        //             Task { @MainActor in
+        //                 self.logout()
+        //             }
+        //         }
+        //     }
+        //     .store(in: &cancellables)
         
         // Проверяем есть ли сохраненный токен при запуске
         checkSavedAuth()
     }
     
     private func checkSavedAuth() {
-        if tokenManager.isAuthenticated, let _ = tokenManager.getToken() {
-            // В реальном приложении здесь бы проверялась валидность токена
-            // Для демо просто восстанавливаем состояние
-            restoreUserFromToken()
-        }
+        // TODO: Use authenticator
+        // if tokenManager.isAuthenticated, let _ = tokenManager.getToken() {
+        //     // В реальном приложении здесь бы проверялась валидность токена
+        //     // Для демо просто восстанавливаем состояние
+        //     restoreUserFromToken()
+        // }
     }
     
     private func restoreUserFromToken() {
@@ -78,16 +79,28 @@ class AuthViewModel: ObservableObject {
         }
         
         do {
-            
-            // let apiUser = try await networkManager.login(email: email, password: password)
-            // let user = apiUser.toUser()
             let loginResponse = try await endpoint.login(email: email, password: password)
             guard let user = loginResponse.user else {
-                // TODO: handle login error
-                fatalError()
+                await MainActor.run {
+                    self.isLoading = false
+                    self.errorMessage = "Ошибка входа"
+                }
+                return
             }
             
-            let currentUser = User(id: user.id, name: user.name, email: user.email, phone: user.phone, userType: .init(rawValue: user.userType) ?? .individual, points: user.points, role: .init(rawValue: user.role) ?? .customer, registrationDate: .now, isActive: user.isActive, preferences: .default, statistics: .default)
+            let currentUser = User(
+                id: user.id, 
+                name: user.name, 
+                email: user.email, 
+                phone: user.phone, 
+                userType: .init(rawValue: user.userType) ?? .individual, 
+                points: user.points, 
+                role: .init(rawValue: user.role) ?? .customer, 
+                registrationDate: .now, 
+                isActive: user.isActive, 
+                preferences: .default, 
+                statistics: .default
+            )
             
             await MainActor.run {
                 self.currentUser = currentUser
@@ -95,15 +108,11 @@ class AuthViewModel: ObservableObject {
                 self.isLoading = false
                 self.errorMessage = ""
                 
-                // Сохраняем токен (в демо версии используем ID пользователя)
-                self.tokenManager.saveToken(user.id)
+                if let token = loginResponse.token {
+                    self.tokenManager.saveToken(token)
+                }
             }
             
-        } catch let error as NetworkError {
-            await MainActor.run {
-                self.isLoading = false
-                self.errorMessage = error.localizedDescription
-            }
         } catch {
             await MainActor.run {
                 self.isLoading = false
@@ -126,23 +135,36 @@ class AuthViewModel: ObservableObject {
         }
         
         do {
-            //let userData = UserRegistration(
-            //    name: name,
-            //    email: email,
-            //    phone: phone,
-            //    password: password,
-            //    userType: userType.rawValue
-            //)
-            // let apiUser = try await networkManager.register(userData: userData)
-            // let user = apiUser.toUser()
-            let registerResponse = try await endpoint.register(userData: .init(name: name, email: email, phone: phone, password: password, userType: userType.rawValue, deviceInfo: nil))
+            let registerResponse = try await endpoint.register(userData: .init(
+                name: name, 
+                email: email, 
+                phone: phone, 
+                password: password, 
+                userType: userType.rawValue, 
+                deviceInfo: nil
+            ))
+            
             guard let user = registerResponse.user else {
-                // TODO: handle login error
-                fatalError()
+                await MainActor.run {
+                    self.isLoading = false
+                    self.errorMessage = "Ошибка регистрации"
+                }
+                return
             }
             
-            let currentUser = User(id: user.id, name: user.name, email: user.email, phone: user.phone, userType: .init(rawValue: user.userType) ?? .individual, points: user.points, role: .init(rawValue: user.role) ?? .customer, registrationDate: .now, isActive: user.isActive, preferences: .default, statistics: .default)
-            
+            let currentUser = User(
+                id: user.id, 
+                name: user.name, 
+                email: user.email, 
+                phone: user.phone, 
+                userType: .init(rawValue: user.userType) ?? .individual, 
+                points: user.points, 
+                role: .init(rawValue: user.role) ?? .customer, 
+                registrationDate: .now, 
+                isActive: user.isActive, 
+                preferences: .default, 
+                statistics: .default
+            )
             
             await MainActor.run {
                 self.currentUser = currentUser
@@ -150,18 +172,13 @@ class AuthViewModel: ObservableObject {
                 self.isLoading = false
                 self.errorMessage = ""
                 
-                // Сохраняем токен
-                self.tokenManager.saveToken(user.id)
+                if let token = registerResponse.token {
+                    self.tokenManager.saveToken(token)
+                }
                 
-                // Добавляем пользователя в DataManager
                 NotificationCenter.default.post(name: .userRegistered, object: user)
             }
             
-        } catch let error as NetworkError {
-            await MainActor.run {
-                self.isLoading = false
-                self.errorMessage = error.localizedDescription
-            }
         } catch {
             await MainActor.run {
                 self.isLoading = false
@@ -173,8 +190,9 @@ class AuthViewModel: ObservableObject {
     func logout() {
         authTask?.cancel()
         
+        // TODO: Use authenticator
         // Очищаем токен
-        tokenManager.clearToken()
+        // tokenManager.clearToken()
         
         // Очищаем состояние
         currentUser = nil
@@ -190,11 +208,10 @@ class AuthViewModel: ObservableObject {
         currentUser?.email = email
         currentUser?.phone = phone
         
-        // В реальном приложении здесь был бы API запрос для обновления профиля
         Task {
             do {
                 if let userId = currentUser?.id {
-                    try await networkManager.syncUserData(userId: userId)
+                    try await endpoint.updateUserProfile(userId: userId, name: name, email: email, phone: phone)
                 }
             } catch {
                 await MainActor.run {
@@ -206,8 +223,6 @@ class AuthViewModel: ObservableObject {
     
     func addPoints(_ points: Int) {
         currentUser?.points += points
-        
-        // Синхронизируем с сервером
         syncPointsWithServer()
     }
     
@@ -217,8 +232,6 @@ class AuthViewModel: ObservableObject {
         }
         
         currentUser?.points -= points
-        
-        // Синхронизируем с сервером
         syncPointsWithServer()
         
         return true
@@ -228,10 +241,9 @@ class AuthViewModel: ObservableObject {
         Task {
             do {
                 if let userId = currentUser?.id {
-                    try await networkManager.syncUserData(userId: userId)
+                    try await endpoint.syncUserData(userId: userId)
                 }
             } catch {
-                // Логируем ошибку, но не показываем пользователю
                 print("Ошибка синхронизации баллов: \(error)")
             }
         }
@@ -241,7 +253,7 @@ class AuthViewModel: ObservableObject {
         guard let userId = currentUser?.id else { return }
         
         do {
-            try await networkManager.syncUserData(userId: userId)
+            try await endpoint.syncUserData(userId: userId)
         } catch {
             await MainActor.run {
                 self.errorMessage = "Ошибка обновления данных: \(error.localizedDescription)"
@@ -258,10 +270,10 @@ class AuthViewModel: ObservableObject {
 // MARK: - Network Status Integration
 extension AuthViewModel {
     var isNetworkAvailable: Bool {
-        networkManager.isConnected
+        true
     }
     
     var isNetworkLoading: Bool {
-        networkManager.isLoading
+        isLoading
     }
 }

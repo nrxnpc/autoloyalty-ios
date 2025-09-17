@@ -9,33 +9,35 @@
 /* Begin PBXBuildFile section */
 		08DB741A2DF82926007D80CB /* EntryPoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08DB74162DF82926007D80CB /* EntryPoint.swift */; };
 		08DB741C2DF8296F007D80CB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 08DB741B2DF8296F007D80CB /* Assets.xcassets */; };
-		7E5E88612E6707D000F64A0F /* UIDevice+Shake.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E5E88602E6707D000F64A0F /* UIDevice+Shake.swift */; };
-		7EA038F42E7AD0FB00972721 /* Dependencies in Frameworks */ = {isa = PBXBuildFile; productRef = 7EA038F32E7AD0FB00972721 /* Dependencies */; };
-		7EA038F62E7AD0FB00972721 /* DependenciesMacros in Frameworks */ = {isa = PBXBuildFile; productRef = 7EA038F52E7AD0FB00972721 /* DependenciesMacros */; };
-		7EA038F82E7AD0FB00972721 /* DependenciesTestSupport in Frameworks */ = {isa = PBXBuildFile; productRef = 7EA038F72E7AD0FB00972721 /* DependenciesTestSupport */; };
-		7EA038FA2E7AE04A00972721 /* RestEndpoint+Raw.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EA038F92E7AE04A00972721 /* RestEndpoint+Raw.swift */; };
+		7E36E0052E7B0256009522B5 /* Dependencies in Frameworks */ = {isa = PBXBuildFile; productRef = 7E36E0042E7B0256009522B5 /* Dependencies */; };
+		7E36E0072E7B0256009522B5 /* DependenciesMacros in Frameworks */ = {isa = PBXBuildFile; productRef = 7E36E0062E7B0256009522B5 /* DependenciesMacros */; };
+		7E95E8852E7AFA0800B45539 /* UIDevice+Shake.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E95E8822E7AFA0800B45539 /* UIDevice+Shake.swift */; };
+		7E95E8862E7AFA0800B45539 /* AnimationSystem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E95E8752E7AFA0800B45539 /* AnimationSystem.swift */; };
+		7E95E8872E7AFA0800B45539 /* NetworkComponents.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E95E8762E7AFA0800B45539 /* NetworkComponents.swift */; };
+		7E95E8882E7AFA0800B45539 /* SearchManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E95E8812E7AFA0800B45539 /* SearchManager.swift */; };
+		7E95E88B2E7AFA0800B45539 /* ToastService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E95E8732E7AFA0800B45539 /* ToastService.swift */; };
+		7E95E88D2E7AFA0800B45539 /* DataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E95E87C2E7AFA0800B45539 /* DataManager.swift */; };
+		7E95E88E2E7AFA0800B45539 /* ImageCacheService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E95E8702E7AFA0800B45539 /* ImageCacheService.swift */; };
+		7E95E8902E7AFA0800B45539 /* DemoDataLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E95E87D2E7AFA0800B45539 /* DemoDataLoader.swift */; };
+		7E95E8912E7AFA0800B45539 /* NetworkStatusView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E95E8782E7AFA0800B45539 /* NetworkStatusView.swift */; };
+		7E95E8922E7AFA0800B45539 /* HapticService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E95E86F2E7AFA0800B45539 /* HapticService.swift */; };
+		7E95E8942E7AFA0800B45539 /* NotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E95E8712E7AFA0800B45539 /* NotificationService.swift */; };
+		7E95E8952E7AFA0800B45539 /* RestEndpoint+Draft.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E95E86B2E7AFA0800B45539 /* RestEndpoint+Draft.swift */; };
+		7E95E8962E7AFA0800B45539 /* QRCodeParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E95E8802E7AFA0800B45539 /* QRCodeParser.swift */; };
+		7E95E8982E7AFA0800B45539 /* RestEndpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E95E86A2E7AFA0800B45539 /* RestEndpoint.swift */; };
+		7E95E8992E7AFA0800B45539 /* AppConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E95E87A2E7AFA0800B45539 /* AppConfig.swift */; };
+		7E95E89A2E7AFA0800B45539 /* CollectionState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E95E87B2E7AFA0800B45539 /* CollectionState.swift */; };
+		7E95E89B2E7AFA0800B45539 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E95E87F2E7AFA0800B45539 /* Extensions.swift */; };
+		7E95E89C2E7AFA0800B45539 /* DesignSystem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E95E87E2E7AFA0800B45539 /* DesignSystem.swift */; };
+		7E95E89D2E7AFA0800B45539 /* TokenManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E95E86D2E7AFA0800B45539 /* TokenManager.swift */; };
+		7E95E89E2E7AFA0800B45539 /* QRScannerService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E95E8722E7AFA0800B45539 /* QRScannerService.swift */; };
+		7E95E89F2E7AFA0800B45539 /* RestEndpoint+Raw.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E95E86C2E7AFA0800B45539 /* RestEndpoint+Raw.swift */; };
 		7ECC3F942E65CF8D0014E97E /* Product.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ECC3F922E65CF8D0014E97E /* Product.swift */; };
 		7ECC3F952E65CF8D0014E97E /* OtherModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ECC3F912E65CF8D0014E97E /* OtherModels.swift */; };
 		7ECC3F962E65CF8D0014E97E /* Car.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ECC3F902E65CF8D0014E97E /* Car.swift */; };
 		7ECC3F972E65CF8D0014E97E /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ECC3F932E65CF8D0014E97E /* User.swift */; };
 		7ECC3F982E65CF8D0014E97E /* Achievement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ECC3F8F2E65CF8D0014E97E /* Achievement.swift */; };
-		7ECC3FA02E65CF8D0014E97E /* AnimationSystem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ECC3F992E65CF8D0014E97E /* AnimationSystem.swift */; };
-		7ECC3FA12E65CF8D0014E97E /* AppConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ECC3F9A2E65CF8D0014E97E /* AppConfig.swift */; };
-		7ECC3FA22E65CF8D0014E97E /* DemoDataLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ECC3F9B2E65CF8D0014E97E /* DemoDataLoader.swift */; };
-		7ECC3FA32E65CF8D0014E97E /* DesignSystem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ECC3F9C2E65CF8D0014E97E /* DesignSystem.swift */; };
-		7ECC3FA42E65CF8D0014E97E /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ECC3F9D2E65CF8D0014E97E /* Extensions.swift */; };
-		7ECC3FA52E65CF8D0014E97E /* QRCodeParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ECC3F9E2E65CF8D0014E97E /* QRCodeParser.swift */; };
-		7ECC3FA62E65CF8D0014E97E /* SearchManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ECC3F9F2E65CF8D0014E97E /* SearchManager.swift */; };
-		7ECC3FAC2E65CF8D0014E97E /* ImageCacheService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ECC3FA82E65CF8D0014E97E /* ImageCacheService.swift */; };
-		7ECC3FAD2E65CF8D0014E97E /* ToastService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ECC3FAB2E65CF8D0014E97E /* ToastService.swift */; };
-		7ECC3FAE2E65CF8D0014E97E /* HapticService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ECC3FA72E65CF8D0014E97E /* HapticService.swift */; };
-		7ECC3FAF2E65CF8D0014E97E /* QRScannerService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ECC3FAA2E65CF8D0014E97E /* QRScannerService.swift */; };
-		7ECC3FB02E65CF8D0014E97E /* NotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ECC3FA92E65CF8D0014E97E /* NotificationService.swift */; };
 		7ECC3FE02E65CF8D0014E97E /* AuthViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ECC3FDB2E65CF8D0014E97E /* AuthViewModel.swift */; };
-		7ECC3FE12E65CF8D0014E97E /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ECC3FDF2E65CF8D0014E97E /* NetworkManager.swift */; };
-		7ECC3FE22E65CF8D0014E97E /* NetworkComponents.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ECC3FDE2E65CF8D0014E97E /* NetworkComponents.swift */; };
-		7ECC3FE32E65CF8D0014E97E /* CollectionState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ECC3FDC2E65CF8D0014E97E /* CollectionState.swift */; };
-		7ECC3FE42E65CF8D0014E97E /* DataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ECC3FDD2E65CF8D0014E97E /* DataManager.swift */; };
 		7ECC3FEA2E66280A0014E97E /* Endpoint in Frameworks */ = {isa = PBXBuildFile; productRef = 7ECC3FE92E66280A0014E97E /* Endpoint */; };
 		7ECC3FEC2E66280A0014E97E /* EndpointUI in Frameworks */ = {isa = PBXBuildFile; productRef = 7ECC3FEB2E66280A0014E97E /* EndpointUI */; };
 		7ECC3FEF2E6628260014E97E /* SwiftUIComponents in Frameworks */ = {isa = PBXBuildFile; productRef = 7ECC3FEE2E6628260014E97E /* SwiftUIComponents */; };
@@ -61,21 +63,40 @@
 		7ECC40232E66D8150014E97E /* Main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ECC40222E66D8150014E97E /* Main.swift */; };
 		7ECC40252E66D8370014E97E /* Main+Router.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ECC40242E66D8370014E97E /* Main+Router.swift */; };
 		7ECC40272E66FBD80014E97E /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ECC40262E66FBD80014E97E /* MainView.swift */; };
-		7ECC402F2E6700E70014E97E /* RestEndpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ECC402E2E6700E70014E97E /* RestEndpoint.swift */; };
 		7ED1439F2E6740F1003BE287 /* Endpoint+Dependencies.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ED1439E2E6740F1003BE287 /* Endpoint+Dependencies.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		08526C2B2E0B219000D1751F /* APIModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIModels.swift; sourceTree = "<group>"; };
-		08526C2C2E0B21BC00D1751F /* TokenManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenManager.swift; sourceTree = "<group>"; };
-		08526C2F2E0B2B1A00D1751F /* NetworkStatusView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkStatusView.swift; sourceTree = "<group>"; };
-		08526C362E0B32A700D1751F /* NetworkComponents 2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NetworkComponents 2.swift"; sourceTree = "<group>"; };
-		08526C372E0B32FD00D1751F /* DateExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateExtensions.swift; sourceTree = "<group>"; };
 		08DB73C32DF6CC1B007D80CB /* Application.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Application.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		08DB74162DF82926007D80CB /* EntryPoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntryPoint.swift; sourceTree = "<group>"; };
 		08DB741B2DF8296F007D80CB /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		7E5E88602E6707D000F64A0F /* UIDevice+Shake.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIDevice+Shake.swift"; sourceTree = "<group>"; };
-		7EA038F92E7AE04A00972721 /* RestEndpoint+Raw.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RestEndpoint+Raw.swift"; sourceTree = "<group>"; };
+		7E95E8632E7AFA0800B45539 /* APIModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIModels.swift; sourceTree = "<group>"; };
+		7E95E8642E7AFA0800B45539 /* APIRequestModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIRequestModels.swift; sourceTree = "<group>"; };
+		7E95E8652E7AFA0800B45539 /* DateExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateExtensions.swift; sourceTree = "<group>"; };
+		7E95E8662E7AFA0800B45539 /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
+		7E95E8672E7AFA0800B45539 /* NetworkManagerV2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManagerV2.swift; sourceTree = "<group>"; };
+		7E95E8692E7AFA0800B45539 /* API_REFERENCE.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = API_REFERENCE.md; sourceTree = "<group>"; };
+		7E95E86A2E7AFA0800B45539 /* RestEndpoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestEndpoint.swift; sourceTree = "<group>"; };
+		7E95E86B2E7AFA0800B45539 /* RestEndpoint+Draft.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RestEndpoint+Draft.swift"; sourceTree = "<group>"; };
+		7E95E86C2E7AFA0800B45539 /* RestEndpoint+Raw.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RestEndpoint+Raw.swift"; sourceTree = "<group>"; };
+		7E95E86D2E7AFA0800B45539 /* TokenManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenManager.swift; sourceTree = "<group>"; };
+		7E95E86F2E7AFA0800B45539 /* HapticService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HapticService.swift; sourceTree = "<group>"; };
+		7E95E8702E7AFA0800B45539 /* ImageCacheService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCacheService.swift; sourceTree = "<group>"; };
+		7E95E8712E7AFA0800B45539 /* NotificationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationService.swift; sourceTree = "<group>"; };
+		7E95E8722E7AFA0800B45539 /* QRScannerService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRScannerService.swift; sourceTree = "<group>"; };
+		7E95E8732E7AFA0800B45539 /* ToastService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToastService.swift; sourceTree = "<group>"; };
+		7E95E8752E7AFA0800B45539 /* AnimationSystem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimationSystem.swift; sourceTree = "<group>"; };
+		7E95E8762E7AFA0800B45539 /* NetworkComponents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkComponents.swift; sourceTree = "<group>"; };
+		7E95E8782E7AFA0800B45539 /* NetworkStatusView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkStatusView.swift; sourceTree = "<group>"; };
+		7E95E87A2E7AFA0800B45539 /* AppConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppConfig.swift; sourceTree = "<group>"; };
+		7E95E87B2E7AFA0800B45539 /* CollectionState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionState.swift; sourceTree = "<group>"; };
+		7E95E87C2E7AFA0800B45539 /* DataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataManager.swift; sourceTree = "<group>"; };
+		7E95E87D2E7AFA0800B45539 /* DemoDataLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoDataLoader.swift; sourceTree = "<group>"; };
+		7E95E87E2E7AFA0800B45539 /* DesignSystem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DesignSystem.swift; sourceTree = "<group>"; };
+		7E95E87F2E7AFA0800B45539 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
+		7E95E8802E7AFA0800B45539 /* QRCodeParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRCodeParser.swift; sourceTree = "<group>"; };
+		7E95E8812E7AFA0800B45539 /* SearchManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchManager.swift; sourceTree = "<group>"; };
+		7E95E8822E7AFA0800B45539 /* UIDevice+Shake.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIDevice+Shake.swift"; sourceTree = "<group>"; };
 		7ECC3F372E65CEEF0014E97E /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		7ECC3F382E65CEFD0014E97E /* BACKEND_SETUP.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = BACKEND_SETUP.md; sourceTree = "<group>"; };
 		7ECC3F8F2E65CF8D0014E97E /* Achievement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Achievement.swift; sourceTree = "<group>"; };
@@ -83,23 +104,7 @@
 		7ECC3F912E65CF8D0014E97E /* OtherModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OtherModels.swift; sourceTree = "<group>"; };
 		7ECC3F922E65CF8D0014E97E /* Product.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Product.swift; sourceTree = "<group>"; };
 		7ECC3F932E65CF8D0014E97E /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
-		7ECC3F992E65CF8D0014E97E /* AnimationSystem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimationSystem.swift; sourceTree = "<group>"; };
-		7ECC3F9A2E65CF8D0014E97E /* AppConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppConfig.swift; sourceTree = "<group>"; };
-		7ECC3F9B2E65CF8D0014E97E /* DemoDataLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoDataLoader.swift; sourceTree = "<group>"; };
-		7ECC3F9C2E65CF8D0014E97E /* DesignSystem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DesignSystem.swift; sourceTree = "<group>"; };
-		7ECC3F9D2E65CF8D0014E97E /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
-		7ECC3F9E2E65CF8D0014E97E /* QRCodeParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRCodeParser.swift; sourceTree = "<group>"; };
-		7ECC3F9F2E65CF8D0014E97E /* SearchManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchManager.swift; sourceTree = "<group>"; };
-		7ECC3FA72E65CF8D0014E97E /* HapticService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HapticService.swift; sourceTree = "<group>"; };
-		7ECC3FA82E65CF8D0014E97E /* ImageCacheService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCacheService.swift; sourceTree = "<group>"; };
-		7ECC3FA92E65CF8D0014E97E /* NotificationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationService.swift; sourceTree = "<group>"; };
-		7ECC3FAA2E65CF8D0014E97E /* QRScannerService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRScannerService.swift; sourceTree = "<group>"; };
-		7ECC3FAB2E65CF8D0014E97E /* ToastService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToastService.swift; sourceTree = "<group>"; };
 		7ECC3FDB2E65CF8D0014E97E /* AuthViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthViewModel.swift; sourceTree = "<group>"; };
-		7ECC3FDC2E65CF8D0014E97E /* CollectionState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionState.swift; sourceTree = "<group>"; };
-		7ECC3FDD2E65CF8D0014E97E /* DataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataManager.swift; sourceTree = "<group>"; };
-		7ECC3FDE2E65CF8D0014E97E /* NetworkComponents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkComponents.swift; sourceTree = "<group>"; };
-		7ECC3FDF2E65CF8D0014E97E /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
 		7ECC3FF12E6628E90014E97E /* AdminContentViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdminContentViews.swift; sourceTree = "<group>"; };
 		7ECC3FF22E6628E90014E97E /* AdminMainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdminMainView.swift; sourceTree = "<group>"; };
 		7ECC3FF32E6628E90014E97E /* AdminManagementViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdminManagementViews.swift; sourceTree = "<group>"; };
@@ -122,7 +127,6 @@
 		7ECC40222E66D8150014E97E /* Main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Main.swift; sourceTree = "<group>"; };
 		7ECC40242E66D8370014E97E /* Main+Router.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Main+Router.swift"; sourceTree = "<group>"; };
 		7ECC40262E66FBD80014E97E /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
-		7ECC402E2E6700E70014E97E /* RestEndpoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestEndpoint.swift; sourceTree = "<group>"; };
 		7ED1439E2E6740F1003BE287 /* Endpoint+Dependencies.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Endpoint+Dependencies.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -133,29 +137,15 @@
 			files = (
 				7ECC3FEA2E66280A0014E97E /* Endpoint in Frameworks */,
 				7ECC3FEC2E66280A0014E97E /* EndpointUI in Frameworks */,
-				7EA038F62E7AD0FB00972721 /* DependenciesMacros in Frameworks */,
+				7E36E0072E7B0256009522B5 /* DependenciesMacros in Frameworks */,
 				7ECC3FEF2E6628260014E97E /* SwiftUIComponents in Frameworks */,
-				7EA038F42E7AD0FB00972721 /* Dependencies in Frameworks */,
-				7EA038F82E7AD0FB00972721 /* DependenciesTestSupport in Frameworks */,
+				7E36E0052E7B0256009522B5 /* Dependencies in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		08526C2A2E0B218000D1751F /* Network */ = {
-			isa = PBXGroup;
-			children = (
-				7ECC402E2E6700E70014E97E /* RestEndpoint.swift */,
-				7EA038F92E7AE04A00972721 /* RestEndpoint+Raw.swift */,
-				08526C372E0B32FD00D1751F /* DateExtensions.swift */,
-				08526C2B2E0B219000D1751F /* APIModels.swift */,
-				08526C2C2E0B21BC00D1751F /* TokenManager.swift */,
-				7ECC3FDF2E65CF8D0014E97E /* NetworkManager.swift */,
-			);
-			path = Network;
-			sourceTree = "<group>";
-		};
 		08DB73BA2DF6CC1B007D80CB = {
 			isa = PBXGroup;
 			children = (
@@ -175,6 +165,80 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		7E95E8682E7AFA0800B45539 /* Archived */ = {
+			isa = PBXGroup;
+			children = (
+				7E95E8632E7AFA0800B45539 /* APIModels.swift */,
+				7E95E8642E7AFA0800B45539 /* APIRequestModels.swift */,
+				7E95E8652E7AFA0800B45539 /* DateExtensions.swift */,
+				7E95E8662E7AFA0800B45539 /* NetworkManager.swift */,
+				7E95E8672E7AFA0800B45539 /* NetworkManagerV2.swift */,
+			);
+			path = Archived;
+			sourceTree = "<group>";
+		};
+		7E95E86E2E7AFA0800B45539 /* Network */ = {
+			isa = PBXGroup;
+			children = (
+				7E95E8682E7AFA0800B45539 /* Archived */,
+				7E95E8692E7AFA0800B45539 /* API_REFERENCE.md */,
+				7E95E86A2E7AFA0800B45539 /* RestEndpoint.swift */,
+				7E95E86B2E7AFA0800B45539 /* RestEndpoint+Draft.swift */,
+				7E95E86C2E7AFA0800B45539 /* RestEndpoint+Raw.swift */,
+				7E95E86D2E7AFA0800B45539 /* TokenManager.swift */,
+			);
+			path = Network;
+			sourceTree = "<group>";
+		};
+		7E95E8742E7AFA0800B45539 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				7E95E86F2E7AFA0800B45539 /* HapticService.swift */,
+				7E95E8702E7AFA0800B45539 /* ImageCacheService.swift */,
+				7E95E8712E7AFA0800B45539 /* NotificationService.swift */,
+				7E95E8722E7AFA0800B45539 /* QRScannerService.swift */,
+				7E95E8732E7AFA0800B45539 /* ToastService.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		7E95E8792E7AFA0800B45539 /* SwiftUI */ = {
+			isa = PBXGroup;
+			children = (
+				7E95E8752E7AFA0800B45539 /* AnimationSystem.swift */,
+				7E95E8762E7AFA0800B45539 /* NetworkComponents.swift */,
+				7E95E8782E7AFA0800B45539 /* NetworkStatusView.swift */,
+			);
+			path = SwiftUI;
+			sourceTree = "<group>";
+		};
+		7E95E8832E7AFA0800B45539 /* Utilities */ = {
+			isa = PBXGroup;
+			children = (
+				7E95E87A2E7AFA0800B45539 /* AppConfig.swift */,
+				7E95E87B2E7AFA0800B45539 /* CollectionState.swift */,
+				7E95E87C2E7AFA0800B45539 /* DataManager.swift */,
+				7E95E87D2E7AFA0800B45539 /* DemoDataLoader.swift */,
+				7E95E87E2E7AFA0800B45539 /* DesignSystem.swift */,
+				7E95E87F2E7AFA0800B45539 /* Extensions.swift */,
+				7E95E8802E7AFA0800B45539 /* QRCodeParser.swift */,
+				7E95E8812E7AFA0800B45539 /* SearchManager.swift */,
+				7E95E8822E7AFA0800B45539 /* UIDevice+Shake.swift */,
+			);
+			path = Utilities;
+			sourceTree = "<group>";
+		};
+		7E95E8842E7AFA0800B45539 /* Backstage */ = {
+			isa = PBXGroup;
+			children = (
+				7E95E86E2E7AFA0800B45539 /* Network */,
+				7E95E8742E7AFA0800B45539 /* Services */,
+				7E95E8792E7AFA0800B45539 /* SwiftUI */,
+				7E95E8832E7AFA0800B45539 /* Utilities */,
+			);
+			path = Backstage;
+			sourceTree = "<group>";
+		};
 		7ECC3F352E65CE700014E97E /* Resource */ = {
 			isa = PBXGroup;
 			children = (
@@ -186,9 +250,9 @@
 		7ECC3F362E65CE700014E97E /* Source */ = {
 			isa = PBXGroup;
 			children = (
+				7E95E8842E7AFA0800B45539 /* Backstage */,
 				7ECC3FF02E6628AC0014E97E /* Domain */,
 				7ECC3FE72E65D0680014E97E /* Application */,
-				7ECC3FE62E65D0550014E97E /* Backstage */,
 				7ECC3FE52E65D03D0014E97E /* Entry Point */,
 			);
 			path = Source;
@@ -201,17 +265,6 @@
 				08DB74162DF82926007D80CB /* EntryPoint.swift */,
 			);
 			path = "Entry Point";
-			sourceTree = "<group>";
-		};
-		7ECC3FE62E65D0550014E97E /* Backstage */ = {
-			isa = PBXGroup;
-			children = (
-				7ECC40202E6629740014E97E /* Utilities */,
-				7ECC401F2E6629650014E97E /* Services */,
-				7ECC401E2E6629030014E97E /* SwiftUI */,
-				08526C2A2E0B218000D1751F /* Network */,
-			);
-			path = Backstage;
 			sourceTree = "<group>";
 		};
 		7ECC3FE72E65D0680014E97E /* Application */ = {
@@ -232,45 +285,6 @@
 				7ECC402C2E6700C30014E97E /* Entiry */,
 			);
 			path = Domain;
-			sourceTree = "<group>";
-		};
-		7ECC401E2E6629030014E97E /* SwiftUI */ = {
-			isa = PBXGroup;
-			children = (
-				08526C2F2E0B2B1A00D1751F /* NetworkStatusView.swift */,
-				7ECC3FDE2E65CF8D0014E97E /* NetworkComponents.swift */,
-				7ECC3F992E65CF8D0014E97E /* AnimationSystem.swift */,
-				08526C362E0B32A700D1751F /* NetworkComponents 2.swift */,
-			);
-			path = SwiftUI;
-			sourceTree = "<group>";
-		};
-		7ECC401F2E6629650014E97E /* Services */ = {
-			isa = PBXGroup;
-			children = (
-				7ECC3FA72E65CF8D0014E97E /* HapticService.swift */,
-				7ECC3FA82E65CF8D0014E97E /* ImageCacheService.swift */,
-				7ECC3FA92E65CF8D0014E97E /* NotificationService.swift */,
-				7ECC3FAA2E65CF8D0014E97E /* QRScannerService.swift */,
-				7ECC3FAB2E65CF8D0014E97E /* ToastService.swift */,
-			);
-			path = Services;
-			sourceTree = "<group>";
-		};
-		7ECC40202E6629740014E97E /* Utilities */ = {
-			isa = PBXGroup;
-			children = (
-				7E5E88602E6707D000F64A0F /* UIDevice+Shake.swift */,
-				7ECC3F9A2E65CF8D0014E97E /* AppConfig.swift */,
-				7ECC3FDC2E65CF8D0014E97E /* CollectionState.swift */,
-				7ECC3FDD2E65CF8D0014E97E /* DataManager.swift */,
-				7ECC3F9B2E65CF8D0014E97E /* DemoDataLoader.swift */,
-				7ECC3F9C2E65CF8D0014E97E /* DesignSystem.swift */,
-				7ECC3F9D2E65CF8D0014E97E /* Extensions.swift */,
-				7ECC3F9E2E65CF8D0014E97E /* QRCodeParser.swift */,
-				7ECC3F9F2E65CF8D0014E97E /* SearchManager.swift */,
-			);
-			path = Utilities;
 			sourceTree = "<group>";
 		};
 		7ECC40212E66D80C0014E97E /* Main */ = {
@@ -371,9 +385,8 @@
 				7ECC3FE92E66280A0014E97E /* Endpoint */,
 				7ECC3FEB2E66280A0014E97E /* EndpointUI */,
 				7ECC3FEE2E6628260014E97E /* SwiftUIComponents */,
-				7EA038F32E7AD0FB00972721 /* Dependencies */,
-				7EA038F52E7AD0FB00972721 /* DependenciesMacros */,
-				7EA038F72E7AD0FB00972721 /* DependenciesTestSupport */,
+				7E36E0042E7B0256009522B5 /* Dependencies */,
+				7E36E0062E7B0256009522B5 /* DependenciesMacros */,
 			);
 			productName = "NSP app";
 			productReference = 08DB73C32DF6CC1B007D80CB /* Application.app */;
@@ -406,7 +419,7 @@
 			packageReferences = (
 				7ECC3FE82E66280A0014E97E /* XCLocalSwiftPackageReference "Packages/swift-endpoint" */,
 				7ECC3FED2E6628260014E97E /* XCLocalSwiftPackageReference "Packages/swift-components" */,
-				7EA038F22E7AD0FB00972721 /* XCRemoteSwiftPackageReference "swift-dependencies" */,
+				7E36E0032E7B0256009522B5 /* XCRemoteSwiftPackageReference "swift-dependencies" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 08DB73C42DF6CC1B007D80CB /* Products */;
@@ -434,39 +447,25 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7ECC3FA02E65CF8D0014E97E /* AnimationSystem.swift in Sources */,
 				7ECC40232E66D8150014E97E /* Main.swift in Sources */,
 				7ECC400A2E6628E90014E97E /* NewsDetailView.swift in Sources */,
 				7ECC40162E6628E90014E97E /* QRScannerMainView.swift in Sources */,
-				7ECC3FA12E65CF8D0014E97E /* AppConfig.swift in Sources */,
-				7ECC3FA22E65CF8D0014E97E /* DemoDataLoader.swift in Sources */,
 				7ECC40112E6628E90014E97E /* CatalogView.swift in Sources */,
 				7ECC400E2E6628E90014E97E /* AdminManagementViews.swift in Sources */,
-				7ECC3FA32E65CF8D0014E97E /* DesignSystem.swift in Sources */,
 				7ED1439F2E6740F1003BE287 /* Endpoint+Dependencies.swift in Sources */,
 				7ECC400D2E6628E90014E97E /* AdminMainView.swift in Sources */,
-				7ECC3FA42E65CF8D0014E97E /* Extensions.swift in Sources */,
-				7ECC3FAC2E65CF8D0014E97E /* ImageCacheService.swift in Sources */,
 				7ECC400C2E6628E90014E97E /* SupportViews.swift in Sources */,
-				7ECC3FAD2E65CF8D0014E97E /* ToastService.swift in Sources */,
-				7ECC3FAE2E65CF8D0014E97E /* HapticService.swift in Sources */,
-				7ECC3FAF2E65CF8D0014E97E /* QRScannerService.swift in Sources */,
 				7ECC40092E6628E90014E97E /* DesignComponents.swift in Sources */,
 				7ECC40152E6628E90014E97E /* ProfileView.swift in Sources */,
 				7ECC40272E66FBD80014E97E /* MainView.swift in Sources */,
-				7ECC3FB02E65CF8D0014E97E /* NotificationService.swift in Sources */,
-				7E5E88612E6707D000F64A0F /* UIDevice+Shake.swift in Sources */,
-				7ECC3FA52E65CF8D0014E97E /* QRCodeParser.swift in Sources */,
 				7ECC40172E6628E90014E97E /* AuthFlowView.swift in Sources */,
 				7ECC40142E6628E90014E97E /* UserManagementView.swift in Sources */,
-				7ECC3FA62E65CF8D0014E97E /* SearchManager.swift in Sources */,
 				08DB741A2DF82926007D80CB /* EntryPoint.swift in Sources */,
 				7ECC401A2E6628E90014E97E /* AboutView.swift in Sources */,
 				7ECC40102E6628E90014E97E /* AdminSystemViews.swift in Sources */,
 				7ECC400B2E6628E90014E97E /* AdminContentViews.swift in Sources */,
 				7ECC400F2E6628E90014E97E /* CarTinderView.swift in Sources */,
 				7ECC40192E6628E90014E97E /* LoginView.swift in Sources */,
-				7ECC402F2E6700E70014E97E /* RestEndpoint.swift in Sources */,
 				7ECC3F942E65CF8D0014E97E /* Product.swift in Sources */,
 				7ECC3F952E65CF8D0014E97E /* OtherModels.swift in Sources */,
 				7ECC3F962E65CF8D0014E97E /* Car.swift in Sources */,
@@ -476,12 +475,28 @@
 				7ECC3FE02E65CF8D0014E97E /* AuthViewModel.swift in Sources */,
 				7ECC40122E6628E90014E97E /* ModerationView.swift in Sources */,
 				7ECC40132E6628E90014E97E /* MainTabView.swift in Sources */,
-				7ECC3FE12E65CF8D0014E97E /* NetworkManager.swift in Sources */,
-				7ECC3FE22E65CF8D0014E97E /* NetworkComponents.swift in Sources */,
+				7E95E8852E7AFA0800B45539 /* UIDevice+Shake.swift in Sources */,
+				7E95E8862E7AFA0800B45539 /* AnimationSystem.swift in Sources */,
+				7E95E8872E7AFA0800B45539 /* NetworkComponents.swift in Sources */,
+				7E95E8882E7AFA0800B45539 /* SearchManager.swift in Sources */,
+				7E95E88B2E7AFA0800B45539 /* ToastService.swift in Sources */,
+				7E95E88D2E7AFA0800B45539 /* DataManager.swift in Sources */,
+				7E95E88E2E7AFA0800B45539 /* ImageCacheService.swift in Sources */,
+				7E95E8902E7AFA0800B45539 /* DemoDataLoader.swift in Sources */,
+				7E95E8912E7AFA0800B45539 /* NetworkStatusView.swift in Sources */,
+				7E95E8922E7AFA0800B45539 /* HapticService.swift in Sources */,
+				7E95E8942E7AFA0800B45539 /* NotificationService.swift in Sources */,
+				7E95E8952E7AFA0800B45539 /* RestEndpoint+Draft.swift in Sources */,
+				7E95E8962E7AFA0800B45539 /* QRCodeParser.swift in Sources */,
+				7E95E8982E7AFA0800B45539 /* RestEndpoint.swift in Sources */,
+				7E95E8992E7AFA0800B45539 /* AppConfig.swift in Sources */,
+				7E95E89A2E7AFA0800B45539 /* CollectionState.swift in Sources */,
+				7E95E89B2E7AFA0800B45539 /* Extensions.swift in Sources */,
+				7E95E89C2E7AFA0800B45539 /* DesignSystem.swift in Sources */,
+				7E95E89D2E7AFA0800B45539 /* TokenManager.swift in Sources */,
+				7E95E89E2E7AFA0800B45539 /* QRScannerService.swift in Sources */,
+				7E95E89F2E7AFA0800B45539 /* RestEndpoint+Raw.swift in Sources */,
 				7ECC40182E6628E90014E97E /* StatsView.swift in Sources */,
-				7ECC3FE32E65CF8D0014E97E /* CollectionState.swift in Sources */,
-				7ECC3FE42E65CF8D0014E97E /* DataManager.swift in Sources */,
-				7EA038FA2E7AE04A00972721 /* RestEndpoint+Raw.swift in Sources */,
 				7ECC40082E6628E90014E97E /* CommonViews.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -711,7 +726,7 @@
 /* End XCLocalSwiftPackageReference section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		7EA038F22E7AD0FB00972721 /* XCRemoteSwiftPackageReference "swift-dependencies" */ = {
+		7E36E0032E7B0256009522B5 /* XCRemoteSwiftPackageReference "swift-dependencies" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/pointfreeco/swift-dependencies.git";
 			requirement = {
@@ -722,20 +737,15 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		7EA038F32E7AD0FB00972721 /* Dependencies */ = {
+		7E36E0042E7B0256009522B5 /* Dependencies */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 7EA038F22E7AD0FB00972721 /* XCRemoteSwiftPackageReference "swift-dependencies" */;
+			package = 7E36E0032E7B0256009522B5 /* XCRemoteSwiftPackageReference "swift-dependencies" */;
 			productName = Dependencies;
 		};
-		7EA038F52E7AD0FB00972721 /* DependenciesMacros */ = {
+		7E36E0062E7B0256009522B5 /* DependenciesMacros */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 7EA038F22E7AD0FB00972721 /* XCRemoteSwiftPackageReference "swift-dependencies" */;
+			package = 7E36E0032E7B0256009522B5 /* XCRemoteSwiftPackageReference "swift-dependencies" */;
 			productName = DependenciesMacros;
-		};
-		7EA038F72E7AD0FB00972721 /* DependenciesTestSupport */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 7EA038F22E7AD0FB00972721 /* XCRemoteSwiftPackageReference "swift-dependencies" */;
-			productName = DependenciesTestSupport;
 		};
 		7ECC3FE92E66280A0014E97E /* Endpoint */ = {
 			isa = XCSwiftPackageProductDependency;

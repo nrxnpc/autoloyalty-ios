@@ -1,3 +1,4 @@
+import Dependencies
 import SwiftUI
 
 struct MainView: View {
@@ -6,7 +7,6 @@ struct MainView: View {
     @StateObject var router: Main.Router = .init()
     @StateObject private var authViewModel = AuthViewModel()
     @StateObject private var dataManager = DataManager()
-    @StateObject private var networkManager = NetworkManager.shared
     
     // MARK: -
     
@@ -16,7 +16,6 @@ struct MainView: View {
                 .environmentObject(router)
                 .environmentObject(authViewModel)
                 .environmentObject(dataManager)
-                .environmentObject(networkManager)
         }
         .modifier(Main.OverallDestinationProcessor(destination: $router.overall))
         .onShake {

@@ -167,6 +167,80 @@ extension RestEndpoint {
         let error: String?
     }
     
+    // MARK: - Campaign Models
+    
+    struct Campaign: Codable {
+        let id: String
+        let title: String
+        let description: String
+        let campaignType: String
+        let discountPercent: Int?
+        let bonusPoints: Int?
+        let minPurchaseAmount: Int?
+        let startDate: String
+        let endDate: String
+        let imageURL: String?
+        let usageCount: Int
+        let maxUsage: Int
+        let companyId: String?
+    }
+    
+    struct CampaignsResponse: Codable {
+        let campaigns: [Campaign]
+        let pagination: Pagination?
+    }
+    
+    struct CampaignCreateResponse: Codable {
+        let success: Bool
+        let campaign_id: String?
+        let message: String?
+        let error: String?
+    }
+    
+    // MARK: - Analytics Models
+    
+    struct ProductAnalytics: Codable {
+        let total: Int
+    }
+    
+    struct NewsAnalytics: Codable {
+        let total: Int
+    }
+    
+    struct CampaignAnalytics: Codable {
+        let total: Int
+        let active: Int
+    }
+    
+    struct CompanyAnalytics: Codable {
+        let products: ProductAnalytics
+        let news: NewsAnalytics
+        let campaigns: CampaignAnalytics
+    }
+    
+    struct CompanyAnalyticsResponse: Codable {
+        let company_id: String
+        let company_name: String
+        let analytics: CompanyAnalytics
+        let timestamp: String
+    }
+    
+    // MARK: - Create Response Models
+    
+    struct ProductCreateResponse: Codable {
+        let success: Bool
+        let product_id: String?
+        let message: String?
+        let error: String?
+    }
+    
+    struct NewsCreateResponse: Codable {
+        let success: Bool
+        let news_id: String?
+        let message: String?
+        let error: String?
+    }
+    
     // MARK: - Statistics Models
     
     struct QRCodeStats: Codable {
@@ -241,6 +315,40 @@ struct CarCreateRequest: Codable {
     let bodyType: String?
     let drivetrain: String?
     let color: String?
+}
+
+struct ProductCreateRequest: Codable {
+    let name: String
+    let category: String
+    let pointsCost: Int
+    let description: String?
+    let imageURL: String?
+    let stockQuantity: Int
+    let deliveryOptions: [String]
+}
+
+struct NewsCreateRequest: Codable {
+    let title: String
+    let content: String
+    let imageURL: String?
+    let isImportant: Bool
+    let isPublished: Bool
+    let tags: [String]
+    let articleType: String
+}
+
+struct CampaignCreateRequest: Codable {
+    let title: String
+    let description: String
+    let campaignType: String
+    let discountPercent: Int?
+    let bonusPoints: Int?
+    let minPurchaseAmount: Int?
+    let startDate: String
+    let endDate: String
+    let imageURL: String?
+    let targetAudience: [String: String]
+    let maxUsage: Int
 }
 
 struct FileUploadRequest: Codable {

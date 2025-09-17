@@ -15,8 +15,8 @@ public struct RestEndpoint: EndpointBuilder {
 // MARK: - Authentication Endpoints
 extension RestEndpoint {
     /// POST /api/v1/login
-    func login(email: String, password: String) async throws -> RestEndpoint.AuthResponse {
-        let request = LoginRequest(email: email, password: password)
+    func login(email: String, password: String, deviceInfo: String? = nil) async throws -> RestEndpoint.AuthResponse {
+        let request = LoginRequest(email: email, password: password, deviceInfo: deviceInfo)
         
         return try await Endpoint(baseURL: baseURL)
             .post("api/v1/login")
@@ -59,6 +59,7 @@ extension RestEndpoint {
         var endpoint = Endpoint(baseURL: baseURL).get("api/v1/user/scans")
         
         if let limit = limit {
+            //  Value of type 'EndpointConfigurator' has no member 'query'
             endpoint = endpoint.parameter(key: "limit", value: String(limit))
         }
         if let offset = offset {
@@ -87,6 +88,16 @@ extension RestEndpoint {
         
         return try await endpoint
             .header("X-API-Key", "nsp_mobile_app_api_key_2024")
+            .call()
+    }
+    
+    /// POST /api/v1/products
+    func addProduct(_ product: ProductCreateRequest) async throws -> RestEndpoint.ProductCreateResponse {
+        return try await Endpoint(baseURL: baseURL)
+            .post("api/v1/products")
+            .body(product)
+            .header("X-API-Key", "nsp_mobile_app_api_key_2024")
+            .authenticate(with: authenticator!)
             .call()
     }
 }
@@ -157,6 +168,57 @@ extension RestEndpoint {
             .header("X-API-Key", "nsp_mobile_app_api_key_2024")
             .call()
     }
+    
+    /// POST /api/v1/news
+    func addNews(_ news: NewsCreateRequest) async throws -> RestEndpoint.NewsCreateResponse {
+        return try await Endpoint(baseURL: baseURL)
+            .post("api/v1/news")
+            .body(news)
+            .header("X-API-Key", "nsp_mobile_app_api_key_2024")
+            .authenticate(with: authenticator!)
+            .call()
+    }
+}
+
+// MARK: - Campaign Endpoints
+extension RestEndpoint {
+    /// GET /api/v1/campaigns
+    func getCampaigns(limit: Int? = nil, offset: Int? = nil) async throws -> RestEndpoint.CampaignsResponse {
+        var endpoint = Endpoint(baseURL: baseURL).get("api/v1/campaigns")
+        
+        if let limit = limit {
+            endpoint = endpoint.parameter(key: "limit", value: String(limit))
+        }
+        if let offset = offset {
+            endpoint = endpoint.parameter(key: "offset", value: String(offset))
+        }
+        
+        return try await endpoint
+            .header("X-API-Key", "nsp_mobile_app_api_key_2024")
+            .call()
+    }
+    
+    /// POST /api/v1/campaigns
+    func createCampaign(_ campaign: CampaignCreateRequest) async throws -> RestEndpoint.CampaignCreateResponse {
+        return try await Endpoint(baseURL: baseURL)
+            .post("api/v1/campaigns")
+            .body(campaign)
+            .header("X-API-Key", "nsp_mobile_app_api_key_2024")
+            .authenticate(with: authenticator!)
+            .call()
+    }
+}
+
+// MARK: - Analytics Endpoints
+extension RestEndpoint {
+    /// GET /api/v1/company/analytics
+    func getCompanyAnalytics() async throws -> RestEndpoint.CompanyAnalyticsResponse {
+        return try await Endpoint(baseURL: baseURL)
+            .get("api/v1/company/analytics")
+            .header("X-API-Key", "nsp_mobile_app_api_key_2024")
+            .authenticate(with: authenticator!)U
+            .call()
+    }
 }
 
 // MARK: - File Upload Endpoints
@@ -189,5 +251,3 @@ extension RestEndpoint {
             .call()
     }
 }
-
-
