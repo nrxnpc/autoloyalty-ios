@@ -216,7 +216,7 @@ extension RestEndpoint {
         return try await Endpoint(baseURL: baseURL)
             .get("api/v1/company/analytics")
             .header("X-API-Key", "nsp_mobile_app_api_key_2024")
-            .authenticate(with: authenticator!)U
+            .authenticate(with: authenticator!)
             .call()
     }
 }
