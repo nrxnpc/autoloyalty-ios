@@ -20,6 +20,6 @@ extension DependencyValues {
 
 private enum EndpointContextKey: DependencyKey {
     static var liveValue: RestEndpoint {
-        RestEndpoint(baseURL: URL(string: "http://locahost:8080")!)
+        RestEndpoint(baseURL: URL(string: "http://localhost:8080")!)
     }
 }

@@ -48,11 +48,13 @@ class DataManager: ObservableObject {
     
     // Ленивая загрузка всех необходимых данных
     func loadDataIfNeeded() async {
-        for dataType in DataType.allCases {
-            if !loadedDataTypes.contains(dataType) {
-                await loadDataType(dataType)
-            }
-        }
+        // TODO: FOR DEBUG ONLY
+        return
+        // for dataType in DataType.allCases {
+        //     if !loadedDataTypes.contains(dataType) {
+        //         await loadDataType(dataType)
+        //     }
+        // }
     }
     
     // Загружаем конкретный тип данных только когда он нужен
