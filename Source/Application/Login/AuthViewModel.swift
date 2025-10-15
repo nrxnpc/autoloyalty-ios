@@ -79,7 +79,7 @@ class AuthViewModel: ObservableObject {
         }
         
         do {
-            let loginResponse = try await endpoint.login(email: email, password: password)
+            let loginResponse = try await endpoint.login(.init(email: email, password: password))
             guard let user = loginResponse.user else {
                 await MainActor.run {
                     self.isLoading = false
@@ -93,9 +93,9 @@ class AuthViewModel: ObservableObject {
                 name: user.name, 
                 email: user.email, 
                 phone: user.phone, 
-                userType: .init(rawValue: user.userType) ?? .individual, 
+                userType: .init(rawValue: user.userType.rawValue) ?? .individual, 
                 points: user.points, 
-                role: .init(rawValue: user.role) ?? .customer, 
+                role: .init(rawValue: user.role.rawValue) ?? .customer, 
                 registrationDate: .now, 
                 isActive: user.isActive, 
                 preferences: .default, 
@@ -135,12 +135,12 @@ class AuthViewModel: ObservableObject {
         }
         
         do {
-            let registerResponse = try await endpoint.register(userData: .init(
+            let registerResponse = try await endpoint.register(.init(
                 name: name, 
                 email: email, 
                 phone: phone, 
                 password: password, 
-                userType: userType.rawValue, 
+                userType: RestEndpoint.UserType(rawValue: userType.rawValue) ?? .individual,
                 deviceInfo: nil
             ))
             
@@ -157,9 +157,9 @@ class AuthViewModel: ObservableObject {
                 name: user.name, 
                 email: user.email, 
                 phone: user.phone, 
-                userType: .init(rawValue: user.userType) ?? .individual, 
+                userType: .init(rawValue: user.userType.rawValue) ?? .individual, 
                 points: user.points, 
-                role: .init(rawValue: user.role) ?? .customer, 
+                role: .init(rawValue: user.role.rawValue) ?? .customer, 
                 registrationDate: .now, 
                 isActive: user.isActive, 
                 preferences: .default, 
@@ -211,7 +211,7 @@ class AuthViewModel: ObservableObject {
         Task {
             do {
                 if let userId = currentUser?.id {
-                    try await endpoint.updateUserProfile(userId: userId, name: name, email: email, phone: phone)
+                    // try await endpoint.updateUserProfile(userId: userId, name: name, email: email, phone: phone)
                 }
             } catch {
                 await MainActor.run {
@@ -241,7 +241,7 @@ class AuthViewModel: ObservableObject {
         Task {
             do {
                 if let userId = currentUser?.id {
-                    try await endpoint.syncUserData(userId: userId)
+                    // try await endpoint.syncUserData(userId: userId)
                 }
             } catch {
                 print("Ошибка синхронизации баллов: \(error)")
@@ -253,7 +253,7 @@ class AuthViewModel: ObservableObject {
         guard let userId = currentUser?.id else { return }
         
         do {
-            try await endpoint.syncUserData(userId: userId)
+            // try await endpoint.syncUserData(userId: userId)
         } catch {
             await MainActor.run {
                 self.errorMessage = "Ошибка обновления данных: \(error.localizedDescription)"

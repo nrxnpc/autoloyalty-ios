@@ -46,7 +46,7 @@ public enum PollingInterval: Sendable {
     case strategy(PollingStrategy)
     
     /// Resolves polling interval to concrete Duration
-    public func duration(using batteryComponent: BatteryMonitor) -> Duration {
+    @MainActor public func duration(using batteryComponent: BatteryMonitor) -> Duration {
         switch self {
         case .direct(let duration):
             return duration
@@ -144,7 +144,10 @@ public actor JobSchedulerActor: SessionJobScheduling {
                 debugPrint("[JOB][ERROR] Polling job failed: \(error)")
             }
             
-            let sleepDuration = interval.duration(using: battery)
+            let sleepDuration: Duration = await MainActor.run {
+                interval.duration(using: battery)
+            }
+            
             try? await Task.sleep(for: sleepDuration)
         }
     }

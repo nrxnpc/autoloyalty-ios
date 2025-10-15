@@ -1,30 +1,51 @@
 import Foundation
 
 // MARK: - RestEndpoint Data Models
+///
+/// Complete data model definitions for the NSP Auto Loyalty Program API.
+/// All models are Sendable-compliant for Swift 6 concurrency and support
+/// automatic JSON encoding/decoding with snake_case conversion.
+///
+/// Minimum deployment targets:
+/// - iOS 18.0+
+/// - macOS 15.0+
+/// - watchOS 11.0+
+/// - tvOS 18.0+
+/// - visionOS 2.0+
+@available(iOS 18.0, macOS 15.0, watchOS 11.0, tvOS 18.0, visionOS 2.0, *)
 extension RestEndpoint {
     
     // MARK: - Common Types
     
     /// Pagination parameters for list requests
-    public struct PaginationRequest: Codable {
-        /// Maximum number of items to return (default: 50)
+    ///
+    /// Used to control the number of items returned in paginated API responses.
+    /// Both parameters are optional - if not provided, API uses default values.
+    public struct PaginationRequest: Codable, Sendable {
+        /// Maximum number of items to return (API default: 50, max: 100)
         public let limit: Int?
-        /// Number of items to skip (default: 0)
+        /// Number of items to skip for pagination (default: 0)
         public let offset: Int?
         
+        /// Initialize pagination request
+        /// - Parameters:
+        ///   - limit: Maximum items to return (nil for API default)
+        ///   - offset: Items to skip (nil for no offset)
         public init(limit: Int? = nil, offset: Int? = nil) {
             self.limit = limit
             self.offset = offset
         }
     }
-
-    /// Pagination metadata in responses
-    public struct PaginationResponse: Codable {
-        /// Items per page
+    
+    /// Pagination metadata included in API responses
+    ///
+    /// Provides information about the current page and whether more data is available.
+    public struct PaginationResponse: Codable, Sendable {
+        /// Number of items per page
         public let limit: Int
-        /// Current offset
+        /// Current offset (items skipped)
         public let offset: Int
-        /// Whether more items are available
+        /// Whether more items are available for pagination
         public let hasMore: Bool?
         
         private enum CodingKeys: String, CodingKey {
@@ -32,40 +53,64 @@ extension RestEndpoint {
             case hasMore = "has_more"
         }
     }
-
-    /// User role enumeration
-    public enum UserRole: String, Codable, CaseIterable {
+    
+    /// User role enumeration defining access levels
+    ///
+    /// Roles determine which API endpoints and operations are available:
+    /// - user: Basic QR scanning and point management
+    /// - company: Content creation (products, news, campaigns)
+    /// - operator: Extended content management
+    /// - admin: Full system control
+    public enum UserRole: String, Codable, CaseIterable, Sendable {
         case user = "user"
         case company = "company"
-        case operator = "operator"
+        case `operator` = "operator"
         case admin = "admin"
     }
-
-    /// User account type
-    public enum UserType: String, Codable, CaseIterable {
+    
+    /// User account type for registration
+    ///
+    /// Determines the type of account being created:
+    /// - individual: Personal user account
+    /// - company: Business account with additional privileges
+    public enum UserType: String, Codable, CaseIterable, Sendable {
         case individual = "individual"
         case company = "company"
     }
-
-    /// Transaction type enumeration
-    public enum TransactionType: String, Codable, CaseIterable {
+    
+    /// Point transaction type enumeration
+    ///
+    /// Categorizes different types of point movements:
+    /// - earned: Points gained from QR scans or activities
+    /// - spent: Points used for purchases or redemptions
+    /// - bonus: Promotional or administrative point grants
+    /// - penalty: Point deductions for violations
+    public enum TransactionType: String, Codable, CaseIterable, Sendable {
         case earned = "earned"
         case spent = "spent"
         case bonus = "bonus"
         case penalty = "penalty"
     }
-
-    /// Campaign type enumeration
-    public enum CampaignType: String, Codable, CaseIterable {
+    
+    /// Promotional campaign type enumeration
+    ///
+    /// Defines the type of promotional offer:
+    /// - discount: Percentage or fixed amount discount
+    /// - bonusPoints: Additional points for qualifying actions
+    /// - freeShipping: Waived shipping costs
+    public enum CampaignType: String, Codable, CaseIterable, Sendable {
         case discount = "discount"
         case bonusPoints = "bonus_points"
         case freeShipping = "free_shipping"
     }
-
+    
     // MARK: - Request Models
-
-    /// User registration request
-    public struct UserRegistration: Codable {
+    
+    /// User registration request data
+    ///
+    /// Contains all required information for creating a new user account.
+    /// Successful registration grants 100 bonus points automatically.
+    public struct UserRegistration: Codable, Sendable {
         /// Full name
         public let name: String
         /// Email address (unique)
@@ -88,9 +133,11 @@ extension RestEndpoint {
             self.deviceInfo = deviceInfo
         }
     }
-
-    /// Login credentials
-    public struct LoginCredentials: Codable {
+    
+    /// User authentication credentials
+    ///
+    /// Used for email/password authentication to obtain bearer tokens.
+    public struct LoginCredentials: Codable, Sendable {
         /// User email
         public let email: String
         /// User password
@@ -104,9 +151,13 @@ extension RestEndpoint {
             self.deviceInfo = deviceInfo
         }
     }
-
-    /// QR code scan request
-    public struct QRScanRequest: Codable {
+    
+    /// QR code scanning request
+    ///
+    /// Submits a QR code for validation and point earning.
+    /// QR codes follow format: NSP:uuid:category:points
+    /// Each QR code can only be scanned once per user.
+    public struct QRScanRequest: Codable, Sendable {
         /// QR code string (format: NSP:uuid:category:points)
         public let qrCode: String
         /// Optional scan location
@@ -122,9 +173,12 @@ extension RestEndpoint {
             self.location = location
         }
     }
-
-    /// Product creation request
-    public struct ProductCreateRequest: Codable {
+    
+    /// Product catalog creation request
+    ///
+    /// Used by company+ roles to add new products to the catalog.
+    /// Products can be purchased using earned points.
+    public struct ProductCreateRequest: Codable, Sendable {
         /// Product name
         public let name: String
         /// Product category
@@ -150,9 +204,12 @@ extension RestEndpoint {
             self.deliveryOptions = deliveryOptions
         }
     }
-
-    /// Car creation request
-    public struct CarCreateRequest: Codable {
+    
+    /// Car listing creation request
+    ///
+    /// Used by admin role to add new car listings to the catalog.
+    /// Includes comprehensive vehicle specifications.
+    public struct CarCreateRequest: Codable, Sendable {
         /// Car manufacturer
         public let brand: String
         /// Car model
@@ -190,9 +247,12 @@ extension RestEndpoint {
             self.color = color
         }
     }
-
+    
     /// News article creation request
-    public struct NewsCreateRequest: Codable {
+    ///
+    /// Used by company+ roles to publish news articles and announcements.
+    /// Articles can be marked as important for priority display.
+    public struct NewsCreateRequest: Codable, Sendable {
         /// Article title
         public let title: String
         /// Article content
@@ -218,9 +278,12 @@ extension RestEndpoint {
             self.articleType = articleType
         }
     }
-
-    /// Campaign creation request
-    public struct CampaignCreateRequest: Codable {
+    
+    /// Promotional campaign creation request
+    ///
+    /// Used by company+ roles to create marketing campaigns with various
+    /// discount types, bonus points, or special offers.
+    public struct CampaignCreateRequest: Codable, Sendable {
         /// Campaign title
         public let title: String
         /// Campaign description
@@ -258,11 +321,14 @@ extension RestEndpoint {
             self.maxUsage = maxUsage
         }
     }
-
+    
     // MARK: - Response Models
-
-    /// System health response
-    public struct HealthResponse: Codable {
+    
+    /// System health check response
+    ///
+    /// Provides current system status, version info, and database connectivity.
+    /// Used for monitoring and debugging API availability.
+    public struct HealthResponse: Codable, Sendable {
         /// System status
         public let status: String
         /// Response timestamp
@@ -274,9 +340,12 @@ extension RestEndpoint {
         /// Error message if unhealthy
         public let error: String?
     }
-
-    /// User profile data
-    public struct UserProfile: Codable {
+    
+    /// Complete user profile information
+    ///
+    /// Contains all user account details including current points balance,
+    /// role permissions, and account status.
+    public struct UserProfile: Codable, Sendable {
         /// User ID (UUID)
         public let id: String
         /// User full name
@@ -296,9 +365,12 @@ extension RestEndpoint {
         /// Account status
         public let isActive: Bool
     }
-
-    /// Authentication response
-    public struct AuthResponse: Codable {
+    
+    /// Authentication operation response
+    ///
+    /// Returned by login and registration endpoints. Contains user profile
+    /// and bearer token for subsequent authenticated requests.
+    public struct AuthResponse: Codable, Sendable {
         /// Operation success status
         public let success: Bool
         /// User profile data
@@ -308,9 +380,12 @@ extension RestEndpoint {
         /// Error message if failed
         public let error: String?
     }
-
-    /// QR scan result
-    public struct QRScanResponse: Codable {
+    
+    /// QR code scan operation result
+    ///
+    /// Contains scan validation results, points earned, and product information.
+    /// Includes error details if QR code is invalid or already used.
+    public struct QRScanResponse: Codable, Sendable {
         /// Scan validity
         public let valid: Bool
         /// Scan record ID
@@ -340,9 +415,11 @@ extension RestEndpoint {
             case usedAt = "used_at"
         }
     }
-
-    /// User scan history item
-    public struct UserScan: Codable {
+    
+    /// Individual QR scan record
+    ///
+    /// Represents a single QR code scan in the user's history.
+    public struct UserScan: Codable, Sendable {
         /// Scan ID
         public let id: String
         /// QR code ID
@@ -367,9 +444,11 @@ extension RestEndpoint {
             case timestamp, location
         }
     }
-
-    /// User scans response
-    public struct UserScansResponse: Codable {
+    
+    /// User's complete QR scan history
+    ///
+    /// Contains paginated scan history with summary statistics.
+    public struct UserScansResponse: Codable, Sendable {
         /// User ID
         public let userId: String
         /// Total scans count
@@ -388,9 +467,11 @@ extension RestEndpoint {
             case scans, pagination
         }
     }
-
-    /// Product data
-    public struct Product: Codable {
+    
+    /// Product catalog item
+    ///
+    /// Represents a purchasable item in the loyalty program catalog.
+    public struct Product: Codable, Sendable {
         /// Product ID
         public let id: String
         /// Product name
@@ -412,17 +493,21 @@ extension RestEndpoint {
         /// Delivery options
         public let deliveryOptions: [String]
     }
-
-    /// Products list response
-    public struct ProductsResponse: Codable {
+    
+    /// Product catalog listing response
+    ///
+    /// Contains paginated list of available products.
+    public struct ProductsResponse: Codable, Sendable {
         /// Products array
         public let products: [Product]
         /// Pagination info
         public let pagination: PaginationResponse?
     }
-
-    /// Car specifications
-    public struct CarSpecifications: Codable {
+    
+    /// Detailed vehicle specifications
+    ///
+    /// Technical details and features for car listings.
+    public struct CarSpecifications: Codable, Sendable {
         /// Engine specs
         public let engine: String
         /// Transmission type
@@ -436,9 +521,11 @@ extension RestEndpoint {
         /// Color
         public let color: String
     }
-
-    /// Car data
-    public struct Car: Codable {
+    
+    /// Car listing information
+    ///
+    /// Complete vehicle listing with specifications and pricing.
+    public struct Car: Codable, Sendable {
         /// Car ID
         public let id: String
         /// Brand
@@ -460,17 +547,21 @@ extension RestEndpoint {
         /// Creation date
         public let createdAt: String
     }
-
-    /// Cars list response
-    public struct CarsResponse: Codable {
+    
+    /// Car catalog listing response
+    ///
+    /// Contains paginated list of available vehicles.
+    public struct CarsResponse: Codable, Sendable {
         /// Cars array
         public let cars: [Car]
         /// Pagination info
         public let pagination: PaginationResponse?
     }
-
-    /// News article data
-    public struct NewsArticle: Codable {
+    
+    /// Published news article
+    ///
+    /// Represents a news article or announcement in the system.
+    public struct NewsArticle: Codable, Sendable {
         /// Article ID
         public let id: String
         /// Title
@@ -492,17 +583,21 @@ extension RestEndpoint {
         /// Tags
         public let tags: [String]
     }
-
-    /// News list response
-    public struct NewsResponse: Codable {
+    
+    /// News articles listing response
+    ///
+    /// Contains paginated list of published news articles.
+    public struct NewsResponse: Codable, Sendable {
         /// News articles
         public let news: [NewsArticle]
         /// Pagination info
         public let pagination: PaginationResponse?
     }
-
-    /// Campaign data
-    public struct Campaign: Codable {
+    
+    /// Promotional campaign information
+    ///
+    /// Represents an active or scheduled marketing campaign.
+    public struct Campaign: Codable, Sendable {
         /// Campaign ID
         public let id: String
         /// Title
@@ -530,17 +625,21 @@ extension RestEndpoint {
         /// Company ID
         public let companyId: String?
     }
-
-    /// Campaigns list response
-    public struct CampaignsResponse: Codable {
+    
+    /// Promotional campaigns listing response
+    ///
+    /// Contains paginated list of active campaigns.
+    public struct CampaignsResponse: Codable, Sendable {
         /// Campaigns array
         public let campaigns: [Campaign]
         /// Pagination info
         public let pagination: PaginationResponse?
     }
-
-    /// Point transaction data
-    public struct PointTransaction: Codable {
+    
+    /// Point balance transaction record
+    ///
+    /// Represents a single point earning or spending transaction.
+    public struct PointTransaction: Codable, Sendable {
         /// Transaction ID
         public let id: String
         /// User ID
@@ -556,17 +655,21 @@ extension RestEndpoint {
         /// Related entity ID
         public let relatedId: String?
     }
-
-    /// Transactions list response
-    public struct TransactionsResponse: Codable {
+    
+    /// Point transactions history response
+    ///
+    /// Contains paginated list of user's point transactions.
+    public struct TransactionsResponse: Codable, Sendable {
         /// Transactions array
         public let transactions: [PointTransaction]
         /// Pagination info
         public let pagination: PaginationResponse?
     }
-
-    /// Company analytics data
-    public struct CompanyAnalytics: Codable {
+    
+    /// Company performance analytics
+    ///
+    /// Aggregated metrics for company content and engagement.
+    public struct CompanyAnalytics: Codable, Sendable {
         /// Products analytics
         public let products: ProductAnalytics
         /// News analytics
@@ -574,29 +677,31 @@ extension RestEndpoint {
         /// Campaigns analytics
         public let campaigns: CampaignAnalytics
     }
-
-    /// Product analytics
-    public struct ProductAnalytics: Codable {
+    
+    /// Product-related analytics metrics
+    public struct ProductAnalytics: Codable, Sendable {
         /// Total products
         public let total: Int
     }
-
-    /// News analytics
-    public struct NewsAnalytics: Codable {
+    
+    /// News content analytics metrics
+    public struct NewsAnalytics: Codable, Sendable {
         /// Total articles
         public let total: Int
     }
-
-    /// Campaign analytics
-    public struct CampaignAnalytics: Codable {
+    
+    /// Campaign performance analytics metrics
+    public struct CampaignAnalytics: Codable, Sendable {
         /// Total campaigns
         public let total: Int
         /// Active campaigns
         public let active: Int
     }
-
-    /// Company analytics response
-    public struct CompanyAnalyticsResponse: Codable {
+    
+    /// Complete company analytics response
+    ///
+    /// Contains comprehensive analytics data for company users.
+    public struct CompanyAnalyticsResponse: Codable, Sendable {
         /// Company ID
         public let companyId: String
         /// Company name
@@ -612,9 +717,11 @@ extension RestEndpoint {
             case analytics, timestamp
         }
     }
-
-    /// Generic success response
-    public struct SuccessResponse: Codable {
+    
+    /// Generic operation success response
+    ///
+    /// Standard response for operations that don't return specific data.
+    public struct SuccessResponse: Codable, Sendable {
         /// Operation success status
         public let success: Bool
         /// Success message
@@ -622,9 +729,12 @@ extension RestEndpoint {
         /// Error message if failed
         public let error: String?
     }
-
-    /// Generic creation response
-    public struct CreateResponse: Codable {
+    
+    /// Resource creation operation response
+    ///
+    /// Returned by POST endpoints that create new resources.
+    /// Contains the ID of the created resource on success.
+    public struct CreateResponse: Codable, Sendable {
         /// Operation success status
         public let success: Bool
         /// Created entity ID
@@ -641,10 +751,20 @@ extension RestEndpoint {
             error = try container.decodeIfPresent(String.self, forKey: .error)
             
             // Try different ID field names
-            id = try container.decodeIfPresent(String.self, forKey: .productId) ??
-                 try container.decodeIfPresent(String.self, forKey: .carId) ??
-                 try container.decodeIfPresent(String.self, forKey: .articleId) ??
-                 try container.decodeIfPresent(String.self, forKey: .campaignId)
+            let productId = try? container.decodeIfPresent(String.self, forKey: .productId)
+            let carId = try? container.decodeIfPresent(String.self, forKey: .carId)
+            let articleId = try? container.decodeIfPresent(String.self, forKey: .articleId)
+            let campaignId = try? container.decodeIfPresent(String.self, forKey: .campaignId)
+            
+            id = productId ?? carId ?? articleId ?? campaignId
+        }
+        
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(success, forKey: .success)
+            try container.encodeIfPresent(message, forKey: .message)
+            try container.encodeIfPresent(error, forKey: .error)
+            try container.encodeIfPresent(id, forKey: .productId)
         }
         
         private enum CodingKeys: String, CodingKey {

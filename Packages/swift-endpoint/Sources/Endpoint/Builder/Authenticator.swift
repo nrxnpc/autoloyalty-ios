@@ -36,11 +36,11 @@ public struct BearerTokenAuthenticator: Authenticator {
     }
     
     /// A closure that asynchronously returns the bearer token string.
-    private let tokenProvider: () async -> String?
+    private let tokenProvider: @Sendable () async -> String?
     
     /// Creates a new Bearer token authenticator.
     /// - Parameter tokenProvider: A closure that returns the current token. It can be `async`.
-    public init(tokenProvider: @escaping () async -> String?) {
+    public init(tokenProvider: @escaping @Sendable () async -> String?) {
         self.tokenProvider = tokenProvider
     }
     
@@ -102,19 +102,21 @@ public struct UnauthenticatedAuthenticator: Authenticator {
 /// A proxy authenticator that delegates to another authenticator
 public final class ProxyAuthenticator: Authenticator, @unchecked Sendable {
     private var currentAuthenticator: any Authenticator
+    private let lock = NSLock()
     
     public init(initialAuthenticator: any Authenticator = UnauthenticatedAuthenticator()) {
         self.currentAuthenticator = initialAuthenticator
     }
     
     public func setAuthenticator(_ authenticator: any Authenticator) {
-        // TODO: Investigate crash during `restoreLastActiveSession`
-        // - Thread 15: EXC_BAD_ACCESS (code=1, address=0xbeadde8c5cb0)
+        lock.lock()
+        defer { lock.unlock() }
         self.currentAuthenticator = authenticator
     }
     
     public func authenticate(request: inout URLRequest) async throws {
-        try await currentAuthenticator.authenticate(request: &request)
+        let authenticator = lock.withLock { currentAuthenticator }
+        try await authenticator.authenticate(request: &request)
     }
 }
 
@@ -128,17 +130,18 @@ extension ProxyAuthenticator: RefreshableAuthenticator {
 
 /// An authenticator that automatically refreshes tokens on 401 errors with concurrent request deduplication
 public actor AutoRefreshAuthenticator: RefreshableAuthenticator {
-    private let baseAuthenticator: BearerTokenAuthenticator
-    private let refreshAction: () async throws -> Void
+    private let tokenProvider: @Sendable () async -> String?
+    private let refreshAction: @Sendable () async throws -> Void
     private var ongoingRefresh: Task<Void, Error>?
     
-    public init(tokenProvider: @escaping () async -> String?, refreshAction: @escaping () async throws -> Void) {
-        self.baseAuthenticator = BearerTokenAuthenticator(tokenProvider: tokenProvider)
+    public init(tokenProvider: @escaping @Sendable () async -> String?, refreshAction: @escaping @Sendable () async throws -> Void) {
+        self.tokenProvider = tokenProvider
         self.refreshAction = refreshAction
     }
     
-    public func authenticate(request: inout URLRequest) async throws {
-        try await baseAuthenticator.authenticate(request: &request)
+    nonisolated public func authenticate(request: inout URLRequest) async throws {
+        let authenticator = await BearerTokenAuthenticator(tokenProvider: tokenProvider)
+        try await authenticator.authenticate(request: &request)
     }
     
     public func handleUnauthorized() async throws {

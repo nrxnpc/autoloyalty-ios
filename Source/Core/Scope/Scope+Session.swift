@@ -1,9 +1,6 @@
 import Foundation
 import ScopeGraph
 
-import Foundation
-import ScopeGraph
-
 // MARK: - Domain Session Models
 
 public struct AppSessionInfo: Codable, Sendable, Equatable {
@@ -179,8 +176,9 @@ public extension Scope {
     
     /// Refresh current tokens
     func refreshCurrentTokens() async throws {
-        let refreshUseCase = RefreshTokenUseCase(scope: self)
-        try await refreshUseCase.execute()
+        // TODO: 
+        // let refreshUseCase = RefreshTokenUseCase(scope: self)
+        // try await refreshUseCase.execute()
     }
     
     // MARK: - Private Methods

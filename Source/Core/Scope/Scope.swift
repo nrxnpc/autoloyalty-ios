@@ -1,4 +1,5 @@
 import Endpoint
+import CoreData
 import Foundation
 import ScopeGraph
 
@@ -11,14 +12,14 @@ public final class Scope: ObservableObject, @unchecked Sendable {
     public let dataPipeline: DataPipeline
     
     /// API endpoint for server communication
-    public let endpoint: ResourceEndpoint
+    public let endpoint: RestEndpoint
     
     /// Session management component
     internal let sessionComponent: AppSessionComponent
     
     // MARK: - Initialization
     
-    public init(dataPipeline: DataPipeline, apiEndpoint: ResourceEndpoint) {
+    public init(dataPipeline: DataPipeline, apiEndpoint: RestEndpoint) {
         self.dataPipeline = dataPipeline
         self.endpoint = apiEndpoint
         self.sessionComponent = SessionFactory.createSessionComponent()
@@ -30,15 +31,16 @@ public final class Scope: ObservableObject, @unchecked Sendable {
     public convenience init() {
         self.init(
             dataPipeline: Self.createDataPipeline(),
-            apiEndpoint: .default
+            apiEndpoint: .localhost
         )
     }
     
     // MARK: - Private Factory Methods
     
     private static func createDataPipeline() -> DataPipeline {
-        let coreDataModel = DomainSchema.schema.createCoreDataModel()
-        return ScopeGraphKits.userDataKit { coreDataModel }
+        return ScopeGraphKits.userDataKit {
+            Scope.CoreData.schema.createCoreDataModel()
+        }
     }
     
     // MARK: - Public Properties

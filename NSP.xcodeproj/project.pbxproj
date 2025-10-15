@@ -68,6 +68,10 @@
 		7EE877C42E9FEB9C00CFC230 /* Scope.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EE877BD2E9FEB9C00CFC230 /* Scope.swift */; };
 		7EE877C52E9FEB9C00CFC230 /* Scope+Scheduler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EE877BF2E9FEB9C00CFC230 /* Scope+Scheduler.swift */; };
 		7EE877C62E9FEB9C00CFC230 /* Scope+Session.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EE877C02E9FEB9C00CFC230 /* Scope+Session.swift */; };
+		7EE877C92EA019DF00CFC230 /* Core+Dependencies.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EE877C82EA019DF00CFC230 /* Core+Dependencies.swift */; };
+		7EE877CB2EA01B5000CFC230 /* Scope+Schema.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EE877CA2EA01B5000CFC230 /* Scope+Schema.swift */; };
+		7EE877CE2EA01BB000CFC230 /* EntitySync.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EE877CD2EA01BB000CFC230 /* EntitySync.swift */; };
+		7EE877CF2EA01BB000CFC230 /* Entity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EE877CC2EA01BB000CFC230 /* Entity.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -135,6 +139,10 @@
 		7EE877BE2E9FEB9C00CFC230 /* Scope+Grab.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Scope+Grab.swift"; sourceTree = "<group>"; };
 		7EE877BF2E9FEB9C00CFC230 /* Scope+Scheduler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Scope+Scheduler.swift"; sourceTree = "<group>"; };
 		7EE877C02E9FEB9C00CFC230 /* Scope+Session.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Scope+Session.swift"; sourceTree = "<group>"; };
+		7EE877C82EA019DF00CFC230 /* Core+Dependencies.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Core+Dependencies.swift"; sourceTree = "<group>"; };
+		7EE877CA2EA01B5000CFC230 /* Scope+Schema.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Scope+Schema.swift"; sourceTree = "<group>"; };
+		7EE877CC2EA01BB000CFC230 /* Entity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Entity.swift; sourceTree = "<group>"; };
+		7EE877CD2EA01BB000CFC230 /* EntitySync.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntitySync.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -287,7 +295,7 @@
 			isa = PBXGroup;
 			children = (
 				7EE877C72E9FFFEB00CFC230 /* Value */,
-				7ECC402C2E6700C30014E97E /* Entiry */,
+				7ECC402C2E6700C30014E97E /* Entity */,
 			);
 			path = Domain;
 			sourceTree = "<group>";
@@ -350,17 +358,20 @@
 			path = User;
 			sourceTree = "<group>";
 		};
-		7ECC402C2E6700C30014E97E /* Entiry */ = {
+		7ECC402C2E6700C30014E97E /* Entity */ = {
 			isa = PBXGroup;
 			children = (
+				7EE877CC2EA01BB000CFC230 /* Entity.swift */,
+				7EE877CD2EA01BB000CFC230 /* EntitySync.swift */,
 			);
-			path = Entiry;
+			path = Entity;
 			sourceTree = "<group>";
 		};
 		7ED143A02E674141003BE287 /* Registry */ = {
 			isa = PBXGroup;
 			children = (
 				7ED1439E2E6740F1003BE287 /* Endpoint+Dependencies.swift */,
+				7EE877C82EA019DF00CFC230 /* Core+Dependencies.swift */,
 			);
 			path = Registry;
 			sourceTree = "<group>";
@@ -389,6 +400,7 @@
 			isa = PBXGroup;
 			children = (
 				7EE877BD2E9FEB9C00CFC230 /* Scope.swift */,
+				7EE877CA2EA01B5000CFC230 /* Scope+Schema.swift */,
 				7EE877BE2E9FEB9C00CFC230 /* Scope+Grab.swift */,
 				7EE877BF2E9FEB9C00CFC230 /* Scope+Scheduler.swift */,
 				7EE877C02E9FEB9C00CFC230 /* Scope+Session.swift */,
@@ -519,6 +531,9 @@
 				7ECC3F982E65CF8D0014E97E /* Achievement.swift in Sources */,
 				7ECC3FE02E65CF8D0014E97E /* AuthViewModel.swift in Sources */,
 				7ECC40122E6628E90014E97E /* ModerationView.swift in Sources */,
+				7EE877CB2EA01B5000CFC230 /* Scope+Schema.swift in Sources */,
+				7EE877CE2EA01BB000CFC230 /* EntitySync.swift in Sources */,
+				7EE877CF2EA01BB000CFC230 /* Entity.swift in Sources */,
 				7ECC40132E6628E90014E97E /* MainTabView.swift in Sources */,
 				7E95E8852E7AFA0800B45539 /* UIDevice+Shake.swift in Sources */,
 				7E95E8862E7AFA0800B45539 /* AnimationSystem.swift in Sources */,
@@ -538,6 +553,7 @@
 				7E95E8962E7AFA0800B45539 /* QRCodeParser.swift in Sources */,
 				7E95E8982E7AFA0800B45539 /* RestEndpoint.swift in Sources */,
 				7E95E8992E7AFA0800B45539 /* AppConfig.swift in Sources */,
+				7EE877C92EA019DF00CFC230 /* Core+Dependencies.swift in Sources */,
 				7E95E89A2E7AFA0800B45539 /* CollectionState.swift in Sources */,
 				7E95E89B2E7AFA0800B45539 /* Extensions.swift in Sources */,
 				7E95E89C2E7AFA0800B45539 /* DesignSystem.swift in Sources */,

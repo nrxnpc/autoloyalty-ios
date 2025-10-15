@@ -94,8 +94,10 @@ extension FetchedObject: Publisher {
     public typealias Failure = Never
     
     nonisolated public func receive<S>(subscriber: S) where S: Subscriber, Failure == S.Failure, Output == S.Input {
-        // TODO: Main actor-isolated property 'objectPublisher' can not be referenced from a nonisolated context
         objectPublisher.receive(subscriber: subscriber)
+        // MainActor.assumeIsolated {
+        //     objectPublisher.receive(subscriber: subscriber)
+        // }
     }
 }
 
@@ -107,7 +109,7 @@ extension FetchedObject: Publisher {
 /// It serves as a reusable replacement for `@FetchRequest` for collections, allowing for
 /// better testability and separation of concerns.
 @MainActor
-public final class FetchedObjects<T: NSManagedObject & Equatable & Identifiable>: NSObject, ObservableObject, @preconcurrency NSFetchedResultsControllerDelegate {
+public final class FetchedObjects<T: NSManagedObject & Equatable & Identifiable & Sendable>: NSObject, ObservableObject, @preconcurrency NSFetchedResultsControllerDelegate {
     
     /// The array of fetched objects. This property is published, so SwiftUI views will
     /// update when the collection changes.
@@ -183,11 +185,16 @@ extension FetchedObjects: RandomAccessCollection {
     public typealias Element = T
     public typealias Index = Int
     
-    public var startIndex: Int { objects.startIndex }
-    public var endIndex: Int { objects.endIndex }
+    nonisolated public var startIndex: Int { 
+        MainActor.assumeIsolated { objects.startIndex }
+    }
     
-    public subscript(position: Int) -> T {
-        objects[position]
+    nonisolated public var endIndex: Int { 
+        MainActor.assumeIsolated { objects.endIndex }
+    }
+    
+    nonisolated public subscript(position: Int) -> T {
+        MainActor.assumeIsolated { objects[position] }
     }
 }
 

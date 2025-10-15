@@ -704,22 +704,10 @@ public final class Keychain: @unchecked Sendable {
 
             options.attributes.forEach { attributes.updateValue($1, forKey: $0) }
 
-            #if os(iOS)
-            if status == errSecInteractionNotAllowed && floor(NSFoundationVersionNumber) <= floor(NSFoundationVersionNumber_iOS_8_0) {
-                try remove(key)
-                try set(value, key: key)
-            } else {
-                status = SecItemUpdate(query as CFDictionary, attributes as CFDictionary)
-                if status != errSecSuccess {
-                    throw securityError(status: status)
-                }
-            }
-            #else
             status = SecItemUpdate(query as CFDictionary, attributes as CFDictionary)
             if status != errSecSuccess {
                 throw securityError(status: status)
             }
-            #endif
         case errSecItemNotFound:
             var (attributes, error) = options.attributes(key: key, value: value)
             if let error = error {

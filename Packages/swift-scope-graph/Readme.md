@@ -1,266 +1,244 @@
 # ScopeGraph
 
-[![Swift](https://img.shields.io/badge/Swift-6.0+-orange.svg)](https://swift.org)
-[![Platforms](https://img.shields.io/badge/Platforms-iOS%20|%20macOS%20|%20tvOS%20|%20watchOS%20|%20visionOS-blue.svg)](https://swift.org)
-[![SPM](https://img.shields.io/badge/SPM-compatible-brightgreen.svg)](https://swift.org/package-manager)
+A modular data processing pipeline for iOS, macOS, watchOS, tvOS, and visionOS applications built with Swift 6 and modern concurrency.
 
-Modular data management framework built like "Lego Technics" - assemble exactly the components your app needs.
+## Overview
 
-## 🧩 Lego Technics Philosophy
+ScopeGraph provides a flexible, type-safe data processing pipeline with support for caching, persistent storage, secure keychain operations, and CoreData integration. Built from the ground up for Swift 6 concurrency with full Sendable compliance.
 
-ScopeGraph provides independent, reusable components for data management. Like Lego Technics pieces, each component solves a specific problem and easily combines with others.
+## Features
 
-## ⚡ Quick Start
+- **Modular Architecture**: Compose data processing pipelines from reusable components
+- **Type Safety**: Full generic support with compile-time type checking
+- **Swift 6 Ready**: Complete Sendable conformance and strict concurrency support
+- **Multi-Platform**: iOS 18+, macOS 15+, watchOS 11+, tvOS 18+, visionOS 2+
+- **Async/Await**: Modern concurrency throughout the entire API
+- **CoreData Integration**: User-specific databases with automatic migration
+- **Secure Storage**: Keychain integration for sensitive data
+- **High Performance**: Optimized caching with automatic expiration
 
-### Ready-Made Kits
-```swift
-import ScopeGraph
+## Requirements
 
-// User data management
-let userManager = ScopeGraphKits.userDataKit()
-try await userManager.store(user, forKey: "current_user")
-
-// Media content management
-let mediaManager = ScopeGraphKits.mediaKit()
-try await mediaManager.store(imageData, forKey: "avatar_123")
-
-// API response caching
-let apiCache = ScopeGraphKits.apiCacheKit()
-try await apiCache.store(response, forKey: "users_endpoint")
-```
-
-### Custom Assembly
-```swift
-// Assemble needed components
-let customPipeline = ScopeGraph()
-    .register(StorageModule.memory<String, Data>())
-    .register(ProcessingModule.compression())
-    .register(OptimizationModule.batteryAware())
-    .build()
-
-// Use assembled pipeline
-try await customPipeline.store(data, forKey: "compressed_data")
-let retrieved = try await customPipeline.retrieve(forKey: "compressed_data", as: Data.self)
-```
-
-### Pipeline Builder
-```swift
-let pipeline = DataPipelineBuilder()
-    .add(StorageModule.secure(service: "com.app.tokens"))
-    .add(ProcessingModule.encryption(key: encryptionKey))
-    .add(OptimizationModule.batteryAware())
-    .build()
-```
-
-## 🏗️ Component Architecture
-
-### 📦 Storage Module
-```swift
-// In-memory caching
-StorageModule.memory<String, UserProfile>()
-
-// Secure keychain storage
-StorageModule.secure(service: "com.app.credentials")
-
-// Persistent disk storage
-StorageModule.persistent()
-```
-
-### ⚙️ Processing Module
-```swift
-// Data compression
-ProcessingModule.compression()
-
-// Object serialization
-ProcessingModule.serialization<User>()
-
-// Data encryption
-ProcessingModule.encryption(key: secretKey)
-```
-
-### 🚀 Optimization Module
-```swift
-// Battery-aware optimization
-OptimizationModule.batteryAware()
-
-// Memory management
-OptimizationModule.memoryEfficient()
-
-// Network optimization
-OptimizationModule.networkAware()
-```
-
-## 📋 Ready-Made Kits
-
-### 👤 User Data Kit
-Optimized for user data with secure storage:
-```swift
-let userKit = ScopeGraphKits.userDataKit()
-```
-**Includes:** Memory Cache + Secure Storage + Battery Optimization
-
-### 🎬 Media Kit
-For media content and large files:
-```swift
-let mediaKit = ScopeGraphKits.mediaKit()
-```
-**Includes:** Memory Cache + Compression + Persistent Storage + Memory Optimization
-
-### 🌐 API Cache Kit
-For API response caching with network optimization:
-```swift
-let apiKit = ScopeGraphKits.apiCacheKit()
-```
-**Includes:** Memory Cache + Network Optimization + Battery Optimization
-
-### 🔐 Secure Storage Kit
-Maximum security for critical data:
-```swift
-let secureKit = ScopeGraphKits.secureStorageKit(service: "com.app.secure")
-```
-**Includes:** Secure Storage + Encryption + Battery Optimization
-
-### 🎯 Comprehensive Kit
-Full kit with all capabilities:
-```swift
-let fullKit = ScopeGraphKits.comprehensiveKit(service: "com.app.full")
-```
-**Includes:** All storage, processing, and optimization components
-
-## 🔧 Custom Components
-
-Create custom components by implementing `DataComponent`:
-
-```swift
-struct CustomAnalyticsComponent: DataComponent {
-    typealias Input = AnalyticsEvent
-    typealias Output = AnalyticsResult
-    
-    let identifier = "custom_analytics"
-    
-    func process(_ input: AnalyticsEvent) async throws -> AnalyticsResult {
-        // Your processing logic
-        return .processed
-    }
-}
-
-// Use in pipeline
-let pipeline = ScopeGraph()
-    .register(CustomAnalyticsComponent())
-    .register(StorageModule.persistent())
-    .build()
-```
-
-## 🎨 Usage Examples
-
-### User System
-```swift
-struct UserManager {
-    private let pipeline = ScopeGraphKits.userDataKit()
-    
-    func saveUser(_ user: User) async throws {
-        try await pipeline.store(user, forKey: "user_\(user.id)")
-    }
-    
-    func getUser(id: String) async throws -> User? {
-        return try await pipeline.retrieve(forKey: "user_\(id)", as: User.self)
-    }
-}
-```
-
-### Media Manager
-```swift
-struct MediaManager {
-    private let pipeline = ScopeGraphKits.mediaKit()
-    
-    func cacheImage(_ data: Data, for url: URL) async throws {
-        try await pipeline.store(data, forKey: url.absoluteString)
-    }
-    
-    func getCachedImage(for url: URL) async throws -> Data? {
-        return try await pipeline.retrieve(forKey: url.absoluteString, as: Data.self)
-    }
-}
-```
-
-### API Client with Caching
-```swift
-struct APIClient {
-    private let cache = ScopeGraphKits.apiCacheKit()
-    
-    func fetchUsers() async throws -> [User] {
-        let cacheKey = "api_users"
-        
-        // Check cache
-        if let cached = try await cache.retrieve(forKey: cacheKey, as: [User].self) {
-            return cached
-        }
-        
-        // Load from server
-        let users = try await loadUsersFromServer()
-        try await cache.store(users, forKey: cacheKey)
-        
-        return users
-    }
-}
-```
-
-## 🧪 Testing
-
-Each component is easily testable in isolation:
-
-```swift
-func testCacheComponent() async throws {
-    let cache = StorageModule.memory<String, String>()
-    
-    try await cache.store("test_value", forKey: "test_key")
-    let result = try await cache.retrieve(forKey: "test_key", as: String.self)
-    
-    XCTAssertEqual(result, "test_value")
-}
-```
-
-## 📊 Performance
-
-- **Modular**: Only needed components are loaded
-- **Optimized**: Automatic adaptation to device conditions
-- **Cached**: Multi-level caching for maximum speed
-- **Compressed**: Automatic compression when needed
-
-## 🔒 Security
-
-- **Keychain**: Secure storage in system keychain
-- **Encryption**: Additional encryption for critical data
-- **Biometrics**: Touch ID/Face ID support for access
-- **Isolated**: Each component is isolated from others
-
-## 📚 Documentation
-
-- [Getting Started](Source/ScopeGraph/Documentation.docc/GettingStarted.md)
-- [Caching Guide](Source/ScopeGraph/Documentation.docc/CachingGuide.md)
-- [Keychain Guide](Source/ScopeGraph/Documentation.docc/KeychainGuide.md)
-- [API Reference](https://your-org.github.io/scope-graph/documentation/scopegraph/)
-
-## 🎯 Requirements
-
-- iOS 17.0+ / macOS 15.0+ / tvOS 15.0+ / watchOS 9.0+ / visionOS 1.0+
+- iOS 18.0+ / macOS 15.0+ / watchOS 11.0+ / tvOS 18.0+ / visionOS 2.0+
 - Swift 6.0+
 - Xcode 16.0+
 
-## 📦 Installation
+## Installation
 
 ### Swift Package Manager
 
+Add ScopeGraph to your project using Xcode or by adding it to your `Package.swift`:
+
 ```swift
 dependencies: [
-    .package(url: "https://github.com/your-org/scope-graph.git", from: "2.0.0")
+    .package(path: "Packages/swift-scope-graph")
 ]
 ```
 
-## 🤝 Contributing
+## Quick Start
 
-Contributions welcome! Read [Contributing Guide](CONTRIBUTING.md) for details.
+### Basic Pipeline Setup
 
-## 📄 License
+```swift
+import ScopeGraph
 
-MIT License. See [LICENSE](LICENSE) for details.
+// Create a simple caching pipeline
+let pipeline = ScopeGraph()
+    .register(CacheComponent<String, Data>())
+    .build()
+
+// Store data
+try await pipeline.store(someData, forKey: "user_profile")
+
+// Retrieve data
+let data = try await pipeline.retrieve(forKey: "user_profile", as: Data.self)
+```
+
+### CoreData Integration
+
+```swift
+import ScopeGraph
+import CoreData
+
+// Setup CoreData stack
+let bundle = Bundle.main
+let stack = CoreDataStack(
+    userId: "user123", 
+    modelName: "DataModel", 
+    modelBundle: bundle
+)
+
+// Create pipeline with CoreData
+let pipeline = ScopeGraph()
+    .register(CoreDataComponent(stack: stack))
+    .register(CacheComponent<String, NSManagedObject>())
+    .build()
+
+// Access CoreData directly
+let context = pipeline.coreDataStack().viewContext
+```
+
+### Advanced Configuration
+
+```swift
+// Custom cache configuration
+let cacheComponent = CacheComponent<String, UserProfile>(
+    entryLifetime: 30 * 60, // 30 minutes
+    maximumEntryCount: 100
+)
+
+// Multi-component pipeline
+let pipeline = ScopeGraph()
+    .register(cacheComponent)
+    .register(CoreDataComponent(stack: coreDataStack))
+    .register(SecureStorageComponent())
+    .build()
+```
+
+## Components
+
+### CacheComponent
+
+High-performance in-memory caching with automatic expiration:
+
+```swift
+let cache = CacheComponent<String, UserData>(
+    entryLifetime: 12 * 60 * 60, // 12 hours
+    maximumEntryCount: 50
+)
+```
+
+**Features:**
+- Automatic expiration based on configurable lifetime
+- Memory pressure handling with LRU eviction
+- Thread-safe operations
+- Generic key-value storage
+
+### CoreDataComponent
+
+Robust CoreData integration with user-specific databases:
+
+```swift
+let stack = CoreDataStack(
+    userId: "user123",
+    modelName: "MyModel", 
+    modelBundle: .main
+)
+let coreData = CoreDataComponent(stack: stack)
+```
+
+**Features:**
+- User-specific SQLite databases for data isolation
+- Automatic migration handling and error recovery
+- In-memory storage for testing
+- Background context support
+
+### SecureStorageComponent
+
+Keychain integration for sensitive data storage:
+
+```swift
+let secureStorage = SecureStorageComponent()
+
+// Store sensitive data
+try await secureStorage.store(tokenData, forKey: "auth_token")
+
+// Retrieve sensitive data
+let token = try await secureStorage.retrieve(forKey: "auth_token", as: Data.self)
+```
+
+## Architecture
+
+ScopeGraph uses a modular pipeline architecture where components can be composed to create custom data processing workflows:
+
+```
+┌─────────────────┐    ┌──────────────────┐    ┌─────────────────┐
+│   Application   │───▶│   DataPipeline   │───▶│   Components    │
+└─────────────────┘    └──────────────────┘    └─────────────────┘
+                              │                         │
+                              ▼                         ▼
+                       ┌──────────────┐         ┌─────────────┐
+                       │  ScopeGraph  │         │ Cache       │
+                       │  Registry    │         │ CoreData    │
+                       └──────────────┘         │ Secure      │
+                                               └─────────────┘
+```
+
+### Component Protocol
+
+All components implement the `DataComponent` protocol:
+
+```swift
+public protocol DataComponent: Sendable {
+    associatedtype Input: Sendable
+    associatedtype Output: Sendable
+    
+    func process(_ input: Input) async throws -> Output
+    var identifier: String { get }
+}
+```
+
+## Testing
+
+ScopeGraph provides excellent testing support with in-memory components:
+
+```swift
+// In-memory CoreData for testing
+let testStack = CoreDataStack.inMemory(
+    userId: "test_user",
+    modelName: "TestModel", 
+    model: testModel
+)
+
+// Test pipeline
+let testPipeline = ScopeGraph()
+    .register(CoreDataComponent(stack: testStack))
+    .register(CacheComponent<String, TestData>())
+    .build()
+```
+
+## Performance
+
+ScopeGraph is optimized for performance:
+
+- **Zero-copy operations** where possible
+- **Lazy initialization** of expensive resources
+- **Automatic memory management** with configurable limits
+- **Background processing** support for heavy operations
+
+## Thread Safety
+
+All ScopeGraph components are thread-safe and Sendable-compliant:
+
+- Components can be safely passed between actors
+- Concurrent access is handled internally
+- No external synchronization required
+
+## Migration Guide
+
+### From Earlier Versions
+
+ScopeGraph 2.0 introduces breaking changes for Swift 6 compatibility:
+
+1. **Sendable Conformance**: All types now conform to Sendable
+2. **Availability Annotations**: Minimum deployment targets updated
+3. **Async/Await**: All operations are now async
+4. **Strict Concurrency**: Full compliance with Swift 6 concurrency model
+
+## Contributing
+
+We welcome contributions! Please see our contributing guidelines for details.
+
+## License
+
+ScopeGraph is available under the MIT license. See LICENSE for details.
+
+## Support
+
+- **Documentation**: [Full API Documentation](Documentation.docc/)
+- **Issues**: Report bugs and feature requests on GitHub
+- **Discussions**: Join our community discussions
+
+---
+
+Built with ❤️ for the Swift community

@@ -1,7 +1,11 @@
 import Foundation
 import CoreData
 
-/// CoreData stack with user-specific databases
+/// CoreData stack with user-specific databases and migration support
+/// 
+/// Provides CoreData implementation with user-specific databases for data isolation,
+/// in-memory storage for testing, and automatic migration handling.
+@available(iOS 18.0, macOS 15.0, watchOS 11.0, tvOS 18.0, visionOS 2.0, *)
 public final class CoreDataStack: @unchecked Sendable {
     private var userId: String
     private var _persistentContainer: NSPersistentContainer?
@@ -10,6 +14,11 @@ public final class CoreDataStack: @unchecked Sendable {
     private var isInMemory: Bool
     private let customModel: NSManagedObjectModel?
     
+    /// Initialize CoreData stack with bundle-based model
+    /// - Parameters:
+    ///   - userId: Unique user identifier for database isolation
+    ///   - modelName: Name of the .xcdatamodeld file
+    ///   - modelBundle: Bundle containing the data model
     public init(userId: String, modelName: String, modelBundle: Bundle) {
         self.userId = userId
         self.modelName = modelName
@@ -26,7 +35,12 @@ public final class CoreDataStack: @unchecked Sendable {
         self.customModel = model
     }
     
-    /// Create in-memory CoreData stack with custom model
+    /// Create in-memory CoreData stack for testing
+    /// - Parameters:
+    ///   - userId: User identifier (default: "test_user")
+    ///   - modelName: Model name (default: "InMemoryModel")
+    ///   - model: Custom managed object model
+    /// - Returns: Configured in-memory CoreData stack
     public static func inMemory(userId: String = "test_user", modelName: String = "InMemoryModel", model: NSManagedObjectModel) -> CoreDataStack {
         return CoreDataStack(
             userId: userId,
@@ -36,6 +50,8 @@ public final class CoreDataStack: @unchecked Sendable {
         )
     }
     
+    /// Access the persistent container with lazy initialization
+    /// - Returns: Configured NSPersistentContainer
     public var persistentContainer: NSPersistentContainer {
         if let container = _persistentContainer {
             return container
@@ -70,10 +86,14 @@ public final class CoreDataStack: @unchecked Sendable {
         return container
     }
     
+    /// Main thread managed object context
+    /// - Returns: View context for UI operations
     public var viewContext: NSManagedObjectContext {
         persistentContainer.viewContext
     }
     
+    /// Save changes to persistent store
+    /// - Throws: CoreData save errors
     public func save() async throws {
         let context = viewContext
         if context.hasChanges {
@@ -83,6 +103,10 @@ public final class CoreDataStack: @unchecked Sendable {
         }
     }
     
+    /// Switch to different user database
+    /// - Parameters:
+    ///   - userId: New user identifier
+    ///   - inMemory: Whether to use in-memory storage (default: true)
     public func switchUser(to userId: String, inMemory: Bool = true) {
         // Save current context if it has changes
         if let container = _persistentContainer, !inMemory {
@@ -97,6 +121,12 @@ public final class CoreDataStack: @unchecked Sendable {
         // Clear the container to force recreation with new user database
         _persistentContainer = nil
         self.userId = userId
+    }
+    
+    /// Create a new background context for background operations
+    /// - Returns: Background managed object context
+    public func newBackgroundContext() -> NSManagedObjectContext {
+        return persistentContainer.newBackgroundContext()
     }
     
     private var databaseURL: URL {

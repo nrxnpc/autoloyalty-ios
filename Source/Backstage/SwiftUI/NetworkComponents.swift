@@ -53,7 +53,7 @@ struct NetworkStatusBanner: View {
     
     private func checkConnection() async {
         do {
-            isConnected = try await endpoint.checkConnectionStatus()
+            isConnected = try await endpoint.healthCheck().error == nil
         } catch {
             isConnected = false
         }
@@ -140,7 +140,7 @@ struct ConnectionSettingsView: View {
     
     private func checkConnection() async {
         do {
-            isConnected = try await endpoint.checkConnectionStatus()
+            isConnected = try await endpoint.healthCheck().error == nil
         } catch {
             isConnected = false
         }

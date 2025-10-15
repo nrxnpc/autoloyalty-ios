@@ -4,7 +4,7 @@ import UIKit
 #endif
 
 /// A component that provides the current battery charge status.
-public struct BatteryMonitor {
+public struct BatteryMonitor: Sendable {
 
     /// Represents the current battery charge level.
     public enum BatteryStatus: Sendable {
@@ -20,7 +20,7 @@ public struct BatteryMonitor {
     
     /// Fetches the current battery status.
     /// - Returns: The current `BatteryStatus` of the device.
-    public func status() -> BatteryStatus {
+    @MainActor public func status() -> BatteryStatus {
         let batteryLevel = getBatteryLevel()
         
         if batteryLevel > 0.4 {
@@ -32,7 +32,7 @@ public struct BatteryMonitor {
         }
     }
     
-    private func getBatteryLevel() -> Double {
+    @MainActor private func getBatteryLevel() -> Double {
         #if os(iOS)
         UIDevice.current.isBatteryMonitoringEnabled = true
         // batteryLevel returns -1.0 if monitoring is disabled or state is unknown.

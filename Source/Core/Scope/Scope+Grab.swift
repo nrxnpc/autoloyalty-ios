@@ -17,7 +17,7 @@ public extension Scope {
     
     // Example: 
     // @MainActor
-    // func grab(_ operation: @escaping @Sendable () async throws -> ResourceEndpoint.LoginResponse) async throws {
+    // func grab(_ operation: @escaping @Sendable () async throws -> RestEndpoint.LoginResponse) async throws {
     //     let loginResponse = try await operation()
     //     do {
     //         let loginUseCase = LoginUseCase(scope: self)

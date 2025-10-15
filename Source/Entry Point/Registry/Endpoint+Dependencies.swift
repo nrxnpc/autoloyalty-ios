@@ -2,24 +2,24 @@
 //  RestEndpoint+Dependency.swift
 //
 import Dependencies
-import Foundation
 
 // MARK: - ResourceEndpoint Dependency
 
 extension DependencyValues {
-    /// Provides access to a `RestEndpoint` instance.
+    /// Provides access to a `ResourceEndpoint` instance.
     ///
     /// This dependency is reactive. It automatically provides an endpoint configured
     /// with the correct `Authenticator` based on the current `SessionState` managed
     /// by `ApplicationScope`.
     public var endpoint: RestEndpoint {
-        get { self[EndpointContextKey.self] }
-        set { self[EndpointContextKey.self] = newValue }
+        get { self[ResourceEndpointContextKey.self] }
+        set { self[ResourceEndpointContextKey.self] = newValue }
     }
 }
 
-private enum EndpointContextKey: DependencyKey {
+private enum ResourceEndpointContextKey: DependencyKey {
     static var liveValue: RestEndpoint {
-        RestEndpoint(baseURL: URL(string: "http://localhost:8080")!)
+        @Dependency(\.scope) var scope
+        return scope.endpoint
     }
 }

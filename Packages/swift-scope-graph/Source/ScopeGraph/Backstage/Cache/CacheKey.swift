@@ -1,27 +1,40 @@
 import Foundation
 import CryptoKit
 
-/// ``CacheKey`` is a type meant to provide a stable storage key.
-/// If initialized from a URL the ``CacheKey`` value will generate
-/// a consistent UUID-formatted MD5 version of the URL string as the key
-/// to ensure it is file system safe.
-public struct CacheKey: Codable, Equatable, Hashable {
+/// Secure cache key generator for file system safe storage identifiers
+/// 
+/// CacheKey provides stable, file system safe storage keys by generating
+/// consistent UUID-formatted MD5 hashes from input strings or URLs.
+/// This ensures compatibility across different file systems and prevents
+/// naming conflicts.
+/// 
+/// Features:
+/// - URL sanitization (removes www, trailing slashes, schemes)
+/// - MD5 hashing for consistent key generation
+/// - UUID formatting for readability
+/// - File system safe output
+@available(iOS 18.0, macOS 15.0, watchOS 11.0, tvOS 18.0, visionOS 2.0, *)
+public struct CacheKey: Codable, Equatable, Hashable, Sendable {
 
-    /// The `String` representation of your `CacheKey`.
+    /// File system safe string representation of the cache key
     public let value: String
 
-    /// The `String` that was passed in to any initializer, regardless of whether it was hashed afterwards or not.
-    /// Currently this is used in ``StorageEngine``s that are not file system based
-    /// and will be deprecated in the future, when ``CacheKey`` is [deprecated](https://github.com/mergesort/Bodega/issues/9).
+    /// Original input string before hashing (for internal use)
     internal let rawValue: String
 
-    /// Initializes a ``CacheKey`` from a `URL`. This initializer is useful if you plan on using
-    /// `CacheKey`s for storing files on disk because file have many limitations about
-    /// which characters that are allowed in file names, and the maximum length of a file name.
-    /// - Parameter url: The URL to use as the foundation of your cache key.
-    /// The URL will be sanitized to account for common user-generated differences
-    /// before generating a cache key, so note that https://redpanda.club and https://www.redpanda.club
-    /// will generate a ``CacheKey`` with the same underlying value.
+    /// Initialize cache key from URL with automatic sanitization
+    /// 
+    /// URLs are sanitized to remove common variations (www, trailing slashes, schemes)
+    /// before hashing to ensure consistent keys for equivalent URLs.
+    /// 
+    /// - Parameter url: URL to generate cache key from
+    /// 
+    /// Example:
+    /// ```swift
+    /// let key1 = CacheKey(url: URL(string: "https://example.com/")!)
+    /// let key2 = CacheKey(url: URL(string: "http://www.example.com")!)
+    /// // key1.value == key2.value (true)
+    /// ```
     public init(url: URL) {
         self.rawValue = url.absoluteString
 
@@ -29,18 +42,29 @@ public struct CacheKey: Codable, Equatable, Hashable {
         self.value = md5HashedURLString.uuidFormatted ?? md5HashedURLString
     }
 
-    /// Initializes a ``CacheKey`` from a `String`, creating a hashed version of the input `String`.
-    /// This initializer is useful if you plan on using ``CacheKey``s for storing files on disk
-    /// because file have many limitations about characters that are allowed in file names,
-    /// and the maximum length of a file name.
-    /// - Parameter value: The `String` which will serve as the underlying value for this ``CacheKey``.
+    /// Initialize cache key from string with MD5 hashing
+    /// 
+    /// Creates a file system safe cache key by hashing the input string
+    /// and formatting as UUID when possible.
+    /// 
+    /// - Parameter value: String to generate cache key from
+    /// 
+    /// Example:
+    /// ```swift
+    /// let key = CacheKey("user_12345")
+    /// // key.value = "A1B2C3D4-E5F6-7890-ABCD-EF1234567890"
+    /// ```
     public init(_ value: String) {
         self.rawValue = value
         self.value = value.md5.uuidFormatted ?? value.md5
     }
 
-    /// Initializes a ``CacheKey`` from a `String`, using the exact `String` as the value of the ``CacheKey``.
-    /// - Parameter value: The `String` which will serve as the underlying value for this ``CacheKey``.
+    /// Initialize cache key with exact string value (no hashing)
+    /// 
+    /// Uses the input string directly as the cache key value.
+    /// Only use when you're certain the string is file system safe.
+    /// 
+    /// - Parameter value: Exact string to use as cache key
     public init(verbatim value: String) {
         self.rawValue = value
         self.value = value
@@ -79,14 +103,17 @@ private extension CacheKey {
     }
 }
 
-// MARK: - String Formatting
+// MARK: - String Formatting Extensions
 
+@available(iOS 18.0, macOS 15.0, watchOS 11.0, tvOS 18.0, visionOS 2.0, *)
 extension String {
+    /// Generate MD5 hash of string
     var md5: String {
         Data(self.utf8).md5.hexString
     }
 
-    // Format characters as 8-4-4-4-12
+    /// Format 32-character hex string as UUID (8-4-4-4-12)
+    /// - Returns: UUID formatted string or nil if input is not 32 characters
     var uuidFormatted: String? {
         guard self.count == 32 else { return nil }
 
@@ -101,11 +128,14 @@ extension String {
     }
 }
 
+@available(iOS 18.0, macOS 15.0, watchOS 11.0, tvOS 18.0, visionOS 2.0, *)
 extension Data {
+    /// Generate MD5 hash of data
     var md5: Data {
         Data(Insecure.MD5.hash(data: self))
     }
     
+    /// Convert data to lowercase hex string
     var hexString: String {
         map {
             String(format: "%02x", $0)

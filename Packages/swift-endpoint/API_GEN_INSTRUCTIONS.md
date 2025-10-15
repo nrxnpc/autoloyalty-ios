@@ -3,6 +3,9 @@
 ## Overview
 This document provides comprehensive instructions for generating a production-ready Swift REST API client using the swift-endpoint DSL library. The generated client will be type-safe, async/await compatible, and include proper authentication management.
 
+Following these instructions, a local LLM model will generate production-ready, compilable Swift REST API clients in a single inference without external dependencies or feedback loops.
+
+
 ## Single Inference Generation
 **IMPORTANT**: This is designed for "one-shot" inference where the LLM receives API documentation as input and outputs complete, compilable Swift files without access to external libraries or compilation feedback.
 
@@ -485,5 +488,3 @@ Requirements:
 
 Output both files with complete, compilable Swift code.
 ```
-
-Following these instructions, a local LLM model will generate production-ready, compilable Swift REST API clients in a single inference without external dependencies or feedback loops.

@@ -164,27 +164,29 @@ class DataManager: ObservableObject {
     
     // MARK: - QR Code Processing
     func processQRScan(code: String, userId: String) async -> QRScanResult? {
-        do {
-            let request = QRScanRequest(qr_code: code, location: "Москва")
-            let response = try await endpoint.scanQRCode(request: request)
-            
-            if response.valid, let scanId = response.scan_id, let productName = response.product_name {
-                return QRScanResult(
-                    id: scanId,
-                    pointsEarned: response.points_earned ?? 0,
-                    productName: productName,
-                    productCategory: response.product_category ?? "",
-                    timestamp: Date(),
-                    qrCode: code,
-                    location: "Москва"
-                )
-            }
-            
-            return await processQRScanLocally(code: code, userId: userId)
-            
-        } catch {
-            return await processQRScanLocally(code: code, userId: userId)
-        }
+        return await processQRScanLocally(code: code, userId: userId)
+        // TODO:
+        // do {
+        //     let request = QRScanRequest(qr_code: code, location: "Москва")
+        //     let response = try await endpoint.scanQRCode(request: request)
+        //
+        //     if response.valid, let scanId = response.scan_id, let productName = response.product_name {
+        //         return QRScanResult(
+        //             id: scanId,
+        //             pointsEarned: response.points_earned ?? 0,
+        //             productName: productName,
+        //             productCategory: response.product_category ?? "",
+        //             timestamp: Date(),
+        //             qrCode: code,
+        //             location: "Москва"
+        //         )
+        //     }
+        //
+        //     return await processQRScanLocally(code: code, userId: userId)
+        //
+        // } catch {
+        //     return await processQRScanLocally(code: code, userId: userId)
+        // }
     }
     
     private func processQRScanLocally(code: String, userId: String) async -> QRScanResult {
@@ -396,7 +398,7 @@ extension RestEndpoint.PointTransaction {
         return PointTransaction(
             id: id,
             userId: userId,
-            type: PointTransaction.TransactionType(rawValue: type) ?? .earned,
+            type: PointTransaction.TransactionType(rawValue: type.rawValue) ?? .earned,
             amount: amount,
             description: description,
             timestamp: ISO8601DateFormatter().date(from: timestamp) ?? Date(),
@@ -407,14 +409,6 @@ extension RestEndpoint.PointTransaction {
 
 extension RestEndpoint.UserScan {
     func toQRScanResult() -> QRScanResult {
-        return QRScanResult(
-            id: id,
-            pointsEarned: points_earned,
-            productName: product_name,
-            productCategory: product_category,
-            timestamp: ISO8601DateFormatter().date(from: timestamp) ?? Date(),
-            qrCode: qr_code,
-            location: location
-        )
+        .init(id: id, pointsEarned: 0, productName: "", productCategory: "", timestamp: .now, qrCode: "", location: location)
     }
 }
