@@ -22,7 +22,6 @@
 		7E95E8912E7AFA0800B45539 /* NetworkStatusView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E95E8782E7AFA0800B45539 /* NetworkStatusView.swift */; };
 		7E95E8922E7AFA0800B45539 /* HapticService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E95E86F2E7AFA0800B45539 /* HapticService.swift */; };
 		7E95E8942E7AFA0800B45539 /* NotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E95E8712E7AFA0800B45539 /* NotificationService.swift */; };
-		7E95E8952E7AFA0800B45539 /* RestEndpoint+Draft.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E95E86B2E7AFA0800B45539 /* RestEndpoint+Draft.swift */; };
 		7E95E8962E7AFA0800B45539 /* QRCodeParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E95E8802E7AFA0800B45539 /* QRCodeParser.swift */; };
 		7E95E8982E7AFA0800B45539 /* RestEndpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E95E86A2E7AFA0800B45539 /* RestEndpoint.swift */; };
 		7E95E8992E7AFA0800B45539 /* AppConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E95E87A2E7AFA0800B45539 /* AppConfig.swift */; };
@@ -64,6 +63,11 @@
 		7ECC40252E66D8370014E97E /* Main+Router.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ECC40242E66D8370014E97E /* Main+Router.swift */; };
 		7ECC40272E66FBD80014E97E /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ECC40262E66FBD80014E97E /* MainView.swift */; };
 		7ED1439F2E6740F1003BE287 /* Endpoint+Dependencies.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ED1439E2E6740F1003BE287 /* Endpoint+Dependencies.swift */; };
+		7EE877B92E9FE17900CFC230 /* ScopeGraph in Frameworks */ = {isa = PBXBuildFile; productRef = 7EE877B82E9FE17900CFC230 /* ScopeGraph */; };
+		7EE877C32E9FEB9C00CFC230 /* Scope+Grab.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EE877BE2E9FEB9C00CFC230 /* Scope+Grab.swift */; };
+		7EE877C42E9FEB9C00CFC230 /* Scope.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EE877BD2E9FEB9C00CFC230 /* Scope.swift */; };
+		7EE877C52E9FEB9C00CFC230 /* Scope+Scheduler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EE877BF2E9FEB9C00CFC230 /* Scope+Scheduler.swift */; };
+		7EE877C62E9FEB9C00CFC230 /* Scope+Session.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EE877C02E9FEB9C00CFC230 /* Scope+Session.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -77,7 +81,6 @@
 		7E95E8672E7AFA0800B45539 /* NetworkManagerV2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManagerV2.swift; sourceTree = "<group>"; };
 		7E95E8692E7AFA0800B45539 /* API_REFERENCE.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = API_REFERENCE.md; sourceTree = "<group>"; };
 		7E95E86A2E7AFA0800B45539 /* RestEndpoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestEndpoint.swift; sourceTree = "<group>"; };
-		7E95E86B2E7AFA0800B45539 /* RestEndpoint+Draft.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RestEndpoint+Draft.swift"; sourceTree = "<group>"; };
 		7E95E86C2E7AFA0800B45539 /* RestEndpoint+Raw.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RestEndpoint+Raw.swift"; sourceTree = "<group>"; };
 		7E95E86D2E7AFA0800B45539 /* TokenManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenManager.swift; sourceTree = "<group>"; };
 		7E95E86F2E7AFA0800B45539 /* HapticService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HapticService.swift; sourceTree = "<group>"; };
@@ -128,6 +131,10 @@
 		7ECC40242E66D8370014E97E /* Main+Router.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Main+Router.swift"; sourceTree = "<group>"; };
 		7ECC40262E66FBD80014E97E /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
 		7ED1439E2E6740F1003BE287 /* Endpoint+Dependencies.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Endpoint+Dependencies.swift"; sourceTree = "<group>"; };
+		7EE877BD2E9FEB9C00CFC230 /* Scope.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Scope.swift; sourceTree = "<group>"; };
+		7EE877BE2E9FEB9C00CFC230 /* Scope+Grab.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Scope+Grab.swift"; sourceTree = "<group>"; };
+		7EE877BF2E9FEB9C00CFC230 /* Scope+Scheduler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Scope+Scheduler.swift"; sourceTree = "<group>"; };
+		7EE877C02E9FEB9C00CFC230 /* Scope+Session.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Scope+Session.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -137,6 +144,7 @@
 			files = (
 				7ECC3FEA2E66280A0014E97E /* Endpoint in Frameworks */,
 				7ECC3FEC2E66280A0014E97E /* EndpointUI in Frameworks */,
+				7EE877B92E9FE17900CFC230 /* ScopeGraph in Frameworks */,
 				7E36E0072E7B0256009522B5 /* DependenciesMacros in Frameworks */,
 				7ECC3FEF2E6628260014E97E /* SwiftUIComponents in Frameworks */,
 				7E36E0052E7B0256009522B5 /* Dependencies in Frameworks */,
@@ -181,10 +189,6 @@
 			isa = PBXGroup;
 			children = (
 				7E95E8682E7AFA0800B45539 /* Archived */,
-				7E95E8692E7AFA0800B45539 /* API_REFERENCE.md */,
-				7E95E86A2E7AFA0800B45539 /* RestEndpoint.swift */,
-				7E95E86B2E7AFA0800B45539 /* RestEndpoint+Draft.swift */,
-				7E95E86C2E7AFA0800B45539 /* RestEndpoint+Raw.swift */,
 				7E95E86D2E7AFA0800B45539 /* TokenManager.swift */,
 			);
 			path = Network;
@@ -250,9 +254,9 @@
 		7ECC3F362E65CE700014E97E /* Source */ = {
 			isa = PBXGroup;
 			children = (
-				7E95E8842E7AFA0800B45539 /* Backstage */,
-				7ECC3FF02E6628AC0014E97E /* Domain */,
+				7EE877BA2E9FEA6200CFC230 /* Core */,
 				7ECC3FE72E65D0680014E97E /* Application */,
+				7E95E8842E7AFA0800B45539 /* Backstage */,
 				7ECC3FE52E65D03D0014E97E /* Entry Point */,
 			);
 			path = Source;
@@ -282,6 +286,7 @@
 		7ECC3FF02E6628AC0014E97E /* Domain */ = {
 			isa = PBXGroup;
 			children = (
+				7EE877C72E9FFFEB00CFC230 /* Value */,
 				7ECC402C2E6700C30014E97E /* Entiry */,
 			);
 			path = Domain;
@@ -348,11 +353,6 @@
 		7ECC402C2E6700C30014E97E /* Entiry */ = {
 			isa = PBXGroup;
 			children = (
-				7ECC3F8F2E65CF8D0014E97E /* Achievement.swift */,
-				7ECC3F902E65CF8D0014E97E /* Car.swift */,
-				7ECC3F912E65CF8D0014E97E /* OtherModels.swift */,
-				7ECC3F922E65CF8D0014E97E /* Product.swift */,
-				7ECC3F932E65CF8D0014E97E /* User.swift */,
 			);
 			path = Entiry;
 			sourceTree = "<group>";
@@ -363,6 +363,49 @@
 				7ED1439E2E6740F1003BE287 /* Endpoint+Dependencies.swift */,
 			);
 			path = Registry;
+			sourceTree = "<group>";
+		};
+		7EE877BA2E9FEA6200CFC230 /* Core */ = {
+			isa = PBXGroup;
+			children = (
+				7EE877BC2E9FEB5300CFC230 /* Scope */,
+				7ECC3FF02E6628AC0014E97E /* Domain */,
+				7EE877BB2E9FEA7000CFC230 /* Endpoint */,
+			);
+			path = Core;
+			sourceTree = "<group>";
+		};
+		7EE877BB2E9FEA7000CFC230 /* Endpoint */ = {
+			isa = PBXGroup;
+			children = (
+				7E95E8692E7AFA0800B45539 /* API_REFERENCE.md */,
+				7E95E86A2E7AFA0800B45539 /* RestEndpoint.swift */,
+				7E95E86C2E7AFA0800B45539 /* RestEndpoint+Raw.swift */,
+			);
+			path = Endpoint;
+			sourceTree = "<group>";
+		};
+		7EE877BC2E9FEB5300CFC230 /* Scope */ = {
+			isa = PBXGroup;
+			children = (
+				7EE877BD2E9FEB9C00CFC230 /* Scope.swift */,
+				7EE877BE2E9FEB9C00CFC230 /* Scope+Grab.swift */,
+				7EE877BF2E9FEB9C00CFC230 /* Scope+Scheduler.swift */,
+				7EE877C02E9FEB9C00CFC230 /* Scope+Session.swift */,
+			);
+			path = Scope;
+			sourceTree = "<group>";
+		};
+		7EE877C72E9FFFEB00CFC230 /* Value */ = {
+			isa = PBXGroup;
+			children = (
+				7ECC3F8F2E65CF8D0014E97E /* Achievement.swift */,
+				7ECC3F902E65CF8D0014E97E /* Car.swift */,
+				7ECC3F912E65CF8D0014E97E /* OtherModels.swift */,
+				7ECC3F922E65CF8D0014E97E /* Product.swift */,
+				7ECC3F932E65CF8D0014E97E /* User.swift */,
+			);
+			path = Value;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -387,6 +430,7 @@
 				7ECC3FEE2E6628260014E97E /* SwiftUIComponents */,
 				7E36E0042E7B0256009522B5 /* Dependencies */,
 				7E36E0062E7B0256009522B5 /* DependenciesMacros */,
+				7EE877B82E9FE17900CFC230 /* ScopeGraph */,
 			);
 			productName = "NSP app";
 			productReference = 08DB73C32DF6CC1B007D80CB /* Application.app */;
@@ -420,6 +464,7 @@
 				7ECC3FE82E66280A0014E97E /* XCLocalSwiftPackageReference "Packages/swift-endpoint" */,
 				7ECC3FED2E6628260014E97E /* XCLocalSwiftPackageReference "Packages/swift-components" */,
 				7E36E0032E7B0256009522B5 /* XCRemoteSwiftPackageReference "swift-dependencies" */,
+				7EE877B72E9FE17900CFC230 /* XCLocalSwiftPackageReference "Packages/swift-scope-graph" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 08DB73C42DF6CC1B007D80CB /* Products */;
@@ -483,10 +528,13 @@
 				7E95E88D2E7AFA0800B45539 /* DataManager.swift in Sources */,
 				7E95E88E2E7AFA0800B45539 /* ImageCacheService.swift in Sources */,
 				7E95E8902E7AFA0800B45539 /* DemoDataLoader.swift in Sources */,
+				7EE877C32E9FEB9C00CFC230 /* Scope+Grab.swift in Sources */,
+				7EE877C42E9FEB9C00CFC230 /* Scope.swift in Sources */,
+				7EE877C52E9FEB9C00CFC230 /* Scope+Scheduler.swift in Sources */,
+				7EE877C62E9FEB9C00CFC230 /* Scope+Session.swift in Sources */,
 				7E95E8912E7AFA0800B45539 /* NetworkStatusView.swift in Sources */,
 				7E95E8922E7AFA0800B45539 /* HapticService.swift in Sources */,
 				7E95E8942E7AFA0800B45539 /* NotificationService.swift in Sources */,
-				7E95E8952E7AFA0800B45539 /* RestEndpoint+Draft.swift in Sources */,
 				7E95E8962E7AFA0800B45539 /* QRCodeParser.swift in Sources */,
 				7E95E8982E7AFA0800B45539 /* RestEndpoint.swift in Sources */,
 				7E95E8992E7AFA0800B45539 /* AppConfig.swift in Sources */,
@@ -723,6 +771,10 @@
 			isa = XCLocalSwiftPackageReference;
 			relativePath = "Packages/swift-components";
 		};
+		7EE877B72E9FE17900CFC230 /* XCLocalSwiftPackageReference "Packages/swift-scope-graph" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = "Packages/swift-scope-graph";
+		};
 /* End XCLocalSwiftPackageReference section */
 
 /* Begin XCRemoteSwiftPackageReference section */
@@ -758,6 +810,10 @@
 		7ECC3FEE2E6628260014E97E /* SwiftUIComponents */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = SwiftUIComponents;
+		};
+		7EE877B82E9FE17900CFC230 /* ScopeGraph */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = ScopeGraph;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
