@@ -5,10 +5,14 @@ import CoreData
 
 public extension Account {
     /// Simplified version of CreateAccountUseCase
-    static func create(id: String, externalID: String, in context: NSManagedObjectContext) throws -> Account {
+    static func create(id: String, externalID: String = "", in context: NSManagedObjectContext) throws -> Account {
         let account = Account(context: context)
         account.id = id
-        account.sync.externalID = externalID
+        if externalID.isEmpty {
+            account.sync.isDraft = true
+        } else {
+            account.sync.externalID = externalID
+        }
         return account
     }
 }
@@ -44,7 +48,7 @@ public struct CreateAccountUseCase {
         if let restoredID {
             newAccount.id = restoredID
         }
-        newAccount.name = name
+        newAccount.nickname = name
         newAccount.email = email
         newAccount.sync.externalID = externalID
         
@@ -91,7 +95,7 @@ public struct UpdateAccountUseCase {
         
         // Update properties if provided
         if let newName = newName {
-            account.name = newName
+            account.nickname = newName
         }
         if let newEmail = newEmail {
             account.email = newEmail

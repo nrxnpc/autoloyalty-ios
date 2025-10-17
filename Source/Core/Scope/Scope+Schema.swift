@@ -25,6 +25,12 @@ extension Scope {
                     Field("updatedAt", .timestamp)
                     Relationship("entityReference", to: "Entity", inverse: "sync")
                 }
+                
+                // Account Entity
+                EntitySchema("Account", inherits: "Entity") {
+                    Field("email", .text)
+                    Field("nickname", .text)
+                }
             }
         }
     }

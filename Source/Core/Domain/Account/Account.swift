@@ -4,7 +4,7 @@ import CoreData
 /// Account domain entity with CoreData support
 @objc(Account)
 public class Account: Entity {
-    @NSManaged public var name: String
+    @NSManaged public var nickname: String
     @NSManaged public var email: String
 }
 

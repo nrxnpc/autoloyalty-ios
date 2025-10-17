@@ -1,6 +1,7 @@
 import Combine
 import Dependencies
 import Foundation
+import ScopeGraph
 
 @MainActor
 final class Main: ObservableObject {
@@ -31,6 +32,7 @@ extension Main {
             return
         }
         
+        await scheduleGuestSessionJobs()
         state = .guestSession
         debugPrint("[DEBUG][Main] Continue as guest.")
     }
@@ -48,9 +50,14 @@ extension Main {
         Task { @MainActor in
             let isGuest = await scope.session.isGuest
             let sessionID = await scope.session.id
-            state = isGuest ? .authentication : .session(sessionID)
-            // TODO:
-            // scheduleSessionJobs(with: scope.session)
+            
+            if isGuest {
+                state = .authentication
+            } else {
+                await scheduleSessionJobs()
+                state = .session(sessionID)
+            }
+            
             debugPrint("[DEBUG][Main] Session has been changed.")
         }
     }
