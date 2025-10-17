@@ -26,7 +26,7 @@ public struct PullAboutMeUseCase: Sendable {
         try await scope.coreDataContext.perform {
             let account = try Account.byID(accountID).execute().first ?? Account.create(id: accountID, externalID: accountInfo.id, in: scope.coreDataContext)
             
-            account.nickname = accountInfo.name
+            account.name = accountInfo.name
             account.email = accountInfo.email
             
             try scope.coreDataContext.save()

@@ -30,7 +30,7 @@ public extension Account {
         }
         
         return NSPredicate(
-            format: "name CONTAINS[cd] %@ OR nickname CONTAINS[cd] %@ OR email CONTAINS[cd] %@",
+            format: "name CONTAINS[cd] %@ OR name CONTAINS[cd] %@ OR email CONTAINS[cd] %@",
             query, query, query
         )
     }

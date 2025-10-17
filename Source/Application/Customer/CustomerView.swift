@@ -4,39 +4,39 @@ import SwiftUIComponents
 struct CustomerView: View, ComponentBuilder {
     var body: some View {
         TabView {
-            NavigationStack {
-                ComingSoonView(title: "Главная", progress: 0.95)
+            NavigationView {
+                MakeUnderConstructionBarrier(title: "Coming soon...", reason: "This tab is currently under construction.")
             }
             .tabItem {
                 Image(systemName: "house.fill")
                 Text("Главная")
             }
             
-            NavigationStack {
-                ComingSoonView(title: "Сканер", progress: 0.82)
+            NavigationView {
+                MakeUnderConstructionBarrier(title: "Coming soon...", reason: "This tab is currently under construction.")
             }
             .tabItem {
                 Image(systemName: "qrcode.viewfinder")
                 Text("Сканер")
             }
             
-            NavigationStack {
-                ComingSoonView(title: "Авто", progress: 0.75)
+            NavigationView {
+                MakeUnderConstructionBarrier(title: "Coming soon...", reason: "This tab is currently under construction.")
             }
             .tabItem {
                 Image(systemName: "car.fill")
                 Text("Авто")
             }
             
-            NavigationStack {
-                ComingSoonView(title: "Каталог", progress: 0.85)
+            NavigationView {
+                MakeUnderConstructionBarrier(title: "Coming soon...", reason: "This tab is currently under construction.")
             }
             .tabItem {
                 Image(systemName: "gift.fill")
                 Text("Каталог")
             }
             
-            NavigationStack {
+            NavigationView {
                 AboutMeView()
             }
             .tabItem {
@@ -45,30 +45,5 @@ struct CustomerView: View, ComponentBuilder {
             }
         }
         .accentColor(.blue)
-    }
-}
-
-struct ComingSoonView: View, ComponentBuilder {
-    let title: String
-    let progress: Double
-    
-    var body: some View {
-        VStack(spacing: 32) {
-            MakeEmptyState(
-                icon: "clock",
-                title: "Скоро будет готово",
-                subtitle: "Мы работаем над этим разделом"
-            )
-            
-            MakeCard {
-                VStack(spacing: 16) {
-                    MakeInfoRow(label: "Статус", value: "В разработке")
-                    MakeInfoRow(label: "Прогресс", value: "\(progress * 100)%")
-                    MakeProgressBar(progress: progress)
-                }
-            }
-        }
-        .padding()
-        .navigationTitle(title)
     }
 }

@@ -4,7 +4,7 @@ import ScopeGraph
 
 extension Scope {
     /// Domain schema definition using ScopeGraph DSL
-    public struct CoreData {
+    public struct Domain {
         /// Complete domain model schema
         public static var schema: DataSchema {
             DataSchema {
@@ -29,7 +29,18 @@ extension Scope {
                 // Account Entity
                 EntitySchema("Account", inherits: "Entity") {
                     Field("email", .text)
-                    Field("nickname", .text)
+                    Field("name", .text)
+                    Field("phone", .text, optional: true)
+                    Field("points", .number, default: 0)
+                    Relationship("image", to: "Attachment")
+                }
+                
+                // Attachment Entity
+                EntitySchema("Attachment", inherits: "Entity") {
+                    Field("sourceURL", .url, optional: true)
+                    ExternalDataField("raw", optional: true)
+                    ExternalDataField("native", optional: true)
+                    Field("sourceHash", .number, optional: true)
                 }
             }
         }

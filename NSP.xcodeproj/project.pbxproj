@@ -13,7 +13,6 @@
 		7E36E0072E7B0256009522B5 /* DependenciesMacros in Frameworks */ = {isa = PBXBuildFile; productRef = 7E36E0062E7B0256009522B5 /* DependenciesMacros */; };
 		7E95E8852E7AFA0800B45539 /* UIDevice+Shake.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E95E8822E7AFA0800B45539 /* UIDevice+Shake.swift */; };
 		7E95E8862E7AFA0800B45539 /* AnimationSystem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E95E8752E7AFA0800B45539 /* AnimationSystem.swift */; };
-		7E95E8872E7AFA0800B45539 /* NetworkComponents.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E95E8762E7AFA0800B45539 /* NetworkComponents.swift */; };
 		7E95E8882E7AFA0800B45539 /* SearchManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E95E8812E7AFA0800B45539 /* SearchManager.swift */; };
 		7E95E88B2E7AFA0800B45539 /* ToastService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E95E8732E7AFA0800B45539 /* ToastService.swift */; };
 		7E95E88D2E7AFA0800B45539 /* DataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E95E87C2E7AFA0800B45539 /* DataManager.swift */; };
@@ -85,6 +84,13 @@
 		7EE877EF2EA2D26700CFC230 /* AboutMeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EE877EE2EA2D26700CFC230 /* AboutMeView.swift */; };
 		7EE877F12EA2D31000CFC230 /* AboutMe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EE877F02EA2D31000CFC230 /* AboutMe.swift */; };
 		7EE877F32EA2E55600CFC230 /* Main+Schedule.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EE877F22EA2E55600CFC230 /* Main+Schedule.swift */; };
+		7EE877FA2EA2ED7F00CFC230 /* Attachment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EE877F42EA2ED7F00CFC230 /* Attachment.swift */; };
+		7EE877FB2EA2ED7F00CFC230 /* Attachment+Predicate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EE877F72EA2ED7F00CFC230 /* Attachment+Predicate.swift */; };
+		7EE877FC2EA2ED7F00CFC230 /* Attachment+Loader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EE877F62EA2ED7F00CFC230 /* Attachment+Loader.swift */; };
+		7EE877FD2EA2ED7F00CFC230 /* Attachment+UseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EE877F82EA2ED7F00CFC230 /* Attachment+UseCase.swift */; };
+		7EE877FE2EA2ED7F00CFC230 /* Attachment+FetchRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EE877F52EA2ED7F00CFC230 /* Attachment+FetchRequest.swift */; };
+		7EE878002EA2F97C00CFC230 /* AccountImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EE877FF2EA2F97C00CFC230 /* AccountImageView.swift */; };
+		7EE878032EA2FD3200CFC230 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 7EE878022EA2FD3200CFC230 /* Localizable.xcstrings */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -106,7 +112,6 @@
 		7E95E8722E7AFA0800B45539 /* QRScannerService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRScannerService.swift; sourceTree = "<group>"; };
 		7E95E8732E7AFA0800B45539 /* ToastService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToastService.swift; sourceTree = "<group>"; };
 		7E95E8752E7AFA0800B45539 /* AnimationSystem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimationSystem.swift; sourceTree = "<group>"; };
-		7E95E8762E7AFA0800B45539 /* NetworkComponents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkComponents.swift; sourceTree = "<group>"; };
 		7E95E87A2E7AFA0800B45539 /* AppConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppConfig.swift; sourceTree = "<group>"; };
 		7E95E87B2E7AFA0800B45539 /* CollectionState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionState.swift; sourceTree = "<group>"; };
 		7E95E87C2E7AFA0800B45539 /* DataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataManager.swift; sourceTree = "<group>"; };
@@ -168,6 +173,13 @@
 		7EE877EE2EA2D26700CFC230 /* AboutMeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutMeView.swift; sourceTree = "<group>"; };
 		7EE877F02EA2D31000CFC230 /* AboutMe.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutMe.swift; sourceTree = "<group>"; };
 		7EE877F22EA2E55600CFC230 /* Main+Schedule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Main+Schedule.swift"; sourceTree = "<group>"; };
+		7EE877F42EA2ED7F00CFC230 /* Attachment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Attachment.swift; sourceTree = "<group>"; };
+		7EE877F52EA2ED7F00CFC230 /* Attachment+FetchRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Attachment+FetchRequest.swift"; sourceTree = "<group>"; };
+		7EE877F62EA2ED7F00CFC230 /* Attachment+Loader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Attachment+Loader.swift"; sourceTree = "<group>"; };
+		7EE877F72EA2ED7F00CFC230 /* Attachment+Predicate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Attachment+Predicate.swift"; sourceTree = "<group>"; };
+		7EE877F82EA2ED7F00CFC230 /* Attachment+UseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Attachment+UseCase.swift"; sourceTree = "<group>"; };
+		7EE877FF2EA2F97C00CFC230 /* AccountImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountImageView.swift; sourceTree = "<group>"; };
+		7EE878022EA2FD3200CFC230 /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -244,7 +256,6 @@
 			isa = PBXGroup;
 			children = (
 				7E95E8752E7AFA0800B45539 /* AnimationSystem.swift */,
-				7E95E8762E7AFA0800B45539 /* NetworkComponents.swift */,
 			);
 			path = SwiftUI;
 			sourceTree = "<group>";
@@ -280,6 +291,7 @@
 			isa = PBXGroup;
 			children = (
 				08DB741B2DF8296F007D80CB /* Assets.xcassets */,
+				7EE878022EA2FD3200CFC230 /* Localizable.xcstrings */,
 			);
 			path = Resource;
 			sourceTree = "<group>";
@@ -320,6 +332,7 @@
 			isa = PBXGroup;
 			children = (
 				7EE877D72EA2B8E800CFC230 /* Account */,
+				7EE877F92EA2ED7F00CFC230 /* Attachment */,
 				7EE877C72E9FFFEB00CFC230 /* Value */,
 				7ECC402C2E6700C30014E97E /* Entity */,
 			);
@@ -492,10 +505,31 @@
 		7EE877ED2EA2D25500CFC230 /* About Me */ = {
 			isa = PBXGroup;
 			children = (
+				7EE878012EA2F98100CFC230 /* Account Image */,
 				7EE877EE2EA2D26700CFC230 /* AboutMeView.swift */,
 				7EE877F02EA2D31000CFC230 /* AboutMe.swift */,
 			);
 			path = "About Me";
+			sourceTree = "<group>";
+		};
+		7EE877F92EA2ED7F00CFC230 /* Attachment */ = {
+			isa = PBXGroup;
+			children = (
+				7EE877F42EA2ED7F00CFC230 /* Attachment.swift */,
+				7EE877F52EA2ED7F00CFC230 /* Attachment+FetchRequest.swift */,
+				7EE877F62EA2ED7F00CFC230 /* Attachment+Loader.swift */,
+				7EE877F72EA2ED7F00CFC230 /* Attachment+Predicate.swift */,
+				7EE877F82EA2ED7F00CFC230 /* Attachment+UseCase.swift */,
+			);
+			path = Attachment;
+			sourceTree = "<group>";
+		};
+		7EE878012EA2F98100CFC230 /* Account Image */ = {
+			isa = PBXGroup;
+			children = (
+				7EE877FF2EA2F97C00CFC230 /* AccountImageView.swift */,
+			);
+			path = "Account Image";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -548,6 +582,7 @@
 			knownRegions = (
 				en,
 				Base,
+				ru,
 			);
 			mainGroup = 08DB73BA2DF6CC1B007D80CB;
 			minimizedProjectReferenceProxies = 1;
@@ -572,6 +607,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7EE878032EA2FD3200CFC230 /* Localizable.xcstrings in Resources */,
 				08DB741C2DF8296F007D80CB /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -606,6 +642,7 @@
 				7ECC400F2E6628E90014E97E /* CarTinderView.swift in Sources */,
 				7ECC40192E6628E90014E97E /* LoginView.swift in Sources */,
 				7ECC3F942E65CF8D0014E97E /* Product.swift in Sources */,
+				7EE878002EA2F97C00CFC230 /* AccountImageView.swift in Sources */,
 				7ECC3F952E65CF8D0014E97E /* OtherModels.swift in Sources */,
 				7ECC3F962E65CF8D0014E97E /* Car.swift in Sources */,
 				7EE877E52EA2BBE400CFC230 /* PullAboutMeUseCase.swift in Sources */,
@@ -624,7 +661,6 @@
 				7EE877EF2EA2D26700CFC230 /* AboutMeView.swift in Sources */,
 				7E95E8852E7AFA0800B45539 /* UIDevice+Shake.swift in Sources */,
 				7E95E8862E7AFA0800B45539 /* AnimationSystem.swift in Sources */,
-				7E95E8872E7AFA0800B45539 /* NetworkComponents.swift in Sources */,
 				7E95E8882E7AFA0800B45539 /* SearchManager.swift in Sources */,
 				7E95E88B2E7AFA0800B45539 /* ToastService.swift in Sources */,
 				7E95E88D2E7AFA0800B45539 /* DataManager.swift in Sources */,
@@ -642,6 +678,11 @@
 				7E95E8992E7AFA0800B45539 /* AppConfig.swift in Sources */,
 				7EE877C92EA019DF00CFC230 /* Core+Dependencies.swift in Sources */,
 				7EE877E72EA2BCFD00CFC230 /* RefreshTokenUseCase.swift in Sources */,
+				7EE877FA2EA2ED7F00CFC230 /* Attachment.swift in Sources */,
+				7EE877FB2EA2ED7F00CFC230 /* Attachment+Predicate.swift in Sources */,
+				7EE877FC2EA2ED7F00CFC230 /* Attachment+Loader.swift in Sources */,
+				7EE877FD2EA2ED7F00CFC230 /* Attachment+UseCase.swift in Sources */,
+				7EE877FE2EA2ED7F00CFC230 /* Attachment+FetchRequest.swift in Sources */,
 				7EE877DB2EA2B94D00CFC230 /* LoginUseCase.swift in Sources */,
 				7EE877D62EA2A8F600CFC230 /* LoginView+Policies.swift in Sources */,
 				7E95E89A2E7AFA0800B45539 /* CollectionState.swift in Sources */,
@@ -718,6 +759,7 @@
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
@@ -774,6 +816,7 @@
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
 				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_EMIT_LOC_STRINGS = YES;
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;

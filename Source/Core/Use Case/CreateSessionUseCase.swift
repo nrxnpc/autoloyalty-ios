@@ -77,7 +77,9 @@ public struct CreateSessionUseCase: Sendable {
             id: UUID().uuidString,
             externalID: user.id,
             name: user.name,
-            email: user.email
+            email: user.email,
+            phone: user.phone,
+            image: .none
         )
         
         let newAccount = try createUseCase.execute()

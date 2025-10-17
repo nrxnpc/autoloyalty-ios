@@ -8,6 +8,7 @@ public extension Account {
     static func create(id: String, externalID: String = "", in context: NSManagedObjectContext) throws -> Account {
         let account = Account(context: context)
         account.id = id
+        account.image = .createEmpty(in: context)
         if externalID.isEmpty {
             account.sync.isDraft = true
         } else {
@@ -25,13 +26,24 @@ public struct CreateAccountUseCase {
     private let externalID: String
     private let name: String
     private let email: String
+    private let phone: String?
+    private let image: AttachmentSource?
 
-    public init(context: NSManagedObjectContext, id: String, externalID: String, name: String, email: String) {
+    public enum AttachmentSource {
+        case url(URL)
+        case raw(Data)
+        case native(Data)
+        case pack(Data, Data)
+    }
+    
+    public init(context: NSManagedObjectContext, id: String, externalID: String, name: String, email: String, phone: String? = nil, image: AttachmentSource?) {
         self.context = context
         self.restoredID = id
         self.externalID = externalID
         self.name = name
         self.email = email
+        self.phone = phone
+        self.image = image
     }
     
     @discardableResult
@@ -48,12 +60,27 @@ public struct CreateAccountUseCase {
         if let restoredID {
             newAccount.id = restoredID
         }
-        newAccount.nickname = name
+        newAccount.name = name
         newAccount.email = email
+        newAccount.phone = phone
+        if let image {
+            newAccount.image = try resolveAttachment(from: image, in: context)
+        } else {
+            newAccount.image = .createEmpty(in: context)
+        }
         newAccount.sync.externalID = externalID
         
         try context.save()
         return newAccount
+    }
+    
+    private func resolveAttachment(from source: AttachmentSource, in context: NSManagedObjectContext) throws -> Attachment {
+        switch source {
+        case .url(let url): Attachment.fromURL(url, in: context)
+        case .raw(let data): Attachment.fromData(raw: data, in: context)
+        case .native(let data): Attachment.fromData(native: data, in: context)
+        case .pack(let raw, let native): Attachment.fromData(raw: raw, native: native, in: context)
+        }
     }
 }
 
@@ -95,7 +122,7 @@ public struct UpdateAccountUseCase {
         
         // Update properties if provided
         if let newName = newName {
-            account.nickname = newName
+            account.name = newName
         }
         if let newEmail = newEmail {
             account.email = newEmail

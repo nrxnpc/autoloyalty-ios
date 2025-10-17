@@ -39,7 +39,7 @@ public final class Scope: ObservableObject, @unchecked Sendable {
     
     private static func createDataPipeline() -> DataPipeline {
         return ScopeGraphKits.userDataKit {
-            Scope.CoreData.schema.createCoreDataModel()
+            Scope.Domain.schema.createCoreDataModel()
         }
     }
     

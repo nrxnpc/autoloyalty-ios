@@ -9,20 +9,21 @@ final class AboutMe: ObservableObject {
     
     @Dependency(\.scope) var scope
     
+    /// The internal observer for the `Account` entity in Core Data.
     @Published private(set) var accountID: String = ""
-    
-    /// The username (nickname) being edited by the user.
-    @Published var username: String = ""
-    
-    /// The email of the account, which is read-only.
-    @Published private(set) var email: String = ""
+    @Published private(set) var account: FetchedObject<Account>?
     
     /// A flag indicating that the ViewModel is waiting for its initial `Account` data.
     /// The view uses this to show a loading indicator.
     @Published private(set) var isUpdating: Bool = true
     
-    /// The internal observer for the `Account` entity in Core Data.
-    @Published private(set) var account: FetchedObject<Account>?
+    /// The username (name) and phone being edited by the user.
+    @Published var username: String = ""
+    @Published private(set) var phone: String?
+    
+    /// The email and points of the account, which is read-only.
+    @Published private(set) var email: String = ""
+    @Published private(set) var points: Int = 0
     
     private var cancellables = Set<AnyCancellable>()
     private var accountFetcherCancellables = Set<AnyCancellable>()
@@ -85,8 +86,10 @@ extension AboutMe {
         }
         
         // View Data:
-        self.username = account.nickname
+        self.username = account.name
         self.email = account.email
+        self.phone = account.phone
+        self.points = account.points
         
         // Mark the initial update as complete.
         if isUpdating {
