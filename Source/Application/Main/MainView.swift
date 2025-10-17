@@ -5,12 +5,53 @@ struct MainView: View {
     // MARK: - Depemdendencies
     
     @StateObject var router: Main.Router = .init()
+    @StateObject var mainApplication: Main = .init()
+    
     @StateObject private var authViewModel = AuthViewModel()
     @StateObject private var dataManager = DataManager()
     
     // MARK: -
     
     var body: some View {
+        NavigationView {
+            switch mainApplication.state {
+            case .loading: makeLoading()
+            case .authentication: makeLogin()
+            case .session(let sessionID): makeCustomerSession(for: sessionID)
+            case .guestSession: makeGuestSession()
+            }
+        }
+        .animation(.smooth, value: mainApplication.state)
+        .sensoryFeedback(.start, trigger: mainApplication.state)
+        .environmentObject(mainApplication)
+        .task {
+            await mainApplication.restoreSession()
+        }
+    }
+}
+
+extension MainView {
+    @ViewBuilder func makeLoading() -> some View {
+        EmptyView()
+    }
+    
+    @ViewBuilder func makeLogin() -> some View {
+        LoginView()
+    }
+    
+    @ViewBuilder func makeCustomerSession(for sessionID: String) -> some View {
+        CustomerView()
+            .id(sessionID)
+    }
+    
+    @ViewBuilder func makeGuestSession() -> some View {
+        CustomerView()
+            .id("guest")
+    }
+    
+    // MARK: - MAGA
+    
+    @ViewBuilder func makeAmericaGreatAgain() -> some View {
         ZStack {
             makeRootView()
                 .environmentObject(router)
@@ -42,9 +83,7 @@ struct MainView: View {
             dataManager.clearAllData()
         }
     }
-}
-
-extension MainView {
+    
     @ViewBuilder func makeRootView() -> some View {
         ZStack {
             switch router.destination {

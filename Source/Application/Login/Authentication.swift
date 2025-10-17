@@ -22,17 +22,6 @@ extension Authentication {
             try await endpoint.login(.init(email: input.email, password: input.password))
         }
     }
-    
-    @MainActor
-    func loginAsGuest() async throws {
-        isUpdating = true
-        defer {
-            isUpdating = false
-        }
-        
-        try await Task.sleep(for: .seconds(2))
-        throw UpdatingError.somethingWentWrong
-    }
 }
 
 extension Authentication.UpdatingError {

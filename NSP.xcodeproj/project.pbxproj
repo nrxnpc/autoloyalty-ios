@@ -81,6 +81,9 @@
 		7EE877E32EA2BAF200CFC230 /* Account+UseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EE877E22EA2BAF200CFC230 /* Account+UseCase.swift */; };
 		7EE877E52EA2BBE400CFC230 /* PullAboutMeUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EE877E42EA2BBE400CFC230 /* PullAboutMeUseCase.swift */; };
 		7EE877E72EA2BCFD00CFC230 /* RefreshTokenUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EE877E62EA2BCFD00CFC230 /* RefreshTokenUseCase.swift */; };
+		7EE877EA2EA2D04F00CFC230 /* CustomerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EE877E92EA2D04F00CFC230 /* CustomerView.swift */; };
+		7EE877EF2EA2D26700CFC230 /* AboutMeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EE877EE2EA2D26700CFC230 /* AboutMeView.swift */; };
+		7EE877F12EA2D31000CFC230 /* AboutMe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EE877F02EA2D31000CFC230 /* AboutMe.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -160,6 +163,9 @@
 		7EE877E22EA2BAF200CFC230 /* Account+UseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Account+UseCase.swift"; sourceTree = "<group>"; };
 		7EE877E42EA2BBE400CFC230 /* PullAboutMeUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PullAboutMeUseCase.swift; sourceTree = "<group>"; };
 		7EE877E62EA2BCFD00CFC230 /* RefreshTokenUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RefreshTokenUseCase.swift; sourceTree = "<group>"; };
+		7EE877E92EA2D04F00CFC230 /* CustomerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomerView.swift; sourceTree = "<group>"; };
+		7EE877EE2EA2D26700CFC230 /* AboutMeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutMeView.swift; sourceTree = "<group>"; };
+		7EE877F02EA2D31000CFC230 /* AboutMe.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutMe.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -299,6 +305,8 @@
 		7ECC3FE72E65D0680014E97E /* Application */ = {
 			isa = PBXGroup;
 			children = (
+				7EE877ED2EA2D25500CFC230 /* About Me */,
+				7EE877E82EA2D00400CFC230 /* Customer */,
 				7EE877D82EA2B92400CFC230 /* MAGA */,
 				7ECC40282E66FCAE0014E97E /* Login */,
 				7ECC40212E66D80C0014E97E /* Main */,
@@ -470,6 +478,23 @@
 			path = "Use Case";
 			sourceTree = "<group>";
 		};
+		7EE877E82EA2D00400CFC230 /* Customer */ = {
+			isa = PBXGroup;
+			children = (
+				7EE877E92EA2D04F00CFC230 /* CustomerView.swift */,
+			);
+			path = Customer;
+			sourceTree = "<group>";
+		};
+		7EE877ED2EA2D25500CFC230 /* About Me */ = {
+			isa = PBXGroup;
+			children = (
+				7EE877EE2EA2D26700CFC230 /* AboutMeView.swift */,
+				7EE877F02EA2D31000CFC230 /* AboutMe.swift */,
+			);
+			path = "About Me";
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -559,6 +584,7 @@
 				7ECC40232E66D8150014E97E /* Main.swift in Sources */,
 				7ECC400A2E6628E90014E97E /* NewsDetailView.swift in Sources */,
 				7ECC40162E6628E90014E97E /* QRScannerMainView.swift in Sources */,
+				7EE877F12EA2D31000CFC230 /* AboutMe.swift in Sources */,
 				7ECC40112E6628E90014E97E /* CatalogView.swift in Sources */,
 				7ECC400E2E6628E90014E97E /* AdminManagementViews.swift in Sources */,
 				7ED1439F2E6740F1003BE287 /* Endpoint+Dependencies.swift in Sources */,
@@ -591,6 +617,7 @@
 				7EE877CE2EA01BB000CFC230 /* EntitySync.swift in Sources */,
 				7EE877CF2EA01BB000CFC230 /* Entity.swift in Sources */,
 				7ECC40132E6628E90014E97E /* MainTabView.swift in Sources */,
+				7EE877EF2EA2D26700CFC230 /* AboutMeView.swift in Sources */,
 				7E95E8852E7AFA0800B45539 /* UIDevice+Shake.swift in Sources */,
 				7E95E8862E7AFA0800B45539 /* AnimationSystem.swift in Sources */,
 				7E95E8872E7AFA0800B45539 /* NetworkComponents.swift in Sources */,
@@ -620,6 +647,7 @@
 				7E95E89E2E7AFA0800B45539 /* QRScannerService.swift in Sources */,
 				7E95E89F2E7AFA0800B45539 /* RestEndpoint+Raw.swift in Sources */,
 				7ECC40182E6628E90014E97E /* StatsView.swift in Sources */,
+				7EE877EA2EA2D04F00CFC230 /* CustomerView.swift in Sources */,
 				7ECC40082E6628E90014E97E /* CommonViews.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

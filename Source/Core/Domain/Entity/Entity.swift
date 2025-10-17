@@ -20,11 +20,7 @@ public class Entity: NSManagedObject, Identifiable {
         }
         createdAt = now
         updatedAt = now
-        
-        if self.sync == nil {
-            let entitySync = EntitySync(context: self.managedObjectContext!)
-            self.sync = entitySync
-        }
+        sync = EntitySync(context: self.managedObjectContext!)
     }
     
     public override func willSave() {

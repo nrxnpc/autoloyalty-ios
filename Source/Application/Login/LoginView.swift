@@ -2,6 +2,7 @@ import SwiftUI
 import SwiftUIComponents
 
 struct LoginView: View, ComponentBuilder {
+    @EnvironmentObject var mainApplication: Main
     @StateObject var input = Input()
     @StateObject var output = Authentication()
     
@@ -132,7 +133,7 @@ extension LoginView {
     
     private func loginAsGuest() {
         Task { @MainActor in
-            try await output.loginAsGuest()
+            await mainApplication.continueAsGuest()
         }
     }
     
