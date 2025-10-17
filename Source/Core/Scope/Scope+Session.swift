@@ -176,9 +176,8 @@ public extension Scope {
     
     /// Refresh current tokens
     func refreshCurrentTokens() async throws {
-        // TODO: 
-        // let refreshUseCase = RefreshTokenUseCase(scope: self)
-        // try await refreshUseCase.execute()
+        let refreshUseCase = RefreshTokenUseCase(scope: self)
+        try await refreshUseCase.execute()
     }
     
     // MARK: - Private Methods

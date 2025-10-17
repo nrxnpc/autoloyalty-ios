@@ -15,15 +15,14 @@ public extension Scope {
     /// - Parameter operation: Async operation that returns a LoginResponse
     /// - Throws: Authentication or network errors
     
-    // Example: 
-    // @MainActor
-    // func grab(_ operation: @escaping @Sendable () async throws -> RestEndpoint.LoginResponse) async throws {
-    //     let loginResponse = try await operation()
-    //     do {
-    //         let loginUseCase = LoginUseCase(scope: self)
-    //         try await loginUseCase.execute(loginResponse)
-    //     } catch let error {
-    //         debugPrint("[DEBUG] Failed to login: \(error)")
-    //     }
-    // }
+    @MainActor
+    func grab(_ operation: @escaping @Sendable () async throws -> RestEndpoint.AuthResponse) async throws {
+        let loginResponse = try await operation()
+        do {
+            let loginUseCase = LoginUseCase(scope: self)
+            try await loginUseCase.execute(loginResponse)
+        } catch let error {
+            debugPrint("[DEBUG] Failed to login: \(error)")
+        }
+    }
 }

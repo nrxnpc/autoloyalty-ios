@@ -52,9 +52,8 @@ extension MainView {
             }
         }
         
-        // Баннер статуса сети и уведомления
+        // Баннер уведомления
         VStack {
-            NetworkStatusBanner()
             NotificationOverlay()
             Spacer()
         }

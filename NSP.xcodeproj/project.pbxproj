@@ -19,7 +19,6 @@
 		7E95E88D2E7AFA0800B45539 /* DataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E95E87C2E7AFA0800B45539 /* DataManager.swift */; };
 		7E95E88E2E7AFA0800B45539 /* ImageCacheService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E95E8702E7AFA0800B45539 /* ImageCacheService.swift */; };
 		7E95E8902E7AFA0800B45539 /* DemoDataLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E95E87D2E7AFA0800B45539 /* DemoDataLoader.swift */; };
-		7E95E8912E7AFA0800B45539 /* NetworkStatusView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E95E8782E7AFA0800B45539 /* NetworkStatusView.swift */; };
 		7E95E8922E7AFA0800B45539 /* HapticService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E95E86F2E7AFA0800B45539 /* HapticService.swift */; };
 		7E95E8942E7AFA0800B45539 /* NotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E95E8712E7AFA0800B45539 /* NotificationService.swift */; };
 		7E95E8962E7AFA0800B45539 /* QRCodeParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E95E8802E7AFA0800B45539 /* QRCodeParser.swift */; };
@@ -72,6 +71,16 @@
 		7EE877CB2EA01B5000CFC230 /* Scope+Schema.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EE877CA2EA01B5000CFC230 /* Scope+Schema.swift */; };
 		7EE877CE2EA01BB000CFC230 /* EntitySync.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EE877CD2EA01BB000CFC230 /* EntitySync.swift */; };
 		7EE877CF2EA01BB000CFC230 /* Entity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EE877CC2EA01BB000CFC230 /* Entity.swift */; };
+		7EE877D22EA2680C00CFC230 /* SwiftUIComponents in Frameworks */ = {isa = PBXBuildFile; productRef = 7EE877D12EA2680C00CFC230 /* SwiftUIComponents */; };
+		7EE877D42EA2A2F800CFC230 /* Authentication.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EE877D32EA2A2F800CFC230 /* Authentication.swift */; };
+		7EE877D62EA2A8F600CFC230 /* LoginView+Policies.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EE877D52EA2A8F600CFC230 /* LoginView+Policies.swift */; };
+		7EE877DB2EA2B94D00CFC230 /* LoginUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EE877DA2EA2B94D00CFC230 /* LoginUseCase.swift */; };
+		7EE877DD2EA2B9A900CFC230 /* CreateSessionUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EE877DC2EA2B9A900CFC230 /* CreateSessionUseCase.swift */; };
+		7EE877DF2EA2BABD00CFC230 /* Account.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EE877DE2EA2BABD00CFC230 /* Account.swift */; };
+		7EE877E12EA2BAE800CFC230 /* Account+FetchRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EE877E02EA2BAE800CFC230 /* Account+FetchRequest.swift */; };
+		7EE877E32EA2BAF200CFC230 /* Account+UseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EE877E22EA2BAF200CFC230 /* Account+UseCase.swift */; };
+		7EE877E52EA2BBE400CFC230 /* PullAboutMeUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EE877E42EA2BBE400CFC230 /* PullAboutMeUseCase.swift */; };
+		7EE877E72EA2BCFD00CFC230 /* RefreshTokenUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EE877E62EA2BCFD00CFC230 /* RefreshTokenUseCase.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -94,7 +103,6 @@
 		7E95E8732E7AFA0800B45539 /* ToastService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToastService.swift; sourceTree = "<group>"; };
 		7E95E8752E7AFA0800B45539 /* AnimationSystem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimationSystem.swift; sourceTree = "<group>"; };
 		7E95E8762E7AFA0800B45539 /* NetworkComponents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkComponents.swift; sourceTree = "<group>"; };
-		7E95E8782E7AFA0800B45539 /* NetworkStatusView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkStatusView.swift; sourceTree = "<group>"; };
 		7E95E87A2E7AFA0800B45539 /* AppConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppConfig.swift; sourceTree = "<group>"; };
 		7E95E87B2E7AFA0800B45539 /* CollectionState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionState.swift; sourceTree = "<group>"; };
 		7E95E87C2E7AFA0800B45539 /* DataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataManager.swift; sourceTree = "<group>"; };
@@ -143,6 +151,15 @@
 		7EE877CA2EA01B5000CFC230 /* Scope+Schema.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Scope+Schema.swift"; sourceTree = "<group>"; };
 		7EE877CC2EA01BB000CFC230 /* Entity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Entity.swift; sourceTree = "<group>"; };
 		7EE877CD2EA01BB000CFC230 /* EntitySync.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntitySync.swift; sourceTree = "<group>"; };
+		7EE877D32EA2A2F800CFC230 /* Authentication.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Authentication.swift; sourceTree = "<group>"; };
+		7EE877D52EA2A8F600CFC230 /* LoginView+Policies.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "LoginView+Policies.swift"; sourceTree = "<group>"; };
+		7EE877DA2EA2B94D00CFC230 /* LoginUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginUseCase.swift; sourceTree = "<group>"; };
+		7EE877DC2EA2B9A900CFC230 /* CreateSessionUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateSessionUseCase.swift; sourceTree = "<group>"; };
+		7EE877DE2EA2BABD00CFC230 /* Account.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Account.swift; sourceTree = "<group>"; };
+		7EE877E02EA2BAE800CFC230 /* Account+FetchRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Account+FetchRequest.swift"; sourceTree = "<group>"; };
+		7EE877E22EA2BAF200CFC230 /* Account+UseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Account+UseCase.swift"; sourceTree = "<group>"; };
+		7EE877E42EA2BBE400CFC230 /* PullAboutMeUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PullAboutMeUseCase.swift; sourceTree = "<group>"; };
+		7EE877E62EA2BCFD00CFC230 /* RefreshTokenUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RefreshTokenUseCase.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -153,6 +170,7 @@
 				7ECC3FEA2E66280A0014E97E /* Endpoint in Frameworks */,
 				7ECC3FEC2E66280A0014E97E /* EndpointUI in Frameworks */,
 				7EE877B92E9FE17900CFC230 /* ScopeGraph in Frameworks */,
+				7EE877D22EA2680C00CFC230 /* SwiftUIComponents in Frameworks */,
 				7E36E0072E7B0256009522B5 /* DependenciesMacros in Frameworks */,
 				7ECC3FEF2E6628260014E97E /* SwiftUIComponents in Frameworks */,
 				7E36E0052E7B0256009522B5 /* Dependencies in Frameworks */,
@@ -219,7 +237,6 @@
 			children = (
 				7E95E8752E7AFA0800B45539 /* AnimationSystem.swift */,
 				7E95E8762E7AFA0800B45539 /* NetworkComponents.swift */,
-				7E95E8782E7AFA0800B45539 /* NetworkStatusView.swift */,
 			);
 			path = SwiftUI;
 			sourceTree = "<group>";
@@ -282,11 +299,9 @@
 		7ECC3FE72E65D0680014E97E /* Application */ = {
 			isa = PBXGroup;
 			children = (
+				7EE877D82EA2B92400CFC230 /* MAGA */,
 				7ECC40282E66FCAE0014E97E /* Login */,
 				7ECC40212E66D80C0014E97E /* Main */,
-				7ECC40292E6700870014E97E /* Admin */,
-				7ECC402A2E67009C0014E97E /* Common */,
-				7ECC402B2E6700AC0014E97E /* User */,
 			);
 			path = Application;
 			sourceTree = "<group>";
@@ -294,6 +309,7 @@
 		7ECC3FF02E6628AC0014E97E /* Domain */ = {
 			isa = PBXGroup;
 			children = (
+				7EE877D72EA2B8E800CFC230 /* Account */,
 				7EE877C72E9FFFEB00CFC230 /* Value */,
 				7ECC402C2E6700C30014E97E /* Entity */,
 			);
@@ -313,9 +329,9 @@
 		7ECC40282E66FCAE0014E97E /* Login */ = {
 			isa = PBXGroup;
 			children = (
-				7ECC3FFE2E6628E90014E97E /* AuthFlowView.swift */,
-				7ECC3FDB2E65CF8D0014E97E /* AuthViewModel.swift */,
 				7ECC3FFF2E6628E90014E97E /* LoginView.swift */,
+				7EE877D52EA2A8F600CFC230 /* LoginView+Policies.swift */,
+				7EE877D32EA2A2F800CFC230 /* Authentication.swift */,
 			);
 			path = Login;
 			sourceTree = "<group>";
@@ -379,6 +395,7 @@
 		7EE877BA2E9FEA6200CFC230 /* Core */ = {
 			isa = PBXGroup;
 			children = (
+				7EE877D92EA2B94300CFC230 /* Use Case */,
 				7EE877BC2E9FEB5300CFC230 /* Scope */,
 				7ECC3FF02E6628AC0014E97E /* Domain */,
 				7EE877BB2E9FEA7000CFC230 /* Endpoint */,
@@ -420,6 +437,39 @@
 			path = Value;
 			sourceTree = "<group>";
 		};
+		7EE877D72EA2B8E800CFC230 /* Account */ = {
+			isa = PBXGroup;
+			children = (
+				7EE877DE2EA2BABD00CFC230 /* Account.swift */,
+				7EE877E02EA2BAE800CFC230 /* Account+FetchRequest.swift */,
+				7EE877E22EA2BAF200CFC230 /* Account+UseCase.swift */,
+			);
+			path = Account;
+			sourceTree = "<group>";
+		};
+		7EE877D82EA2B92400CFC230 /* MAGA */ = {
+			isa = PBXGroup;
+			children = (
+				7ECC3FFE2E6628E90014E97E /* AuthFlowView.swift */,
+				7ECC3FDB2E65CF8D0014E97E /* AuthViewModel.swift */,
+				7ECC40292E6700870014E97E /* Admin */,
+				7ECC402A2E67009C0014E97E /* Common */,
+				7ECC402B2E6700AC0014E97E /* User */,
+			);
+			path = MAGA;
+			sourceTree = "<group>";
+		};
+		7EE877D92EA2B94300CFC230 /* Use Case */ = {
+			isa = PBXGroup;
+			children = (
+				7EE877DA2EA2B94D00CFC230 /* LoginUseCase.swift */,
+				7EE877DC2EA2B9A900CFC230 /* CreateSessionUseCase.swift */,
+				7EE877E42EA2BBE400CFC230 /* PullAboutMeUseCase.swift */,
+				7EE877E62EA2BCFD00CFC230 /* RefreshTokenUseCase.swift */,
+			);
+			path = "Use Case";
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -443,6 +493,7 @@
 				7E36E0042E7B0256009522B5 /* Dependencies */,
 				7E36E0062E7B0256009522B5 /* DependenciesMacros */,
 				7EE877B82E9FE17900CFC230 /* ScopeGraph */,
+				7EE877D12EA2680C00CFC230 /* SwiftUIComponents */,
 			);
 			productName = "NSP app";
 			productReference = 08DB73C32DF6CC1B007D80CB /* Application.app */;
@@ -474,9 +525,9 @@
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
 				7ECC3FE82E66280A0014E97E /* XCLocalSwiftPackageReference "Packages/swift-endpoint" */,
-				7ECC3FED2E6628260014E97E /* XCLocalSwiftPackageReference "Packages/swift-components" */,
 				7E36E0032E7B0256009522B5 /* XCRemoteSwiftPackageReference "swift-dependencies" */,
 				7EE877B72E9FE17900CFC230 /* XCLocalSwiftPackageReference "Packages/swift-scope-graph" */,
+				7EE877D02EA2680C00CFC230 /* XCLocalSwiftPackageReference "Packages/swift-components" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 08DB73C42DF6CC1B007D80CB /* Products */;
@@ -504,6 +555,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7EE877E12EA2BAE800CFC230 /* Account+FetchRequest.swift in Sources */,
 				7ECC40232E66D8150014E97E /* Main.swift in Sources */,
 				7ECC400A2E6628E90014E97E /* NewsDetailView.swift in Sources */,
 				7ECC40162E6628E90014E97E /* QRScannerMainView.swift in Sources */,
@@ -520,18 +572,22 @@
 				08DB741A2DF82926007D80CB /* EntryPoint.swift in Sources */,
 				7ECC401A2E6628E90014E97E /* AboutView.swift in Sources */,
 				7ECC40102E6628E90014E97E /* AdminSystemViews.swift in Sources */,
+				7EE877DD2EA2B9A900CFC230 /* CreateSessionUseCase.swift in Sources */,
 				7ECC400B2E6628E90014E97E /* AdminContentViews.swift in Sources */,
 				7ECC400F2E6628E90014E97E /* CarTinderView.swift in Sources */,
 				7ECC40192E6628E90014E97E /* LoginView.swift in Sources */,
 				7ECC3F942E65CF8D0014E97E /* Product.swift in Sources */,
 				7ECC3F952E65CF8D0014E97E /* OtherModels.swift in Sources */,
 				7ECC3F962E65CF8D0014E97E /* Car.swift in Sources */,
+				7EE877E52EA2BBE400CFC230 /* PullAboutMeUseCase.swift in Sources */,
 				7ECC3F972E65CF8D0014E97E /* User.swift in Sources */,
 				7ECC40252E66D8370014E97E /* Main+Router.swift in Sources */,
 				7ECC3F982E65CF8D0014E97E /* Achievement.swift in Sources */,
 				7ECC3FE02E65CF8D0014E97E /* AuthViewModel.swift in Sources */,
+				7EE877E32EA2BAF200CFC230 /* Account+UseCase.swift in Sources */,
 				7ECC40122E6628E90014E97E /* ModerationView.swift in Sources */,
 				7EE877CB2EA01B5000CFC230 /* Scope+Schema.swift in Sources */,
+				7EE877D42EA2A2F800CFC230 /* Authentication.swift in Sources */,
 				7EE877CE2EA01BB000CFC230 /* EntitySync.swift in Sources */,
 				7EE877CF2EA01BB000CFC230 /* Entity.swift in Sources */,
 				7ECC40132E6628E90014E97E /* MainTabView.swift in Sources */,
@@ -543,17 +599,20 @@
 				7E95E88D2E7AFA0800B45539 /* DataManager.swift in Sources */,
 				7E95E88E2E7AFA0800B45539 /* ImageCacheService.swift in Sources */,
 				7E95E8902E7AFA0800B45539 /* DemoDataLoader.swift in Sources */,
+				7EE877DF2EA2BABD00CFC230 /* Account.swift in Sources */,
 				7EE877C32E9FEB9C00CFC230 /* Scope+Grab.swift in Sources */,
 				7EE877C42E9FEB9C00CFC230 /* Scope.swift in Sources */,
 				7EE877C52E9FEB9C00CFC230 /* Scope+Scheduler.swift in Sources */,
 				7EE877C62E9FEB9C00CFC230 /* Scope+Session.swift in Sources */,
-				7E95E8912E7AFA0800B45539 /* NetworkStatusView.swift in Sources */,
 				7E95E8922E7AFA0800B45539 /* HapticService.swift in Sources */,
 				7E95E8942E7AFA0800B45539 /* NotificationService.swift in Sources */,
 				7E95E8962E7AFA0800B45539 /* QRCodeParser.swift in Sources */,
 				7E95E8982E7AFA0800B45539 /* RestEndpoint.swift in Sources */,
 				7E95E8992E7AFA0800B45539 /* AppConfig.swift in Sources */,
 				7EE877C92EA019DF00CFC230 /* Core+Dependencies.swift in Sources */,
+				7EE877E72EA2BCFD00CFC230 /* RefreshTokenUseCase.swift in Sources */,
+				7EE877DB2EA2B94D00CFC230 /* LoginUseCase.swift in Sources */,
+				7EE877D62EA2A8F600CFC230 /* LoginView+Policies.swift in Sources */,
 				7E95E89A2E7AFA0800B45539 /* CollectionState.swift in Sources */,
 				7E95E89B2E7AFA0800B45539 /* Extensions.swift in Sources */,
 				7E95E89C2E7AFA0800B45539 /* DesignSystem.swift in Sources */,
@@ -693,9 +752,9 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_IDENTITY = "Apple Development";
-				CODE_SIGN_STYLE = Manual;
+				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = MXZ7SLV59B;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_CFBundleDisplayName = NSP;
@@ -712,7 +771,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = prototype.hidden;
+				PRODUCT_BUNDLE_IDENTIFIER = "NSP.NSP-app";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -727,9 +786,9 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_IDENTITY = "Apple Development";
-				CODE_SIGN_STYLE = Manual;
+				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = MXZ7SLV59B;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_CFBundleDisplayName = NSP;
@@ -746,7 +805,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = prototype.hidden;
+				PRODUCT_BUNDLE_IDENTIFIER = "NSP.NSP-app";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -783,13 +842,13 @@
 			isa = XCLocalSwiftPackageReference;
 			relativePath = "Packages/swift-endpoint";
 		};
-		7ECC3FED2E6628260014E97E /* XCLocalSwiftPackageReference "Packages/swift-components" */ = {
-			isa = XCLocalSwiftPackageReference;
-			relativePath = "Packages/swift-components";
-		};
 		7EE877B72E9FE17900CFC230 /* XCLocalSwiftPackageReference "Packages/swift-scope-graph" */ = {
 			isa = XCLocalSwiftPackageReference;
 			relativePath = "Packages/swift-scope-graph";
+		};
+		7EE877D02EA2680C00CFC230 /* XCLocalSwiftPackageReference "Packages/swift-components" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = "Packages/swift-components";
 		};
 /* End XCLocalSwiftPackageReference section */
 
@@ -830,6 +889,10 @@
 		7EE877B82E9FE17900CFC230 /* ScopeGraph */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = ScopeGraph;
+		};
+		7EE877D12EA2680C00CFC230 /* SwiftUIComponents */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = SwiftUIComponents;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
