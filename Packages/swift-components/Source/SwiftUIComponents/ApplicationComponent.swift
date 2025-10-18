@@ -48,24 +48,6 @@ public extension ComponentBuilder {
         }
     }
     
-    /// Creates a section with optional title.
-    /// - Parameters:
-    ///   - title: Optional section title
-    ///   - content: Section content
-    /// - Returns: Section view
-    @ViewBuilder
-    func MakeSection<Content: View>(title: String? = nil, @ViewBuilder content: () -> Content) -> some View {
-        VStack(alignment: .leading, spacing: 8) {
-            if let title {
-                Text(title)
-                    .font(.caption)
-                    .foregroundStyle(.secondary)
-                    .padding(.horizontal)
-            }
-            content()
-        }
-    }
-    
     /// Creates a header background with wave shape.
     /// - Parameter color: Fill color
     /// - Returns: Header background view
@@ -141,16 +123,17 @@ public extension ComponentBuilder {
     ///   - action: Tap action
     /// - Returns: List row view
     @ViewBuilder
-    func MakeListRow(title: String, subtitle: String? = nil, icon: String, action: @escaping () -> Void) -> some View {
+    func MakeListRow(title: String, subtitle: String? = nil, icon: String, iconColor: Color = .primary, action: @escaping () -> Void) -> some View {
         Button(action: action) {
             HStack(spacing: 12) {
                 Image(systemName: icon)
-                    .foregroundStyle(.blue)
                     .frame(width: 24)
+                    .foregroundStyle(iconColor)
                 
                 VStack(alignment: .leading, spacing: 2) {
                     Text(title)
                         .fontWeight(.medium)
+                        .foregroundStyle(.primary)
                     if let subtitle {
                         Text(subtitle)
                             .font(.caption)
@@ -164,7 +147,6 @@ public extension ComponentBuilder {
                     .font(.caption)
                     .foregroundStyle(.secondary)
             }
-            .foregroundStyle(.primary)
         }
         .buttonStyle(.plain)
     }
