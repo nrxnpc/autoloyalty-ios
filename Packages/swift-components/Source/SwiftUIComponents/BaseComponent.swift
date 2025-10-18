@@ -36,7 +36,7 @@ public extension ComponentBuilder {
         Text(subtitle)
             .font(.body)
             .foregroundStyle(.secondary)
-            .multilineTextAlignment(.leading)
+            .multilineTextAlignment(.center)
     }
     
     /// Creates a text field with placeholder and clear button.
@@ -48,6 +48,7 @@ public extension ComponentBuilder {
     @ViewBuilder 
     func MakeTextField(placeholder: String, text: Binding<String>, inputType: InputType = .text) -> some View {
         TextFieldView(placeholder: LocalizedStringKey(placeholder), text: text, inputType: inputType)
+            .padding(.horizontal, 12)
     }
 
     @ViewBuilder
@@ -125,9 +126,7 @@ public struct TextFieldView: View {
                 }
             }
         }
-        .padding(.horizontal, 12)
         .frame(height: 44)
-        .background(.regularMaterial)
         .clipShape(RoundedRectangle(cornerRadius: 8))
     }
 }

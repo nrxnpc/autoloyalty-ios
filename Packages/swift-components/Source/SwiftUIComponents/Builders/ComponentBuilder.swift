@@ -64,7 +64,12 @@ public extension ComponentBuilder {
                 VStack(alignment: .leading, spacing: 16) {
                     content()
                 }
+                .frame(maxWidth: .infinity)
+                .containerRelativeFrame(.vertical) { height, _ in
+                    height * 0.8
+                }
             }
+            .scrollDismissesKeyboard(.interactively)
             
             VStack(alignment: .leading, spacing: 16) {
                 Spacer()

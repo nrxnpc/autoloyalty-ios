@@ -60,26 +60,28 @@ extension LoginView {
     }
     
     @ViewBuilder func makeInputBody() -> some View {
-        MakeTextField(placeholder: "Введите email", text: $input.email, inputType: .email)
-            .focused($focused, equals: .email)
-            .submitLabel(.next)
-            .onSubmit { input.next(item: &focused) }
-        
-        MakeTextField(placeholder: "Введите пароль", text: $input.password, inputType: .password)
-            .focused($focused, equals: .password)
-            .submitLabel(.go)
-            .submitScope(input.password.isEmpty)
-            .onSubmit {
-                guard Authentication.hasMinimumLength(password: input.password) else {
-                    return
+        MakeSection {
+            MakeTextFieldRow(placeholder: "Введите email", text: $input.email, inputType: .email)
+                .focused($focused, equals: .email)
+                .submitLabel(.next)
+                .onSubmit { input.next(item: &focused) }
+            
+            MakeTextFieldRow(placeholder: "Введите пароль", text: $input.password, inputType: .password)
+                .focused($focused, equals: .password)
+                .submitLabel(.go)
+                .submitScope(input.password.isEmpty)
+                .onSubmit {
+                    guard Authentication.hasMinimumLength(password: input.password) else {
+                        return
+                    }
+                    input.next(item: &focused)
+                    login()
                 }
-                input.next(item: &focused)
-                login()
-            }
+        }
     }
     
     @ViewBuilder func makeInputFooter() -> some View {
-        VStack(spacing: 8) {
+        VStack {
             MakeSecondaryButton("Login as a guest") {
                 loginAsGuest()
             }
@@ -89,7 +91,7 @@ extension LoginView {
     }
     
     @ViewBuilder func makeLoginSection() -> some View {
-        VStack(spacing: 8) {
+        VStack(spacing: 0) {
             ZStack {
                 MakeSubtitle(.init(loginErrorMessage ?? ""))
                     .foregroundStyle(.red)

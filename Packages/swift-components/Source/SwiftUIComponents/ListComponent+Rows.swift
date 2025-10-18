@@ -138,9 +138,8 @@ public extension ComponentBuilder {
     ///   - text: A `Binding` to the string value to display and edit.
     /// - Returns: A configured `TextField` view.
     @ViewBuilder
-    func MakeTextFieldRow(placeholder: LocalizedStringKey, text: Binding<String>) -> some View {
-        TextField(placeholder, text: text)
-            .padding(.vertical, 4) // Add slight vertical padding for better tap targets
+    func MakeTextFieldRow(placeholder: String, text: Binding<String>, inputType: InputType = .text) -> some View {
+        TextFieldView(placeholder: LocalizedStringKey(placeholder), text: text, inputType: inputType)
     }
     
     /// Creates a tappable row that functions as a button, styled for use within a `MakeSection`.
