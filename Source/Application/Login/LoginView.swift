@@ -92,13 +92,29 @@ extension LoginView {
     
     @ViewBuilder func makeLoginSection() -> some View {
         VStack(spacing: 0) {
-            ZStack {
+            Spacer()
+            
+            // Error Notification
+            HStack(alignment: .firstTextBaseline, spacing: 0) {
                 MakeSubtitle(.init(loginErrorMessage ?? ""))
-                    .foregroundStyle(.red)
-                    .opacity(loginErrorMessage == nil ? 0 : 1)
+                    .padding(6)
+                
+                Button {
+                    loginErrorMessage = nil
+                } label: {
+                    Image(systemName: "xmark.circle.fill")
+                        .font(.system(size: 16))
+                        .foregroundStyle(.tertiary)
+                }
+                .foregroundStyle(.secondary)
+                .padding(.trailing, 6)
+            }
+            .background {
+                RoundedRectangle(cornerRadius: 8)
+                    .foregroundStyle(.regularMaterial)
             }
             .frame(maxWidth: .infinity, alignment: .center)
-            .opacity(focused != nil ? 0.0 : 1.0)
+            .opacity(focused != nil || loginErrorMessage == nil ? 0.0 : 1.0)
             .padding(.bottom, 8)
             
             MakeButton("Login") {
@@ -128,7 +144,7 @@ extension LoginView {
                 defer {
                     loginErrorMessage = nil
                 }
-                try await Task.sleep(for: .seconds(4))
+                try await Task.sleep(for: .seconds(6))
             }
         }
     }

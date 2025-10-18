@@ -26,6 +26,9 @@ struct MainView: View {
         .modifier(Main.DestinationProcessor(destination: $router.destination, sheet: $router.sheet))
         .environmentObject(router)
         .environmentObject(application)
+        .onShake {
+            router.route(sheet: .console)
+        }
         .task {
             await application.restoreSession()
         }

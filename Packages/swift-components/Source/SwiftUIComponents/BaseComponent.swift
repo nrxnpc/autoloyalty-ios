@@ -124,6 +124,7 @@ public struct TextFieldView: View {
                     Image(systemName: "xmark.circle.fill")
                         .foregroundStyle(.tertiary)
                 }
+                .foregroundStyle(.secondary)
             }
         }
         .frame(height: 44)
