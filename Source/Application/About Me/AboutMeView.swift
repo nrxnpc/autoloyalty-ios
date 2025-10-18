@@ -1,5 +1,6 @@
 import SwiftUI
 import SwiftUIComponents
+import PhotosUI
 
 struct AboutMeView: View, ComponentBuilder {
     @EnvironmentObject var router: Main.Router
@@ -7,6 +8,8 @@ struct AboutMeView: View, ComponentBuilder {
     
     /// To show accout image on navigation title
     @State private var isProfileHeaderVisible: Bool = true
+    ///  Change Profile Image
+    @StateObject private var changeAccountImage: ChangeAccountImage = .init()
     
     var body: some View {
         MakeList {
@@ -17,7 +20,8 @@ struct AboutMeView: View, ComponentBuilder {
         }
         .navigationTitle("Profile")
         .navigationBarTitleDisplayMode(.large)
-        .toolbar(content: makeToolbar)
+        // TODO: fix it
+        // .toolbar(content: makeToolbar)
         .id(application.accountID)
     }
 }
@@ -28,6 +32,17 @@ extension AboutMeView {
             HStack(spacing: 16) {
                 AccountImage(accountID: application.accountID)
                     .frame(width: 60, height: 60)
+                    .overlay {
+                        PhotosPicker(selection: $changeAccountImage.photosPickerItem,
+                                     matching: .images,
+                                     photoLibrary: .shared()) {
+                            Circle()
+                                .foregroundStyle(.clear)
+                        }
+                        .photosPickerItemCropper(pickerItem: $changeAccountImage.photosPickerItem) { data in
+                            application.updateAccountImage(data)
+                        }
+                    }
                 
                 VStack(alignment: .leading, spacing: 4) {
                     MakeTitle(LocalizedStringKey(application.username))

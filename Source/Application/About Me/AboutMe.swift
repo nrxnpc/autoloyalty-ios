@@ -97,4 +97,20 @@ extension AboutMe {
         }
         debugPrint("[Debug][AccountProfile] Publishers updated")
     }
+    
+    func updateAccountImage(_ data: Data) {
+        Task { @MainActor in
+            let accoutnID = accountID
+            let useCase = UpdateAccountImageUseCase(
+                accountID: accoutnID,
+                source: .native(data)
+            )
+            
+            do {
+                try await useCase.execute(in: scope.coreDataContext)
+            } catch {
+                print("[Debug][AboutMe] Failed to update account image: \(error.localizedDescription)")
+            }
+        }
+    }
 }

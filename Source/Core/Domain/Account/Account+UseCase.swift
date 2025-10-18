@@ -28,13 +28,6 @@ public struct CreateAccountUseCase {
     private let email: String
     private let phone: String?
     private let image: AttachmentSource?
-
-    public enum AttachmentSource {
-        case url(URL)
-        case raw(Data)
-        case native(Data)
-        case pack(Data, Data)
-    }
     
     public init(context: NSManagedObjectContext, id: String, externalID: String, name: String, email: String, phone: String? = nil, image: AttachmentSource?) {
         self.context = context
@@ -72,15 +65,6 @@ public struct CreateAccountUseCase {
         
         try context.save()
         return newAccount
-    }
-    
-    private func resolveAttachment(from source: AttachmentSource, in context: NSManagedObjectContext) throws -> Attachment {
-        switch source {
-        case .url(let url): Attachment.fromURL(url, in: context)
-        case .raw(let data): Attachment.fromData(raw: data, in: context)
-        case .native(let data): Attachment.fromData(native: data, in: context)
-        case .pack(let raw, let native): Attachment.fromData(raw: raw, native: native, in: context)
-        }
     }
 }
 
@@ -136,6 +120,53 @@ public struct UpdateAccountUseCase {
     }
 }
 
+// MARK: - Update Account Image Use Case
+
+public struct UpdateAccountImageUseCase {
+    private let accountID: String
+    private let attachmentSource: AttachmentSource
+
+    public init(accountID: String, source: AttachmentSource) {
+        self.accountID = accountID
+        self.attachmentSource = source
+    }
+    
+    public init(accountID: String, imageURL: URL) {
+        self.accountID = accountID
+        self.attachmentSource = .url(imageURL)
+    }
+    
+    public func execute(in context: NSManagedObjectContext) async throws {
+        try await context.perform {
+            let fetchRequest = Account.byID(self.accountID)
+            fetchRequest.fetchLimit = 1
+            
+            guard let account = try context.fetch(fetchRequest).first else {
+                throw AccountUpdateError.accountNotFound
+            }
+            
+            if !account.image.isEmpty {
+                context.delete(account.image)
+            }
+            
+            account.image = try resolveAttachment(from: self.attachmentSource, in: context)
+            
+            if context.hasChanges {
+                try context.save()
+            }
+        }
+    }
+}
+
+// MARK: - Supporting Types
+
+public enum AttachmentSource {
+    case url(URL)
+    case raw(Data)
+    case native(Data)
+    case pack(Data, Data)
+}
+
 public enum AccountCreateError: Error, LocalizedError {
     case invalidName
     case invalidEmail
@@ -163,3 +194,13 @@ public enum AccountUpdateError: Error, LocalizedError {
         }
     }
 }
+
+private func resolveAttachment(from source: AttachmentSource, in context: NSManagedObjectContext) throws -> Attachment {
+    switch source {
+    case .url(let url): Attachment.fromURL(url, in: context)
+    case .raw(let data): Attachment.fromData(raw: data, in: context)
+    case .native(let data): Attachment.fromData(native: data, in: context)
+    case .pack(let raw, let native): Attachment.fromData(raw: raw, native: native, in: context)
+    }
+}
+
