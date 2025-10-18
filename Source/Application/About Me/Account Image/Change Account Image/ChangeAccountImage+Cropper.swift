@@ -229,7 +229,7 @@ struct ImageCropperView: View {
                         .fill(style: FillStyle(eoFill: true))
                 )
             
-            RoundedRectangle(cornerRadius: cropAreaRect.width / 2.45, style: .continuous)
+            RoundedRectangle(cornerRadius: cropAreaRect.width / 2, style: .continuous)
                 .stroke(Color.white, lineWidth: 1)
                 .frame(width: cropSize, height: cropSize)
         }
@@ -413,7 +413,7 @@ private struct HoleShape: Shape {
     let rect: CGRect
     func path(in rect: CGRect) -> Path {
         var path = Rectangle().path(in: rect)
-        let maskShape = RoundedRectangle(cornerRadius: rect.size.width / 2.45, style: .continuous)
+        let maskShape = RoundedRectangle(cornerRadius: rect.size.width / 2, style: .continuous)
         path.addPath(maskShape.path(in: self.rect))
         return path
     }

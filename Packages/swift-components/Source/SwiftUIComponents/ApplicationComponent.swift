@@ -102,15 +102,19 @@ public extension ComponentBuilder {
     ///   - color: Status color
     /// - Returns: Status badge view
     @ViewBuilder
-    func MakeStatusBadge(status: String, color: Color) -> some View {
-        Text(status)
-            .font(.caption2)
-            .fontWeight(.bold)
-            .padding(.horizontal, 6)
-            .padding(.vertical, 2)
-            .background(color)
-            .foregroundStyle(.white)
-            .clipShape(RoundedRectangle(cornerRadius: 4))
+    func MakeStatusBadge(status: String, icon: String) -> some View {
+        HStack(spacing: 4) {
+            Text(status)
+                .fontWeight(.bold)
+            Image(systemName: icon)
+                .font(.caption)
+        }
+        .font(.caption)
+        .padding(.horizontal, 8)
+        .padding(.vertical, 4)
+        .background(.blue.opacity(0.1))
+        .foregroundStyle(.blue)
+        .clipShape(Capsule())
     }
     
     // MARK: - Lists & Navigation

@@ -47,7 +47,10 @@ extension AboutMeView {
                 VStack(alignment: .leading, spacing: 4) {
                     MakeTitle(LocalizedStringKey(application.username))
                     MakeSubtitle(LocalizedStringKey(application.email))
-                    MakePointsBadge(points: Int(application.points))
+                    HStack {
+                        MakePointsBadge(points: Int(application.points))
+                        MakeStatusBadge(status: "Individual", icon: "person")
+                    }
                 }
             }
             .frame(maxWidth: .infinity, alignment: .leading)
