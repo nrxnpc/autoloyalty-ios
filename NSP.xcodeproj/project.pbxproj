@@ -93,6 +93,7 @@
 		7EE878032EA2FD3200CFC230 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 7EE878022EA2FD3200CFC230 /* Localizable.xcstrings */; };
 		7EE878082EA3153100CFC230 /* ChangeAccountImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EE878052EA3153100CFC230 /* ChangeAccountImage.swift */; };
 		7EE878092EA3153100CFC230 /* ChangeAccountImage+Cropper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EE878062EA3153100CFC230 /* ChangeAccountImage+Cropper.swift */; };
+		7EE8780B2EA398B600CFC230 /* ChangeAboutMeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EE8780A2EA398B600CFC230 /* ChangeAboutMeView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -184,6 +185,7 @@
 		7EE878022EA2FD3200CFC230 /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
 		7EE878052EA3153100CFC230 /* ChangeAccountImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangeAccountImage.swift; sourceTree = "<group>"; };
 		7EE878062EA3153100CFC230 /* ChangeAccountImage+Cropper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ChangeAccountImage+Cropper.swift"; sourceTree = "<group>"; };
+		7EE8780A2EA398B600CFC230 /* ChangeAboutMeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangeAboutMeView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -509,7 +511,7 @@
 		7EE877ED2EA2D25500CFC230 /* About Me */ = {
 			isa = PBXGroup;
 			children = (
-				7EE878042EA3151200CFC230 /* Update */,
+				7EE878042EA3151200CFC230 /* Change */,
 				7EE878012EA2F98100CFC230 /* Account Image */,
 				7EE877EE2EA2D26700CFC230 /* AboutMeView.swift */,
 				7EE877F02EA2D31000CFC230 /* AboutMe.swift */,
@@ -533,25 +535,18 @@
 			isa = PBXGroup;
 			children = (
 				7EE877FF2EA2F97C00CFC230 /* AccountImageView.swift */,
-				7EE878072EA3153100CFC230 /* Change Account Image */,
 			);
 			path = "Account Image";
 			sourceTree = "<group>";
 		};
-		7EE878042EA3151200CFC230 /* Update */ = {
+		7EE878042EA3151200CFC230 /* Change */ = {
 			isa = PBXGroup;
 			children = (
-			);
-			path = Update;
-			sourceTree = "<group>";
-		};
-		7EE878072EA3153100CFC230 /* Change Account Image */ = {
-			isa = PBXGroup;
-			children = (
+				7EE8780A2EA398B600CFC230 /* ChangeAboutMeView.swift */,
 				7EE878052EA3153100CFC230 /* ChangeAccountImage.swift */,
 				7EE878062EA3153100CFC230 /* ChangeAccountImage+Cropper.swift */,
 			);
-			path = "Change Account Image";
+			path = Change;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -674,6 +669,7 @@
 				7EE877F32EA2E55600CFC230 /* Main+Schedule.swift in Sources */,
 				7ECC40252E66D8370014E97E /* Main+Router.swift in Sources */,
 				7ECC3F982E65CF8D0014E97E /* Achievement.swift in Sources */,
+				7EE8780B2EA398B600CFC230 /* ChangeAboutMeView.swift in Sources */,
 				7ECC3FE02E65CF8D0014E97E /* AuthViewModel.swift in Sources */,
 				7EE877E32EA2BAF200CFC230 /* Account+UseCase.swift in Sources */,
 				7ECC40122E6628E90014E97E /* ModerationView.swift in Sources */,

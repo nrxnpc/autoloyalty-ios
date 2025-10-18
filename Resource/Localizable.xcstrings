@@ -61,6 +61,12 @@
     "+%lld баллов" : {
 
     },
+    "Change profile picture" : {
+
+    },
+    "Close" : {
+
+    },
     "Coming soon..." : {
 
     },
@@ -83,6 +89,9 @@
 
     },
     "Login as a guest" : {
+
+    },
+    "Login Email" : {
 
     },
     "OK" : {

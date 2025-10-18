@@ -1,6 +1,5 @@
 import SwiftUI
 import SwiftUIComponents
-import PhotosUI
 
 struct AboutMeView: View, ComponentBuilder {
     @EnvironmentObject var router: Main.Router
@@ -8,12 +7,10 @@ struct AboutMeView: View, ComponentBuilder {
     
     /// To show accout image on navigation title
     @State private var isProfileHeaderVisible: Bool = true
-    ///  Change Profile Image
-    @StateObject private var changeAccountImage: ChangeAccountImage = .init()
     
     var body: some View {
         MakeList {
-            makeProfileHeader()
+            makeAboutSection()
             makeActivitySection()
             makeSupportSection()
             makeSettingsSection()
@@ -27,22 +24,11 @@ struct AboutMeView: View, ComponentBuilder {
 }
 
 extension AboutMeView {
-    @ViewBuilder private func makeProfileHeader() -> some View {
+    @ViewBuilder private func makeAboutSection() -> some View {
         MakeSection() {
             HStack(spacing: 16) {
                 AccountImage(accountID: application.accountID)
                     .frame(width: 60, height: 60)
-                    .overlay {
-                        PhotosPicker(selection: $changeAccountImage.photosPickerItem,
-                                     matching: .images,
-                                     photoLibrary: .shared()) {
-                            Circle()
-                                .foregroundStyle(.clear)
-                        }
-                        .photosPickerItemCropper(pickerItem: $changeAccountImage.photosPickerItem) { data in
-                            application.updateAccountImage(data)
-                        }
-                    }
                 
                 VStack(alignment: .leading, spacing: 4) {
                     MakeTitle(LocalizedStringKey(application.username))
@@ -54,6 +40,9 @@ extension AboutMeView {
                 }
             }
             .frame(maxWidth: .infinity, alignment: .leading)
+        }
+        .onTapGesture {
+            router.route(sheet: .changeAboutMe(application))
         }
         .trigger(visible: $isProfileHeaderVisible)
     }

@@ -24,7 +24,7 @@ struct AccountImage: View, ComponentBuilder {
                 makeBackground(for: geometry)
                 makeImageContent(for: geometry)
             }
-            .animation(.easeInOut, value: image == nil)
+            .animation(.smooth, value: image == nil)
             .clipShape(Circle())
         }
         .task(id: accountID) {
@@ -87,7 +87,7 @@ private extension AccountImage {
             Image(uiImage: image)
                 .resizable()
                 .scaledToFit()
-                .transition(.identity)
+                .transition(.opacity)
         } else if accout != nil {
             makeInitialsPlaceholder(for: geometry)
         } else {

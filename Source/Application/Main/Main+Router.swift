@@ -5,18 +5,17 @@ import EndpointUI
 extension Main {
     @MainActor
     final class Router: ObservableObject {
-        enum Destination: String, Identifiable {
-            case login
-            case admin
-            case user
+        enum Destination: String {
+            case empty
         }
         
-        enum OverallDestination: String, Identifiable  {
+        enum SheetDestination  {
+            case changeAboutMe(AboutMe)
             case console
         }
         
-        @Published var destination: Destination = .login
-        @Published var overall: OverallDestination?
+        @Published var destination: Destination?
+        @Published var sheet: SheetDestination?
         
         init() {
             injectNetworkLogger()
@@ -28,57 +27,73 @@ extension Main {
     }
 }
 
+// MARK: - Public Interface
+
 extension Main.Router {
     func route(to destination: Destination) {
         self.destination = destination
     }
     
-    func route(overall destination: OverallDestination) {
-        self.overall = destination
+    func route(sheet destination: SheetDestination) {
+        self.sheet = destination
     }
 }
 
-extension Main.Router.Destination {
-    var id: String { self.rawValue }
-    
-    @MainActor @ViewBuilder func createContent() -> some View {
-        switch self {
-        case .login: AuthFlowView()
-        case .admin: AdminMainView()
-        case .user: MainTabView()
-        }
-    }
-}
-
-extension Main.Router.OverallDestination {
-    var id: String { self.rawValue }
-    
-    @MainActor @ViewBuilder func createContent() -> some View {
-        switch self {
-        case .console: PulseConsoleView()
-        }
-    }
-}
+// MARK: - Destination Processor
 
 extension Main {
-    struct OverallDestinationProcessor: ViewModifier {
-        typealias Router = Main.Router
-        typealias Destination = Router.OverallDestination
+    struct DestinationProcessor: ViewModifier {
+        typealias Destination = Main.Router.Destination
+        typealias Sheet = Main.Router.SheetDestination
         
         // MARK: - Dependencies
         
         @Binding var destination: Destination?
+        @Binding var sheet: Sheet?
         
         // MARK: -
+        
         public func body(content: Content) -> some View {
             content
-                .sheet(item: $destination) { destination in
-                    NavigationView {
-                        destination.createContent()
+                .navigationDestination(item: $destination) { destination in
+                    switch destination {
+                    case .empty: EmptyView()
                     }
-                    .presentationDetents([.large])
-                    .presentationDragIndicator(.visible)
+                }
+                .sheet(item: $sheet) { destination in
+                    switch destination {
+                    case .changeAboutMe(let application):
+                        NavigationView {
+                            ChangeAboutMeView()
+                                .environmentObject(application)
+                        }
+                        .presentationDetents([.large])
+                        .presentationDragIndicator(.visible)
+                    case .console:
+                        NavigationView {
+                            PulseConsoleView()
+                        }
+                        .presentationDetents([.large])
+                        .presentationDragIndicator(.visible)
+                    }
                 }
         }
     }
 }
+
+// MARK: - Utilitites
+
+ extension Main.Router.Destination: Identifiable {
+     var id: String {
+         rawValue
+     }
+ }
+
+ extension Main.Router.SheetDestination: Identifiable {
+     var id: String {
+         switch self {
+         case .changeAboutMe: return "changeAboutMe"
+         case .console: return "console"
+         }
+     }
+ }
