@@ -1,11 +1,18 @@
 import SwiftUI
 import SwiftUIComponents
 
-struct CustomerView: View, ComponentBuilder {
+struct HomeView: View, ComponentBuilder {
+    @MainActor
+    struct MAGA {
+        let dataManager = DataManager()
+        let viewModel = AuthViewModel()
+    }
+    let dependencies = MAGA()
+    
     var body: some View {
         TabView {
             NavigationView {
-                MakeUnderConstructionBarrier(title: "Coming soon...", reason: "This tab is currently under construction.")
+                MAGAHomeView()
             }
             .tabItem {
                 Image(systemName: "house.fill")
@@ -13,7 +20,8 @@ struct CustomerView: View, ComponentBuilder {
             }
             
             NavigationView {
-                MakeUnderConstructionBarrier(title: "Coming soon...", reason: "This tab is currently under construction.")
+                QRScannerMainView()
+                
             }
             .tabItem {
                 Image(systemName: "qrcode.viewfinder")
@@ -21,7 +29,7 @@ struct CustomerView: View, ComponentBuilder {
             }
             
             NavigationView {
-                MakeUnderConstructionBarrier(title: "Coming soon...", reason: "This tab is currently under construction.")
+                CarTinderView()
             }
             .tabItem {
                 Image(systemName: "car.fill")
@@ -29,7 +37,7 @@ struct CustomerView: View, ComponentBuilder {
             }
             
             NavigationView {
-                MakeUnderConstructionBarrier(title: "Coming soon...", reason: "This tab is currently under construction.")
+                CatalogView()
             }
             .tabItem {
                 Image(systemName: "gift.fill")
@@ -44,6 +52,8 @@ struct CustomerView: View, ComponentBuilder {
                 Text("Профиль")
             }
         }
+        .environmentObject(dependencies.dataManager)
+        .environmentObject(dependencies.viewModel)
         .accentColor(.blue)
     }
 }

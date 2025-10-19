@@ -68,13 +68,7 @@ struct ShimmerEffect: ViewModifier {
         content
             .overlay(
                 Rectangle()
-                    .fill(
-                        LinearGradient(
-                            colors: [.clear, .white.opacity(0.3), .clear],
-                            startPoint: .leading,
-                            endPoint: .trailing
-                        )
-                    )
+                    .fill(.ultraThinMaterial)
                     .rotationEffect(.degrees(30))
                     .offset(x: phase)
                     .clipped()

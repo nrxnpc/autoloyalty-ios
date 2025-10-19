@@ -7,7 +7,7 @@ struct MainTabView: View {
     var body: some View {
         TabView {
             NavigationStack {
-                HomeView()
+                MAGAHomeView()
             }
             .tabItem {
                 Image(systemName: "house.fill")
@@ -51,7 +51,7 @@ struct MainTabView: View {
     }
 }
 
-struct HomeView: View {
+struct MAGAHomeView: View {
     @EnvironmentObject var authViewModel: AuthViewModel
     @EnvironmentObject var dataManager: DataManager
     
@@ -220,13 +220,7 @@ struct ModernPointsBalanceCard: View {
                                 // Блик на прогресс баре
                                 if progressValue > 0 {
                                     Rectangle()
-                                        .fill(
-                                            LinearGradient(
-                                                colors: [.clear, .white.opacity(0.6), .clear],
-                                                startPoint: .leading,
-                                                endPoint: .trailing
-                                            )
-                                        )
+                                        .fill(.ultraThinMaterial)
                                         .frame(width: 30, height: 8)
                                         .cornerRadius(4)
                                         .offset(x: -15)

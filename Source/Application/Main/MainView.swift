@@ -49,12 +49,12 @@ extension MainView {
     }
     
     @ViewBuilder func makeCustomerSession(for sessionID: String) -> some View {
-        CustomerView()
+        HomeView()
             .id(sessionID)
     }
     
     @ViewBuilder func makeGuestSession() -> some View {
-        CustomerView()
+        HomeView()
             .id("guest")
     }
 }

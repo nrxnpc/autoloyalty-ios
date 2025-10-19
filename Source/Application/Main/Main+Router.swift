@@ -1,12 +1,13 @@
 import Foundation
 import SwiftUI
+import SwiftUIComponents
 import EndpointUI
  
 extension Main {
     @MainActor
     final class Router: ObservableObject {
         enum Destination: String {
-            case empty
+            case commingSoon
         }
         
         enum SheetDestination  {
@@ -43,6 +44,12 @@ extension Main.Router {
 // MARK: - Destination Processor
 
 extension Main {
+    struct CommingSoon: View, ComponentBuilder {
+        var body: some View {
+            MakeUnderConstructionBarrier(title: "Coming soon...", reason: "This view is currently under construction.")
+        }
+    }
+
     struct DestinationProcessor: ViewModifier {
         typealias Destination = Main.Router.Destination
         typealias Sheet = Main.Router.SheetDestination
@@ -58,7 +65,7 @@ extension Main {
             content
                 .navigationDestination(item: $destination) { destination in
                     switch destination {
-                    case .empty: EmptyView()
+                    case .commingSoon: CommingSoon()
                     }
                 }
                 .sheet(item: $sheet) { destination in
@@ -91,18 +98,18 @@ extension Main {
 
 // MARK: - Utilitites
 
- extension Main.Router.Destination: Identifiable {
-     var id: String {
-         rawValue
-     }
- }
+extension Main.Router.Destination: Identifiable {
+    var id: String {
+        rawValue
+    }
+}
 
- extension Main.Router.SheetDestination: Identifiable {
-     var id: String {
-         switch self {
-         case .createAccount: return "createAccount"
-         case .changeAboutMe: return "changeAboutMe"
-         case .console: return "console"
-         }
-     }
- }
+extension Main.Router.SheetDestination: Identifiable {
+    var id: String {
+        switch self {
+        case .createAccount: return "createAccount"
+        case .changeAboutMe: return "changeAboutMe"
+        case .console: return "console"
+        }
+    }
+}

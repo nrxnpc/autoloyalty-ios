@@ -12,7 +12,7 @@ struct ModernCard<Content: View>: View {
     var body: some View {
         content
             .padding(DesignSystem.Spacing.medium)
-            .background(DesignSystem.Colors.cardBackground)
+            .background(.ultraThinMaterial)
             .cornerRadius(DesignSystem.CornerRadius.medium)
             .shadow(
                 color: DesignSystem.Shadow.small.color,
