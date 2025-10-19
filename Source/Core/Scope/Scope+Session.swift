@@ -56,8 +56,8 @@ public typealias AppSessionResult = SessionResult<AppSessionInfo, AppSessionToke
 public struct SessionFactory {
     public static func createSessionComponent() -> AppSessionComponent {
         return StorageModule.session(
-            sessionService: "com.note-mess.sessions",
-            tokenService: "com.note-mess.tokens"
+            sessionService: "com.nsp.sessions",
+            tokenService: "com.nsp.tokens"
         )
     }
     
@@ -65,7 +65,7 @@ public struct SessionFactory {
         return SessionActor(
             id: "guest",
             info: AppSessionInfo.guest,
-            tokenService: "com.note-mess.tokens",
+            tokenService: "com.nsp.tokens",
             isGuest: true
         )
     }
