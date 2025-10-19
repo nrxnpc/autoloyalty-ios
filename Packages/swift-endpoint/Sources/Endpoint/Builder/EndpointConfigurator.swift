@@ -30,8 +30,6 @@ public struct EndpointConfigurator: SessionBuilder {
         self.headers = [:]
         self.queryItems = []
         self.session = EndpointConfigurator.createSession()
-        
-
     }
 
     // MARK: - Fluent Configuration Methods
@@ -86,17 +84,6 @@ public struct EndpointConfigurator: SessionBuilder {
         return new
     }
     
-    /// Adds a single header to the request
-    /// - Parameters:
-    ///   - name: Header name
-    ///   - value: Header value
-    /// - Returns: EndpointConfigurator for chaining
-    public func header(_ name: String, _ value: String) -> EndpointConfigurator {
-        var new = self
-        new.headers[name] = value
-        return self
-    }
-    
     /// Adds a URL query parameter.
     /// - Parameters:
     ///   - key: The name of the query parameter.
@@ -139,14 +126,22 @@ public struct EndpointConfigurator: SessionBuilder {
     // MARK: - Request Execution
     
     /// **Query:** Executes the request and decodes the response into a `Decodable` type.
+    /// Automatically unwraps data from API wrapper structure.
     /// - Parameter decoder: A `JSONDecoder` to use for decoding the response.
+    /// - Parameter wrappedData: root node of the JSON response is a `data`
     /// - Returns: An instance of the specified `Decodable` type.
-    public func call<T: Decodable>(decoder: JSONDecoder = JSONDecoder()) async throws -> T {
+    public func call<T: Decodable & Sendable>(decoder: JSONDecoder = JSONDecoder(), isDataWrapped: Bool = true) async throws -> T {
         let (data, _) = try await executeRequestWithRetry()
         if data.isEmpty { throw EndpointError.noData }
         do {
-            return try decoder.decode(T.self, from: data)
-        } catch {
+            decoder.keyDecodingStrategy = .convertFromSnakeCase
+            if isDataWrapped {
+                return try decoder.decode(APIResponseWrapper<T>.self, from: data).data
+            } else {
+                return try decoder.decode(T.self, from: data)
+            }
+        } catch let error {
+            debugPrint("[DEBUG][Endpoint] Response decoding error: \(error)")
             throw EndpointError.decodingFailed(error)
         }
     }
@@ -163,8 +158,8 @@ public struct EndpointConfigurator: SessionBuilder {
             return try await executeRequest()
         } catch EndpointError.unexpectedStatusCode(401) {
             // Handle 401 Unauthorized - attempt token refresh
-            if let refreshableAuth = authenticator as? RefreshableTokenAuthenticator {
-                try await refreshableAuth.handleAuthenticationFailure()
+            if let refreshableAuth = authenticator as? RefreshableAuthenticator {
+                try await refreshableAuth.handleUnauthorized()
                 // Retry request with refreshed token
                 return try await executeRequest()
             }
@@ -224,6 +219,13 @@ public struct EndpointConfigurator: SessionBuilder {
         }
         return request
     }
+}
+
+// MARK: - Private API Response Wrapper
+
+/// A private wrapper for API responses where the main content is nested under a "data" key.
+private struct APIResponseWrapper<T: Decodable & Sendable>: Decodable, Sendable {
+    let data: T
 }
 
 // MARK: - Core Networking Components

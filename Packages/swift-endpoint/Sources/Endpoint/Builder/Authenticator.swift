@@ -1,7 +1,5 @@
 import Foundation
 
-// TODO: how ot handkle refreesh token error? implement and shjow example of implementation in docs 
-
 // MARK: - Authenticator Protocol
 
 /// A protocol defining an asynchronous authentication strategy for a network request.
@@ -15,6 +13,11 @@ public protocol Authenticator {
     func authenticate(request: inout URLRequest) async throws
 }
 
+/// A protocol for authenticators that can handle 401 Unauthorized responses
+public protocol RefreshableAuthenticator: Authenticator {
+    /// Handle 401 Unauthorized response by refreshing credentials
+    func handleUnauthorized() async throws
+}
 
 // MARK: - Concrete Implementations
 
@@ -23,12 +26,6 @@ public protocol Authenticator {
 /// This implementation is initialized with a closure that provides the token. This decouples
 /// the authenticator from the token storage mechanism (e.g., Keychain, user defaults),
 /// making it highly reusable and testable.
-///
-/// ### Token Refresh Strategy
-/// This authenticator does not handle token refreshing automatically. The recommended pattern is
-/// for the API client layer (e.g., `ResourceEndpoint`) to catch an `EndpointError.unexpectedStatusCode(401, _)`
-/// error, execute a token refresh request, and then retry the original failed request with a new
-/// instance of the API client containing the updated authenticator.
 public struct BearerTokenAuthenticator: Authenticator {
     public enum AuthError: Error, LocalizedError {
         case tokenNotAvailable
@@ -39,11 +36,11 @@ public struct BearerTokenAuthenticator: Authenticator {
     }
     
     /// A closure that asynchronously returns the bearer token string.
-    private let tokenProvider: () async -> String?
+    private let tokenProvider: @Sendable () async -> String?
     
     /// Creates a new Bearer token authenticator.
     /// - Parameter tokenProvider: A closure that returns the current token. It can be `async`.
-    public init(tokenProvider: @escaping () async -> String?) {
+    public init(tokenProvider: @escaping @Sendable () async -> String?) {
         self.tokenProvider = tokenProvider
     }
     
@@ -55,8 +52,6 @@ public struct BearerTokenAuthenticator: Authenticator {
     }
 }
 
-// MARK: - Unauthenticated Implementation
-
 /// An `Authenticator` that represents an unauthenticated session.
 ///
 /// This implementation serves as a "guard" or "null object". Its purpose is to explicitly
@@ -64,9 +59,7 @@ public struct BearerTokenAuthenticator: Authenticator {
 ///
 /// When `authenticate(request:)` is called, it will **always** throw an error. This prevents
 /// accidental network requests to protected endpoints, causing the operation to fail fast
-/// before a network roundtrip can occur. This is safer and more efficient than allowing
-/// a request to be sent without an `Authorization` header, only to receive a `401 Unauthorized`
-/// response from the server.
+/// before a network roundtrip can occur.
 ///
 /// ### Usage
 /// Use this type when you need to provide an `Authenticator` but want to enforce that
@@ -103,5 +96,64 @@ public struct UnauthenticatedAuthenticator: Authenticator {
     /// - Throws: `UnauthenticatedAuthenticator.Error.accessAttemptedWhenUnauthenticated`
     public func authenticate(request: inout URLRequest) async throws {
         throw Error.accessAttemptedWhenUnauthenticated
+    }
+}
+
+/// A proxy authenticator that delegates to another authenticator
+public final class ProxyAuthenticator: Authenticator, @unchecked Sendable {
+    private var currentAuthenticator: any Authenticator
+    private let lock = NSLock()
+    
+    public init(initialAuthenticator: any Authenticator = UnauthenticatedAuthenticator()) {
+        self.currentAuthenticator = initialAuthenticator
+    }
+    
+    public func setAuthenticator(_ authenticator: any Authenticator) {
+        lock.lock()
+        defer { lock.unlock() }
+        self.currentAuthenticator = authenticator
+    }
+    
+    public func authenticate(request: inout URLRequest) async throws {
+        let authenticator = lock.withLock { currentAuthenticator }
+        try await authenticator.authenticate(request: &request)
+    }
+}
+
+extension ProxyAuthenticator: RefreshableAuthenticator {
+    public func handleUnauthorized() async throws {
+        if let refreshable = currentAuthenticator as? RefreshableAuthenticator {
+            try await refreshable.handleUnauthorized()
+        }
+    }
+}
+
+/// An authenticator that automatically refreshes tokens on 401 errors with concurrent request deduplication
+public actor AutoRefreshAuthenticator: RefreshableAuthenticator {
+    private let tokenProvider: @Sendable () async -> String?
+    private let refreshAction: @Sendable () async throws -> Void
+    private var ongoingRefresh: Task<Void, Error>?
+    
+    public init(tokenProvider: @escaping @Sendable () async -> String?, refreshAction: @escaping @Sendable () async throws -> Void) {
+        self.tokenProvider = tokenProvider
+        self.refreshAction = refreshAction
+    }
+    
+    nonisolated public func authenticate(request: inout URLRequest) async throws {
+        let authenticator = await BearerTokenAuthenticator(tokenProvider: tokenProvider)
+        try await authenticator.authenticate(request: &request)
+    }
+    
+    public func handleUnauthorized() async throws {
+        if let ongoing = ongoingRefresh {
+            return try await ongoing.value
+        }
+        
+        let task = Task {
+            defer { ongoingRefresh = nil }
+            try await refreshAction()
+        }
+        ongoingRefresh = task
+        try await task.value
     }
 }

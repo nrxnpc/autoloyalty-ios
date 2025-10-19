@@ -13,11 +13,8 @@ let package = Package(
     products: [
         .library(name: "SwiftUIComponents", targets: ["SwiftUIComponents"])
     ],
-    dependencies: [
-        .package(url: "https://github.com/fermoya/SwiftUIPager.git", from: "2.5.0")
-    ],
     targets: [
-        .target(name: "SwiftUIComponents", dependencies: ["SwiftUIPager"]),
+        .target(name: "SwiftUIComponents"),
         .testTarget(name: "ComponentsTests", dependencies: ["SwiftUIComponents"])
     ]
 )

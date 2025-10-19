@@ -6,7 +6,7 @@ public struct PrimaryButtonStyle: ButtonStyle {
         configuration.label
             .font(.headline.weight(.semibold))
             .padding()
-            .frame(maxWidth: .infinity)
+            .frame(maxWidth: .infinity, alignment: .center)
             .frame(height: 56)
             .foregroundColor(.white)
             .background(
@@ -24,9 +24,8 @@ public struct SecondaryButtonStyle: ButtonStyle {
         configuration.label
             .font(.headline.weight(.semibold))
             .padding()
-            .frame(maxWidth: .infinity)
+            .frame(maxWidth: .infinity, alignment: .center)
             .frame(height: 50)
-            .foregroundColor(Color.accentColor)
             .background(Color.clear)
             .scaleEffect(configuration.isPressed ? 0.97 : 1.0)
             .animation(.easeOut(duration: 0.2), value: configuration.isPressed)
