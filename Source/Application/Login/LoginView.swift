@@ -1,117 +1,145 @@
 import SwiftUI
+import SwiftUIComponents
 
-struct LoginView: View {
-    @EnvironmentObject private var authViewModel: AuthViewModel
-    @State private var email = ""
-    @State private var password = ""
-    @State private var showingRoleSelector = false
+struct LoginView: View, ComponentBuilder {
+    @EnvironmentObject var main: Main
+    @EnvironmentObject var router: Main.Router
+    @StateObject var input = Input()
+    @StateObject var application = Authentication()
     
-    private let productionUsers = [
-        ("customer@nsp.com", "Пользователь"),
-        ("supplier@nsp.com", "Поставщик"),
-        ("admin@nsp.com", "Администратор платформы")
-    ]
+    @State private var loginErrorMessage: String?
+    @FocusState var focused: Input.Item?
     
     var body: some View {
-        VStack(spacing: 30) {
-            // Логотип
-            VStack(spacing: 16) {
-                Image(systemName: "car.fill")
-                    .font(.system(size: 60))
-                    .foregroundColor(.blue)
-                
-                Text("Автолояльность")
-                    .font(.largeTitle)
-                    .fontWeight(.bold)
-                
-                Text("Универсальная программа лояльности для автолюбителей")
-                    .font(.subheadline)
-                    .foregroundColor(.secondary)
-                    .multilineTextAlignment(.center)
-            }
-            
-            // Форма входа
-            VStack(spacing: 20) {
-                VStack(alignment: .leading, spacing: 8) {
-                    Text("Email")
-                        .font(.headline)
-                    
-                    TextField("Введите email", text: $email)
-                        .textFieldStyle(RoundedBorderTextFieldStyle())
-                        .keyboardType(.emailAddress)
-                        .autocapitalization(.none)
-                }
-                
-                VStack(alignment: .leading, spacing: 8) {
-                    Text("Пароль")
-                        .font(.headline)
-                    
-                    SecureField("Введите пароль", text: $password)
-                        .textFieldStyle(RoundedBorderTextFieldStyle())
-                }
-                
-                if authViewModel.isLoading {
-                    ProgressView("Вход в систему...")
-                        .padding()
-                } else {
-                    Button("Войти") {
-                        Task {
-                            authViewModel.login(email: email, password: password)
-                        }
-                    }
-                    .frame(maxWidth: .infinity)
-                    .padding()
-                    .background(Color.blue)
-                    .foregroundColor(.white)
-                    .cornerRadius(12)
-                    .disabled(email.isEmpty || password.isEmpty)
-                }
-                
-                if !authViewModel.errorMessage.isEmpty {
-                    Text(authViewModel.errorMessage)
-                        .foregroundColor(.red)
-                        .font(.caption)
-                        .multilineTextAlignment(.center)
-                }
-                
-                NavigationLink("Регистрация", destination: RegistrationView())
-                    .font(.subheadline)
-                    .foregroundColor(.blue)
-            }
-            
-            Divider()
-            
-            // Быстрый вход для тестирования
-            VStack(spacing: 16) {
-                Text("Быстрый вход")
-                    .font(.headline)
-                
-                LazyVGrid(columns: Array(repeating: GridItem(.flexible()), count: 2), spacing: 12) {
-                    ForEach(productionUsers, id: \.0) { userEmail, roleName in
-                        Button(roleName) {
-                            email = userEmail
-                            password = "123456"
-                            Task {
-                                authViewModel.login(email: userEmail, password: "123456")
-                            }
-                        }
-                        .font(.caption)
-                        .padding(.horizontal, 12)
-                        .padding(.vertical, 8)
-                        .background(Color.blue.opacity(0.1))
-                        .foregroundColor(.blue)
-                        .cornerRadius(8)
-                    }
-                }
-            }
-            
-            Spacer()
+        MakeCompactPage {
+            makeIntro()
+            makeInputBody()
+            makeInputFooter()
+        } bottom: {
+            makeLoginSection()
         }
-        .padding()
+        .disabled(application.isUpdating)
+        .animation(.easeInOut, value: application.isUpdating)
+        .animation(.easeInOut, value: loginErrorMessage)
+        .animation(.smooth, value: focused)
+    }
+}
+
+extension LoginView {
+    // MARK: - Input
+    
+    @MainActor
+    final class Input: ObservableObject {
+        @Published var email: String = ""
+        @Published var password: String = ""
+        
+        enum Item: Hashable {
+            case email
+            case password
+        }
+        
+        func next(item: inout Item?) {
+            guard let current = item else { return }
+            switch current {
+            case .email: item = .password
+            case .password: item = nil
+            }
+        }
+    }
+    
+    // MARK: - View Factory
+    
+    @ViewBuilder func makeIntro() -> some View {
+        VStack(alignment: .center, spacing: 8) {
+            MakeIcon(systemImage: "car", size: .large)
+            if focused == nil {
+                MakeTitle("Автолояльность")
+                MakeSubtitle("Универсальная программа лояльности для автолюбителей")
+            }
+        }
+        .frame(maxWidth: .infinity, alignment: .center)
+    }
+    
+    @ViewBuilder func makeInputBody() -> some View {
+        MakeSection {
+            MakeTextFieldRow(placeholder: "Введите email", text: $input.email, inputType: .email)
+                .focused($focused, equals: .email)
+                .submitLabel(.next)
+                .onSubmit { input.next(item: &focused) }
+            
+            MakeTextFieldRow(placeholder: "Введите пароль", text: $input.password, inputType: .password)
+                .focused($focused, equals: .password)
+                .submitLabel(.go)
+                .submitScope(input.password.isEmpty)
+                .onSubmit {
+                    guard Authentication.hasMinimumLength(password: input.password) else {
+                        return
+                    }
+                    input.next(item: &focused)
+                    login()
+                }
+        }
+    }
+    
+    @ViewBuilder func makeInputFooter() -> some View {
+        VStack {
+            MakeSecondaryButton("Continue as a guest") {
+                loginAsGuest()
+            }
+            .foregroundStyle(.secondary)
+            .opacity(focused != nil ? 0.0 : 1.0)
+        }
+    }
+    
+    @ViewBuilder func makeLoginSection() -> some View {
+        VStack(spacing: 0) {
+            Spacer()
+            
+            NotificationMessageView(text: loginErrorMessage ?? "") {
+                loginErrorMessage = nil
+            }
+            .opacity(focused != nil || loginErrorMessage == nil ? 0.0 : 1.0)
+            .padding(.bottom, 8)
+            
+            MakeButton("Login") {
+                login()
+            }
+            .validated(email: input.$email)
+            .validated(password: input.$password, minimumRequirements: true)
+            
+            if focused == nil {
+                MakeSecondaryButton("Create new account") {
+                    router.route(sheet: .createAccount(application))
+                }
+            }
+        }
+        .foregroundStyle(.secondary)
+    }
+    
+    // MARK: - Utility
+    
+    private func login() {
+        Task { @MainActor in
+            loginErrorMessage = nil
+            do {
+                try await application.login(with: input)
+            } catch {
+                loginErrorMessage = Authentication.UpdatingError.somethingWentWrong.message
+                defer {
+                    loginErrorMessage = nil
+                }
+                try await Task.sleep(for: .seconds(6))
+            }
+        }
+    }
+    
+    private func loginAsGuest() {
+        Task { @MainActor in
+            await main.continueAsGuest()
+        }
     }
 }
 
 #Preview {
     LoginView()
-        .environmentObject(AuthViewModel())
 }
