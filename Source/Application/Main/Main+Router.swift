@@ -10,6 +10,7 @@ extension Main {
         }
         
         enum SheetDestination  {
+            case createAccount(Authentication)
             case changeAboutMe(AboutMe)
             case console
         }
@@ -62,6 +63,13 @@ extension Main {
                 }
                 .sheet(item: $sheet) { destination in
                     switch destination {
+                    case .createAccount(let application):
+                        NavigationView {
+                            CreateAccountView()
+                                .environmentObject(application)
+                        }
+                        .presentationDetents([.large])
+                        .presentationDragIndicator(.visible)
                     case .changeAboutMe(let application):
                         NavigationView {
                             ChangeAboutMeView()
@@ -92,6 +100,7 @@ extension Main {
  extension Main.Router.SheetDestination: Identifiable {
      var id: String {
          switch self {
+         case .createAccount: return "createAccount"
          case .changeAboutMe: return "changeAboutMe"
          case .console: return "console"
          }

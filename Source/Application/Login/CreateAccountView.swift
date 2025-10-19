@@ -1,9 +1,8 @@
 import SwiftUI
 import SwiftUIComponents
 
-struct LoginView: View, ComponentBuilder {
+struct CreateAccountView: View, ComponentBuilder {
     @EnvironmentObject var main: Main
-    @EnvironmentObject var router: Main.Router
     @StateObject var input = Input()
     @StateObject var application = Authentication()
     
@@ -11,29 +10,30 @@ struct LoginView: View, ComponentBuilder {
     @FocusState var focused: Input.Item?
     
     var body: some View {
-        MakeCompactPage {
-            makeIntro()
+        MakeList {
             makeInputBody()
-            makeInputFooter()
-        } bottom: {
-            makeLoginSection()
+            makeCreateSection()
         }
         .disabled(application.isUpdating)
         .animation(.easeInOut, value: application.isUpdating)
         .animation(.easeInOut, value: loginErrorMessage)
         .animation(.smooth, value: focused)
+        .navigationTitle("Create New Account")
     }
 }
 
-extension LoginView {
+extension CreateAccountView {
     // MARK: - Input
     
     @MainActor
     final class Input: ObservableObject {
+        @Published var name: String = ""
         @Published var email: String = ""
         @Published var password: String = ""
+        @Published var isCompany: Bool = false
         
         enum Item: Hashable {
+            case name
             case email
             case password
         }
@@ -41,27 +41,20 @@ extension LoginView {
         func next(item: inout Item?) {
             guard let current = item else { return }
             switch current {
+            case .name: item = .email
             case .email: item = .password
             case .password: item = nil
             }
         }
     }
     
-    // MARK: - View Factory
-    
-    @ViewBuilder func makeIntro() -> some View {
-        VStack(alignment: .center, spacing: 8) {
-            MakeIcon(systemImage: "car", size: .large)
-            if focused == nil {
-                MakeTitle("Автолояльность")
-                MakeSubtitle("Универсальная программа лояльности для автолюбителей")
-            }
-        }
-        .frame(maxWidth: .infinity, alignment: .center)
-    }
-    
     @ViewBuilder func makeInputBody() -> some View {
         MakeSection {
+            MakeTextFieldRow(placeholder: "Введите имя", text: $input.name, inputType: .text)
+                .focused($focused, equals: .name)
+                .submitLabel(.next)
+                .onSubmit { input.next(item: &focused) }
+            
             MakeTextFieldRow(placeholder: "Введите email", text: $input.email, inputType: .email)
                 .focused($focused, equals: .email)
                 .submitLabel(.next)
@@ -76,22 +69,13 @@ extension LoginView {
                         return
                     }
                     input.next(item: &focused)
-                    login()
                 }
+            
+            MakeToggleRow(title: "Это компания", isOn: $input.isCompany)
         }
     }
     
-    @ViewBuilder func makeInputFooter() -> some View {
-        VStack {
-            MakeSecondaryButton("Continue as a guest") {
-                loginAsGuest()
-            }
-            .foregroundStyle(.secondary)
-            .opacity(focused != nil ? 0.0 : 1.0)
-        }
-    }
-    
-    @ViewBuilder func makeLoginSection() -> some View {
+    @ViewBuilder func makeCreateSection() -> some View {
         VStack(spacing: 0) {
             Spacer()
             
@@ -101,28 +85,21 @@ extension LoginView {
             .opacity(focused != nil || loginErrorMessage == nil ? 0.0 : 1.0)
             .padding(.bottom, 8)
             
-            MakeButton("Login") {
-                login()
+            MakeButton("Create") {
+                createNewAccount()
             }
+            .validated(name: input.$name)
             .validated(email: input.$email)
             .validated(password: input.$password, minimumRequirements: true)
-            
-            if focused == nil {
-                MakeSecondaryButton("Create new account") {
-                    router.route(sheet: .createAccount(application))
-                }
-            }
         }
         .foregroundStyle(.secondary)
     }
     
-    // MARK: - Utility
-    
-    private func login() {
+    private func createNewAccount() {
         Task { @MainActor in
             loginErrorMessage = nil
             do {
-                try await application.login(with: input)
+                try await application.createAccount(with: input)
             } catch {
                 loginErrorMessage = Authentication.UpdatingError.somethingWentWrong.message
                 defer {
@@ -132,14 +109,8 @@ extension LoginView {
             }
         }
     }
-    
-    private func loginAsGuest() {
-        Task { @MainActor in
-            await main.continueAsGuest()
-        }
-    }
 }
 
 #Preview {
-    LoginView()
+    CreateAccountView()
 }

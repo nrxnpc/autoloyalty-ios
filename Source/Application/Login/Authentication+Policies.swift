@@ -40,6 +40,10 @@ extension Authentication {
 // MARK: - Policies Validation
 
 extension View {
+    func validated(name namePublisher: Published<String>.Publisher) -> some View {
+        modifier(ValidatedViewModifier(publisher: namePublisher, validation: .name))
+    }
+    
     func validated(email emailPublisher: Published<String>.Publisher) -> some View {
         modifier(ValidatedViewModifier(publisher: emailPublisher, validation: .email))
     }
@@ -68,9 +72,10 @@ private struct ValidatedViewModifier: ViewModifier {
 @MainActor
 private final class Validator: ObservableObject {
     enum Validation {
-        case email, password(Bool)
+        case name, email, password(Bool)
         @MainActor func check(value: String) -> Bool {
             switch self {
+            case .name: return !value.isEmpty
             case .email: return Authentication.contains(email: value)
             case .password(let minimumRequirements):
                 if minimumRequirements {
