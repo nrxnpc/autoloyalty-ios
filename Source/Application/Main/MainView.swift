@@ -1,60 +1,66 @@
-import Dependencies
 import SwiftUI
 
 struct MainView: View {
-    // MARK: - Dependencies
+    // MARK: - Depemdendencies
     
     @StateObject var router: Main.Router = .init()
-    @StateObject var application: Main = .init()
-    
     @StateObject private var authViewModel = AuthViewModel()
     @StateObject private var dataManager = DataManager()
+    @StateObject private var networkManager = NetworkManager.shared
     
     // MARK: -
     
     var body: some View {
-        NavigationStack {
-            ZStack {
-                switch application.state {
-                case .loading: makeLoading()
-                case .authentication: makeLogin()
-                case .session(let sessionID): makeCustomerSession(for: sessionID)
-                case .guestSession: makeGuestSession()
-                }
-            }
-            .animation(.smooth, value: application.state)
-            .sensoryFeedback(.start, trigger: application.state)
-            .modifier(Main.DestinationProcessor(destination: $router.destination, sheet: $router.sheet))
-            .environmentObject(router)
-            .environmentObject(application)
+        ZStack {
+            makeRootView()
+                .environmentObject(router)
+                .environmentObject(authViewModel)
+                .environmentObject(dataManager)
+                .environmentObject(networkManager)
         }
+        .modifier(Main.OverallDestinationProcessor(destination: $router.overall))
         .onShake {
-            router.route(sheet: .console)
+            router.route(overall: .console)
         }
         .task {
-            await application.restoreSession()
+            // TODO: Move to first login use case
+            await dataManager.loadDataIfNeeded()
+        }
+        .onChange(of: authViewModel.isAuthenticated) { oldValue, newValue in
+            guard !newValue else {
+                return router.route(to: .login)
+            }
+            
+            if let role = authViewModel.currentUser?.role,
+               [.platformAdmin, .supplier].contains(role) {
+                router.route(to: .admin)
+            } else {
+                router.route(to: .user)
+            }
+        }
+        .onReceive(NotificationCenter.default.publisher(for: .userLoggedOut)) { _ in
+            // TODO: Move to logout use case
+            dataManager.clearAllData()
         }
     }
 }
 
 extension MainView {
-    // MARK: - View Builders
-    
-    @ViewBuilder func makeLoading() -> some View {
-        EmptyView()
-    }
-    
-    @ViewBuilder func makeLogin() -> some View {
-        LoginView()
-    }
-    
-    @ViewBuilder func makeCustomerSession(for sessionID: String) -> some View {
-        HomeView()
-            .id(sessionID)
-    }
-    
-    @ViewBuilder func makeGuestSession() -> some View {
-        HomeView()
-            .id("guest")
+    @ViewBuilder func makeRootView() -> some View {
+        ZStack {
+            switch router.destination {
+            default: router.destination.createContent()
+            }
+        }
+        
+        // Баннер статуса сети и уведомления
+        VStack {
+            NetworkStatusBanner()
+            NotificationOverlay()
+            Spacer()
+        }
+        
+        // Toast контейнер
+        ToastContainer()
     }
 }

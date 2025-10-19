@@ -42,7 +42,7 @@ public extension ComponentBuilder {
     ///   - content: A `ViewBuilder` closure for the main content area, which will be at the top.
     ///   - bottom: A `ViewBuilder` closure for the content pinned to the bottom (e.g., action buttons).
     /// - Returns: A configured view representing the standard layout.
-    @ViewBuilder public func MakePage<Content: View, Bottom: View>(@ViewBuilder content: () -> Content, @ViewBuilder bottom: () -> Bottom) -> some View {
+    @ViewBuilder public func MakePageLayout<Content: View, Bottom: View>(@ViewBuilder content: () -> Content, @ViewBuilder bottom: () -> Bottom) -> some View {
         VStack(spacing: 32) {
             content()
             Spacer()
@@ -58,23 +58,11 @@ public extension ComponentBuilder {
     ///   - content: A `ViewBuilder` closure for the main content area.
     ///   - bottom: A `ViewBuilder` closure for the bottom content area.
     /// - Returns: A configured view representing the compact layout.
-    @ViewBuilder public func MakeCompactPage<Content: View, Bottom: View>(@ViewBuilder content: () -> Content, @ViewBuilder bottom: () -> Bottom) -> some View {
-        ZStack {
-            ScrollView {
-                VStack(alignment: .leading, spacing: 16) {
-                    content()
-                }
-                .frame(maxWidth: .infinity)
-                .containerRelativeFrame(.vertical) { height, _ in
-                    height * 0.8
-                }
-            }
-            .scrollDismissesKeyboard(.interactively)
-            
-            VStack(alignment: .leading, spacing: 16) {
-                Spacer()
-                bottom()
-            }
+    @ViewBuilder public func MakeCompactPageLayout<Content: View, Bottom: View>(@ViewBuilder content: () -> Content, @ViewBuilder bottom: () -> Bottom) -> some View {
+        VStack(alignment: .leading, spacing: 16) {
+            content()
+            Spacer()
+            bottom()
         }
         .padding(.horizontal)
         .padding(.bottom)

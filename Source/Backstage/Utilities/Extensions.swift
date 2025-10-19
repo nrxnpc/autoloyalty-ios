@@ -221,12 +221,3 @@ extension UserDefaults {
         set { set(newValue, forKey: Keys.cacheSize) }
     }
 }
-
-// MARK: - Date ISO8601 Extension
-fileprivate let sharedISO8601DateFormatter = ISO8601DateFormatter()
-extension Date {
-    /// Returns ISO8601 formatted string representation of the date
-    public var ISO8601String: String {
-        return sharedISO8601DateFormatter.string(from: self)
-    }
-}

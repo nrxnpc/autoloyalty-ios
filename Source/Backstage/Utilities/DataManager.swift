@@ -1,11 +1,8 @@
 import Foundation
 import Combine
-import Dependencies
 
 @MainActor
 class DataManager: ObservableObject {
-    @Dependency(\.endpoint) var endpoint: RestEndpoint
-    
     @Published var carsState = CollectionState<Car>()
     @Published var productsState = CollectionState<Product>()
     @Published var usersState = CollectionState<User>()
@@ -17,6 +14,7 @@ class DataManager: ObservableObject {
     @Published var supportTicketsState = CollectionState<SupportTicket>()
     @Published var qrScansState = CollectionState<QRScanResult>()
     
+    private let networkManager = NetworkManager.shared
     private var loadedDataTypes: Set<DataType> = []
     private var cancellables = Set<AnyCancellable>()
     
@@ -48,13 +46,11 @@ class DataManager: ObservableObject {
     
     // Ленивая загрузка всех необходимых данных
     func loadDataIfNeeded() async {
-        // TODO: FOR DEBUG ONLY
-        return
-        // for dataType in DataType.allCases {
-        //     if !loadedDataTypes.contains(dataType) {
-        //         await loadDataType(dataType)
-        //     }
-        // }
+        for dataType in DataType.allCases {
+            if !loadedDataTypes.contains(dataType) {
+                await loadDataType(dataType)
+            }
+        }
     }
     
     // Загружаем конкретный тип данных только когда он нужен
@@ -79,21 +75,20 @@ class DataManager: ObservableObject {
     // MARK: - Private Loading Methods
     private func loadCars() async {
         await carsState.loadItems {
-            do {
-                let response = try await self.endpoint.getCars()
-                return response.cars.map { $0.toCar() }
-            } catch {
+            try await Task.detached(priority: .utility) {
+                try await Task.sleep(nanoseconds: 100_000_000) // 0.1 сек
                 return DemoDataLoader.loadCars()
-            }
+            }.value
         }
     }
     
     private func loadProducts() async {
         await productsState.loadItems {
-            do {
-                let response = try await self.endpoint.getProducts()
-                return response.products.map { $0.toProduct() }
-            } catch {
+            if self.networkManager.isConnected {
+                let apiProducts = try await self.networkManager.getProducts()
+                return apiProducts.map { $0.toProduct() }
+            } else {
+                // Загружаем из локального источника если нет сети
                 return DemoDataLoader.loadProducts()
             }
         }
@@ -101,28 +96,39 @@ class DataManager: ObservableObject {
     
     private func loadUsers() async {
         await usersState.loadItems {
-            return DemoDataLoader.loadUsers()
+            if self.networkManager.isConnected {
+                let apiUsers = try await self.networkManager.getUsers()
+                return apiUsers.map { $0.toUser() }
+            } else {
+                return DemoDataLoader.loadUsers()
+            }
         }
     }
     
     private func loadOrders() async {
         await ordersState.loadItems {
-            return DemoDataLoader.loadOrders()
+            try await Task.detached(priority: .utility) {
+                try await Task.sleep(nanoseconds: 50_000_000)
+                return DemoDataLoader.loadOrders()
+            }.value
         }
     }
     
     private func loadPriceRequests() async {
         await priceRequestsState.loadItems {
-            return DemoDataLoader.loadPriceRequests()
+            try await Task.detached(priority: .utility) {
+                try await Task.sleep(nanoseconds: 50_000_000)
+                return DemoDataLoader.loadPriceRequests()
+            }.value
         }
     }
     
     private func loadNews() async {
         await newsState.loadItems {
-            do {
-                let response = try await self.endpoint.getNews()
-                return response.news.map { $0.toNewsArticle() }
-            } catch {
+            if self.networkManager.isConnected {
+                let apiNews = try await self.networkManager.getNews()
+                return apiNews.map { $0.toNewsArticle() }
+            } else {
                 return DemoDataLoader.loadNews()
             }
         }
@@ -130,16 +136,20 @@ class DataManager: ObservableObject {
     
     private func loadLotteries() async {
         await lotteriesState.loadItems {
-            return DemoDataLoader.loadLotteries()
+            try await Task.detached(priority: .utility) {
+                try await Task.sleep(nanoseconds: 50_000_000)
+                return DemoDataLoader.loadLotteries()
+            }.value
         }
     }
     
     private func loadPointTransactions() async {
         await pointTransactionsState.loadItems {
-            do {
-                let response = try await self.endpoint.getUserTransactions()
-                return response.transactions.map { $0.toPointTransaction() }
-            } catch {
+            if self.networkManager.isConnected {
+                // В реальном приложении здесь был бы userId из AuthViewModel
+                let apiTransactions = try await self.networkManager.getUserTransactions(userId: "current-user")
+                return apiTransactions.map { $0.toPointTransaction() }
+            } else {
                 return DemoDataLoader.loadPointTransactions()
             }
         }
@@ -147,16 +157,19 @@ class DataManager: ObservableObject {
     
     private func loadSupportTickets() async {
         await supportTicketsState.loadItems {
-            return DemoDataLoader.loadSupportTickets()
+            try await Task.detached(priority: .utility) {
+                try await Task.sleep(nanoseconds: 50_000_000)
+                return DemoDataLoader.loadSupportTickets()
+            }.value
         }
     }
     
     private func loadQRScans() async {
         await qrScansState.loadItems {
-            do {
-                let response = try await self.endpoint.getUserScans()
-                return response.scans.map { $0.toQRScanResult() }
-            } catch {
+            if self.networkManager.isConnected {
+                let apiScans = try await self.networkManager.getUserScans(userId: "current-user")
+                return apiScans.map { $0.toQRScanResult() }
+            } else {
                 return DemoDataLoader.loadQRScans()
             }
         }
@@ -164,33 +177,34 @@ class DataManager: ObservableObject {
     
     // MARK: - QR Code Processing
     func processQRScan(code: String, userId: String) async -> QRScanResult? {
-        return await processQRScanLocally(code: code, userId: userId)
-        // TODO:
-        // do {
-        //     let request = QRScanRequest(qr_code: code, location: "Москва")
-        //     let response = try await endpoint.scanQRCode(request: request)
-        //
-        //     if response.valid, let scanId = response.scan_id, let productName = response.product_name {
-        //         return QRScanResult(
-        //             id: scanId,
-        //             pointsEarned: response.points_earned ?? 0,
-        //             productName: productName,
-        //             productCategory: response.product_category ?? "",
-        //             timestamp: Date(),
-        //             qrCode: code,
-        //             location: "Москва"
-        //         )
-        //     }
-        //
-        //     return await processQRScanLocally(code: code, userId: userId)
-        //
-        // } catch {
-        //     return await processQRScanLocally(code: code, userId: userId)
-        // }
+        do {
+            if networkManager.isConnected {
+                let request = QRScanRequest(
+                    qrCode: code,
+                    userId: userId,
+                    timestamp: Date().ISO8601String,
+                    location: "Москва" // В реальном приложении получать из GPS
+                )
+                
+                let response = try await networkManager.scanQRCode(request: request)
+                
+                if response.success, let apiScan = response.scan {
+                    return apiScan.toQRScanResult()
+                }
+            }
+            
+            // Fallback к локальной обработке если нет сети
+            return await processQRScanLocally(code: code, userId: userId)
+            
+        } catch {
+            // При ошибке API обрабатываем локально
+            return await processQRScanLocally(code: code, userId: userId)
+        }
     }
     
     private func processQRScanLocally(code: String, userId: String) async -> QRScanResult {
         return await Task.detached(priority: .utility) {
+            // Симуляция обработки QR-кода
             let pointsEarned = Int.random(in: 10...100)
             let productNames = ["Тормозные колодки Brembo", "Масляный фильтр Mann", "Свечи зажигания NGK", "Амортизаторы Bilstein", "Воздушный фильтр K&N"]
             let categories = ["Тормозная система", "Система смазки", "Система зажигания", "Подвеска", "Система впуска"]
@@ -211,6 +225,16 @@ class DataManager: ObservableObject {
     
     func addQRScan(_ scan: QRScanResult) {
         qrScansState.addItem(scan)
+        
+        // Пытаемся синхронизировать с сервером
+        Task {
+            do {
+                try await networkManager.uploadQRScan(scan)
+            } catch {
+                // Ошибка синхронизации - данные останутся локально до следующей попытки
+                print("Не удалось синхронизировать скан: \(error)")
+            }
+        }
     }
     
     // MARK: - CRUD операции
@@ -330,85 +354,5 @@ class DataManager: ObservableObject {
         pointTransactionsState = CollectionState<PointTransaction>()
         supportTicketsState = CollectionState<SupportTicket>()
         qrScansState = CollectionState<QRScanResult>()
-    }
-}
-
-// MARK: - Extension methods for model conversion
-extension RestEndpoint.Car {
-    func toCar() -> Car {
-        return Car(
-            id: id,
-            brand: brand,
-            model: model,
-            year: year,
-            price: price,
-            imageURL: imageURL,
-            description: description,
-            specifications: Car.CarSpecifications(
-                engine: specifications.engine,
-                transmission: specifications.transmission,
-                fuelType: specifications.fuelType,
-                bodyType: specifications.bodyType,
-                drivetrain: specifications.drivetrain,
-                color: specifications.color
-            ),
-            isActive: isActive,
-            createdAt: ISO8601DateFormatter().date(from: createdAt) ?? Date()
-        )
-    }
-}
-
-extension RestEndpoint.Product {
-    func toProduct() -> Product {
-        return Product(
-            id: id,
-            name: name,
-            category: Product.ProductCategory(rawValue: category) ?? .merchandise,
-            pointsCost: pointsCost,
-            imageURL: imageURL,
-            description: description,
-            stockQuantity: stockQuantity,
-            isActive: isActive,
-            status: .pending,
-            createdAt: ISO8601DateFormatter().date(from: createdAt) ?? Date(),
-            deliveryOptions: deliveryOptions.compactMap { Product.DeliveryOption(rawValue: $0) }, supplierId: nil
-        )
-    }
-}
-
-extension RestEndpoint.NewsArticle {
-    func toNewsArticle() -> NewsArticle {
-        return NewsArticle(
-            id: id,
-            title: title,
-            content: content,
-            imageURL: imageURL,
-            isImportant: isImportant,
-            createdAt: ISO8601DateFormatter().date(from: createdAt) ?? Date(),
-            publishedAt: publishedAt.flatMap { ISO8601DateFormatter().date(from: $0) },
-            isPublished: isPublished, status: .pending,
-            authorId: authorId!,
-            tags: tags
-        )
-    }
-}
-
-extension RestEndpoint.PointTransaction {
-    func toPointTransaction() -> PointTransaction {
-        return PointTransaction(
-            id: id,
-            userId: userId,
-            type: PointTransaction.TransactionType(rawValue: type.rawValue) ?? .earned,
-            amount: amount,
-            description: description,
-            timestamp: ISO8601DateFormatter().date(from: timestamp) ?? Date(),
-            relatedId: relatedId
-        )
-    }
-}
-
-extension RestEndpoint.UserScan {
-    func toQRScanResult() -> QRScanResult {
-        .init(id: id, pointsEarned: 0, productName: "", productCategory: "", timestamp: .now, qrCode: "", location: location)
     }
 }
