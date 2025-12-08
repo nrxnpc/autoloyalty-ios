@@ -2,24 +2,30 @@ import SwiftUI
 import SwiftUIComponents
 
 struct AboutMeView: View, ComponentBuilder {
+    // MARK: - Depndencies
+    
+    @Environment(\.dismiss) var dismiss
     @EnvironmentObject var router: Main.Router
+    
+    // MARK: - State
+    
     @StateObject var application = AboutMe()
     
-    /// To show accout image on navigation title
-    @State private var isProfileHeaderVisible: Bool = true
+    // MARK: -
     
     var body: some View {
         MakeList {
             makeAboutSection()
             makeActivitySection()
             makeSupportSection()
-            makeSettingsSection()
         }
+        .overlay(alignment: .bottom) {
+            makePolicySection()
+                .padding()
+        }
+        .toolbar(content: makeToolbar)
         .navigationTitle("Profile")
         .navigationBarTitleDisplayMode(.large)
-        // TODO: fix it
-        // .toolbar(content: makeToolbar)
-        .id(application.accountID)
     }
 }
 
@@ -32,7 +38,8 @@ extension AboutMeView {
                 
                 VStack(alignment: .leading, spacing: 4) {
                     MakeTitle(LocalizedStringKey(application.username))
-                    MakePointsBadge(points: Int(application.points))
+                    BalanceLabel(points: application.points)
+                        .font(.callout)
                 }
             }
             .frame(maxWidth: .infinity, alignment: .leading)
@@ -40,57 +47,72 @@ extension AboutMeView {
         .onTapGesture {
             router.route(sheet: .changeAboutMe(application))
         }
-        .trigger(visible: $isProfileHeaderVisible)
     }
     
     @ViewBuilder private func makeActivitySection() -> some View {
-        MakeSection(title: "Активность") {
+        MakeSection {
             VStack(spacing: 8) {
-                MakeListRow(title: "История сканирований", subtitle: "Ваши QR-коды", icon: "qrcode", iconColor: .init(hex: 0x007AFF)) {
-                    
+                MakeListRow(title: "Scan History", subtitle: "Your QR codes", icon: "qrcode", iconColor: .blue) {
+                    router.route(sheet: .transactionHistory)
                 }
-                MakeListRow(title: "Мои заказы", subtitle: "Обмены баллов", icon: "bag", iconColor: .init(hex: 0x34C759)) { }
-                MakeListRow(title: "История баллов", subtitle: "Начисления и списания", icon: "creditcard", iconColor: .init(hex: 0xFF9500)) { }
-                MakeListRow(title: "Понравившиеся авто", subtitle: "Избранные автомобили", icon: "heart", iconColor: .init(hex: 0xFF3B30)) { }
-                MakeListRow(title: "Запросы цены", subtitle: "Заявки дилерам", icon: "questionmark.circle", iconColor: .init(hex: 0x5856D6)) { }
+                MakeListRow(title: "My Orders", subtitle: "Point exchanges", icon: "giftcard", iconColor: .pink) {
+                    router.route(sheet: .orders)
+                }
             }
         }
     }
     
     @ViewBuilder private func makeSupportSection() -> some View {
-        MakeSection(title: "Поддержка") {
+        MakeSection {
             VStack(spacing: 8) {
-                MakeListRow(title: "Чат с поддержкой", subtitle: "Онлайн помощь", icon: "message", iconColor: .init(hex: 0x00C7BE)) { }
-                MakeListRow(title: "Мои обращения", subtitle: "История тикетов", icon: "folder", iconColor: .init(hex: 0x8E8E93)) { }
-                MakeListRow(title: "Часто задаваемые вопросы", subtitle: "База знаний", icon: "questionmark.circle", iconColor: .init(hex: 0x5AC8FA)) { }
+                MakeListRow(title: "Contact Support", subtitle: "Get help and send feedback", icon: "message", iconColor: .secondary) { }
+                MakeListRow(title: "FAQ", subtitle: "Knowledge base", icon: "questionmark.circle", iconColor: .secondary) { }
+                
+                // TODO:
+                // MakeListRow(title: "About App", subtitle: "Version and contacts", icon: "info.circle", iconColor: .init(hex: 0x48484A)) { }
             }
         }
     }
     
-    @ViewBuilder private func makeSettingsSection() -> some View {
-        MakeSection(title: "Настройки") {
-            VStack(spacing: 8) {
-                MakeListRow(title: "Настройки приложения", subtitle: "Уведомления, безопасность", icon: "gear", iconColor: .init(hex: 0x636366)) { }
-                MakeListRow(title: "О приложении", subtitle: "Версия и контакты", icon: "info.circle", iconColor: .init(hex: 0x48484A)) { }
+    @ViewBuilder private func makePolicySection() -> some View {
+        VStack(spacing: 16) {
+            HStack(spacing: 32) {
+                Link("Privacy Policy", destination: URL(string: "http://nsp-app.ru/#privacy")!)
+                    .font(.callout)
+                    .foregroundStyle(.primary)
+                
+                Link("Terms Of Use", destination: URL(string: "http://nsp-app.ru/#terms")!)
+                    .font(.callout)
+                    .foregroundStyle(.primary)
+            }
+            
+            HStack(alignment: .center, spacing: 4) {
+                Image(systemName: "tag")
+                Text(Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "Unknown")
+            }
+            .font(.caption)
+            .foregroundStyle(.secondary)
+            .padding(.vertical, 4)
+            .padding(.horizontal, 6)
+            .background {
+                RoundedRectangle(cornerRadius: 6)
+                    .foregroundStyle(.ultraThinMaterial)
             }
         }
     }
     
-    /// Builds the toolbar items, including the dynamic "Save" button.
     @ToolbarContentBuilder func makeToolbar() -> some ToolbarContent {
-        ToolbarItem(placement: .principal) {
-            HStack(alignment: .center, spacing: 8) {
-                AccountImage(accountID: application.accountID)
-                    .frame(width: 24, height: 24)
-                    .opacity(isProfileHeaderVisible ? 0.0 : 1.0)
-                
-                Text("Profile")
-                    .font(.headline)
-                
-                Spacer()
-                    .frame(width: isProfileHeaderVisible ? 32 : 0.0)
+        ToolbarItem(placement: .topBarTrailing) {
+            Menu {
+                Button("Logout", systemImage: "person.fill.xmark", role: .cancel) {
+                    
+                }
+                Button("Delete Account", systemImage: "person.slash", role: .destructive) {
+                    
+                }
+            } label: {
+                Image(systemName: "ellipsis")
             }
-            .animation(.smooth, value: isProfileHeaderVisible)
         }
     }
 }

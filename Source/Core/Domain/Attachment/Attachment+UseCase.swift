@@ -31,7 +31,6 @@ public extension Attachment {
     /// Create attachment from source URL (data is nil, ID from CacheKey)
     static func fromURL(_ url: URL, in context: NSManagedObjectContext) -> Attachment {
         let attachment = Attachment(context: context)
-        attachment.id = CacheKey(url: url).value
         attachment.sourceURL = url
         return attachment
     }

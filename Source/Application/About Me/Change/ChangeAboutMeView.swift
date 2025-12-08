@@ -74,7 +74,9 @@ extension ChangeAboutMeView {
     /// Builds the toolbar items, including the dynamic "Save" button.
     @ToolbarContentBuilder func makeToolbar() -> some ToolbarContent {
         ToolbarItem(placement: .cancellationAction) {
-            Button("Close", action: dismiss.callAsFunction)
+            Button(action: dismiss.callAsFunction) {
+                Image(systemName: "xmark")
+            }
         }
     }
 }

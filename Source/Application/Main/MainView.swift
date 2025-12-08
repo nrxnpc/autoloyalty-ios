@@ -7,9 +7,6 @@ struct MainView: View {
     @StateObject var router: Main.Router = .init()
     @StateObject var application: Main = .init()
     
-    @StateObject private var authViewModel = AuthViewModel()
-    @StateObject private var dataManager = DataManager()
-    
     // MARK: -
     
     var body: some View {
@@ -24,7 +21,7 @@ struct MainView: View {
             }
             .animation(.smooth, value: application.state)
             .sensoryFeedback(.start, trigger: application.state)
-            .modifier(Main.DestinationProcessor(destination: $router.destination, sheet: $router.sheet))
+            .modifier(Main.DestinationProcessor(router: router))
             .environmentObject(router)
             .environmentObject(application)
         }
@@ -49,12 +46,16 @@ extension MainView {
     }
     
     @ViewBuilder func makeCustomerSession(for sessionID: String) -> some View {
-        HomeView()
+        FeedView()
             .id(sessionID)
     }
     
     @ViewBuilder func makeGuestSession() -> some View {
-        HomeView()
+        FeedView()
             .id("guest")
     }
+}
+
+#Preview {
+    MainView()
 }

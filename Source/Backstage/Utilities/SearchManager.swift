@@ -24,7 +24,7 @@ class SearchManager: ObservableObject {
             .store(in: &cancellables)
     }
     
-    func filterProducts(_ products: [Product]) -> [Product] {
+    func filterProducts(_ products: [FullProduct]) -> [FullProduct] {
         guard !searchText.isEmpty else { return products }
         
         return products.filter { product in

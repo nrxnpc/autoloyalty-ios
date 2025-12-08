@@ -187,7 +187,7 @@ public extension Scope {
     internal func setActiveSession(_ newSession: AppSessionActor) async {
         // Stop job scheduler for current session
         if !session.isGuestSync {
-            Task { await session.getJobScheduler()?.stopJobs() }
+            await session.getJobScheduler()?.stopJobs()
         }
         
         self.session = newSession

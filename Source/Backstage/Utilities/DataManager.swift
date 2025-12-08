@@ -7,7 +7,7 @@ class DataManager: ObservableObject {
     @Dependency(\.endpoint) var endpoint: RestEndpoint
     
     @Published var carsState = CollectionState<Car>()
-    @Published var productsState = CollectionState<Product>()
+    @Published var productsState = CollectionState<FullProduct>()
     @Published var usersState = CollectionState<User>()
     @Published var ordersState = CollectionState<Order>()
     @Published var priceRequestsState = CollectionState<PriceRequest>()
@@ -226,11 +226,11 @@ class DataManager: ObservableObject {
         carsState.removeItem(withId: carId)
     }
     
-    func addProduct(_ product: Product) {
+    func addProduct(_ product: FullProduct) {
         productsState.addItem(product)
     }
     
-    func updateProduct(_ product: Product) {
+    func updateProduct(_ product: FullProduct) {
         productsState.updateItem(product)
     }
     
@@ -290,7 +290,7 @@ class DataManager: ObservableObject {
         return request
     }
     
-    func addOrder(userId: String, product: Product, deliveryOption: Product.DeliveryOption, deliveryAddress: String?) -> Order {
+    func addOrder(userId: String, product: FullProduct, deliveryOption: FullProduct.DeliveryOption, deliveryAddress: String?) -> Order {
         let order = Order(
             id: UUID().uuidString,
             userId: userId,
@@ -321,7 +321,7 @@ class DataManager: ObservableObject {
     func clearAllData() {
         loadedDataTypes.removeAll()
         carsState = CollectionState<Car>()
-        productsState = CollectionState<Product>()
+        productsState = CollectionState<FullProduct>()
         usersState = CollectionState<User>()
         ordersState = CollectionState<Order>()
         priceRequestsState = CollectionState<PriceRequest>()
@@ -359,11 +359,11 @@ extension RestEndpoint.Car {
 }
 
 extension RestEndpoint.Product {
-    func toProduct() -> Product {
-        return Product(
+    func toProduct() -> FullProduct {
+        return FullProduct(
             id: id,
             name: name,
-            category: Product.ProductCategory(rawValue: category) ?? .merchandise,
+            category: FullProduct.ProductCategory(rawValue: category) ?? .merchandise,
             pointsCost: pointsCost,
             imageURL: imageURL,
             description: description,
@@ -371,7 +371,7 @@ extension RestEndpoint.Product {
             isActive: isActive,
             status: .pending,
             createdAt: ISO8601DateFormatter().date(from: createdAt) ?? Date(),
-            deliveryOptions: deliveryOptions.compactMap { Product.DeliveryOption(rawValue: $0) }, supplierId: nil
+            deliveryOptions: deliveryOptions.compactMap { FullProduct.DeliveryOption(rawValue: $0) }, supplierId: nil
         )
     }
 }

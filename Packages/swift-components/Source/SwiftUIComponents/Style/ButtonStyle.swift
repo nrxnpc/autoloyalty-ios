@@ -2,6 +2,7 @@ import SwiftUI
 
 // MARK: - Primary Button Example
 public struct PrimaryButtonStyle: ButtonStyle {
+    public init() {}
     public func makeBody(configuration: Configuration) -> some View {
         configuration.label
             .font(.headline.weight(.semibold))
@@ -20,6 +21,7 @@ public struct PrimaryButtonStyle: ButtonStyle {
 
 // MARK: Secondary Button Example
 public struct SecondaryButtonStyle: ButtonStyle {
+    public init() {}
     public func makeBody(configuration: Configuration) -> some View {
         configuration.label
             .font(.headline.weight(.semibold))
@@ -27,6 +29,25 @@ public struct SecondaryButtonStyle: ButtonStyle {
             .frame(maxWidth: .infinity, alignment: .center)
             .frame(height: 50)
             .background(Color.clear)
+            .scaleEffect(configuration.isPressed ? 0.97 : 1.0)
+            .animation(.easeOut(duration: 0.2), value: configuration.isPressed)
+    }
+}
+
+public struct StrokeButtonStyle: ButtonStyle {
+    public init() {}
+    public func makeBody(configuration: Configuration) -> some View {
+        configuration.label
+            .font(.headline.weight(.semibold))
+            .padding()
+            .frame(maxWidth: .infinity, alignment: .center)
+            .frame(height: 56)
+            .foregroundColor(.primary)
+            .background(
+                RoundedRectangle(cornerRadius: 14)
+                    .stroke(Color.primary, lineWidth: 2)
+            )
+            .contentShape(Rectangle())
             .scaleEffect(configuration.isPressed ? 0.97 : 1.0)
             .animation(.easeOut(duration: 0.2), value: configuration.isPressed)
     }

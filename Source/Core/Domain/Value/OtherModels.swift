@@ -102,12 +102,12 @@ struct Lottery: Identifiable, Codable, Equatable, Hashable {
 struct Order: Identifiable, Codable, Equatable, Hashable {
     let id: String
     let userId: String
-    let product: Product
+    let product: FullProduct
     let pointsSpent: Int
     var status: OrderStatus
     let createdAt: Date
     var deliveryAddress: String?
-    var deliveryOption: Product.DeliveryOption
+    var deliveryOption: FullProduct.DeliveryOption
     var trackingNumber: String?
     
     enum OrderStatus: String, CaseIterable, Codable {

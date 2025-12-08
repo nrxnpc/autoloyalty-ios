@@ -42,6 +42,23 @@ extension Scope {
                     ExternalDataField("native", optional: true)
                     Field("sourceHash", .number, optional: true)
                 }
+                
+                // Inbox Entity
+                EntitySchema("InboxMessage", inherits: "Entity") {
+                    Field("title", .text)
+                    Field("subtitle", .text)
+                    Field("wasReaded", .boolean, default: false)
+                }
+                
+                // Product Entity
+                EntitySchema("Product", inherits: "Entity") {
+                    Field("name", .text)
+                    Field("productDescription", .text)
+                    Field("pointsCost", .number)
+                    Field("isOutOfStock", .boolean, default: false)
+                    Field("isFavorite", .boolean, default: false)
+                    Relationship("images", to: "Attachment", toMany: true, deleteRule: .cascadeDeleteRule)
+                }
             }
         }
     }
