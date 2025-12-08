@@ -1,45 +1,103 @@
-import AVFoundation
+@preconcurrency import AVFoundation
 import Foundation
 
-final class CaptureSession: ObservableObject, @unchecked Sendable {
-    private(set) var session = AVCaptureSession()
-    private var sessionDelegate: CaptureSessionDelegate!
-    
-    @Published var isSessionConfigured = false
+@MainActor
+final class CaptureSession: ObservableObject {
+    @Published var readyForUse = false
     @Published var detectedQRCode: String?
     
+    let device = CaptureSessionDevice()
+    
     init() {
-        sessionDelegate = CaptureSessionDelegate(captureSession: self)
+        Task {
+            await device.setQRDetectionHandler { [weak self] qrCode in
+                Task { @MainActor in
+                    self?.detectedQRCode = qrCode
+                }
+            }
+        }
     }
     
-    deinit {
-        if session.isRunning {
-            session.stopRunning()
-        }
+    func prepareForUse() async {
+        let running = await device.prepareForUse()
+        readyForUse = running
+        await device.reset()
+    }
+    
+    func stopRunning() async {
+        await device.stopRunning()
+        readyForUse = false
+        detectedQRCode = nil
+    }
+    
+    func reset() async {
+        await stopRunning()
+        await prepareForUse()
     }
 }
 
-extension CaptureSession {
-    @MainActor
-    func prepareForUse() {
-        guard !isSessionConfigured else { return }
+actor CaptureSessionDevice {
+    private let session = AVCaptureSession()
+    private var sessionDelegate: CaptureSessionDelegate?
+    private var currentTask: Task<Void, Never>?
+    private var qrDetectionHandler: (@Sendable (String) -> Void)?
+    
+    func setQRDetectionHandler(_ handler: @escaping @Sendable (String) -> Void) {
+        qrDetectionHandler = handler
+        sessionDelegate?.updateHandler(handler)
+    }
+    
+    func getSession() -> AVCaptureSession {
+        return session
+    }
+    
+    func prepareForUse() async -> Bool {
+        currentTask?.cancel()
         
-        Task {
+        currentTask = Task {
+            try? await Task.sleep(for: .milliseconds(100))
+            guard !Task.isCancelled else { return }
             await configureSession()
         }
+        
+        await currentTask?.value
+        return session.isRunning
+    }
+    
+    func reset() {
+        sessionDelegate?.reset()
+    }
+    
+    func stopRunning() async {
+        currentTask?.cancel()
+        
+        currentTask = Task {
+            try? await Task.sleep(for: .milliseconds(50))
+            guard !Task.isCancelled else { return }
+            
+            if session.isRunning {
+                session.stopRunning()
+            }
+        }
+        
+        await currentTask?.value
     }
     
     private func configureSession() async {
+        guard !session.isRunning else { return }
+        
         session.beginConfiguration()
-        if session.canSetSessionPreset(.high) {
-            session.sessionPreset = .high
-        } else {
+        
+        if session.canSetSessionPreset(.medium) {
             session.sessionPreset = .medium
+        } else {
+            session.sessionPreset = .low
         }
         
         guard let device = AVCaptureDevice.default(for: .video),
               let input = try? AVCaptureDeviceInput(device: device) else {
-            fatalError()
+            session.commitConfiguration()
+            return
         }
         
         if session.canAddInput(input) {
@@ -49,36 +107,52 @@ extension CaptureSession {
         let output = AVCaptureMetadataOutput()
         if session.canAddOutput(output) {
             session.addOutput(output)
+            
+            if sessionDelegate == nil {
+                sessionDelegate = CaptureSessionDelegate()
+            }
+            if let handler = qrDetectionHandler {
+                sessionDelegate?.updateHandler(handler)
+            }
             output.setMetadataObjectsDelegate(sessionDelegate, queue: DispatchQueue.global(qos: .default))
             output.metadataObjectTypes = [.qr]
         }
         
         session.commitConfiguration()
         session.startRunning()
-        
-        await MainActor.run {
-            isSessionConfigured = true
+    }
+    
+    deinit {
+        currentTask?.cancel()
+        if session.isRunning {
+            session.stopRunning()
         }
     }
 }
 
 final class CaptureSessionDelegate: NSObject, AVCaptureMetadataOutputObjectsDelegate {
-    private weak var captureSession: CaptureSession?
+    private var onQRDetected: (@Sendable (String) -> Void)?
     private var lastStringValue: String?
     
-    init(captureSession: CaptureSession) {
-        self.captureSession = captureSession
+    func reset() {
+        lastStringValue = nil
+    }
+    
+    func updateHandler(_ handler: @escaping @Sendable (String) -> Void) {
+        onQRDetected = handler
     }
     
     func metadataOutput(_ output: AVCaptureMetadataOutput, didOutput metadataObjects: [AVMetadataObject], from connection: AVCaptureConnection) {
-        guard let readableObject = metadataObjects.first as? AVMetadataMachineReadableCodeObject else { return }
-        guard let stringValue = readableObject.stringValue else { return }
-        guard lastStringValue != stringValue else { return }
+        guard let readableObject = metadataObjects.first as? AVMetadataMachineReadableCodeObject,
+              let stringValue = readableObject.stringValue else {
+            return
+        }
+        
+        if let lastStringValue, lastStringValue == stringValue{
+            return
+        }
         
         lastStringValue = stringValue
-        
-        Task { @MainActor [captureSession] in
-            captureSession?.detectedQRCode = stringValue
-        }
+        onQRDetected?(stringValue)
     }
 }

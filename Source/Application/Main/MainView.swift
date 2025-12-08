@@ -6,6 +6,7 @@ struct MainView: View {
     
     @StateObject var router: Main.Router = .init()
     @StateObject var application: Main = .init()
+    @StateObject var captureSession = CaptureSession()
     
     // MARK: -
     
@@ -24,6 +25,7 @@ struct MainView: View {
             .modifier(Main.DestinationProcessor(router: router))
             .environmentObject(router)
             .environmentObject(application)
+            .environmentObject(captureSession)
         }
         .onShake {
             router.route(sheet: .console)

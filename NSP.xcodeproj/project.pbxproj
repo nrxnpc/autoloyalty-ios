@@ -28,8 +28,8 @@
 		7E462FEA2EE638D400B7F5EC /* LoadingAnimationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E462FE92EE638D400B7F5EC /* LoadingAnimationView.swift */; };
 		7E462FEC2EE63CBF00B7F5EC /* FeedView+Balance.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E462FEB2EE63CBF00B7F5EC /* FeedView+Balance.swift */; };
 		7E462FEE2EE63CE100B7F5EC /* FeedView+Catalog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E462FED2EE63CE100B7F5EC /* FeedView+Catalog.swift */; };
-		7E462FF02EE6489C00B7F5EC /* QRScannerView+CameraPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E462FEF2EE6489C00B7F5EC /* QRScannerView+CameraPreview.swift */; };
-		7E462FF32EE648D900B7F5EC /* QRScannerView+Overlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E462FF22EE648D900B7F5EC /* QRScannerView+Overlay.swift */; };
+		7E462FF02EE6489C00B7F5EC /* QRScannerView+States.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E462FEF2EE6489C00B7F5EC /* QRScannerView+States.swift */; };
+		7E462FF32EE648D900B7F5EC /* QRScannerView+Actions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E462FF22EE648D900B7F5EC /* QRScannerView+Actions.swift */; };
 		7E462FF62EE65F0F00B7F5EC /* OrdersView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E462FF52EE65F0F00B7F5EC /* OrdersView.swift */; };
 		7E4BA2022EE061840004CFB3 /* Product.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E4BA2012EE061840004CFB3 /* Product.swift */; };
 		7E4BA2042EE0689E0004CFB3 /* ProductDelivery.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E4BA2032EE0689E0004CFB3 /* ProductDelivery.swift */; };
@@ -156,8 +156,8 @@
 		7E462FE92EE638D400B7F5EC /* LoadingAnimationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingAnimationView.swift; sourceTree = "<group>"; };
 		7E462FEB2EE63CBF00B7F5EC /* FeedView+Balance.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FeedView+Balance.swift"; sourceTree = "<group>"; };
 		7E462FED2EE63CE100B7F5EC /* FeedView+Catalog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FeedView+Catalog.swift"; sourceTree = "<group>"; };
-		7E462FEF2EE6489C00B7F5EC /* QRScannerView+CameraPreview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "QRScannerView+CameraPreview.swift"; sourceTree = "<group>"; };
-		7E462FF22EE648D900B7F5EC /* QRScannerView+Overlay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "QRScannerView+Overlay.swift"; sourceTree = "<group>"; };
+		7E462FEF2EE6489C00B7F5EC /* QRScannerView+States.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "QRScannerView+States.swift"; sourceTree = "<group>"; };
+		7E462FF22EE648D900B7F5EC /* QRScannerView+Actions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "QRScannerView+Actions.swift"; sourceTree = "<group>"; };
 		7E462FF52EE65F0F00B7F5EC /* OrdersView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrdersView.swift; sourceTree = "<group>"; };
 		7E4BA2012EE061840004CFB3 /* Product.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Product.swift; sourceTree = "<group>"; };
 		7E4BA2032EE0689E0004CFB3 /* ProductDelivery.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductDelivery.swift; sourceTree = "<group>"; };
@@ -308,8 +308,8 @@
 			children = (
 				7E43D2F02EC654330039FCE4 /* QRScanner.swift */,
 				7E3B427C2EC0FA06005B7E57 /* QRScannerView.swift */,
-				7E462FEF2EE6489C00B7F5EC /* QRScannerView+CameraPreview.swift */,
-				7E462FF22EE648D900B7F5EC /* QRScannerView+Overlay.swift */,
+				7E462FEF2EE6489C00B7F5EC /* QRScannerView+States.swift */,
+				7E462FF22EE648D900B7F5EC /* QRScannerView+Actions.swift */,
 			);
 			path = Scanner;
 			sourceTree = "<group>";
@@ -863,7 +863,7 @@
 				7ECC400B2E6628E90014E97E /* AdminContentViews.swift in Sources */,
 				7ECC400F2E6628E90014E97E /* CarTinderView.swift in Sources */,
 				7E4BA2022EE061840004CFB3 /* Product.swift in Sources */,
-				7E462FF32EE648D900B7F5EC /* QRScannerView+Overlay.swift in Sources */,
+				7E462FF32EE648D900B7F5EC /* QRScannerView+Actions.swift in Sources */,
 				7E43D2F32EC66D670039FCE4 /* CapturePermission.swift in Sources */,
 				7E4BA2192EE32F890004CFB3 /* AttachmentImage.swift in Sources */,
 				7ECC40192E6628E90014E97E /* LoginView.swift in Sources */,
@@ -878,7 +878,7 @@
 				7E4BA20F2EE0CDE10004CFB3 /* RewardDetailsView.swift in Sources */,
 				7E462FEE2EE63CE100B7F5EC /* FeedView+Catalog.swift in Sources */,
 				7EE877F32EA2E55600CFC230 /* Main+Jobs.swift in Sources */,
-				7E462FF02EE6489C00B7F5EC /* QRScannerView+CameraPreview.swift in Sources */,
+				7E462FF02EE6489C00B7F5EC /* QRScannerView+States.swift in Sources */,
 				7ECC40252E66D8370014E97E /* Main+Router.swift in Sources */,
 				7ECC3F982E65CF8D0014E97E /* Achievement.swift in Sources */,
 				7E5350112EDC4DA80020AF96 /* Inbox.swift in Sources */,

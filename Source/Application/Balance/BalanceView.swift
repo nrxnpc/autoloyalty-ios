@@ -55,7 +55,7 @@ extension BalanceView {
     
     @ViewBuilder func makeScanButton() -> some View {
         Button {
-            router.route(fullScreen: .scanner)
+            router.route(sheet: .scanner)
         } label: {
             HStack {
                 Image(systemName: "qrcode.viewfinder")

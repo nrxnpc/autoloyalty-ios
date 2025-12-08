@@ -20,6 +20,7 @@ extension Main {
             case transactionHistory
             case orders
             case inboxMessage(InboxMessage)
+            case scanner
             case console
         }
         
@@ -169,6 +170,13 @@ extension Main {
                         }
                         .presentationDetents([.large])
                         .presentationDragIndicator(.visible)
+                    case .scanner:
+                        NavigationView {
+                            QRScannerView()
+                                .environmentObject(router)
+                        }
+                        .presentationDetents([.large])
+                        .presentationDragIndicator(.visible)
                     case .console:
                         NavigationView {
                             PulseConsoleView()
@@ -199,6 +207,7 @@ extension Main.Router.SheetDestination: Identifiable {
         case .transactionHistory: return "transactionHistory"
         case .orders: return "orders"
         case .inboxMessage: return "inboxMessage"
+        case .scanner: return "scanner"
         case .console: return "console"
         }
     }

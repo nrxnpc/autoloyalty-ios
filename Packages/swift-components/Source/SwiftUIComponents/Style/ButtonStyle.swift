@@ -16,6 +16,7 @@ public struct PrimaryButtonStyle: ButtonStyle {
             )
             .scaleEffect(configuration.isPressed ? 0.97 : 1.0)
             .animation(.easeOut(duration: 0.2), value: configuration.isPressed)
+            .sensoryFeedback(.impact, trigger: configuration.isPressed)
     }
 }
 
@@ -31,6 +32,7 @@ public struct SecondaryButtonStyle: ButtonStyle {
             .background(Color.clear)
             .scaleEffect(configuration.isPressed ? 0.97 : 1.0)
             .animation(.easeOut(duration: 0.2), value: configuration.isPressed)
+            .sensoryFeedback(.impact, trigger: configuration.isPressed)
     }
 }
 
@@ -46,9 +48,30 @@ public struct StrokeButtonStyle: ButtonStyle {
             .background(
                 RoundedRectangle(cornerRadius: 14)
                     .stroke(Color.primary, lineWidth: 2)
+                    .foregroundStyle(.thinMaterial)
             )
             .contentShape(Rectangle())
             .scaleEffect(configuration.isPressed ? 0.97 : 1.0)
             .animation(.easeOut(duration: 0.2), value: configuration.isPressed)
+            .sensoryFeedback(.impact, trigger: configuration.isPressed)
+    }
+}
+
+public struct CompactStrokeButtonStyle: ButtonStyle {
+    public init() {}
+    public func makeBody(configuration: Configuration) -> some View {
+        configuration.label
+            .font(.headline.weight(.semibold))
+            .padding()
+            .foregroundColor(.primary)
+            .background(
+                RoundedRectangle(cornerRadius: 14)
+                    .stroke(Color.primary, lineWidth: 2)
+                    .foregroundStyle(.thinMaterial)
+            )
+            .contentShape(Rectangle())
+            .scaleEffect(configuration.isPressed ? 0.97 : 1.0)
+            .animation(.easeOut(duration: 0.2), value: configuration.isPressed)
+            .sensoryFeedback(.impact, trigger: configuration.isPressed)
     }
 }

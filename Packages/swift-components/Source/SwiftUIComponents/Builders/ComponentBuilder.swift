@@ -71,7 +71,7 @@ public extension ComponentBuilder {
             }
             .scrollDismissesKeyboard(.interactively)
             
-            VStack(alignment: .leading, spacing: 16) {
+            VStack(alignment: .center, spacing: 16) {
                 Spacer()
                 bottom()
             }

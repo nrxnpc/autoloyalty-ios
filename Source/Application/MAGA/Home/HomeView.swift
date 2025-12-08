@@ -29,7 +29,7 @@ extension HomeView {
     @ToolbarContentBuilder func makeToolbar() -> some ToolbarContent {
         ToolbarItem(placement: .topBarLeading) {
             Button {
-                router.route(fullScreen: .scanner)
+                router.route(sheet: .scanner)
             } label: {
                 Image(systemName: "qrcode.viewfinder")
             }

@@ -2,23 +2,17 @@ import Foundation
 
 @MainActor
 final class QRScanner: ObservableObject {
-    enum CaptureDeviceState {
+    enum CaptureDeviceState: Equatable {
         case unowned
         case requestCameraAccess
         case cameraAccessRequired
         case cameraPreview
-    }
-    
-    enum ScanningState: Equatable {
-        case scanning
         case processing
         case result(Int)
         case processingError
     }
     
     @Published var captureDeviceState: CaptureDeviceState = .unowned
-    @Published var scanningState: ScanningState = .scanning
-    
     private var codeWasCaptured: Bool = false
     
     init() {
@@ -44,28 +38,34 @@ extension QRScanner {
         }
     }
     
-    func process(code value: String) {
+    func tryAgain() {
+        codeWasCaptured = false
+        captureDeviceState = .cameraPreview
+    }
+    
+    @MainActor
+    func process(code value: String) async {
         guard codeWasCaptured == false else {
             return
         }
         codeWasCaptured = true
-        scanningState = .processing
+        captureDeviceState = .processing
         
         Task { [weak self] in
             guard let self else {
                 return
             }
             
-             do {
-                 let points = try await self.sendQRCode(value)
-                 await MainActor.run {
-                     self.scanningState = .result(points)
-                 }
-             } catch {
-                 await MainActor.run {
-                     self.scanningState = .processingError
-                 }
-             }
+            do {
+                let points = try await self.sendQRCode(value)
+                await MainActor.run {
+                    self.captureDeviceState = .result(points)
+                }
+            } catch {
+                await MainActor.run {
+                    self.captureDeviceState = .processingError
+                }
+            }
         }
     }
 }
