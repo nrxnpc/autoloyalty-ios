@@ -2,6 +2,7 @@ import Combine
 import Dependencies
 import Foundation
 import ScopeGraph
+import UIKit
 
 @MainActor
 final class AboutMe: ObservableObject {
@@ -111,6 +112,19 @@ extension AboutMe {
             } catch {
                 print("[Debug][AboutMe] Failed to update account image: \(error.localizedDescription)")
             }
+        }
+    }
+    
+    func logout() async {
+        isUpdating = true
+        defer {
+            isUpdating = false
+        }
+        
+        do {
+            try await LogoutUseCase(scope: scope).execute()
+        } catch {
+            UINotificationFeedbackGenerator().notificationOccurred(.error)
         }
     }
 }

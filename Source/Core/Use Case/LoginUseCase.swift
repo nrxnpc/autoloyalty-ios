@@ -2,25 +2,19 @@ import Foundation
 import ScopeGraph
 
 /// Use case for user authentication
-public struct LoginUseCase: Sendable {
+public struct LoginUseCase {
     private let scope: Scope
     public init(scope: Scope) {
         self.scope = scope
     }
     
     /// Process login response and create session
-    @MainActor
-    public func execute(_ loginResponse: RestEndpoint.AuthResponse) async throws {
-        // Create session first
+    public func execute(email: String, password: String) async throws {
+        let loginResponse = try await scope.endpoint.login(.init(email: email, password: password))
+        // Create or reuse session
         let createSessionUseCase = CreateSessionUseCase(scope: scope)
         let sessionID = try await createSessionUseCase.execute(from: loginResponse)
         try await scope.switchSession(with: sessionID)
-        
-        // Then sync account data
-        guard let profile = loginResponse.user else {
-            return
-        }
-        try await PullAboutMeUseCase(scope: scope).execute(with: profile)
     }
 }
 

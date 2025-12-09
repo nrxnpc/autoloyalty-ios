@@ -2,6 +2,7 @@ import SwiftUI
 
 // MARK: - Primary Button Example
 public struct PrimaryButtonStyle: ButtonStyle {
+    @Environment(\.isEnabled) var isEnabled
     public init() {}
     public func makeBody(configuration: Configuration) -> some View {
         configuration.label
@@ -12,16 +13,18 @@ public struct PrimaryButtonStyle: ButtonStyle {
             .foregroundColor(.white)
             .background(
                 RoundedRectangle(cornerRadius: 14)
-                    .fill(Color.accentColor)
+                    .fill(isEnabled ? Color.accentColor : Color.gray)
             )
-            .scaleEffect(configuration.isPressed ? 0.97 : 1.0)
+            .opacity(isEnabled ? 1.0 : 0.6)
+            .scaleEffect(configuration.isPressed && isEnabled ? 0.97 : 1.0)
             .animation(.easeOut(duration: 0.2), value: configuration.isPressed)
-            .sensoryFeedback(.impact, trigger: configuration.isPressed)
+            .sensoryFeedback(.impact, trigger: configuration.isPressed && isEnabled)
     }
 }
 
 // MARK: Secondary Button Example
 public struct SecondaryButtonStyle: ButtonStyle {
+    @Environment(\.isEnabled) var isEnabled
     public init() {}
     public func makeBody(configuration: Configuration) -> some View {
         configuration.label
@@ -30,9 +33,10 @@ public struct SecondaryButtonStyle: ButtonStyle {
             .frame(maxWidth: .infinity, alignment: .center)
             .frame(height: 50)
             .background(Color.clear)
-            .scaleEffect(configuration.isPressed ? 0.97 : 1.0)
+            .opacity(isEnabled ? 1.0 : 0.6)
+            .scaleEffect(configuration.isPressed && isEnabled ? 0.97 : 1.0)
             .animation(.easeOut(duration: 0.2), value: configuration.isPressed)
-            .sensoryFeedback(.impact, trigger: configuration.isPressed)
+            .sensoryFeedback(.impact, trigger: configuration.isPressed && isEnabled)
     }
 }
 

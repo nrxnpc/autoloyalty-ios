@@ -118,6 +118,9 @@ extension FeedView {
             ForEach(products, id: \.id) { product in
                 RewardPreviewView(product: product)
                     .aspectRatio(1/1.4, contentMode: .fit)
+                    .onTapGesture {
+                        router.route(sheet: .productDetails(product.id))
+                    }
             }
         }
     }

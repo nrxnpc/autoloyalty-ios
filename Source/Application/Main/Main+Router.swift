@@ -21,6 +21,7 @@ extension Main {
             case orders
             case inboxMessage(InboxMessage)
             case scanner
+            case reauthenticationView
             case console
         }
         
@@ -40,6 +41,12 @@ extension Main {
         
         private func injectNetworkLogger() {
             NetworkLogger.enableNetworkLoggerProxy()
+        }
+        
+        func reset() {
+            destination = nil
+            sheet = nil
+            fullScreen = nil
         }
     }
 }
@@ -177,6 +184,13 @@ extension Main {
                         }
                         .presentationDetents([.large])
                         .presentationDragIndicator(.visible)
+                    case .reauthenticationView:
+                        NavigationView {
+                            ReauthenticationView()
+                                .environmentObject(router)
+                        }
+                        .presentationDetents([.medium])
+                        .presentationDragIndicator(.visible)
                     case .console:
                         NavigationView {
                             PulseConsoleView()
@@ -208,6 +222,7 @@ extension Main.Router.SheetDestination: Identifiable {
         case .orders: return "orders"
         case .inboxMessage: return "inboxMessage"
         case .scanner: return "scanner"
+        case .reauthenticationView: return "reauthenticationView"
         case .console: return "console"
         }
     }

@@ -98,6 +98,10 @@ extension AboutMeView {
                 RoundedRectangle(cornerRadius: 6)
                     .foregroundStyle(.ultraThinMaterial)
             }
+            .onTap {
+                let version = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "Unknown"
+                UIPasteboard.general.string = "App Version: \(version)"
+            }
         }
     }
     
@@ -105,7 +109,10 @@ extension AboutMeView {
         ToolbarItem(placement: .topBarTrailing) {
             Menu {
                 Button("Logout", systemImage: "person.fill.xmark", role: .cancel) {
-                    
+                    Task { @MainActor in
+                        await application.logout()
+                        router.reset()
+                    }
                 }
                 Button("Delete Account", systemImage: "person.slash", role: .destructive) {
                     

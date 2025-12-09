@@ -15,13 +15,13 @@ struct BalanceView: View, ComponentBuilder {
             .padding()
         }
         .contentShape(Rectangle())
-        .onTapGesture {
-            router.route(sheet: .transactionHistory)
-        }
         .frame(maxWidth: .infinity)
         .background {
             RoundedRectangle(cornerRadius: 24)
                 .foregroundStyle(.regularMaterial)
+        }
+        .onTap {
+            router.route(sheet: .transactionHistory)
         }
     }
 }

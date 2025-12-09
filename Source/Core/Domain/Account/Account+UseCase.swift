@@ -20,22 +20,24 @@ public extension Account {
 
 // MARK: - Create Account Use Case
 
-public struct CreateAccountUseCase {
+public struct CreateAccount {
     private let context: NSManagedObjectContext
     private let restoredID: String?
     private let externalID: String
     private let name: String
     private let email: String
     private let phone: String?
+    private let points: Int
     private let image: AttachmentSource?
     
-    public init(context: NSManagedObjectContext, id: String, externalID: String, name: String, email: String, phone: String? = nil, image: AttachmentSource?) {
+    public init(context: NSManagedObjectContext, id: String, externalID: String, name: String, email: String, phone: String? = nil, points: Int, image: AttachmentSource?) {
         self.context = context
         self.restoredID = id
         self.externalID = externalID
         self.name = name
         self.email = email
         self.phone = phone
+        self.points = points
         self.image = image
     }
     
@@ -56,6 +58,7 @@ public struct CreateAccountUseCase {
         newAccount.name = name
         newAccount.email = email
         newAccount.phone = phone
+        newAccount.points = points
         if let image {
             newAccount.image = try resolveAttachment(from: image, in: context)
         } else {

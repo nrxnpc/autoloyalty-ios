@@ -17,9 +17,7 @@ public struct CreateSessionUseCase: Sendable {
     /// Create or restore session from login response
     @MainActor
     public func execute(from loginResponse: RestEndpoint.AuthResponse) async throws -> String {
-        guard let user = loginResponse.user else {
-            throw CreateSessionUseCaseError.cantCreateSession
-        }
+        let user = loginResponse.user
         let sessionID = user.id
         
         // Check if session exists
@@ -27,6 +25,9 @@ public struct CreateSessionUseCase: Sendable {
         let restoreResult = try await scope.sessionComponent.process(request)
         
         if case .session(let existingSession) = restoreResult {
+            await existingSession.setTokens(
+                .init(accessToken: loginResponse.accessToken, refreshToken: loginResponse.refreshToken)
+            )
             // Restore existing session
             return await existingSession.id
         }
@@ -44,10 +45,9 @@ public struct CreateSessionUseCase: Sendable {
             email: user.email
         )
         
-        // TODO: fix loginResponse.tokens
         let tokens = AppSessionTokens(
-            accessToken: loginResponse.token ?? "fix loginResponse.accessToken",
-            refreshToken: "fix user.refreshToken"
+            accessToken: loginResponse.accessToken,
+            refreshToken: loginResponse.refreshToken
         )
         
         let createRequest: AppSessionRequest = .create(
@@ -72,13 +72,14 @@ public struct CreateSessionUseCase: Sendable {
             return existingAccount.id
         }
         
-        let createUseCase = CreateAccountUseCase(
+        let createUseCase = CreateAccount(
             context: scope.coreDataContext,
             id: UUID().uuidString,
             externalID: user.id,
             name: user.name,
             email: user.email,
             phone: user.phone,
+            points: user.points,
             image: .none
         )
         

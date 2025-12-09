@@ -374,9 +374,11 @@ extension RestEndpoint {
         /// Operation success status
         public let success: Bool
         /// User profile data
-        public let user: UserProfile?
+        public let user: UserProfile
         /// Authentication token
-        public let token: String?
+        public let accessToken: String
+        /// Refresh token
+        public let refreshToken: String
         /// Error message if failed
         public let error: String?
     }

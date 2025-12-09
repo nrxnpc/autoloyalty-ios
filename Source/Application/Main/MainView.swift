@@ -4,9 +4,18 @@ import SwiftUI
 struct MainView: View {
     // MARK: - Dependencies
     
-    @StateObject var router: Main.Router = .init()
-    @StateObject var application: Main = .init()
+    @Dependency(\.scope) var scope
+    
+    @StateObject var router: Main.Router
+    @StateObject var application: Main
     @StateObject var captureSession = CaptureSession()
+    
+    init() {
+        let router: Main.Router = .init()
+        let application: Main = .init(router: router)
+        _router = .init(wrappedValue: router)
+        _application = .init(wrappedValue: application)
+    }
     
     // MARK: -
     
@@ -27,6 +36,7 @@ struct MainView: View {
             .environmentObject(application)
             .environmentObject(captureSession)
         }
+        .environment(\.managedObjectContext, scope.coreDataContext)
         .onShake {
             router.route(sheet: .console)
         }

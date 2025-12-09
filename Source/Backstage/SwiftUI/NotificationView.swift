@@ -2,14 +2,23 @@ import SwiftUI
 import SwiftUIComponents
 
 struct NotificationMessageView: View, ComponentBuilder {
-    let text: String
+    let text: LocalizedStringKey
     let action: () -> Void
     
     var body: some View {
         HStack(alignment: .firstTextBaseline, spacing: 0) {
-            MakeSubtitle(.init(text))
-                .padding(6)
-            
+            Text(text)
+                .lineLimit(nil)
+                .font(.subheadline)
+                .padding(.horizontal, 8)
+                .padding(.trailing, 4)
+        }
+        .padding()
+        .background {
+            RoundedRectangle(cornerRadius: 16)
+                .foregroundStyle(.thickMaterial)
+        }
+        .overlay(alignment: .topTrailing) {
             Button {
                 action()
             } label: {
@@ -18,12 +27,15 @@ struct NotificationMessageView: View, ComponentBuilder {
                     .foregroundStyle(.tertiary)
             }
             .foregroundStyle(.secondary)
-            .padding(.trailing, 6)
+            .padding([.top, .trailing], 8)
         }
-        .background {
-            RoundedRectangle(cornerRadius: 8)
-                .foregroundStyle(.regularMaterial)
-        }
+        // .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
         .frame(maxWidth: .infinity, alignment: .center)
+    }
+}
+
+#Preview {
+    NotificationMessageView(text: "Ups! Something went wrong. Please try again. Please try again.") {
+        
     }
 }

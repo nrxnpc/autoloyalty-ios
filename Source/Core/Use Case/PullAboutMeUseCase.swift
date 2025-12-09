@@ -28,6 +28,7 @@ public struct PullAboutMeUseCase: Sendable {
             
             account.name = accountInfo.name
             account.email = accountInfo.email
+            account.points = accountInfo.points
             
             try scope.coreDataContext.save()
         }

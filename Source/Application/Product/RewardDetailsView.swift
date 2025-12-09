@@ -63,10 +63,17 @@ extension RewardDetailsView {
         
         ToolbarItem(placement: .topBarTrailing) {
             Button {
-                
             } label: {
-                Image(systemName: "heart.fill")
-                    .foregroundStyle(.red)
+                ZStack {
+                    if let product, product.isFavorite {
+                        Image(systemName: "heart.fill")
+                            .foregroundStyle(.red)
+                    } else {
+                        Image(systemName: "heart")
+                            .foregroundStyle(.red)
+                    }
+                }
+                .animation(.easeInOut, value: product)
             }
         }
     }
