@@ -62,9 +62,7 @@ public final class RestEndpoint: EndpointBuilder, Sendable {
 public extension RestEndpoint {
     /// Production endpoint with real server
     static let localhost = RestEndpoint(
-        // Stage:
-        // https://85.192.28.187:8080/api/v1
-        baseURL: URL(string: "http://localhost:8080/api/v1")!,
+        baseURL: URL(string: "http://85.192.28.187:8080/api/v1")!,
         session: URLSession.shared
     )
 }
