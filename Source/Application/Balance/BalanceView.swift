@@ -51,6 +51,7 @@ extension BalanceView {
     @ViewBuilder func makeBalance() -> some View {
         Text("\(balanceMonitor.balance)")
             .font(.largeTitle)
+            .fontWeight(.semibold)
     }
     
     @ViewBuilder func makeScanButton() -> some View {

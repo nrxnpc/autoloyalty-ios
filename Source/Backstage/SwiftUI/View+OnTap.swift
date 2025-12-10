@@ -13,16 +13,12 @@ private struct TapGestureModifier: ViewModifier {
     
     func body(content: Content) -> some View {
         content
+            .contentShape(Rectangle())
             .scaleEffect(isPressed ? 0.95 : 1.0)
             .animation(.easeOut(duration: 0.1), value: isPressed)
             .onTapGesture {
                 action()
                 UIImpactFeedbackGenerator(style: .light).impactOccurred()
-            }
-            .onLongPressGesture(minimumDuration: 0, maximumDistance: .infinity) {
-                // Empty action for long press
-            } onPressingChanged: { pressing in
-                isPressed = pressing
             }
     }
 }

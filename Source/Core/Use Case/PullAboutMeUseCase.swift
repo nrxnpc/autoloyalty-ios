@@ -12,9 +12,10 @@ public struct PullAboutMeUseCase: Sendable {
     /// Executes account synchronization with atomic upsert operation.
     /// - Parameter accountInfo: Remote account data to synchronize
     @MainActor
-    public func execute(with accountInfo: RestEndpoint.UserProfile) async throws {
+    public func execute() async throws {
         let currentSessionInfo = await scope.session.info
-        
+        let accountInfo = try await scope.endpoint.getCurrentUser().user
+
         try await upsertAccount(accountID: currentSessionInfo.accountID, from: accountInfo)
         try await validateSessionInfo(with: accountInfo)
     }
@@ -24,11 +25,18 @@ public struct PullAboutMeUseCase: Sendable {
     @MainActor
     private func upsertAccount(accountID: String, from accountInfo: RestEndpoint.UserProfile) async throws {
         try await scope.coreDataContext.perform {
-            let account = try Account.byID(accountID).execute().first ?? Account.create(id: accountID, externalID: accountInfo.id, in: scope.coreDataContext)
-            
-            account.name = accountInfo.name
-            account.email = accountInfo.email
-            account.points = accountInfo.points
+            if let account = try Account.byID(accountID).execute().first {
+                // TODO: a name may be overriden by the user without backend sync
+                // account.name = accountInfo.name
+                
+                account.email = accountInfo.email
+                account.points = accountInfo.points
+            } else {
+                let account = try Account.create(id: accountID, externalID: accountInfo.id, in: scope.coreDataContext)
+                account.name = accountInfo.name
+                account.email = accountInfo.email
+                account.points = accountInfo.points
+            }
             
             try scope.coreDataContext.save()
         }
@@ -44,10 +52,12 @@ public struct PullAboutMeUseCase: Sendable {
         
         guard needsUpdate else { return }
         
+        // TODO: a name may be overriden by the user without backend sync
+        // displayName: accountInfo.name
         let updatedInfo = AppSessionInfo(
             sessionID: currentSessionInfo.sessionID,
             accountID: currentSessionInfo.accountID,
-            displayName: accountInfo.name,
+            displayName: currentSessionInfo.displayName,
             email: accountInfo.email
         )
         

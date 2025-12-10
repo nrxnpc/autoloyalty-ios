@@ -3,24 +3,45 @@ import SwiftUI
 struct BalanceLabel: View {
     let points: Int
     let hasBackground: Bool
+    let operation: Operation
     
-    init(points: Int, hasBackground: Bool = true) {
+    enum Operation {
+        case none, income, outcome
+        
+        var prefix: String {
+            switch self {
+            case .none: return ""
+            case .income: return "+"
+            case .outcome: return "-"
+            }
+        }
+        
+        var color: Color {
+            switch self {
+            case .none: return .primary
+            case .income: return .green
+            case .outcome: return .red
+            }
+        }
+    }
+    
+    init(points: Int, hasBackground: Bool = true, operation: Operation = .none) {
         self.points = points
         self.hasBackground = hasBackground
+        self.operation = operation
     }
     
     var body: some View {
-        ZStack {
-            HStack(alignment: .firstTextBaseline, spacing: 2) {
-                Text("\(points)")
-                if hasBackground {
-                    Image(systemName: "star.fill")
-                        .foregroundColor(.orange)
-                }
+        HStack(alignment: .firstTextBaseline, spacing: 2) {
+            Text("\(operation.prefix)\(points)")
+                .foregroundColor(operation.color)
+            if hasBackground {
+                Image(systemName: "star.fill")
+                    .foregroundColor(.orange)
             }
-            .padding(.horizontal, 6)
-            .padding(.vertical, 4)
         }
+        .padding(.horizontal, 6)
+        .padding(.vertical, 4)
         .background {
             if hasBackground {
                 RoundedRectangle(cornerRadius: 6)
@@ -31,5 +52,9 @@ struct BalanceLabel: View {
 }
 
 #Preview {
-    BalanceLabel(points: 100000)
+    VStack {
+        BalanceLabel(points: 100, operation: .income)
+        BalanceLabel(points: 50, operation: .outcome)
+        BalanceLabel(points: 100)
+    }
 }

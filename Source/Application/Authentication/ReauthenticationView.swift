@@ -23,34 +23,27 @@ struct ReauthenticationView: View, ComponentBuilder {
     @State private var loginErrorMessage: String?
     @FocusState var focused: Authentication.Input.Item?
     
-    init() {
-        input.email = scope.currentSessionInfo.email
-    }
-    
     var body: some View {
-        GeometryReader { geometry in
-            ScrollView {
-                VStack(alignment: .center, spacing: 32) {
-                    Spacer()
-                    
-                    VStack(alignment: .center, spacing: 32) {
-                        makeIntro()
-                        makeInputBody()
-                        makeLoginSection()
-                    }
-                }
-                .padding(.horizontal, 32)
-                .padding(.top, 32)
-                .frame(minHeight: geometry.size.height)
-                .disabled(application.isUpdating)
+        ScrollView {
+            VStack(alignment: .center, spacing: 16) {
+                makeIntro()
+                makeInputBody()
+                makeLoginSection()
             }
+            .padding(.horizontal, 16)
+            .disabled(application.isUpdating)
         }
         .toolbar(content: makeToolbar)
+        .navigationTitle("Re-login required")
+        .navigationBarTitleDisplayMode(.large)
         .scrollDismissesKeyboard(.immediately)
         .frame(maxHeight: .infinity)
         .animation(.easeInOut, value: application.isUpdating)
         .animation(.easeInOut, value: loginErrorMessage)
         .animation(.smooth, value: focused)
+        .onAppear {
+            input.email = scope.currentSessionInfo.email
+        }
     }
 }
 
@@ -58,11 +51,10 @@ extension ReauthenticationView {
     // MARK: - View Factory
     
     @ViewBuilder func makeIntro() -> some View {
-        VStack(alignment: .center, spacing: 8) {
-            MakeTitle("Re-login required")
-            MakeSubtitle("Your session has expired. To continue working, please enter your password")
-        }
-        .frame(maxWidth: .infinity, alignment: .center)
+        Text("Your session has expired. To continue working, please enter your password")
+            .font(.body)
+            .foregroundStyle(.secondary)
+            .multilineTextAlignment(.leading)
     }
     
     @ViewBuilder func makeInputBody() -> some View {
@@ -92,17 +84,6 @@ extension ReauthenticationView {
             }
             .validated(email: input.$email)
             .validated(password: input.$password, minimumRequirements: true)
-            
-            if focused == nil {
-                MakeSecondaryButton("Create new account") {
-                    router.route(sheet: .createAccount(application))
-                }
-                
-                
-                // MakeSecondaryButton("Continue as a guest") {
-                //     loginAsGuest()
-                // }
-            }
             
             NotificationMessageView(text: .init(loginErrorMessage ?? "")) {
                 loginErrorMessage = nil

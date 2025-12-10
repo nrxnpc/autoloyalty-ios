@@ -366,6 +366,14 @@ extension RestEndpoint {
         public let isActive: Bool
     }
     
+    /// User profile response wrapper
+    ///
+    /// Contains user profile data from /user/me endpoint
+    public struct UserProfileResponse: Codable, Sendable {
+        /// User profile data
+        public let user: UserProfile
+    }
+    
     /// Authentication operation response
     ///
     /// Returned by login and registration endpoints. Contains user profile
@@ -380,6 +388,32 @@ extension RestEndpoint {
         /// Refresh token
         public let refreshToken: String
         /// Error message if failed
+        public let error: String?
+    }
+    
+    /// Token refresh request
+    ///
+    /// Used to obtain new access token using refresh token.
+    public struct RefreshRequest: Codable, Sendable {
+        /// Refresh token from previous authentication
+        public let refreshToken: String
+        
+        public init(refreshToken: String) {
+            self.refreshToken = refreshToken
+        }
+    }
+    
+    /// Token refresh response
+    ///
+    /// Contains new access and refresh tokens with expiration info.
+    public struct RefreshResponse: Codable, Sendable {
+        /// New access token
+        public let accessToken: String
+        /// New refresh token
+        public let refreshToken: String
+        /// Token expiration time in seconds
+        public let expiresIn: Int
+        /// Error message if refresh failed
         public let error: String?
     }
     

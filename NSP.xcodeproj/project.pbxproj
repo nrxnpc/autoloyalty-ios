@@ -72,6 +72,9 @@
 		7EAF29482EE8994400E4201A /* CreateAccountUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EAF29472EE8994400E4201A /* CreateAccountUseCase.swift */; };
 		7EAF294A2EE8B1BC00E4201A /* LogoutUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EAF29492EE8B1BC00E4201A /* LogoutUseCase.swift */; };
 		7EAF294C2EE8C42000E4201A /* ReauthenticationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EAF294B2EE8C42000E4201A /* ReauthenticationView.swift */; };
+		7EAF294E2EE8D0A200E4201A /* PullUserTransactionsUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EAF294D2EE8D0A200E4201A /* PullUserTransactionsUseCase.swift */; };
+		7EAF29512EE8D1A000E4201A /* BalanceTransaction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EAF29502EE8D1A000E4201A /* BalanceTransaction.swift */; };
+		7EAF29532EE8D55D00E4201A /* BalanceTransaction+FetchRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EAF29522EE8D55D00E4201A /* BalanceTransaction+FetchRequest.swift */; };
 		7ECC3F942E65CF8D0014E97E /* FullProduct.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ECC3F922E65CF8D0014E97E /* FullProduct.swift */; };
 		7ECC3F952E65CF8D0014E97E /* OtherModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ECC3F912E65CF8D0014E97E /* OtherModels.swift */; };
 		7ECC3F962E65CF8D0014E97E /* Car.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ECC3F902E65CF8D0014E97E /* Car.swift */; };
@@ -211,6 +214,9 @@
 		7EAF29472EE8994400E4201A /* CreateAccountUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateAccountUseCase.swift; sourceTree = "<group>"; };
 		7EAF29492EE8B1BC00E4201A /* LogoutUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogoutUseCase.swift; sourceTree = "<group>"; };
 		7EAF294B2EE8C42000E4201A /* ReauthenticationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReauthenticationView.swift; sourceTree = "<group>"; };
+		7EAF294D2EE8D0A200E4201A /* PullUserTransactionsUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PullUserTransactionsUseCase.swift; sourceTree = "<group>"; };
+		7EAF29502EE8D1A000E4201A /* BalanceTransaction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BalanceTransaction.swift; sourceTree = "<group>"; };
+		7EAF29522EE8D55D00E4201A /* BalanceTransaction+FetchRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "BalanceTransaction+FetchRequest.swift"; sourceTree = "<group>"; };
 		7ECC3F372E65CEEF0014E97E /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		7ECC3F382E65CEFD0014E97E /* BACKEND_SETUP.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = BACKEND_SETUP.md; sourceTree = "<group>"; };
 		7ECC3F8F2E65CF8D0014E97E /* Achievement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Achievement.swift; sourceTree = "<group>"; };
@@ -488,6 +494,15 @@
 			path = Backstage;
 			sourceTree = "<group>";
 		};
+		7EAF294F2EE8D19000E4201A /* Balance */ = {
+			isa = PBXGroup;
+			children = (
+				7EAF29502EE8D1A000E4201A /* BalanceTransaction.swift */,
+				7EAF29522EE8D55D00E4201A /* BalanceTransaction+FetchRequest.swift */,
+			);
+			path = Balance;
+			sourceTree = "<group>";
+		};
 		7ECC3F352E65CE700014E97E /* Resource */ = {
 			isa = PBXGroup;
 			children = (
@@ -538,6 +553,7 @@
 		7ECC3FF02E6628AC0014E97E /* Domain */ = {
 			isa = PBXGroup;
 			children = (
+				7EAF294F2EE8D19000E4201A /* Balance */,
 				7E4BA2002EE061730004CFB3 /* Product */,
 				7E5350122EDC6A8D0020AF96 /* Inbox */,
 				7EE877D72EA2B8E800CFC230 /* Account */,
@@ -708,6 +724,7 @@
 				7E5350192EDCD4210020AF96 /* PullNotificationsUseCase.swift */,
 				7E462FE52EE60E9F00B7F5EC /* CreateWelcomeMessageUseCase.swift */,
 				7E4BA2162EE32BF00004CFB3 /* FetchAttachmentsUseCase.swift */,
+				7EAF294D2EE8D0A200E4201A /* PullUserTransactionsUseCase.swift */,
 			);
 			path = "Use Case";
 			sourceTree = "<group>";
@@ -853,6 +870,7 @@
 				7ECC400A2E6628E90014E97E /* NewsDetailView.swift in Sources */,
 				7ECC40162E6628E90014E97E /* QRScannerMainView.swift in Sources */,
 				7EE877F12EA2D31000CFC230 /* AboutMe.swift in Sources */,
+				7EAF294E2EE8D0A200E4201A /* PullUserTransactionsUseCase.swift in Sources */,
 				7ECC40112E6628E90014E97E /* CatalogView.swift in Sources */,
 				7ECC400E2E6628E90014E97E /* AdminManagementViews.swift in Sources */,
 				7ED1439F2E6740F1003BE287 /* Endpoint+Dependencies.swift in Sources */,
@@ -903,6 +921,7 @@
 				7ECC3FE02E65CF8D0014E97E /* AuthViewModel.swift in Sources */,
 				7EE877E32EA2BAF200CFC230 /* Account+UseCase.swift in Sources */,
 				7ECC40122E6628E90014E97E /* ModerationView.swift in Sources */,
+				7EAF29532EE8D55D00E4201A /* BalanceTransaction+FetchRequest.swift in Sources */,
 				7E53500C2EDAFA180020AF96 /* ConfettiAnimation.swift in Sources */,
 				7EE877CB2EA01B5000CFC230 /* Scope+Schema.swift in Sources */,
 				7EE877D42EA2A2F800CFC230 /* Authentication.swift in Sources */,
@@ -934,6 +953,7 @@
 				7E462FF62EE65F0F00B7F5EC /* OrdersView.swift in Sources */,
 				7E462FE82EE61B0400B7F5EC /* BalanceMonitor.swift in Sources */,
 				7EE877C52E9FEB9C00CFC230 /* Scope+Scheduler.swift in Sources */,
+				7EAF29512EE8D1A000E4201A /* BalanceTransaction.swift in Sources */,
 				7EE877C62E9FEB9C00CFC230 /* Scope+Session.swift in Sources */,
 				7EAF29482EE8994400E4201A /* CreateAccountUseCase.swift in Sources */,
 				7E4BA21B2EE4C6410004CFB3 /* BalanceLabel.swift in Sources */,

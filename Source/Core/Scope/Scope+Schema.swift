@@ -59,6 +59,13 @@ extension Scope {
                     Field("isFavorite", .boolean, default: false)
                     Relationship("images", to: "Attachment", toMany: true, deleteRule: .cascadeDeleteRule)
                 }
+                
+                // Balance Transaction
+                EntitySchema("BalanceTransaction", inherits: "Entity") {
+                    Field("typeRaw", .text)
+                    Field("amount", .number)
+                    Field("transactionDescription", .text)
+                }
             }
         }
     }

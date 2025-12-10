@@ -15,12 +15,11 @@ public struct RefreshTokenUseCase {
             throw AuthenticationError.loginFailed
         }
         
-        // TODO: update endpoint
-        // let response = try await scope.endpoint.refreshToken(with: .init(refreshToken: currentTokens.refreshToken))
+        let response = try await scope.endpoint.refreshToken(.init(refreshToken: currentTokens.refreshToken))
         
         let newTokens = AppSessionTokens(
-            accessToken: "fix refreshToken logic",
-            refreshToken: "fix refreshToken logic"
+            accessToken: response.accessToken,
+            refreshToken: response.refreshToken
         )
         
         await session.setTokens(newTokens)
