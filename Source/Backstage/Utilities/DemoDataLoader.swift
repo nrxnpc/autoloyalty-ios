@@ -307,7 +307,7 @@ class DemoDataLoader {
     }
     
     // MARK: - Orders
-    static func loadOrders() -> [Order] {
+    static func loadOrders() -> [MAGAOrder] {
         return []
     }
     

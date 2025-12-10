@@ -62,6 +62,8 @@ public final class RestEndpoint: EndpointBuilder, Sendable {
 public extension RestEndpoint {
     /// Production endpoint with real server
     static let localhost = RestEndpoint(
+        // Stage:
+        // https://85.192.28.187:8080/api/v1
         baseURL: URL(string: "http://localhost:8080/api/v1")!,
         session: URLSession.shared
     )
@@ -293,6 +295,37 @@ public extension RestEndpoint {
     func getUserTransactions(_ pagination: RestEndpoint.PaginationRequest = RestEndpoint.PaginationRequest()) async throws -> RestEndpoint.TransactionsResponse {
         var endpoint = Endpoint(baseURL: baseURL)
             .get("user/transactions")
+            .authenticate(with: authenticator)
+            .session(session)
+        
+        endpoint = endpoint.parameter(key: "limit", value: String(pagination.limit ?? 32768))
+        endpoint = endpoint.parameter(key: "offset", value: String(pagination.offset ?? 0))
+        
+        return try await endpoint.call(decoder: Self.jsonDecoder, isDataWrapped: false)
+    }
+    
+    // MARK: - Orders
+    
+    /// Create new order for product purchase (requires authentication)
+    /// - Parameter request: Order creation data with product ID and quantity
+    /// - Returns: Order creation response with order ID and remaining points
+    /// - Throws: Network, authorization, or insufficient points errors
+    func createOrder(_ request: RestEndpoint.OrderCreateRequest) async throws -> RestEndpoint.OrderCreateResponse {
+        try await Endpoint(baseURL: baseURL)
+            .post("orders")
+            .body(request, encoder: Self.jsonEncoder)
+            .authenticate(with: authenticator)
+            .session(session)
+            .call(decoder: Self.jsonDecoder, isDataWrapped: false)
+    }
+    
+    /// Get user's order history (requires authentication)
+    /// - Parameter pagination: Optional pagination parameters
+    /// - Returns: Orders list with pagination info
+    /// - Throws: Network or authorization errors
+    func getUserOrders(_ pagination: RestEndpoint.PaginationRequest = RestEndpoint.PaginationRequest()) async throws -> RestEndpoint.OrdersResponse {
+        var endpoint = Endpoint(baseURL: baseURL)
+            .get("user/orders")
             .authenticate(with: authenticator)
             .session(session)
         

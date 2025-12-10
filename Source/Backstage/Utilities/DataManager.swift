@@ -9,7 +9,7 @@ class DataManager: ObservableObject {
     @Published var carsState = CollectionState<Car>()
     @Published var productsState = CollectionState<FullProduct>()
     @Published var usersState = CollectionState<User>()
-    @Published var ordersState = CollectionState<Order>()
+    @Published var ordersState = CollectionState<MAGAOrder>()
     @Published var priceRequestsState = CollectionState<PriceRequest>()
     @Published var newsState = CollectionState<NewsArticle>()
     @Published var lotteriesState = CollectionState<Lottery>()
@@ -290,8 +290,8 @@ class DataManager: ObservableObject {
         return request
     }
     
-    func addOrder(userId: String, product: FullProduct, deliveryOption: FullProduct.DeliveryOption, deliveryAddress: String?) -> Order {
-        let order = Order(
+    func addOrder(userId: String, product: FullProduct, deliveryOption: FullProduct.DeliveryOption, deliveryAddress: String?) -> MAGAOrder {
+        let order = MAGAOrder(
             id: UUID().uuidString,
             userId: userId,
             product: product,
@@ -323,7 +323,7 @@ class DataManager: ObservableObject {
         carsState = CollectionState<Car>()
         productsState = CollectionState<FullProduct>()
         usersState = CollectionState<User>()
-        ordersState = CollectionState<Order>()
+        ordersState = CollectionState<MAGAOrder>()
         priceRequestsState = CollectionState<PriceRequest>()
         newsState = CollectionState<NewsArticle>()
         lotteriesState = CollectionState<Lottery>()

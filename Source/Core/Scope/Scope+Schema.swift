@@ -69,6 +69,16 @@ extension Scope {
                     Field("amount", .number)
                     Field("transactionDescription", .text)
                 }
+                
+                // Order Entity
+                EntitySchema("Order", inherits: "Entity") {
+                    Field("statusRaw", .text)
+                    Field("quantity", .number)
+                    Field("totalPoints", .number)
+                    Field("productName", .text)
+                    Field("productCategory", .text)
+                    Relationship("product", to: "Product", optional: true)
+                }
             }
         }
     }

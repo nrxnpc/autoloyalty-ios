@@ -322,6 +322,22 @@ extension RestEndpoint {
         }
     }
     
+    /// Order creation request
+    ///
+    /// Used to create a new order for purchasing products with points.
+    /// Validates product availability and user's point balance.
+    public struct OrderCreateRequest: Codable, Sendable {
+        /// Product ID to purchase
+        public let productId: String
+        /// Quantity to order
+        public let quantity: Int
+        
+        public init(productId: String, quantity: Int = 1) {
+            self.productId = productId
+            self.quantity = quantity
+        }
+    }
+    
     // MARK: - Response Models
     
     /// System health check response
@@ -702,6 +718,78 @@ extension RestEndpoint {
         public let pagination: PaginationResponse?
     }
     
+    /// Order status enumeration
+    ///
+    /// Defines the current state of an order:
+    /// - pending: Order created, awaiting processing
+    /// - processing: Order being prepared
+    /// - shipped: Order dispatched for delivery
+    /// - delivered: Order completed successfully
+    /// - cancelled: Order cancelled
+    public enum OrderStatus: String, Codable, CaseIterable, Sendable {
+        case pending = "pending"
+        case processing = "processing"
+        case shipped = "shipped"
+        case delivered = "delivered"
+        case cancelled = "cancelled"
+    }
+    
+    /// Order product information
+    ///
+    /// Basic product details included in order records.
+    public struct OrderProduct: Codable, Sendable {
+        /// Product ID
+        public let id: String
+        /// Product name
+        public let name: String
+        /// Product category
+        public let category: String
+    }
+    
+    /// Order record
+    ///
+    /// Represents a single order in the user's purchase history.
+    public struct Order: Codable, Sendable {
+        /// Order ID
+        public let id: String
+        /// Product information
+        public let product: OrderProduct?
+        /// Quantity ordered
+        public let quantity: Int
+        /// Total points spent
+        public let totalPoints: Int
+        /// Order status
+        public let status: OrderStatus
+        /// Order creation date
+        public let createdAt: String?
+    }
+    
+    /// Order creation response
+    ///
+    /// Returned when successfully creating a new order.
+    public struct OrderCreateResponse: Codable, Sendable {
+        /// Operation success status
+        public let success: Bool
+        /// Created order ID
+        public let orderId: String?
+        /// Points spent on order
+        public let totalPoints: Int?
+        /// User's remaining points
+        public let remainingPoints: Int?
+        /// Error message if failed
+        public let error: String?
+    }
+    
+    /// User orders history response
+    ///
+    /// Contains paginated list of user's orders.
+    public struct OrdersResponse: Codable, Sendable {
+        /// Orders array
+        public let orders: [Order]
+        /// Pagination info
+        public let pagination: PaginationResponse?
+    }
+    
     /// Generic operation success response
     ///
     /// Standard response for operations that don't return specific data.
@@ -739,8 +827,9 @@ extension RestEndpoint {
             let carId = try? container.decodeIfPresent(String.self, forKey: .carId)
             let articleId = try? container.decodeIfPresent(String.self, forKey: .articleId)
             let campaignId = try? container.decodeIfPresent(String.self, forKey: .campaignId)
+            let orderId = try? container.decodeIfPresent(String.self, forKey: .orderId)
             
-            id = productId ?? carId ?? articleId ?? campaignId
+            id = productId ?? carId ?? articleId ?? campaignId ?? orderId
         }
         
         public func encode(to encoder: Encoder) throws {
@@ -757,6 +846,7 @@ extension RestEndpoint {
             case carId = "car_id"
             case articleId = "article_id"
             case campaignId = "campaign_id"
+            case orderId = "order_id"
         }
     }
 }
