@@ -190,12 +190,8 @@ public extension RestEndpoint {
             .get("products")
             .session(session)
         
-        if let limit = pagination.limit {
-            endpoint = endpoint.parameter(key: "limit", value: String(limit))
-        }
-        if let offset = pagination.offset {
-            endpoint = endpoint.parameter(key: "offset", value: String(offset))
-        }
+        endpoint = endpoint.parameter(key: "limit", value: String(pagination.limit ?? 32768))
+        endpoint = endpoint.parameter(key: "offset", value: String(pagination.offset ?? 0))
         
         return try await endpoint.call(decoder: Self.jsonDecoder, isDataWrapped: false)
     }
@@ -300,27 +296,10 @@ public extension RestEndpoint {
             .authenticate(with: authenticator)
             .session(session)
         
-        if let limit = pagination.limit {
-            endpoint = endpoint.parameter(key: "limit", value: String(limit))
-        }
-        if let offset = pagination.offset {
-            endpoint = endpoint.parameter(key: "offset", value: String(offset))
-        }
+        endpoint = endpoint.parameter(key: "limit", value: String(pagination.limit ?? 32768))
+        endpoint = endpoint.parameter(key: "offset", value: String(pagination.offset ?? 0))
         
         return try await endpoint.call(decoder: Self.jsonDecoder, isDataWrapped: false)
-    }
-    
-    // MARK: - Company Analytics
-    
-    /// Get company performance analytics (requires company+ role)
-    /// - Returns: Analytics data with metrics for products, news, and campaigns
-    /// - Throws: Network or authorization errors
-    func getCompanyAnalytics() async throws -> RestEndpoint.CompanyAnalyticsResponse {
-        try await Endpoint(baseURL: baseURL)
-            .get("company/analytics")
-            .authenticate(with: authenticator)
-            .session(session)
-            .call(decoder: Self.jsonDecoder, isDataWrapped: false)
     }
 }
 

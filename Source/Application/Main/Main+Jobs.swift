@@ -21,6 +21,14 @@ extension Main {
                     debugPrint("[DEBUG] Cannot pull user transactions: \(error)")
                 }
             }
+            
+            Job(.polling(.strategy(.intensive))) { [scope] in
+                do {
+                    try await PullCatalogUseCase(scope: scope).execute()
+                } catch {
+                    debugPrint("[DEBUG] Cannot pull catalog: \(error)")
+                }
+            }
         }
     }
     

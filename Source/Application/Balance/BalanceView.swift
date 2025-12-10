@@ -14,7 +14,6 @@ struct BalanceView: View, ComponentBuilder {
             }
             .padding()
         }
-        .contentShape(Rectangle())
         .frame(maxWidth: .infinity)
         .background {
             RoundedRectangle(cornerRadius: 24)

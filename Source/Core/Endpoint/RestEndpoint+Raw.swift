@@ -396,10 +396,10 @@ extension RestEndpoint {
     /// Used to obtain new access token using refresh token.
     public struct RefreshRequest: Codable, Sendable {
         /// Refresh token from previous authentication
-        public let refreshToken: String
+        public let refresh_token: String
         
         public init(refreshToken: String) {
-            self.refreshToken = refreshToken
+            self.refresh_token = refreshToken
         }
     }
     
@@ -700,58 +700,6 @@ extension RestEndpoint {
         public let transactions: [PointTransaction]
         /// Pagination info
         public let pagination: PaginationResponse?
-    }
-    
-    /// Company performance analytics
-    ///
-    /// Aggregated metrics for company content and engagement.
-    public struct CompanyAnalytics: Codable, Sendable {
-        /// Products analytics
-        public let products: ProductAnalytics
-        /// News analytics
-        public let news: NewsAnalytics
-        /// Campaigns analytics
-        public let campaigns: CampaignAnalytics
-    }
-    
-    /// Product-related analytics metrics
-    public struct ProductAnalytics: Codable, Sendable {
-        /// Total products
-        public let total: Int
-    }
-    
-    /// News content analytics metrics
-    public struct NewsAnalytics: Codable, Sendable {
-        /// Total articles
-        public let total: Int
-    }
-    
-    /// Campaign performance analytics metrics
-    public struct CampaignAnalytics: Codable, Sendable {
-        /// Total campaigns
-        public let total: Int
-        /// Active campaigns
-        public let active: Int
-    }
-    
-    /// Complete company analytics response
-    ///
-    /// Contains comprehensive analytics data for company users.
-    public struct CompanyAnalyticsResponse: Codable, Sendable {
-        /// Company ID
-        public let companyId: String
-        /// Company name
-        public let companyName: String
-        /// Analytics data
-        public let analytics: CompanyAnalytics
-        /// Response timestamp
-        public let timestamp: String
-        
-        private enum CodingKeys: String, CodingKey {
-            case companyId = "company_id"
-            case companyName = "company_name"
-            case analytics, timestamp
-        }
     }
     
     /// Generic operation success response

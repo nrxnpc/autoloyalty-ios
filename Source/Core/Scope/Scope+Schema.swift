@@ -57,6 +57,9 @@ extension Scope {
                     Field("pointsCost", .number)
                     Field("isOutOfStock", .boolean, default: false)
                     Field("isFavorite", .boolean, default: false)
+                    Field("category", .text, default: "")
+                    Field("stockQuantity", .number, default: 0)
+                    Field("isActive", .boolean, default: true)
                     Relationship("images", to: "Attachment", toMany: true, deleteRule: .cascadeDeleteRule)
                 }
                 

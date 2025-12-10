@@ -75,6 +75,8 @@
 		7EAF294E2EE8D0A200E4201A /* PullUserTransactionsUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EAF294D2EE8D0A200E4201A /* PullUserTransactionsUseCase.swift */; };
 		7EAF29512EE8D1A000E4201A /* BalanceTransaction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EAF29502EE8D1A000E4201A /* BalanceTransaction.swift */; };
 		7EAF29532EE8D55D00E4201A /* BalanceTransaction+FetchRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EAF29522EE8D55D00E4201A /* BalanceTransaction+FetchRequest.swift */; };
+		7EAF29552EE8FA6D00E4201A /* PullCatalogUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EAF29542EE8FA6D00E4201A /* PullCatalogUseCase.swift */; };
+		7EAF29572EE9072900E4201A /* ScanQRUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EAF29562EE9072900E4201A /* ScanQRUseCase.swift */; };
 		7ECC3F942E65CF8D0014E97E /* FullProduct.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ECC3F922E65CF8D0014E97E /* FullProduct.swift */; };
 		7ECC3F952E65CF8D0014E97E /* OtherModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ECC3F912E65CF8D0014E97E /* OtherModels.swift */; };
 		7ECC3F962E65CF8D0014E97E /* Car.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ECC3F902E65CF8D0014E97E /* Car.swift */; };
@@ -217,6 +219,8 @@
 		7EAF294D2EE8D0A200E4201A /* PullUserTransactionsUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PullUserTransactionsUseCase.swift; sourceTree = "<group>"; };
 		7EAF29502EE8D1A000E4201A /* BalanceTransaction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BalanceTransaction.swift; sourceTree = "<group>"; };
 		7EAF29522EE8D55D00E4201A /* BalanceTransaction+FetchRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "BalanceTransaction+FetchRequest.swift"; sourceTree = "<group>"; };
+		7EAF29542EE8FA6D00E4201A /* PullCatalogUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PullCatalogUseCase.swift; sourceTree = "<group>"; };
+		7EAF29562EE9072900E4201A /* ScanQRUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScanQRUseCase.swift; sourceTree = "<group>"; };
 		7ECC3F372E65CEEF0014E97E /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		7ECC3F382E65CEFD0014E97E /* BACKEND_SETUP.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = BACKEND_SETUP.md; sourceTree = "<group>"; };
 		7ECC3F8F2E65CF8D0014E97E /* Achievement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Achievement.swift; sourceTree = "<group>"; };
@@ -725,6 +729,8 @@
 				7E462FE52EE60E9F00B7F5EC /* CreateWelcomeMessageUseCase.swift */,
 				7E4BA2162EE32BF00004CFB3 /* FetchAttachmentsUseCase.swift */,
 				7EAF294D2EE8D0A200E4201A /* PullUserTransactionsUseCase.swift */,
+				7EAF29542EE8FA6D00E4201A /* PullCatalogUseCase.swift */,
+				7EAF29562EE9072900E4201A /* ScanQRUseCase.swift */,
 			);
 			path = "Use Case";
 			sourceTree = "<group>";
@@ -924,6 +930,7 @@
 				7EAF29532EE8D55D00E4201A /* BalanceTransaction+FetchRequest.swift in Sources */,
 				7E53500C2EDAFA180020AF96 /* ConfettiAnimation.swift in Sources */,
 				7EE877CB2EA01B5000CFC230 /* Scope+Schema.swift in Sources */,
+				7EAF29572EE9072900E4201A /* ScanQRUseCase.swift in Sources */,
 				7EE877D42EA2A2F800CFC230 /* Authentication.swift in Sources */,
 				7E4BA2112EE0D2310004CFB3 /* Product+Demo.swift in Sources */,
 				7EE877CE2EA01BB000CFC230 /* EntitySync.swift in Sources */,
@@ -951,6 +958,7 @@
 				7E462FE22EE6071A00B7F5EC /* InboxMessageView.swift in Sources */,
 				7EE877C42E9FEB9C00CFC230 /* Scope.swift in Sources */,
 				7E462FF62EE65F0F00B7F5EC /* OrdersView.swift in Sources */,
+				7EAF29552EE8FA6D00E4201A /* PullCatalogUseCase.swift in Sources */,
 				7E462FE82EE61B0400B7F5EC /* BalanceMonitor.swift in Sources */,
 				7EE877C52E9FEB9C00CFC230 /* Scope+Scheduler.swift in Sources */,
 				7EAF29512EE8D1A000E4201A /* BalanceTransaction.swift in Sources */,
