@@ -28,8 +28,15 @@ struct RewardPreviewView: View {
 
 extension RewardPreviewView {
     @ViewBuilder func makeItemPreview() -> some View {
-        Rectangle()
-            .background(.ultraThinMaterial)
+        AsyncImage(url: product.images.first?.sourceURL) { image in
+            image
+                .resizable()
+                .aspectRatio(contentMode: .fill)
+        } placeholder: {
+            Rectangle()
+                .foregroundStyle(.regularMaterial)
+        }
+        .clipped()
     }
     
     @ViewBuilder func makeItemInfo() -> some View {
