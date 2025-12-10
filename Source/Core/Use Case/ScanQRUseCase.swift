@@ -7,15 +7,31 @@ public struct ScanQRUseCase {
         self.scope = scope
     }
     
-    public func execute(value: String) async throws {
+    enum ScanQRError: Error {
+        case wasUsed, notFound
+    }
+    
+    public func execute(value: String) async throws -> Int {
         let context = scope.coreDataContext
-        let result = try await scope.endpoint.scanQRCode(.init(qrCode: value))
+        let scan = try await scope.endpoint.scanQRCode(.init(qrCode: value))
         
-        try await context.perform {
-            products.forEach { raw in
-                Product.createOrUpdate(from: raw, in: context)
+        if let income = scan.pointsEarned, income > 0 {
+            let accountID = scope.currentSessionInfo.accountID
+            try await context.perform {
+                let request = Account.byID(accountID)
+                guard let account = try context.fetch(request).first else {
+                    return
+                }
+                account.points += income
+                try context.save()
             }
-            try context.save()
+            return income
         }
+        
+        if scan.usedAt != nil {
+            throw ScanQRError.wasUsed
+        }
+        
+        throw ScanQRError.notFound
     }
 }

@@ -1,7 +1,10 @@
+import Dependencies
 import Foundation
 
 @MainActor
 final class QRScanner: ObservableObject {
+    @Dependency(\.scope) var scope
+    
     enum CaptureDeviceState: Equatable {
         case unowned
         case requestCameraAccess
@@ -57,9 +60,16 @@ extension QRScanner {
             }
             
             do {
-                let points = try await self.sendQRCode(value)
+                let points = try await ScanQRUseCase(scope: scope).execute(value: value)
+                // TODO: related to transactions polling strategy 
+                // try await PullUserTransactionsUseCase(scope: scope).execute()
+                
                 await MainActor.run {
                     self.captureDeviceState = .result(points)
+                }
+            } catch ScanQRUseCase.ScanQRError.wasUsed {
+                await MainActor.run {
+                    self.captureDeviceState = .processingError
                 }
             } catch {
                 await MainActor.run {
