@@ -322,6 +322,22 @@ extension RestEndpoint {
         }
     }
     
+    /// Order creation request
+    ///
+    /// Used to create a new order for purchasing products with points.
+    /// Validates product availability and user's point balance.
+    public struct OrderCreateRequest: Codable, Sendable {
+        /// Product ID to purchase
+        public let productId: String
+        /// Quantity to order
+        public let quantity: Int
+        
+        public init(productId: String, quantity: Int = 1) {
+            self.productId = productId
+            self.quantity = quantity
+        }
+    }
+    
     // MARK: - Response Models
     
     /// System health check response
@@ -366,6 +382,14 @@ extension RestEndpoint {
         public let isActive: Bool
     }
     
+    /// User profile response wrapper
+    ///
+    /// Contains user profile data from /user/me endpoint
+    public struct UserProfileResponse: Codable, Sendable {
+        /// User profile data
+        public let user: UserProfile
+    }
+    
     /// Authentication operation response
     ///
     /// Returned by login and registration endpoints. Contains user profile
@@ -374,10 +398,38 @@ extension RestEndpoint {
         /// Operation success status
         public let success: Bool
         /// User profile data
-        public let user: UserProfile?
+        public let user: UserProfile
         /// Authentication token
-        public let token: String?
+        public let accessToken: String
+        /// Refresh token
+        public let refreshToken: String
         /// Error message if failed
+        public let error: String?
+    }
+    
+    /// Token refresh request
+    ///
+    /// Used to obtain new access token using refresh token.
+    public struct RefreshRequest: Codable, Sendable {
+        /// Refresh token from previous authentication
+        public let refresh_token: String
+        
+        public init(refreshToken: String) {
+            self.refresh_token = refreshToken
+        }
+    }
+    
+    /// Token refresh response
+    ///
+    /// Contains new access and refresh tokens with expiration info.
+    public struct RefreshResponse: Codable, Sendable {
+        /// New access token
+        public let accessToken: String
+        /// New refresh token
+        public let refreshToken: String
+        /// Token expiration time in seconds
+        public let expiresIn: Int
+        /// Error message if refresh failed
         public let error: String?
     }
     
@@ -666,56 +718,76 @@ extension RestEndpoint {
         public let pagination: PaginationResponse?
     }
     
-    /// Company performance analytics
+    /// Order status enumeration
     ///
-    /// Aggregated metrics for company content and engagement.
-    public struct CompanyAnalytics: Codable, Sendable {
-        /// Products analytics
-        public let products: ProductAnalytics
-        /// News analytics
-        public let news: NewsAnalytics
-        /// Campaigns analytics
-        public let campaigns: CampaignAnalytics
+    /// Defines the current state of an order:
+    /// - pending: Order created, awaiting processing
+    /// - processing: Order being prepared
+    /// - shipped: Order dispatched for delivery
+    /// - delivered: Order completed successfully
+    /// - cancelled: Order cancelled
+    public enum OrderStatus: String, Codable, CaseIterable, Sendable {
+        case pending = "pending"
+        case processing = "processing"
+        case shipped = "shipped"
+        case delivered = "delivered"
+        case cancelled = "cancelled"
     }
     
-    /// Product-related analytics metrics
-    public struct ProductAnalytics: Codable, Sendable {
-        /// Total products
-        public let total: Int
-    }
-    
-    /// News content analytics metrics
-    public struct NewsAnalytics: Codable, Sendable {
-        /// Total articles
-        public let total: Int
-    }
-    
-    /// Campaign performance analytics metrics
-    public struct CampaignAnalytics: Codable, Sendable {
-        /// Total campaigns
-        public let total: Int
-        /// Active campaigns
-        public let active: Int
-    }
-    
-    /// Complete company analytics response
+    /// Order product information
     ///
-    /// Contains comprehensive analytics data for company users.
-    public struct CompanyAnalyticsResponse: Codable, Sendable {
-        /// Company ID
-        public let companyId: String
-        /// Company name
-        public let companyName: String
-        /// Analytics data
-        public let analytics: CompanyAnalytics
-        /// Response timestamp
-        public let timestamp: String
-        
-        private enum CodingKeys: String, CodingKey {
-            case companyId = "company_id"
-            case companyName = "company_name"
-            case analytics, timestamp
-        }
+    /// Basic product details included in order records.
+    public struct OrderProduct: Codable, Sendable {
+        /// Product ID
+        public let id: String
+        /// Product name
+        public let name: String
+        /// Product category
+        public let category: String
+    }
+    
+    /// Order record
+    ///
+    /// Represents a single order in the user's purchase history.
+    public struct Order: Codable, Sendable {
+        /// Order ID
+        public let id: String
+        /// Product information
+        public let product: OrderProduct?
+        /// Quantity ordered
+        public let quantity: Int
+        /// Total points spent
+        public let totalPoints: Int
+        /// Order status
+        public let status: OrderStatus
+        /// Order creation date
+        public let createdAt: String?
+    }
+    
+    /// Order creation response
+    ///
+    /// Returned when successfully creating a new order.
+    public struct OrderCreateResponse: Codable, Sendable {
+        /// Operation success status
+        public let success: Bool
+        /// Created order ID
+        public let orderId: String?
+        /// Points spent on order
+        public let totalPoints: Int?
+        /// User's remaining points
+        public let remainingPoints: Int?
+        /// Error message if failed
+        public let error: String?
+    }
+    
+    /// User orders history response
+    ///
+    /// Contains paginated list of user's orders.
+    public struct OrdersResponse: Codable, Sendable {
+        /// Orders array
+        public let orders: [Order]
+        /// Pagination info
+        public let pagination: PaginationResponse?
     }
     
     /// Generic operation success response
@@ -755,8 +827,9 @@ extension RestEndpoint {
             let carId = try? container.decodeIfPresent(String.self, forKey: .carId)
             let articleId = try? container.decodeIfPresent(String.self, forKey: .articleId)
             let campaignId = try? container.decodeIfPresent(String.self, forKey: .campaignId)
+            let orderId = try? container.decodeIfPresent(String.self, forKey: .orderId)
             
-            id = productId ?? carId ?? articleId ?? campaignId
+            id = productId ?? carId ?? articleId ?? campaignId ?? orderId
         }
         
         public func encode(to encoder: Encoder) throws {
@@ -773,6 +846,7 @@ extension RestEndpoint {
             case carId = "car_id"
             case articleId = "article_id"
             case campaignId = "campaign_id"
+            case orderId = "order_id"
         }
     }
 }

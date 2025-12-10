@@ -2,10 +2,10 @@ import SwiftUI
 
 struct CatalogView: View {
     @EnvironmentObject var dataManager: DataManager
-    @State private var selectedCategory: Product.ProductCategory?
+    @State private var selectedCategory: FullProduct.ProductCategory?
     @State private var searchText = ""
     
-    private var filteredProducts: [Product] {
+    private var filteredProducts: [FullProduct] {
         let products = dataManager.productsState.items
         
         let categoryFiltered = selectedCategory.map { category in
@@ -51,7 +51,7 @@ struct CatalogView: View {
                         .padding()
                     }
                 }
-                .navigationDestination(for: Product.self) { product in
+                .navigationDestination(for: FullProduct.self) { product in
                     ProductDetailView(product: product)
                 }
             }
@@ -83,7 +83,7 @@ struct SearchBar: View {
 }
 
 struct CategoryFilter: View {
-    @Binding var selectedCategory: Product.ProductCategory?
+    @Binding var selectedCategory: FullProduct.ProductCategory?
     
     var body: some View {
         ScrollView(.horizontal, showsIndicators: false) {
@@ -92,7 +92,7 @@ struct CategoryFilter: View {
                     selectedCategory = nil
                 }
                 
-                ForEach(Product.ProductCategory.allCases, id: \.self) { category in
+                ForEach(FullProduct.ProductCategory.allCases, id: \.self) { category in
                     FilterButton(
                         title: category.displayName,
                         isSelected: selectedCategory == category
@@ -125,7 +125,7 @@ struct FilterButton: View {
 
 struct EmptyProductsView: View {
     let searchText: String
-    let selectedCategory: Product.ProductCategory?
+    let selectedCategory: FullProduct.ProductCategory?
     
     var body: some View {
         VStack(spacing: AppConstants.Spacing.medium) {
@@ -165,7 +165,7 @@ struct EmptyProductsView: View {
 }
 
 struct ProductCard: View {
-    let product: Product
+    let product: FullProduct
     
     var body: some View {
         VStack(alignment: .leading, spacing: AppConstants.Spacing.small) {
@@ -212,7 +212,7 @@ struct ProductCard: View {
 }
 
 struct ProductPlaceholderView: View {
-    let category: Product.ProductCategory
+    let category: FullProduct.ProductCategory
     
     var body: some View {
         Rectangle()
@@ -226,16 +226,16 @@ struct ProductPlaceholderView: View {
 }
 
 struct ProductDetailView: View {
-    let product: Product
+    let product: FullProduct
     @EnvironmentObject var authViewModel: AuthViewModel
     @EnvironmentObject var dataManager: DataManager
-    @State private var selectedDeliveryOption: Product.DeliveryOption
+    @State private var selectedDeliveryOption: FullProduct.DeliveryOption
     @State private var deliveryAddress = ""
     @State private var showingExchangeConfirmation = false
     @State private var showingSuccessAlert = false
     @State private var showingInsufficientPointsAlert = false
     
-    init(product: Product) {
+    init(product: FullProduct) {
         self.product = product
         self._selectedDeliveryOption = State(initialValue: product.deliveryOptions.first ?? .pickup)
     }
@@ -328,7 +328,7 @@ struct ProductDetailView: View {
 }
 
 struct ProductImageView: View {
-    let product: Product
+    let product: FullProduct
     
     var body: some View {
         if let imageData = product.imageData, let image = UIImage(data: imageData) {
@@ -353,7 +353,7 @@ struct ProductImageView: View {
 }
 
 struct ProductInfoSection: View {
-    let product: Product
+    let product: FullProduct
     
     var body: some View {
         VStack(alignment: .leading, spacing: AppConstants.Spacing.medium) {
@@ -395,8 +395,8 @@ struct ProductInfoSection: View {
 }
 
 struct ProductDeliveryOptionsSection: View {
-    let product: Product
-    @Binding var selectedOption: Product.DeliveryOption
+    let product: FullProduct
+    @Binding var selectedOption: FullProduct.DeliveryOption
     @Binding var deliveryAddress: String
     
     var body: some View {
@@ -430,7 +430,7 @@ struct ProductDeliveryOptionsSection: View {
 }
 
 struct DeliveryOptionRow: View {
-    let option: Product.DeliveryOption
+    let option: FullProduct.DeliveryOption
     let isSelected: Bool
     let action: () -> Void
     
@@ -459,7 +459,7 @@ struct DeliveryOptionRow: View {
         .buttonStyle(PlainButtonStyle())
     }
     
-    private func deliveryOptionDescription(_ option: Product.DeliveryOption) -> String {
+    private func deliveryOptionDescription(_ option: FullProduct.DeliveryOption) -> String {
         switch option {
         case .pickup: return "Забрать в офисе или пункте выдачи"
         case .delivery: return "Доставка курьером по указанному адресу"
@@ -469,7 +469,7 @@ struct DeliveryOptionRow: View {
 }
 
 struct ExchangeButton: View {
-    let product: Product
+    let product: FullProduct
     let canExchange: Bool
     let action: () -> Void
     

@@ -11,7 +11,7 @@ public typealias PlatformImage = NSImage
 /// A concurrency-based loader for observing a single Core Data entity and providing its image data as an asynchronous stream.
 /// This actor encapsulates the `NSFetchedResultsController` to safely bridge Core Data's delegate pattern with Swift Concurrency.
 @MainActor
-final public class AttachmentLoader: NSObject, @preconcurrency NSFetchedResultsControllerDelegate {
+final public class AttachmentLoader: NSObject, NSFetchedResultsControllerDelegate {
     private var fetchedResultsController: NSFetchedResultsController<Account>?
     private var continuation: AsyncStream<PlatformImage?>.Continuation?
 

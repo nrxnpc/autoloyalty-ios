@@ -4,11 +4,18 @@ import SwiftUI
 struct MainView: View {
     // MARK: - Dependencies
     
-    @StateObject var router: Main.Router = .init()
-    @StateObject var application: Main = .init()
+    @Dependency(\.scope) var scope
     
-    @StateObject private var authViewModel = AuthViewModel()
-    @StateObject private var dataManager = DataManager()
+    @StateObject var router: Main.Router
+    @StateObject var application: Main
+    @StateObject var captureSession = CaptureSession()
+    
+    init() {
+        let router: Main.Router = .init()
+        let application: Main = .init(router: router)
+        _router = .init(wrappedValue: router)
+        _application = .init(wrappedValue: application)
+    }
     
     // MARK: -
     
@@ -24,10 +31,12 @@ struct MainView: View {
             }
             .animation(.smooth, value: application.state)
             .sensoryFeedback(.start, trigger: application.state)
-            .modifier(Main.DestinationProcessor(destination: $router.destination, sheet: $router.sheet))
+            .modifier(Main.DestinationProcessor(router: router))
             .environmentObject(router)
             .environmentObject(application)
+            .environmentObject(captureSession)
         }
+        .environment(\.managedObjectContext, scope.coreDataContext)
         .onShake {
             router.route(sheet: .console)
         }
@@ -49,12 +58,16 @@ extension MainView {
     }
     
     @ViewBuilder func makeCustomerSession(for sessionID: String) -> some View {
-        HomeView()
+        FeedView()
             .id(sessionID)
     }
     
     @ViewBuilder func makeGuestSession() -> some View {
-        HomeView()
+        FeedView()
             .id("guest")
     }
+}
+
+#Preview {
+    MainView()
 }

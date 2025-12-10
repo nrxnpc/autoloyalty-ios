@@ -1,5 +1,6 @@
 import Endpoint
 import CoreData
+import Combine
 import Foundation
 import ScopeGraph
 
@@ -16,6 +17,9 @@ public final class Scope: ObservableObject, @unchecked Sendable {
     
     /// Session management component
     internal let sessionComponent: AppSessionComponent
+    
+    /// Signal for token refresh errors
+    public let onSessionHasExpired = PassthroughSubject<Error, Never>()
     
     // MARK: - Initialization
     

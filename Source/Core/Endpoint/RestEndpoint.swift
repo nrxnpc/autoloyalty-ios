@@ -62,7 +62,7 @@ public final class RestEndpoint: EndpointBuilder, Sendable {
 public extension RestEndpoint {
     /// Production endpoint with real server
     static let localhost = RestEndpoint(
-        baseURL: URL(string: "http://localhost:8080/api/v1")!,
+        baseURL: URL(string: "http://85.192.28.187:8080/api/v1")!,
         session: URLSession.shared
     )
 }
@@ -105,6 +105,29 @@ public extension RestEndpoint {
         try await Endpoint(baseURL: baseURL)
             .post("login")
             .body(credentials, encoder: Self.jsonEncoder)
+            .session(session)
+            .call(decoder: Self.jsonDecoder, isDataWrapped: false)
+    }
+    
+    /// Get current user profile (requires authentication)
+    /// - Returns: User profile response with current user data
+    /// - Throws: Network or authorization errors
+    func getCurrentUser() async throws -> RestEndpoint.UserProfileResponse {
+        try await Endpoint(baseURL: baseURL)
+            .get("user/me")
+            .authenticate(with: authenticator)
+            .session(session)
+            .call(decoder: Self.jsonDecoder, isDataWrapped: false)
+    }
+    
+    /// Refresh access token using refresh token
+    /// - Parameter request: Refresh token request
+    /// - Returns: New authentication tokens
+    /// - Throws: Network or authentication errors
+    func refreshToken(_ request: RestEndpoint.RefreshRequest) async throws -> RestEndpoint.RefreshResponse {
+        try await Endpoint(baseURL: baseURL)
+            .post("refresh")
+            .body(request, encoder: Self.jsonEncoder)
             .session(session)
             .call(decoder: Self.jsonDecoder, isDataWrapped: false)
     }
@@ -167,12 +190,8 @@ public extension RestEndpoint {
             .get("products")
             .session(session)
         
-        if let limit = pagination.limit {
-            endpoint = endpoint.parameter(key: "limit", value: String(limit))
-        }
-        if let offset = pagination.offset {
-            endpoint = endpoint.parameter(key: "offset", value: String(offset))
-        }
+        endpoint = endpoint.parameter(key: "limit", value: String(pagination.limit ?? 32768))
+        endpoint = endpoint.parameter(key: "offset", value: String(pagination.offset ?? 0))
         
         return try await endpoint.call(decoder: Self.jsonDecoder, isDataWrapped: false)
     }
@@ -223,31 +242,6 @@ public extension RestEndpoint {
         return try await endpoint.call(decoder: Self.jsonDecoder, isDataWrapped: false)
     }
     
-    /// Add new car listing (requires admin role)
-    /// - Parameter car: Car creation data
-    /// - Returns: Creation response with car ID
-    /// - Throws: Network or authorization errors
-    func addCar(_ car: RestEndpoint.CarCreateRequest) async throws -> RestEndpoint.CreateResponse {
-        try await Endpoint(baseURL: baseURL)
-            .post("cars")
-            .body(car, encoder: Self.jsonEncoder)
-            .authenticate(with: authenticator)
-            .session(session)
-            .call(decoder: Self.jsonDecoder, isDataWrapped: false)
-    }
-    
-    /// Delete car listing (requires admin role)
-    /// - Parameter carID: ID of car to delete
-    /// - Returns: Success response
-    /// - Throws: Network or authorization errors
-    func deleteCar(_ carID: String) async throws -> RestEndpoint.SuccessResponse {
-        try await Endpoint(baseURL: baseURL)
-            .delete("cars/\(carID)")
-            .authenticate(with: authenticator)
-            .session(session)
-            .call(decoder: Self.jsonDecoder, isDataWrapped: false)
-    }
-    
     // MARK: - News & Articles
     
     /// Get published news articles (public endpoint)
@@ -267,31 +261,6 @@ public extension RestEndpoint {
         }
         
         return try await endpoint.call(decoder: Self.jsonDecoder, isDataWrapped: false)
-    }
-    
-    /// Publish new news article (requires company+ role)
-    /// - Parameter article: News article creation data
-    /// - Returns: Creation response with article ID
-    /// - Throws: Network or authorization errors
-    func addNews(_ article: RestEndpoint.NewsCreateRequest) async throws -> RestEndpoint.CreateResponse {
-        try await Endpoint(baseURL: baseURL)
-            .post("news")
-            .body(article, encoder: Self.jsonEncoder)
-            .authenticate(with: authenticator)
-            .session(session)
-            .call(decoder: Self.jsonDecoder, isDataWrapped: false)
-    }
-    
-    /// Delete news article (requires company+ role)
-    /// - Parameter newsID: ID of news article to delete
-    /// - Returns: Success response
-    /// - Throws: Network or authorization errors
-    func deleteNews(_ newsID: String) async throws -> RestEndpoint.SuccessResponse {
-        try await Endpoint(baseURL: baseURL)
-            .delete("news/\(newsID)")
-            .authenticate(with: authenticator)
-            .session(session)
-            .call(decoder: Self.jsonDecoder, isDataWrapped: false)
     }
     
     // MARK: - Promotional Campaigns
@@ -315,31 +284,6 @@ public extension RestEndpoint {
         return try await endpoint.call(decoder: Self.jsonDecoder, isDataWrapped: false)
     }
     
-    /// Create new promotional campaign (requires company+ role)
-    /// - Parameter campaign: Campaign creation data
-    /// - Returns: Creation response with campaign ID
-    /// - Throws: Network or authorization errors
-    func createCampaign(_ campaign: RestEndpoint.CampaignCreateRequest) async throws -> RestEndpoint.CreateResponse {
-        try await Endpoint(baseURL: baseURL)
-            .post("campaigns")
-            .body(campaign, encoder: Self.jsonEncoder)
-            .authenticate(with: authenticator)
-            .session(session)
-            .call(decoder: Self.jsonDecoder, isDataWrapped: false)
-    }
-    
-    /// Delete promotional campaign (requires company+ role)
-    /// - Parameter campaignID: ID of campaign to delete
-    /// - Returns: Success response
-    /// - Throws: Network or authorization errors
-    func deleteCampaign(_ campaignID: String) async throws -> RestEndpoint.SuccessResponse {
-        try await Endpoint(baseURL: baseURL)
-            .delete("campaigns/\(campaignID)")
-            .authenticate(with: authenticator)
-            .session(session)
-            .call(decoder: Self.jsonDecoder, isDataWrapped: false)
-    }
-    
     // MARK: - Point Transactions
     
     /// Get user's point transaction history (requires authentication)
@@ -352,27 +296,41 @@ public extension RestEndpoint {
             .authenticate(with: authenticator)
             .session(session)
         
-        if let limit = pagination.limit {
-            endpoint = endpoint.parameter(key: "limit", value: String(limit))
-        }
-        if let offset = pagination.offset {
-            endpoint = endpoint.parameter(key: "offset", value: String(offset))
-        }
+        endpoint = endpoint.parameter(key: "limit", value: String(pagination.limit ?? 32768))
+        endpoint = endpoint.parameter(key: "offset", value: String(pagination.offset ?? 0))
         
         return try await endpoint.call(decoder: Self.jsonDecoder, isDataWrapped: false)
     }
     
-    // MARK: - Company Analytics
+    // MARK: - Orders
     
-    /// Get company performance analytics (requires company+ role)
-    /// - Returns: Analytics data with metrics for products, news, and campaigns
-    /// - Throws: Network or authorization errors
-    func getCompanyAnalytics() async throws -> RestEndpoint.CompanyAnalyticsResponse {
+    /// Create new order for product purchase (requires authentication)
+    /// - Parameter request: Order creation data with product ID and quantity
+    /// - Returns: Order creation response with order ID and remaining points
+    /// - Throws: Network, authorization, or insufficient points errors
+    func createOrder(_ request: RestEndpoint.OrderCreateRequest) async throws -> RestEndpoint.OrderCreateResponse {
         try await Endpoint(baseURL: baseURL)
-            .get("company/analytics")
+            .post("orders")
+            .body(request, encoder: Self.jsonEncoder)
             .authenticate(with: authenticator)
             .session(session)
             .call(decoder: Self.jsonDecoder, isDataWrapped: false)
+    }
+    
+    /// Get user's order history (requires authentication)
+    /// - Parameter pagination: Optional pagination parameters
+    /// - Returns: Orders list with pagination info
+    /// - Throws: Network or authorization errors
+    func getUserOrders(_ pagination: RestEndpoint.PaginationRequest = RestEndpoint.PaginationRequest()) async throws -> RestEndpoint.OrdersResponse {
+        var endpoint = Endpoint(baseURL: baseURL)
+            .get("user/orders")
+            .authenticate(with: authenticator)
+            .session(session)
+        
+        endpoint = endpoint.parameter(key: "limit", value: String(pagination.limit ?? 32768))
+        endpoint = endpoint.parameter(key: "offset", value: String(pagination.offset ?? 0))
+        
+        return try await endpoint.call(decoder: Self.jsonDecoder, isDataWrapped: false)
     }
 }
 

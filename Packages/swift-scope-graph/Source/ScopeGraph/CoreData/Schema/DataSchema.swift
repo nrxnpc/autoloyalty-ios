@@ -161,21 +161,24 @@ public struct Relationship {
     let name: String
     let destinationEntity: String
     let optional: Bool
+    let toMany: Bool
     let inverse: String?
     let deleteRule: NSDeleteRule
     
-    public init(_ name: String, to destinationEntity: String, optional: Bool = false, deleteRule: NSDeleteRule = .nullifyDeleteRule) {
+    public init(_ name: String, to destinationEntity: String, optional: Bool = false, toMany: Bool = false, deleteRule: NSDeleteRule = .nullifyDeleteRule) {
         self.name = name
         self.destinationEntity = destinationEntity
         self.optional = optional
+        self.toMany = toMany
         self.inverse = nil
         self.deleteRule = deleteRule
     }
     
-    public init(_ name: String, to destinationEntity: String, inverse: String, optional: Bool = false, deleteRule: NSDeleteRule = .nullifyDeleteRule) {
+    public init(_ name: String, to destinationEntity: String, inverse: String, optional: Bool = false, toMany: Bool = false, deleteRule: NSDeleteRule = .nullifyDeleteRule) {
         self.name = name
         self.destinationEntity = destinationEntity
         self.optional = optional
+        self.toMany = toMany
         self.inverse = inverse
         self.deleteRule = deleteRule
     }
@@ -292,7 +295,7 @@ extension Relationship: FieldDefinition {
         let relationship = NSRelationshipDescription()
         relationship.name = name
         relationship.isOptional = optional
-        relationship.maxCount = 1 // Defines a to-one relationship
+        relationship.maxCount = toMany ? 0 : 1 // Defines a to-one relationship
         relationship.deleteRule = deleteRule
         return relationship
     }

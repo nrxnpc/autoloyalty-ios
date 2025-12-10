@@ -23,7 +23,7 @@ public extension Account {
         let account = try Account.byID("guest").execute().first ?? Account.create(id: "guest", in: context)
         account.name = "Demo Customer"
         account.email = "customer@email.com"
-        account.points = 8633
+        account.points = 0
         if context.hasChanges {
             try context.save()
         }

@@ -66,6 +66,8 @@ extension ChangeAboutMeView {
     @ViewBuilder func makeInfoSection() -> some View {
         MakeSection {
             MakeTextFieldRow(placeholder: "Enter your name", text: $application.username)
+                // TODO: fix updates
+                .disabled(true)
             MakeCopyableTextRow(placeholder: "Login Email", value: application.email)
         }
     }
@@ -74,7 +76,9 @@ extension ChangeAboutMeView {
     /// Builds the toolbar items, including the dynamic "Save" button.
     @ToolbarContentBuilder func makeToolbar() -> some ToolbarContent {
         ToolbarItem(placement: .cancellationAction) {
-            Button("Close", action: dismiss.callAsFunction)
+            Button(action: dismiss.callAsFunction) {
+                Image(systemName: "xmark")
+            }
         }
     }
 }

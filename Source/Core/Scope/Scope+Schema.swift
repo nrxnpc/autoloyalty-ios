@@ -42,6 +42,43 @@ extension Scope {
                     ExternalDataField("native", optional: true)
                     Field("sourceHash", .number, optional: true)
                 }
+                
+                // Inbox Entity
+                EntitySchema("InboxMessage", inherits: "Entity") {
+                    Field("title", .text)
+                    Field("subtitle", .text)
+                    Field("wasReaded", .boolean, default: false)
+                }
+                
+                // Product Entity
+                EntitySchema("Product", inherits: "Entity") {
+                    Field("name", .text)
+                    Field("productDescription", .text)
+                    Field("pointsCost", .number)
+                    Field("isOutOfStock", .boolean, default: false)
+                    Field("isFavorite", .boolean, default: false)
+                    Field("category", .text, default: "")
+                    Field("stockQuantity", .number, default: 0)
+                    Field("isActive", .boolean, default: true)
+                    Relationship("images", to: "Attachment", toMany: true, deleteRule: .cascadeDeleteRule)
+                }
+                
+                // Balance Transaction
+                EntitySchema("BalanceTransaction", inherits: "Entity") {
+                    Field("typeRaw", .text)
+                    Field("amount", .number)
+                    Field("transactionDescription", .text)
+                }
+                
+                // Order Entity
+                EntitySchema("Order", inherits: "Entity") {
+                    Field("statusRaw", .text)
+                    Field("quantity", .number)
+                    Field("totalPoints", .number)
+                    Field("productName", .text)
+                    Field("productCategory", .text)
+                    Relationship("product", to: "Product", optional: true)
+                }
             }
         }
     }

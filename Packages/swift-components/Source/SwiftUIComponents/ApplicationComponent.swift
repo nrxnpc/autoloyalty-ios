@@ -151,6 +151,7 @@ public extension ComponentBuilder {
                     .font(.caption)
                     .foregroundStyle(.secondary)
             }
+            .contentShape(Rectangle())
         }
         .buttonStyle(.plain)
     }

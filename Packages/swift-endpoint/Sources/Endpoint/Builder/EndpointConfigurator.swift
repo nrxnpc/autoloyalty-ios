@@ -27,7 +27,7 @@ public struct EndpointConfigurator: SessionBuilder {
         self.baseURL = baseURL
         self.pathComponents = []
         self.method = .get // Default method
-        self.headers = [:]
+        self.headers = ["X-API-Key": "nsp_mobile_app_api_key_2024"]
         self.queryItems = []
         self.session = EndpointConfigurator.createSession()
     }
@@ -102,6 +102,7 @@ public struct EndpointConfigurator: SessionBuilder {
     ///   - encoder: A `JSONEncoder` to use for encoding. Defaults to a standard encoder.
     public func body<T: Encodable>(_ data: T, encoder: JSONEncoder = JSONEncoder()) -> Self {
         var new = self
+        encoder.keyEncodingStrategy = .useDefaultKeys
         new.body = try? encoder.encode(data)
         new.headers["Content-Type"] = "application/json; charset=utf-8"
         return new
@@ -134,7 +135,7 @@ public struct EndpointConfigurator: SessionBuilder {
         let (data, _) = try await executeRequestWithRetry()
         if data.isEmpty { throw EndpointError.noData }
         do {
-            decoder.keyDecodingStrategy = .convertFromSnakeCase
+            // decoder.keyDecodingStrategy = .convertFromSnakeCase
             if isDataWrapped {
                 return try decoder.decode(APIResponseWrapper<T>.self, from: data).data
             } else {

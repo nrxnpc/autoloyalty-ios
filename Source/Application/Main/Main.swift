@@ -8,6 +8,12 @@ final class Main: ObservableObject {
     @Dependency(\.scope) var scope
     @Dependency(\.endpoint) internal var endpoint
     
+    private weak var router: Main.Router?
+    
+    init(router: Main.Router) {
+        self.router = router
+    }
+    
     enum State: Equatable {
         case loading
         case authentication
@@ -25,6 +31,7 @@ extension Main {
         debugPrint("[DEBUG][Main] Try to restore session.")
         await scope.restoreLastActiveSession()
         subscribeOnSessionUpdates()
+        subscribeToSessionHasExpired()
     }
     
     func continueAsGuest() async {
@@ -46,6 +53,15 @@ extension Main {
             .store(in: &cancellables)
     }
     
+    private func subscribeToSessionHasExpired() {
+         scope.onSessionHasExpired
+             .receive(on: DispatchQueue.main)
+             .sink { [weak self] _ in
+                 self?.router?.route(sheet: .reauthenticationView)
+             }
+             .store(in: &cancellables)
+    }
+    
     private func suncWithSessionChanges() {
         Task { @MainActor in
             let isGuest = await scope.session.isGuest
@@ -54,8 +70,10 @@ extension Main {
             if isGuest {
                 state = .authentication
             } else {
-                await scheduleSessionJobs()
                 state = .session(sessionID)
+                Task {
+                    await scheduleSessionJobs()
+                }
             }
             
             debugPrint("[DEBUG][Main] Session has been changed.")

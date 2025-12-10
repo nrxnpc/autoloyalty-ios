@@ -250,7 +250,7 @@ struct MyOrdersView: View {
     @EnvironmentObject var dataManager: DataManager
     @EnvironmentObject var authViewModel: AuthViewModel
     
-    private var userOrders: [Order] {
+    private var userOrders: [MAGAOrder] {
         dataManager.ordersState.items.filter { $0.userId == authViewModel.currentUser?.id }
     }
     
@@ -301,7 +301,7 @@ struct EmptyOrdersView: View {
 }
 
 struct OrderRow: View {
-    let order: Order
+    let order: MAGAOrder
     
     var body: some View {
         VStack(alignment: .leading, spacing: AppConstants.Spacing.medium) {

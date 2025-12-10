@@ -43,7 +43,6 @@ public protocol DomainEntity: AnyObject {
     var createdAt: Date { get }
     var updatedAt: Date { get }
     var deletedAt: Date? { get }
-    var isDeleted: Bool { get }
     var isLocalOnly: Bool { get }
 }
 
@@ -55,8 +54,6 @@ extension Entity: DomainEntity {
     
     /// External ID from sync record
     public var externalID: String? { sync.externalID }
-    
-    public override var isDeleted: Bool { deletedAt != nil }
 }
 
 public extension Entity {

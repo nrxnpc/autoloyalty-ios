@@ -79,39 +79,39 @@ class AuthViewModel: ObservableObject {
         }
         
         do {
-            let loginResponse = try await endpoint.login(.init(email: email, password: password))
-            guard let user = loginResponse.user else {
-                await MainActor.run {
-                    self.isLoading = false
-                    self.errorMessage = "Ошибка входа"
-                }
-                return
-            }
+            // let loginResponse = try await endpoint.login(.init(email: email, password: password))
+            // guard let user = loginResponse.user else {
+            //     await MainActor.run {
+            //         self.isLoading = false
+            //         self.errorMessage = "Ошибка входа"
+            //     }
+            //     return
+            // }
+            //
+            // let currentUser = User(
+            //     id: user.id,
+            //     name: user.name,
+            //     email: user.email,
+            //     phone: user.phone,
+            //     userType: .init(rawValue: user.userType.rawValue) ?? .individual,
+            //     points: user.points,
+            //     role: .init(rawValue: user.role.rawValue) ?? .customer,
+            //     registrationDate: .now,
+            //     isActive: user.isActive,
+            //     preferences: .default,
+            //     statistics: .default
+            // )
             
-            let currentUser = User(
-                id: user.id, 
-                name: user.name, 
-                email: user.email, 
-                phone: user.phone, 
-                userType: .init(rawValue: user.userType.rawValue) ?? .individual, 
-                points: user.points, 
-                role: .init(rawValue: user.role.rawValue) ?? .customer, 
-                registrationDate: .now, 
-                isActive: user.isActive, 
-                preferences: .default, 
-                statistics: .default
-            )
-            
-            await MainActor.run {
-                self.currentUser = currentUser
-                self.isAuthenticated = true
-                self.isLoading = false
-                self.errorMessage = ""
-                
-                if let token = loginResponse.token {
-                    self.tokenManager.saveToken(token)
-                }
-            }
+//            await MainActor.run {
+//                self.currentUser = currentUser
+//                self.isAuthenticated = true
+//                self.isLoading = false
+//                self.errorMessage = ""
+//                
+//                if let token = loginResponse.token {
+//                    self.tokenManager.saveToken(token)
+//                }
+//            }
             
         } catch {
             await MainActor.run {
@@ -144,40 +144,40 @@ class AuthViewModel: ObservableObject {
                 deviceInfo: nil
             ))
             
-            guard let user = registerResponse.user else {
-                await MainActor.run {
-                    self.isLoading = false
-                    self.errorMessage = "Ошибка регистрации"
-                }
-                return
-            }
-            
-            let currentUser = User(
-                id: user.id, 
-                name: user.name, 
-                email: user.email, 
-                phone: user.phone, 
-                userType: .init(rawValue: user.userType.rawValue) ?? .individual, 
-                points: user.points, 
-                role: .init(rawValue: user.role.rawValue) ?? .customer, 
-                registrationDate: .now, 
-                isActive: user.isActive, 
-                preferences: .default, 
-                statistics: .default
-            )
-            
-            await MainActor.run {
-                self.currentUser = currentUser
-                self.isAuthenticated = true
-                self.isLoading = false
-                self.errorMessage = ""
-                
-                if let token = registerResponse.token {
-                    self.tokenManager.saveToken(token)
-                }
-                
-                NotificationCenter.default.post(name: .userRegistered, object: user)
-            }
+//            guard let user = registerResponse.user else {
+//                await MainActor.run {
+//                    self.isLoading = false
+//                    self.errorMessage = "Ошибка регистрации"
+//                }
+//                return
+//            }
+//            
+//            let currentUser = User(
+//                id: user.id, 
+//                name: user.name, 
+//                email: user.email, 
+//                phone: user.phone, 
+//                userType: .init(rawValue: user.userType.rawValue) ?? .individual, 
+//                points: user.points, 
+//                role: .init(rawValue: user.role.rawValue) ?? .customer, 
+//                registrationDate: .now, 
+//                isActive: user.isActive, 
+//                preferences: .default, 
+//                statistics: .default
+//            )
+//            
+//            await MainActor.run {
+//                self.currentUser = currentUser
+//                self.isAuthenticated = true
+//                self.isLoading = false
+//                self.errorMessage = ""
+//                
+//                // if let token = registerResponse.token {
+//                //     self.tokenManager.saveToken(token)
+//                // }
+//                
+//                NotificationCenter.default.post(name: .userRegistered, object: user)
+//            }
             
         } catch {
             await MainActor.run {

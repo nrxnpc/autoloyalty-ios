@@ -7,17 +7,33 @@ extension Main {
     @MainActor
     final class Router: ObservableObject {
         enum Destination: String {
+            case aboutMe
+            case inbox
             case commingSoon
         }
         
-        enum SheetDestination  {
+        enum SheetDestination {
             case createAccount(Authentication)
             case changeAboutMe(AboutMe)
+            case productDetails(String)
+            case howTo(HowTo)
+            case transactionHistory
+            case orders
+            case inboxMessage(InboxMessage)
+            case scanner
+            case reauthenticationView
             case console
         }
         
+        enum FullScreenDestination: String {
+            case scanner
+        }
+        
+        // MARK: - Output
+        
         @Published var destination: Destination?
         @Published var sheet: SheetDestination?
+        @Published var fullScreen: FullScreenDestination?
         
         init() {
             injectNetworkLogger()
@@ -25,6 +41,12 @@ extension Main {
         
         private func injectNetworkLogger() {
             NetworkLogger.enableNetworkLoggerProxy()
+        }
+        
+        func reset() {
+            destination = nil
+            sheet = nil
+            fullScreen = nil
         }
     }
 }
@@ -39,6 +61,26 @@ extension Main.Router {
     func route(sheet destination: SheetDestination) {
         self.sheet = destination
     }
+    
+    func route(fullScreen destination: FullScreenDestination) {
+        self.fullScreen = destination
+    }
+    
+    func openSettings() {
+        guard let settingsURL = URL(string: "App-Prefs:root=General") else {
+            return
+        }
+        
+        if UIApplication.shared.canOpenURL(settingsURL) {
+            UIApplication.shared.open(settingsURL) { success in
+                guard success else {
+                    return
+                }
+                
+                UINotificationFeedbackGenerator().notificationOccurred(.error)
+            }
+        }
+    }
 }
 
 // MARK: - Destination Processor
@@ -51,29 +93,42 @@ extension Main {
     }
 
     struct DestinationProcessor: ViewModifier {
-        typealias Destination = Main.Router.Destination
-        typealias Sheet = Main.Router.SheetDestination
-        
         // MARK: - Dependencies
         
-        @Binding var destination: Destination?
-        @Binding var sheet: Sheet?
+        @StateObject var router: Main.Router
         
         // MARK: -
         
         public func body(content: Content) -> some View {
             content
-                .navigationDestination(item: $destination) { destination in
+                .navigationDestination(item: $router.destination) { destination in
                     switch destination {
-                    case .commingSoon: CommingSoon()
+                    case .aboutMe:
+                        AboutMeView()
+                            .environmentObject(router)
+                    case .inbox:
+                        InboxView()
+                            .environmentObject(router)
+                    case .commingSoon:
+                        CommingSoon()
                     }
                 }
-                .sheet(item: $sheet) { destination in
+                .fullScreenCover(item: $router.fullScreen) { destination in
+                    switch destination {
+                    case .scanner:
+                        NavigationView {
+                            QRScannerView()
+                                .environmentObject(router)
+                        }
+                    }
+                }
+                .sheet(item: $router.sheet) { destination in
                     switch destination {
                     case .createAccount(let application):
                         NavigationView {
                             CreateAccountView()
                                 .environmentObject(application)
+                                .environmentObject(router)
                         }
                         .presentationDetents([.large])
                         .presentationDragIndicator(.visible)
@@ -81,8 +136,60 @@ extension Main {
                         NavigationView {
                             ChangeAboutMeView()
                                 .environmentObject(application)
+                                .environmentObject(router)
                         }
                         .presentationDetents([.large])
+                        .presentationDragIndicator(.visible)
+                    case .productDetails(let id):
+                        RewardDetailsView(id: id)
+                            .presentationDetents([.large])
+                            .presentationDragIndicator(.visible)
+                    case .howTo(let howTo):
+                        switch howTo {
+                        case .topUpYourBalance:
+                            NavigationView {
+                                HowToTopUpYourBalanceView()
+                            }
+                            .presentationDetents([.large])
+                            .presentationDragIndicator(.visible)
+                        case .howToRedeemGiftCards:
+                            NavigationView {
+                                HowToRedeemGiftCardsView()
+                            }
+                            .presentationDetents([.large])
+                            .presentationDragIndicator(.visible)
+                        }
+                    case .transactionHistory:
+                        NavigationView {
+                            BalanceTransactionsView()
+                        }
+                        .presentationDetents([.medium, .large], selection: .constant(.large))
+                        .presentationDragIndicator(.visible)
+                    case .orders:
+                        NavigationView {
+                            OrdersView()
+                        }
+                        .presentationDetents([.medium, .large], selection: .constant(.large))
+                        .presentationDragIndicator(.visible)
+                    case .inboxMessage(let message):
+                        NavigationView {
+                            InboxMessageView(message: message)
+                        }
+                        .presentationDetents([.large])
+                        .presentationDragIndicator(.visible)
+                    case .scanner:
+                        NavigationView {
+                            QRScannerView()
+                                .environmentObject(router)
+                        }
+                        .presentationDetents([.large])
+                        .presentationDragIndicator(.visible)
+                    case .reauthenticationView:
+                        NavigationView {
+                            ReauthenticationView()
+                                .environmentObject(router)
+                        }
+                        .presentationDetents([.medium])
                         .presentationDragIndicator(.visible)
                     case .console:
                         NavigationView {
@@ -109,7 +216,21 @@ extension Main.Router.SheetDestination: Identifiable {
         switch self {
         case .createAccount: return "createAccount"
         case .changeAboutMe: return "changeAboutMe"
+        case .productDetails(let id): return id
+        case .howTo(let howTo): return howTo.id
+        case .transactionHistory: return "transactionHistory"
+        case .orders: return "orders"
+        case .inboxMessage: return "inboxMessage"
+        case .scanner: return "scanner"
+        case .reauthenticationView: return "reauthenticationView"
         case .console: return "console"
         }
     }
 }
+
+extension Main.Router.FullScreenDestination: Identifiable {
+    var id: String {
+        rawValue
+    }
+}
+

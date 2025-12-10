@@ -15,7 +15,6 @@ public extension ComponentBuilder {
             .resizable()
             .scaledToFit()
             .frame(width: size.size.width, height: size.size.height)
-            .foregroundStyle(.primary)
     }
     
     /// Creates a title text view.
@@ -25,7 +24,7 @@ public extension ComponentBuilder {
     func MakeTitle(_ title: LocalizedStringKey) -> some View {
         Text(title)
             .font(.title2.weight(.bold))
-            .multilineTextAlignment(.leading)
+            .multilineTextAlignment(.center)
     }
     
     /// Creates a subtitle text view.
@@ -53,27 +52,27 @@ public extension ComponentBuilder {
 
     @ViewBuilder
     func MakeButton(_ title: LocalizedStringKey, image: String? = nil, systemImage: String? = nil, action: @escaping () -> Void) -> some View {
-           Button(action: action) {
-               if let image {
-                   HStack(alignment: .center) {
-                       Image(image)
-                           .cornerRadius(5)
-                       Text(title)
-                           .frame(maxWidth: .infinity, alignment: .center)
-                   }
-               } else if let systemImage {
-                   HStack(alignment: .center) {
-                       Image(systemName: systemImage)
-                       Text(title)
-                           .frame(maxWidth: .infinity, alignment: .center)
-                   }
-               } else {
-                   Text(title)
-                       .frame(maxWidth: .infinity, alignment: .center)
-               }
-           }
-           .buttonStyle(PrimaryButtonStyle())
-       }
+        Button(action: action) {
+            if let image {
+                HStack(alignment: .center) {
+                    Image(image)
+                        .cornerRadius(5)
+                    Text(title)
+                        .frame(maxWidth: .infinity, alignment: .center)
+                }
+            } else if let systemImage {
+                HStack(alignment: .center) {
+                    Image(systemName: systemImage)
+                    Text(title)
+                        .frame(maxWidth: .infinity, alignment: .center)
+                }
+            } else {
+                Text(title)
+                    .frame(maxWidth: .infinity, alignment: .center)
+            }
+        }
+        .buttonStyle(PrimaryButtonStyle())
+    }
     
     @ViewBuilder
     func MakeSecondaryButton(_ title: LocalizedStringKey, image: String? = nil, systemImage: String? = nil, action: @escaping () -> Void) -> some View {

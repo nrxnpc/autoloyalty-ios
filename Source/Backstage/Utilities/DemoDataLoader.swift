@@ -101,9 +101,9 @@ class DemoDataLoader {
     }
     
     // MARK: - Products
-    static func loadProducts() -> [Product] {
+    static func loadProducts() -> [FullProduct] {
         return [
-            Product(
+            FullProduct(
                 id: "product-001",
                 name: "Тормозные колодки Brembo",
                 category: .merchandise,
@@ -118,7 +118,7 @@ class DemoDataLoader {
                 imageData: nil,
                 supplierId: "supplier-001"
             ),
-            Product(
+            FullProduct(
                 id: "product-002",
                 name: "Масляный фильтр Mann",
                 category: .merchandise,
@@ -307,7 +307,7 @@ class DemoDataLoader {
     }
     
     // MARK: - Orders
-    static func loadOrders() -> [Order] {
+    static func loadOrders() -> [MAGAOrder] {
         return []
     }
     

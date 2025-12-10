@@ -30,7 +30,7 @@ struct ModerationView: View {
 struct ProductModerationView: View {
     @EnvironmentObject var dataManager: DataManager
     
-    private var pendingProducts: [Product] {
+    private var pendingProducts: [FullProduct] {
         dataManager.productsState.items.filter { $0.status == .pending }
     }
     
@@ -47,7 +47,7 @@ struct ProductModerationView: View {
 }
 
 struct ProductModerationRow: View {
-    let product: Product
+    let product: FullProduct
     @EnvironmentObject var dataManager: DataManager
     
     var body: some View {

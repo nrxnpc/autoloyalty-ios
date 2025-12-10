@@ -50,7 +50,7 @@ struct DemoAccessButtons: View {
                     .cornerRadius(8)
                 }
                 
-                NavigationLink("Регистрация", destination: RegistrationView())
+                NavigationLink("Регистрация", destination: MAGARegistrationView())
                     .font(.caption)
                     .padding(.horizontal, 12)
                     .padding(.vertical, 6)
@@ -65,7 +65,7 @@ struct DemoAccessButtons: View {
 
 
 
-struct RegistrationView: View {
+struct MAGARegistrationView: View {
     @EnvironmentObject var authViewModel: AuthViewModel
     @Environment(\.dismiss) private var dismiss
     @State private var name = ""

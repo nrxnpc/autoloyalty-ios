@@ -10,7 +10,7 @@ struct AdminProductsView: View {
         authViewModel.currentUser?.role == .supplier
     }
     
-    private var products: [Product] {
+    private var products: [FullProduct] {
         if isSupplier {
             return dataManager.productsState.items.filter { $0.supplierId == authViewModel.currentUser?.id }
         } else {
@@ -44,7 +44,7 @@ struct AdminProductsView: View {
 }
 
 struct ProductAdminRow: View {
-    let product: Product
+    let product: FullProduct
     
     var body: some View {
         HStack {
@@ -87,7 +87,7 @@ struct ProductAdminRow: View {
 }
 
 struct AdminProductEditView: View {
-    let product: Product?
+    let product: FullProduct?
     @EnvironmentObject var dataManager: DataManager
     @EnvironmentObject var authViewModel: AuthViewModel
     @Environment(\.dismiss) private var dismiss
@@ -96,9 +96,9 @@ struct AdminProductEditView: View {
     @State private var description = ""
     @State private var pointsCost = 100
     @State private var stockQuantity = 10
-    @State private var category = Product.ProductCategory.merchandise
+    @State private var category = FullProduct.ProductCategory.merchandise
     @State private var isActive = true
-    @State private var deliveryOptions: Set<Product.DeliveryOption> = [.pickup]
+    @State private var deliveryOptions: Set<FullProduct.DeliveryOption> = [.pickup]
     
     var body: some View {
         NavigationStack {
@@ -111,7 +111,7 @@ struct AdminProductEditView: View {
                 
                 Section("Параметры") {
                     Picker("Категория", selection: $category) {
-                        ForEach(Product.ProductCategory.allCases, id: \.self) { cat in
+                        ForEach(FullProduct.ProductCategory.allCases, id: \.self) { cat in
                             Text(cat.displayName).tag(cat)
                         }
                     }
@@ -123,7 +123,7 @@ struct AdminProductEditView: View {
                 }
                 
                 Section("Доставка") {
-                    ForEach(Product.DeliveryOption.allCases, id: \.self) { option in
+                    ForEach(FullProduct.DeliveryOption.allCases, id: \.self) { option in
                         Toggle(option.displayName, isOn: Binding(
                             get: { deliveryOptions.contains(option) },
                             set: { isSelected in
@@ -163,7 +163,7 @@ struct AdminProductEditView: View {
     }
     
     private func saveProduct() {
-        let newProduct = Product(
+        let newProduct = FullProduct(
             id: product?.id ?? UUID().uuidString,
             name: name,
             category: category,

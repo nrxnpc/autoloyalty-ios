@@ -51,6 +51,10 @@ extension View {
     func validated(password passwordPublisher: Published<String>.Publisher, minimumRequirements: Bool = false) -> some View {
         modifier(ValidatedViewModifier(publisher: passwordPublisher, validation: .password(minimumRequirements)))
     }
+    
+    func validated(code publisher: Published<String>.Publisher) -> some View {
+        modifier(ValidatedViewModifier(publisher: publisher, validation: .password(true)))
+    }
 }
 
 private struct ValidatedViewModifier: ViewModifier {
