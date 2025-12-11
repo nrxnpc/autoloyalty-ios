@@ -229,7 +229,7 @@
 		7EAF29522EE8D55D00E4201A /* BalanceTransaction+FetchRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "BalanceTransaction+FetchRequest.swift"; sourceTree = "<group>"; };
 		7EAF29542EE8FA6D00E4201A /* PullCatalogUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PullCatalogUseCase.swift; sourceTree = "<group>"; };
 		7EAF29562EE9072900E4201A /* ScanQRUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScanQRUseCase.swift; sourceTree = "<group>"; };
-		7EAF29582EE9870C00E4201A /* Application-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "Application-Info.plist"; sourceTree = "<group>"; };
+		7EAF29582EE9870C00E4201A /* Application-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Application-Info.plist"; sourceTree = "<group>"; };
 		7ECC3F372E65CEEF0014E97E /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		7ECC3F382E65CEFD0014E97E /* BACKEND_SETUP.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = BACKEND_SETUP.md; sourceTree = "<group>"; };
 		7ECC3F8F2E65CF8D0014E97E /* Achievement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Achievement.swift; sourceTree = "<group>"; };
@@ -316,7 +316,6 @@
 		08DB73BA2DF6CC1B007D80CB = {
 			isa = PBXGroup;
 			children = (
-				7EAF29582EE9870C00E4201A /* Application-Info.plist */,
 				7ECC3F382E65CEFD0014E97E /* BACKEND_SETUP.md */,
 				7ECC3F372E65CEEF0014E97E /* README.md */,
 				7ECC3F352E65CE700014E97E /* Resource */,
@@ -529,6 +528,7 @@
 		7ECC3F352E65CE700014E97E /* Resource */ = {
 			isa = PBXGroup;
 			children = (
+				7EAF29582EE9870C00E4201A /* Application-Info.plist */,
 				08DB741B2DF8296F007D80CB /* Assets.xcassets */,
 				7EE878022EA2FD3200CFC230 /* Localizable.xcstrings */,
 			);
@@ -1162,7 +1162,7 @@
 				DEVELOPMENT_TEAM = Q6DFC8566F;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = "Application-Info.plist";
+				INFOPLIST_FILE = "Resource/Application-Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = NSP;
 				INFOPLIST_KEY_NSCameraUsageDescription = "Приложение использует камеру для сканирования QR-кодов на упаковках автозапчастей. Это позволяет получать баллы в программе лояльности за покупки";
 				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "Приложение может получить доступ к галерее для загрузки изображений в профиль пользователя или при создании обращений в поддержку";
@@ -1196,7 +1196,7 @@
 				DEVELOPMENT_TEAM = Q6DFC8566F;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = "Application-Info.plist";
+				INFOPLIST_FILE = "Resource/Application-Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = NSP;
 				INFOPLIST_KEY_NSCameraUsageDescription = "Приложение использует камеру для сканирования QR-кодов на упаковках автозапчастей. Это позволяет получать баллы в программе лояльности за покупки";
 				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "Приложение может получить доступ к галерее для загрузки изображений в профиль пользователя или при создании обращений в поддержку";
