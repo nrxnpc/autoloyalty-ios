@@ -13,6 +13,7 @@
 		7E0FAB9D2EE9A6BB00498CEA /* Order+FetchRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E0FAB9C2EE9A6BB00498CEA /* Order+FetchRequest.swift */; };
 		7E0FAB9F2EE9A82500498CEA /* PullMyOrdersUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E0FAB9E2EE9A82500498CEA /* PullMyOrdersUseCase.swift */; };
 		7E0FABA12EE9A82E00498CEA /* CreateOrderUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E0FABA02EE9A82E00498CEA /* CreateOrderUseCase.swift */; };
+		7E3477DE2EF49BB1004F9F01 /* DeleteAccountUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E3477DD2EF49BB1004F9F01 /* DeleteAccountUseCase.swift */; };
 		7E36E0052E7B0256009522B5 /* Dependencies in Frameworks */ = {isa = PBXBuildFile; productRef = 7E36E0042E7B0256009522B5 /* Dependencies */; };
 		7E36E0072E7B0256009522B5 /* DependenciesMacros in Frameworks */ = {isa = PBXBuildFile; productRef = 7E36E0062E7B0256009522B5 /* DependenciesMacros */; };
 		7E3B427D2EC0FA06005B7E57 /* QRScannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E3B427C2EC0FA06005B7E57 /* QRScannerView.swift */; };
@@ -157,6 +158,7 @@
 		7E0FAB9C2EE9A6BB00498CEA /* Order+FetchRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Order+FetchRequest.swift"; sourceTree = "<group>"; };
 		7E0FAB9E2EE9A82500498CEA /* PullMyOrdersUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PullMyOrdersUseCase.swift; sourceTree = "<group>"; };
 		7E0FABA02EE9A82E00498CEA /* CreateOrderUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateOrderUseCase.swift; sourceTree = "<group>"; };
+		7E3477DD2EF49BB1004F9F01 /* DeleteAccountUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteAccountUseCase.swift; sourceTree = "<group>"; };
 		7E3B427C2EC0FA06005B7E57 /* QRScannerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRScannerView.swift; sourceTree = "<group>"; };
 		7E43D2F02EC654330039FCE4 /* QRScanner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRScanner.swift; sourceTree = "<group>"; };
 		7E43D2F22EC66D670039FCE4 /* CapturePermission.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CapturePermission.swift; sourceTree = "<group>"; };
@@ -743,6 +745,7 @@
 				7EE877DC2EA2B9A900CFC230 /* CreateSessionUseCase.swift */,
 				7EE877DA2EA2B94D00CFC230 /* LoginUseCase.swift */,
 				7EAF29492EE8B1BC00E4201A /* LogoutUseCase.swift */,
+				7E3477DD2EF49BB1004F9F01 /* DeleteAccountUseCase.swift */,
 				7EE877E42EA2BBE400CFC230 /* PullAboutMeUseCase.swift */,
 				7EE877E62EA2BCFD00CFC230 /* RefreshTokenUseCase.swift */,
 				7E5350192EDCD4210020AF96 /* PullNotificationsUseCase.swift */,
@@ -911,6 +914,7 @@
 				7EE878092EA3153100CFC230 /* ChangeAccountImage+Cropper.swift in Sources */,
 				7E5350142EDC6A9A0020AF96 /* InboxMessage.swift in Sources */,
 				7ECC40152E6628E90014E97E /* ProfileView.swift in Sources */,
+				7E3477DE2EF49BB1004F9F01 /* DeleteAccountUseCase.swift in Sources */,
 				7ECC40272E66FBD80014E97E /* MainView.swift in Sources */,
 				7E462FE62EE60E9F00B7F5EC /* CreateWelcomeMessageUseCase.swift in Sources */,
 				7EAF29442EE8849E00E4201A /* PasswordRequirementsView.swift in Sources */,

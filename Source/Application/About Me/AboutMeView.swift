@@ -10,6 +10,7 @@ struct AboutMeView: View, ComponentBuilder {
     // MARK: - State
     
     @StateObject var application = AboutMe()
+    @State var deleteAccountConfirmation: Bool = false
     
     // MARK: -
     
@@ -115,10 +116,21 @@ extension AboutMeView {
                     }
                 }
                 Button("Delete Account", systemImage: "person.slash", role: .destructive) {
-                    
+                    deleteAccountConfirmation = true
                 }
             } label: {
                 Image(systemName: "ellipsis")
+            }
+            .confirmationDialog("Delete Account?", isPresented: $deleteAccountConfirmation, titleVisibility: .visible) {
+                Button("Delete Account", role: .destructive) {
+                    Task { @MainActor in
+                        await application.deleteAccount()
+                        router.reset()
+                    }
+                }
+                Button("Cancel", role: .cancel) { }
+            } message: {
+                Text("This will permanently delete all your data, including bonus points. This action cannot be undone.")
             }
         }
     }

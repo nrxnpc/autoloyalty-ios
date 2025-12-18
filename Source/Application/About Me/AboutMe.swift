@@ -127,4 +127,17 @@ extension AboutMe {
             UINotificationFeedbackGenerator().notificationOccurred(.error)
         }
     }
+    
+    func deleteAccount() async {
+        isUpdating = true
+        defer {
+            isUpdating = false
+        }
+        
+        do {
+            try await DeleteAccountUseCase(scope: scope).execute()
+        } catch {
+            UINotificationFeedbackGenerator().notificationOccurred(.error)
+        }
+    }
 }

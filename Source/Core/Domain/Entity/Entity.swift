@@ -55,20 +55,3 @@ extension Entity: DomainEntity {
     /// External ID from sync record
     public var externalID: String? { sync.externalID }
 }
-
-public extension Entity {
-    
-    /// Создает новый экземпляр Entity вместе с его обязательным EntitySync объектом.
-    /// - Parameter context: Контекст управляемого объекта, в который нужно вставить новый объект.
-    /// - Returns: Полностью сконфигурированный экземпляр Entity.
-    static func insertNewEntity(in context: NSManagedObjectContext) -> Entity {
-        let entity = Entity(context: context)
-        
-        // Создаем и сразу же связываем EntitySync
-        let entitySync = EntitySync(context: context)
-        // Присваивание в одну сторону автоматически устанавливает обратную связь
-        entity.sync = entitySync
-        
-        return entity
-    }
-}
