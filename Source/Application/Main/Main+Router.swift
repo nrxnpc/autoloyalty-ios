@@ -207,19 +207,22 @@ extension Main {
                         .presentationDragIndicator(.visible)
                     }
                 }
+                .sensoryFeedback(.impact, trigger: router.destination)
+                .sensoryFeedback(.impact, trigger: router.sheet)
+                .sensoryFeedback(.impact, trigger: router.fullScreen)
         }
     }
 }
 
 // MARK: - Utilitites
 
-extension Main.Router.Destination: Identifiable {
+extension Main.Router.Destination: Identifiable, Equatable {
     var id: String {
         rawValue
     }
 }
 
-extension Main.Router.SheetDestination: Identifiable {
+extension Main.Router.SheetDestination: Identifiable, Equatable {
     var id: String {
         switch self {
         case .createAccount: return "createAccount"
@@ -235,11 +238,14 @@ extension Main.Router.SheetDestination: Identifiable {
         case .console: return "console"
         }
     }
+    
+    static func == (lhs: Main.Router.SheetDestination, rhs: Main.Router.SheetDestination) -> Bool {
+        lhs.id == rhs.id
+    }
 }
 
-extension Main.Router.FullScreenDestination: Identifiable {
+extension Main.Router.FullScreenDestination: Identifiable, Equatable {
     var id: String {
         rawValue
     }
 }
-

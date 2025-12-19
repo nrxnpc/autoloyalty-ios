@@ -105,6 +105,7 @@ extension AboutMeView {
             .onTap {
                 let version = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "Unknown"
                 UIPasteboard.general.string = "App Version: \(version)"
+                UIImpactFeedbackGenerator(style: .light).impactOccurred()
             }
         }
     }
