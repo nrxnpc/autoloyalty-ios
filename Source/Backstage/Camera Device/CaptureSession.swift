@@ -19,12 +19,15 @@ final class CaptureSession: ObservableObject {
     }
     
     func prepareForUse() async {
+        guard !readyForUse else { return }
+        guard CapturePermission().status == .granted else { return }
         let running = await device.prepareForUse()
         readyForUse = running
         await device.reset()
     }
     
     func stopRunning() async {
+        guard readyForUse else { return }
         await device.stopRunning()
         readyForUse = false
         detectedQRCode = nil
