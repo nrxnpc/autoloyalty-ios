@@ -14,6 +14,7 @@
 		7E0FAB9F2EE9A82500498CEA /* PullMyOrdersUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E0FAB9E2EE9A82500498CEA /* PullMyOrdersUseCase.swift */; };
 		7E0FABA12EE9A82E00498CEA /* CreateOrderUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E0FABA02EE9A82E00498CEA /* CreateOrderUseCase.swift */; };
 		7E3477DE2EF49BB1004F9F01 /* DeleteAccountUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E3477DD2EF49BB1004F9F01 /* DeleteAccountUseCase.swift */; };
+		7E3477E02EF56FE0004F9F01 /* PullNewsUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E3477DF2EF56FE0004F9F01 /* PullNewsUseCase.swift */; };
 		7E36E0052E7B0256009522B5 /* Dependencies in Frameworks */ = {isa = PBXBuildFile; productRef = 7E36E0042E7B0256009522B5 /* Dependencies */; };
 		7E36E0072E7B0256009522B5 /* DependenciesMacros in Frameworks */ = {isa = PBXBuildFile; productRef = 7E36E0062E7B0256009522B5 /* DependenciesMacros */; };
 		7E3B427D2EC0FA06005B7E57 /* QRScannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E3B427C2EC0FA06005B7E57 /* QRScannerView.swift */; };
@@ -52,7 +53,6 @@
 		7E5350142EDC6A9A0020AF96 /* InboxMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E5350132EDC6A9A0020AF96 /* InboxMessage.swift */; };
 		7E5350162EDC6B510020AF96 /* InboxMessage+FetchRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E5350152EDC6B510020AF96 /* InboxMessage+FetchRequest.swift */; };
 		7E5350182EDCD09D0020AF96 /* InboxMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E5350172EDCD09D0020AF96 /* InboxMonitor.swift */; };
-		7E53501A2EDCD4210020AF96 /* PullNotificationsUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E5350192EDCD4210020AF96 /* PullNotificationsUseCase.swift */; };
 		7E95E8852E7AFA0800B45539 /* UIDevice+Shake.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E95E8822E7AFA0800B45539 /* UIDevice+Shake.swift */; };
 		7E95E8862E7AFA0800B45539 /* AnimationSystem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E95E8752E7AFA0800B45539 /* AnimationSystem.swift */; };
 		7E95E8882E7AFA0800B45539 /* SearchManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E95E8812E7AFA0800B45539 /* SearchManager.swift */; };
@@ -159,6 +159,7 @@
 		7E0FAB9E2EE9A82500498CEA /* PullMyOrdersUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PullMyOrdersUseCase.swift; sourceTree = "<group>"; };
 		7E0FABA02EE9A82E00498CEA /* CreateOrderUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateOrderUseCase.swift; sourceTree = "<group>"; };
 		7E3477DD2EF49BB1004F9F01 /* DeleteAccountUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteAccountUseCase.swift; sourceTree = "<group>"; };
+		7E3477DF2EF56FE0004F9F01 /* PullNewsUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PullNewsUseCase.swift; sourceTree = "<group>"; };
 		7E3B427C2EC0FA06005B7E57 /* QRScannerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRScannerView.swift; sourceTree = "<group>"; };
 		7E43D2F02EC654330039FCE4 /* QRScanner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRScanner.swift; sourceTree = "<group>"; };
 		7E43D2F22EC66D670039FCE4 /* CapturePermission.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CapturePermission.swift; sourceTree = "<group>"; };
@@ -195,7 +196,6 @@
 		7E5350132EDC6A9A0020AF96 /* InboxMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InboxMessage.swift; sourceTree = "<group>"; };
 		7E5350152EDC6B510020AF96 /* InboxMessage+FetchRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "InboxMessage+FetchRequest.swift"; sourceTree = "<group>"; };
 		7E5350172EDCD09D0020AF96 /* InboxMonitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InboxMonitor.swift; sourceTree = "<group>"; };
-		7E5350192EDCD4210020AF96 /* PullNotificationsUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PullNotificationsUseCase.swift; sourceTree = "<group>"; };
 		7E95E8632E7AFA0800B45539 /* APIModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIModels.swift; sourceTree = "<group>"; };
 		7E95E8642E7AFA0800B45539 /* APIRequestModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIRequestModels.swift; sourceTree = "<group>"; };
 		7E95E8652E7AFA0800B45539 /* DateExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateExtensions.swift; sourceTree = "<group>"; };
@@ -748,14 +748,14 @@
 				7E3477DD2EF49BB1004F9F01 /* DeleteAccountUseCase.swift */,
 				7EE877E42EA2BBE400CFC230 /* PullAboutMeUseCase.swift */,
 				7EE877E62EA2BCFD00CFC230 /* RefreshTokenUseCase.swift */,
-				7E5350192EDCD4210020AF96 /* PullNotificationsUseCase.swift */,
-				7E462FE52EE60E9F00B7F5EC /* CreateWelcomeMessageUseCase.swift */,
 				7E4BA2162EE32BF00004CFB3 /* FetchAttachmentsUseCase.swift */,
 				7EAF294D2EE8D0A200E4201A /* PullUserTransactionsUseCase.swift */,
 				7EAF29542EE8FA6D00E4201A /* PullCatalogUseCase.swift */,
 				7EAF29562EE9072900E4201A /* ScanQRUseCase.swift */,
 				7E0FABA02EE9A82E00498CEA /* CreateOrderUseCase.swift */,
 				7E0FAB9E2EE9A82500498CEA /* PullMyOrdersUseCase.swift */,
+				7E462FE52EE60E9F00B7F5EC /* CreateWelcomeMessageUseCase.swift */,
+				7E3477DF2EF56FE0004F9F01 /* PullNewsUseCase.swift */,
 			);
 			path = "Use Case";
 			sourceTree = "<group>";
@@ -896,6 +896,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7E3477E02EF56FE0004F9F01 /* PullNewsUseCase.swift in Sources */,
 				7EE877E12EA2BAE800CFC230 /* Account+FetchRequest.swift in Sources */,
 				7ECC40232E66D8150014E97E /* Main.swift in Sources */,
 				7ECC400A2E6628E90014E97E /* NewsDetailView.swift in Sources */,
@@ -1025,7 +1026,6 @@
 				7E95E89E2E7AFA0800B45539 /* QRScannerService.swift in Sources */,
 				7E95E89F2E7AFA0800B45539 /* RestEndpoint+Raw.swift in Sources */,
 				7ECC40182E6628E90014E97E /* StatsView.swift in Sources */,
-				7E53501A2EDCD4210020AF96 /* PullNotificationsUseCase.swift in Sources */,
 				7EE877EA2EA2D04F00CFC230 /* HomeView.swift in Sources */,
 				7ECC40082E6628E90014E97E /* CommonViews.swift in Sources */,
 			);

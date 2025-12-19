@@ -26,6 +26,12 @@ extension Main {
                 } catch {
                     debugPrint("[DEBUG] Cannot pull user transactions: \(error)")
                 }
+                
+                do {
+                    try await PullNewsUseCase(scope: scope).execute()
+                } catch {
+                    debugPrint("[DEBUG] Cannot pull news transactions: \(error)")
+                }
             }
             
             Job(.polling(.strategy(.intensive))) { [scope] in
