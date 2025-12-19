@@ -6,12 +6,12 @@ struct QRScanHistoryView: View {
     @Environment(\.dismiss) private var dismiss
     @EnvironmentObject var router: Main.Router
     
-    // @FetchRequest var transactions: FetchedResults<BalanceTransaction>
+    @FetchRequest var scans: FetchedResults<ScanItem>
     
     // MARK: - Initialization
     
     init() {
-        // _transactions = FetchRequest(fetchRequest: BalanceTransaction.allTransactions(), animation: .smooth)
+        _scans = FetchRequest(fetchRequest: ScanItem.allScans(), animation: .smooth)
     }
     
     
@@ -19,11 +19,11 @@ struct QRScanHistoryView: View {
     
     var body: some View {
         Group {
-            // if transactions.isEmpty {
+            if scans.isEmpty {
                 makeEmptyState()
-            // } else {
-            //     makeTransctionsList()
-            // }
+            } else {
+                makeScansList()
+            }
         }
         .navigationTitle("Scan History")
         .toolbar(content: makeToolbar)
@@ -53,39 +53,42 @@ extension QRScanHistoryView {
         }
     }
     
-    // @ViewBuilder func makeHistoryList() -> some View {
-    //     List(transactions, id: \.id) { transaction in
-    //         makeRow(with: transaction)
-    //             .onTap {
-    //             }
-    //     }
-    // }
+    @ViewBuilder func makeScansList() -> some View {
+        List(scans, id: \.id) { scan in
+            makeRow(with: scan)
+        }
+    }
     
-    @ViewBuilder func makeRow(with transaction: BalanceTransaction) -> some View {
+    @ViewBuilder func makeRow(with scan: ScanItem) -> some View {
         HStack(alignment: .top, spacing: 12) {
-                Image(systemName: transaction.type.iconName)
-                    .font(.title2)
-                    .foregroundStyle(transaction.type.color)
-                    .frame(width: 24)
+            Image(systemName: "qrcode.viewfinder")
+                .font(.title2)
+                .foregroundStyle(.green)
+                .frame(width: 24)
+            
+            VStack(alignment: .leading, spacing: 4) {
+                BalanceLabel(points: scan.pointsEarned)
+                    .font(.headline)
                 
-                VStack(alignment: .leading, spacing: 4) {
-                    BalanceLabel(points: transaction.amount, operation: transaction.type.operation)
-                        .font(.headline)
-                    
-                    Text(transaction.transactionDescription)
-                        .font(.callout)
-                        .foregroundStyle(.secondary)
-                        .multilineTextAlignment(.leading)
-                        .lineLimit(3)
-                }
+                Text(scan.productName)
+                    .font(.callout)
+                    .foregroundStyle(.primary)
                 
-                Spacer()
-                
-                Text(DateFormatters.shared.day.string(from: transaction.createdAt))
+                Text(scan.productCategory)
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+            }
+            
+            Spacer()
+            
+            VStack {
+                Text(DateFormatters.shared.day.string(from: scan.createdAt))
                     .font(.caption)
                     .foregroundStyle(.tertiary)
+                Spacer()
             }
-            .padding(.vertical, 4)
+        }
+        .padding(.vertical, 4)
     }
     
     @ToolbarContentBuilder func makeToolbar() -> some ToolbarContent {
