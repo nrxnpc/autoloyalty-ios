@@ -21,6 +21,7 @@ extension Main {
             case orders
             case inboxMessage(InboxMessage)
             case scanner
+            case scanHistory
             case reauthenticationView
             case console
         }
@@ -184,6 +185,13 @@ extension Main {
                         }
                         .presentationDetents([.large])
                         .presentationDragIndicator(.visible)
+                    case .scanHistory:
+                        NavigationView {
+                            QRScanHistoryView()
+                                .environmentObject(router)
+                        }
+                        .presentationDetents([.large])
+                        .presentationDragIndicator(.visible)
                     case .reauthenticationView:
                         NavigationView {
                             ReauthenticationView()
@@ -222,6 +230,7 @@ extension Main.Router.SheetDestination: Identifiable {
         case .orders: return "orders"
         case .inboxMessage: return "inboxMessage"
         case .scanner: return "scanner"
+        case .scanHistory: return "scanHistory"
         case .reauthenticationView: return "reauthenticationView"
         case .console: return "console"
         }

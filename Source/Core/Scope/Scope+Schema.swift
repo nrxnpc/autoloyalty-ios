@@ -79,6 +79,13 @@ extension Scope {
                     Field("productCategory", .text)
                     Relationship("product", to: "Product", optional: true)
                 }
+                
+                // Scan Item Entity
+                EntitySchema("ScanItem", inherits: "Entity") {
+                    Field("productName", .text)
+                    Field("productCategory", .text)
+                    Field("pointsEarned", .number)
+                }
             }
         }
     }

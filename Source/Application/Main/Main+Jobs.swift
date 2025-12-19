@@ -28,6 +28,12 @@ extension Main {
                 }
                 
                 do {
+                    try await PullScanHistoryUseCase(scope: scope).execute()
+                } catch {
+                    debugPrint("[DEBUG] Cannot pull scan history: \(error)")
+                }
+                
+                do {
                     try await PullNewsUseCase(scope: scope).execute()
                 } catch {
                     debugPrint("[DEBUG] Cannot pull news transactions: \(error)")
@@ -58,11 +64,6 @@ extension Main {
                 try await Task.sleep(for: .seconds(5))
                 try await Product.fillInDemo(context: scope.coreDataContext)
             }
-            
-            // TODO:
-            // Job(.polling(.strategy(.intensive))) { [scope] in
-            //   try await PullNotificationsUseCase(scope: scope).execute()
-            // }
             
             Job(.polling(.strategy(.normal))) { [scope] in
                 try await FetchAttachmentsUseCase(scope: scope).execute()

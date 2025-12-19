@@ -105,7 +105,7 @@ struct PointsBadge: View {
 struct ActivitySection: View {
     var body: some View {
         Section("Активность") {
-            NavigationLink(destination: QRScanHistoryView()) {
+            NavigationLink(destination: MAGAQRScanHistoryView()) {
                 ProfileMenuItem(
                     icon: "qrcode",
                     title: "История сканирований",

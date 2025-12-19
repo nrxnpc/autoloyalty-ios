@@ -46,9 +46,9 @@ extension BalanceTransactionsView {
         ScrollView {
             VStack(spacing: 16) {
                 HStack(alignment: .center) {
-                    Image(systemName: "qrcode")
+                    Image(systemName: "arrow.up.arrow.down")
                         .font(.title)
-                        .foregroundStyle(.blue)
+                        .foregroundStyle(.green)
                     Text("All your point transactions will appear here once you start earning or spending points")
                         .font(.callout)
                         .foregroundStyle(.secondary)
@@ -73,30 +73,32 @@ extension BalanceTransactionsView {
     }
     
     @ViewBuilder func makeRow(with transaction: BalanceTransaction) -> some View {
-        HStack(alignment: .top, spacing: 12) {
-                Image(systemName: transaction.type.iconName)
-                    .font(.title2)
-                    .foregroundStyle(transaction.type.color)
-                    .frame(width: 24)
+        HStack(alignment: .center, spacing: 12) {
+            Image(systemName: transaction.type.iconName)
+                .font(.title2)
+                .foregroundStyle(transaction.type.color)
+                .frame(width: 24)
+            
+            VStack(alignment: .leading, spacing: 4) {
+                BalanceLabel(points: transaction.amount, operation: transaction.type.operation)
+                    .font(.headline)
                 
-                VStack(alignment: .leading, spacing: 4) {
-                    BalanceLabel(points: transaction.amount, operation: transaction.type.operation)
-                        .font(.headline)
-                    
-                    Text(transaction.transactionDescription)
-                        .font(.callout)
-                        .foregroundStyle(.secondary)
-                        .multilineTextAlignment(.leading)
-                        .lineLimit(3)
-                }
-                
-                Spacer()
-                
+                Text(transaction.transactionDescription)
+                    .font(.callout)
+                    .foregroundStyle(.secondary)
+                    .multilineTextAlignment(.leading)
+                    .lineLimit(3)
+            }
+            
+            Spacer()
+            VStack {
                 Text(DateFormatters.shared.day.string(from: transaction.createdAt))
                     .font(.caption)
                     .foregroundStyle(.tertiary)
+                Spacer()
             }
-            .padding(.vertical, 4)
+        }
+        .padding(.vertical, 4)
     }
     
     @ToolbarContentBuilder func makeToolbar() -> some ToolbarContent {
@@ -119,16 +121,16 @@ extension BalanceTransactionsView {
 extension BalanceTransaction.TransactionType {
     var iconName: String {
         switch self {
-        case .earned: return "qrcode"
+        case .earned: return "plus"
         case .bonus: return "gift"
-        case .spent: return "cart"
+        case .spent: return "minus"
         case .penalty: return "exclamationmark.triangle"
         }
     }
     
     var color: Color {
         switch self {
-        case .earned: return .blue
+        case .earned: return .green
         case .bonus: return .green
         case .spent: return .pink
         case .penalty: return .red

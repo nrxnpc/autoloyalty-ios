@@ -15,6 +15,10 @@
 		7E0FABA12EE9A82E00498CEA /* CreateOrderUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E0FABA02EE9A82E00498CEA /* CreateOrderUseCase.swift */; };
 		7E3477DE2EF49BB1004F9F01 /* DeleteAccountUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E3477DD2EF49BB1004F9F01 /* DeleteAccountUseCase.swift */; };
 		7E3477E02EF56FE0004F9F01 /* PullNewsUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E3477DF2EF56FE0004F9F01 /* PullNewsUseCase.swift */; };
+		7E3477E22EF57C43004F9F01 /* QRScanHistoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E3477E12EF57C43004F9F01 /* QRScanHistoryView.swift */; };
+		7E3477E42EF5DEEB004F9F01 /* PullScanHistoryUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E3477E32EF5DEEB004F9F01 /* PullScanHistoryUseCase.swift */; };
+		7E3477E92EF5E005004F9F01 /* ScanItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E3477E82EF5E005004F9F01 /* ScanItem.swift */; };
+		7E3477EB2EF5E02B004F9F01 /* ScanItem+FetchRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E3477EA2EF5E02B004F9F01 /* ScanItem+FetchRequest.swift */; };
 		7E36E0052E7B0256009522B5 /* Dependencies in Frameworks */ = {isa = PBXBuildFile; productRef = 7E36E0042E7B0256009522B5 /* Dependencies */; };
 		7E36E0072E7B0256009522B5 /* DependenciesMacros in Frameworks */ = {isa = PBXBuildFile; productRef = 7E36E0062E7B0256009522B5 /* DependenciesMacros */; };
 		7E3B427D2EC0FA06005B7E57 /* QRScannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E3B427C2EC0FA06005B7E57 /* QRScannerView.swift */; };
@@ -160,6 +164,10 @@
 		7E0FABA02EE9A82E00498CEA /* CreateOrderUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateOrderUseCase.swift; sourceTree = "<group>"; };
 		7E3477DD2EF49BB1004F9F01 /* DeleteAccountUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteAccountUseCase.swift; sourceTree = "<group>"; };
 		7E3477DF2EF56FE0004F9F01 /* PullNewsUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PullNewsUseCase.swift; sourceTree = "<group>"; };
+		7E3477E12EF57C43004F9F01 /* QRScanHistoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRScanHistoryView.swift; sourceTree = "<group>"; };
+		7E3477E32EF5DEEB004F9F01 /* PullScanHistoryUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PullScanHistoryUseCase.swift; sourceTree = "<group>"; };
+		7E3477E82EF5E005004F9F01 /* ScanItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScanItem.swift; sourceTree = "<group>"; };
+		7E3477EA2EF5E02B004F9F01 /* ScanItem+FetchRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ScanItem+FetchRequest.swift"; sourceTree = "<group>"; };
 		7E3B427C2EC0FA06005B7E57 /* QRScannerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRScannerView.swift; sourceTree = "<group>"; };
 		7E43D2F02EC654330039FCE4 /* QRScanner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRScanner.swift; sourceTree = "<group>"; };
 		7E43D2F22EC66D670039FCE4 /* CapturePermission.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CapturePermission.swift; sourceTree = "<group>"; };
@@ -343,6 +351,15 @@
 			path = Order;
 			sourceTree = "<group>";
 		};
+		7E3477E72EF5DFD8004F9F01 /* Scan */ = {
+			isa = PBXGroup;
+			children = (
+				7E3477E82EF5E005004F9F01 /* ScanItem.swift */,
+				7E3477EA2EF5E02B004F9F01 /* ScanItem+FetchRequest.swift */,
+			);
+			path = Scan;
+			sourceTree = "<group>";
+		};
 		7E3B427B2EC0F9F8005B7E57 /* Scanner */ = {
 			isa = PBXGroup;
 			children = (
@@ -350,6 +367,7 @@
 				7E3B427C2EC0FA06005B7E57 /* QRScannerView.swift */,
 				7E462FEF2EE6489C00B7F5EC /* QRScannerView+States.swift */,
 				7E462FF22EE648D900B7F5EC /* QRScannerView+Actions.swift */,
+				7E3477E12EF57C43004F9F01 /* QRScanHistoryView.swift */,
 			);
 			path = Scanner;
 			sourceTree = "<group>";
@@ -578,6 +596,7 @@
 		7ECC3FF02E6628AC0014E97E /* Domain */ = {
 			isa = PBXGroup;
 			children = (
+				7E3477E72EF5DFD8004F9F01 /* Scan */,
 				7E0FAB9A2EE9A63100498CEA /* Order */,
 				7EAF294F2EE8D19000E4201A /* Balance */,
 				7E4BA2002EE061730004CFB3 /* Product */,
@@ -756,6 +775,7 @@
 				7E0FAB9E2EE9A82500498CEA /* PullMyOrdersUseCase.swift */,
 				7E462FE52EE60E9F00B7F5EC /* CreateWelcomeMessageUseCase.swift */,
 				7E3477DF2EF56FE0004F9F01 /* PullNewsUseCase.swift */,
+				7E3477E32EF5DEEB004F9F01 /* PullScanHistoryUseCase.swift */,
 			);
 			path = "Use Case";
 			sourceTree = "<group>";
@@ -899,6 +919,7 @@
 				7E3477E02EF56FE0004F9F01 /* PullNewsUseCase.swift in Sources */,
 				7EE877E12EA2BAE800CFC230 /* Account+FetchRequest.swift in Sources */,
 				7ECC40232E66D8150014E97E /* Main.swift in Sources */,
+				7E3477E22EF57C43004F9F01 /* QRScanHistoryView.swift in Sources */,
 				7ECC400A2E6628E90014E97E /* NewsDetailView.swift in Sources */,
 				7ECC40162E6628E90014E97E /* QRScannerMainView.swift in Sources */,
 				7EE877F12EA2D31000CFC230 /* AboutMe.swift in Sources */,
@@ -955,6 +976,7 @@
 				7ECC3FE02E65CF8D0014E97E /* AuthViewModel.swift in Sources */,
 				7E0FAB9F2EE9A82500498CEA /* PullMyOrdersUseCase.swift in Sources */,
 				7EE877E32EA2BAF200CFC230 /* Account+UseCase.swift in Sources */,
+				7E3477E42EF5DEEB004F9F01 /* PullScanHistoryUseCase.swift in Sources */,
 				7ECC40122E6628E90014E97E /* ModerationView.swift in Sources */,
 				7EAF29532EE8D55D00E4201A /* BalanceTransaction+FetchRequest.swift in Sources */,
 				7E53500C2EDAFA180020AF96 /* ConfettiAnimation.swift in Sources */,
@@ -982,8 +1004,10 @@
 				7E462FD42EE4E02F00B7F5EC /* BalanceView.swift in Sources */,
 				7E95E8902E7AFA0800B45539 /* DemoDataLoader.swift in Sources */,
 				7EE877DF2EA2BABD00CFC230 /* Account.swift in Sources */,
+				7E3477EB2EF5E02B004F9F01 /* ScanItem+FetchRequest.swift in Sources */,
 				7EE877C32E9FEB9C00CFC230 /* Scope+Grab.swift in Sources */,
 				7E462FD72EE4E6A300B7F5EC /* FeedView.swift in Sources */,
+				7E3477E92EF5E005004F9F01 /* ScanItem.swift in Sources */,
 				7E462FE22EE6071A00B7F5EC /* InboxMessageView.swift in Sources */,
 				7EE877C42E9FEB9C00CFC230 /* Scope.swift in Sources */,
 				7E462FF62EE65F0F00B7F5EC /* OrdersView.swift in Sources */,

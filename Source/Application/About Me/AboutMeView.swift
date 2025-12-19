@@ -53,10 +53,13 @@ extension AboutMeView {
     @ViewBuilder private func makeActivitySection() -> some View {
         MakeSection {
             VStack(spacing: 8) {
-                MakeListRow(title: "Scan History", subtitle: "Your QR codes", icon: "qrcode", iconColor: .blue) {
+                MakeListRow(title: "QR Scan History", subtitle: "QR codes you've recently scanned", icon: "qrcode", iconColor: .blue) {
+                    router.route(sheet: .scanHistory)
+                }
+                MakeListRow(title: "Transactions", subtitle: "Full history of your point activity", icon: "arrow.up.arrow.down", iconColor: .green) {
                     router.route(sheet: .transactionHistory)
                 }
-                MakeListRow(title: "My Orders", subtitle: "Point exchanges", icon: "giftcard", iconColor: .pink) {
+                MakeListRow(title: "Orders", subtitle: "History of your point exchanges", icon: "giftcard", iconColor: .pink) {
                     router.route(sheet: .orders)
                 }
             }
