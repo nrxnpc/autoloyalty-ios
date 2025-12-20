@@ -3,6 +3,7 @@ import SwiftUI
 struct BalanceLabel: View {
     let points: Int
     let hasBackground: Bool
+    let hasIcon: Bool
     let operation: Operation
     
     enum Operation {
@@ -25,9 +26,10 @@ struct BalanceLabel: View {
         }
     }
     
-    init(points: Int, hasBackground: Bool = true, operation: Operation = .none) {
+    init(points: Int, hasBackground: Bool = true, hasIcon: Bool = true, operation: Operation = .none) {
         self.points = points
         self.hasBackground = hasBackground
+        self.hasIcon = hasIcon
         self.operation = operation
     }
     
@@ -35,7 +37,7 @@ struct BalanceLabel: View {
         HStack(alignment: .firstTextBaseline, spacing: 2) {
             Text("\(operation.prefix)\(points)")
                 .foregroundColor(operation.color)
-            if hasBackground {
+            if hasIcon {
                 Image(systemName: "star.fill")
                     .foregroundColor(.orange)
             }

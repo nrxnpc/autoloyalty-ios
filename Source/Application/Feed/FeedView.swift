@@ -16,6 +16,8 @@ struct FeedView: View {
     // MARK: - State
     
     @State internal var showFavoritesOnly = false
+    /// To show balance on navigation title
+    @State internal var isBalanceVisible: Bool = true
     
     // MARK: - Initialization
     
@@ -30,6 +32,7 @@ struct FeedView: View {
         }
         .animation(.easeInOut, value: showFavoritesOnly)
         .toolbar(content: makeToolbar)
+        .animation(.smooth, value: isBalanceVisible)
         .environmentObject(balanceMonitor)
     }
 }
@@ -40,11 +43,25 @@ extension FeedView {
     // MARK: - Toolbar
     
     @ToolbarContentBuilder func makeToolbar() -> some ToolbarContent {
-        ToolbarItem(placement: .topBarLeading) {
-            Button {
-                router.route(sheet: .scanner)
-            } label: {
-                Image(systemName: "qrcode.viewfinder")
+        if !isBalanceVisible {
+            ToolbarItemGroup(placement: .topBarLeading) {
+                Button {
+                    router.route(sheet: .scanner)
+                } label: {
+                    Image(systemName: "qrcode.viewfinder")
+                }
+                
+                Button {
+                    router.route(sheet: .transactionHistory)
+                } label: {
+                    HStack(spacing: 0) {
+                        Text("\(balanceMonitor.balance)")
+                            .foregroundColor(.primary)
+                        Image(systemName: "star.fill")
+                            .scaleEffect(x: 0.6, y: 0.6)
+                            .foregroundColor(.orange)
+                    }
+                }
             }
         }
         
