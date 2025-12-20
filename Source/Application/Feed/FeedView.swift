@@ -15,6 +15,8 @@ struct FeedView: View {
     
     // MARK: - State
     
+    @Namespace internal var profileNamespace
+    
     @State internal var showFavoritesOnly = false
     /// To show balance on navigation title
     @State internal var isBalanceVisible: Bool = true
@@ -69,7 +71,12 @@ extension FeedView {
             Button {
                 router.route(to: .aboutMe)
             } label: {
-                Image(systemName: "person")
+                if let accountID = applicaiton.accountID {
+                    AccountImage(accountID: accountID)
+                        .frame(width: 28, height: 28)
+                } else {
+                    Image(systemName: "person")
+                }
             }
             
             Button {

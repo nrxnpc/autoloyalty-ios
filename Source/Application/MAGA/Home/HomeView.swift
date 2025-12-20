@@ -78,9 +78,9 @@ extension HomeView {
                 Text("Авто")
             }
             
-            NavigationView {
-                AboutMeView()
-            }
+            // NavigationView {
+            //     AboutMeView()
+            // }
             .tabItem {
                 Image(systemName: "person.fill")
                 Text("Профиль")
