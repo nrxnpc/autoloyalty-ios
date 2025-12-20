@@ -54,17 +54,9 @@ extension AboutMeView {
             MakeListRow(title: "QR Scan History", subtitle: "QR codes you've recently scanned", icon: "qrcode", iconColor: .blue) {
                 router.route(sheet: .scanHistory)
             }
-            .frame(maxHeight: .infinity)
-            .overlay(alignment: .bottom) {
-                Divider()
-            }
             
             MakeListRow(title: "Transactions", subtitle: "Full history of your point activity", icon: "arrow.up.arrow.down", iconColor: .green) {
                 router.route(sheet: .transactionHistory)
-            }
-            .frame(maxHeight: .infinity)
-            .overlay(alignment: .bottom) {
-                Divider()
             }
             
             MakeListRow(title: "Orders", subtitle: "History of your point exchanges", icon: "giftcard", iconColor: .pink) {
@@ -85,11 +77,6 @@ extension AboutMeView {
                         UIApplication.shared.open(url)
                     }
                 }
-                .padding(.bottom, 8)
-            }
-            .frame(maxHeight: .infinity)
-            .overlay(alignment: .bottom) {
-                Divider()
             }
             
             MakeOptionsListRow(title: "FAQ", subtitle: "Frequently asked questions", icon: "book", iconColor: .secondary) {
