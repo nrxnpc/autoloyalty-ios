@@ -169,6 +169,7 @@ public extension ComponentBuilder {
         DisclosureGroup(
             content: {
                 content()
+                    .frame(minHeight: 46)
                     .padding(.leading, 16)
             },
             label: {

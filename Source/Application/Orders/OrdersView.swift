@@ -120,8 +120,18 @@ extension OrdersView {
         }
         
         ToolbarItem(placement: .topBarTrailing) {
-            Button {
-                showRedeemInfo = true
+            Menu {
+                Text("Need Help?")
+                
+                Button("Contact Support", systemImage: "headphones") {
+                    router.route(sheet: .contactSupport)
+                }
+                
+                Menu("FAQ", systemImage: "book") {
+                    Button("How Does Delivery Work?") {
+                        showRedeemInfo = true
+                    }
+                }
             } label: {
                 Image(systemName: "questionmark.circle")
             }

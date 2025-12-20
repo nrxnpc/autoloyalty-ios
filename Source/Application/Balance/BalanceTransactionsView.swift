@@ -109,8 +109,18 @@ extension BalanceTransactionsView {
         }
         
         ToolbarItem(placement: .topBarTrailing) {
-            Button {
-                showHowTo = true
+            Menu {
+                Text("Need Help?")
+                
+                Button("Contact Support", systemImage: "headphones") {
+                    router.route(sheet: .contactSupport)
+                }
+                
+                Menu("FAQ", systemImage: "book") {
+                    Button("How to Top Up Balance") {
+                        showHowTo = true
+                    }
+                }
             } label: {
                 Image(systemName: "questionmark.circle")
             }
