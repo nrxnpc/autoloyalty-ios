@@ -24,19 +24,25 @@ final class QRScanner: ObservableObject {
 }
 
 extension QRScanner {
-    func requestCameraAccess() {
+    func requestCameraAccess(with captureSession: CaptureSession) {
         let permission = CapturePermission()
         permission.requestPermission { [weak self] status in
             self?.updateCaptureState(for: status)
+            if status == .granted {
+                captureSession.prepareForUse()
+            }
         }
     }
     
     private func updateCaptureState(for status: CapturePermission.Status) {
         Task { @MainActor in
             switch status {
-            case .granted: captureDeviceState = .cameraPreview
-            case .restricted: captureDeviceState = .cameraAccessRequired
-            case .undefined: captureDeviceState = .requestCameraAccess
+            case .granted:
+                captureDeviceState = .cameraPreview
+            case .restricted:
+                captureDeviceState = .cameraAccessRequired
+            case .undefined:
+                captureDeviceState = .requestCameraAccess
             }
         }
     }

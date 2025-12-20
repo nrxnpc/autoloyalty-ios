@@ -8,7 +8,7 @@ extension QRScannerView {
     
     @ViewBuilder func makeAllowCameraButton() -> some View {
         Button("Allow Camera Access") {
-            scanner.requestCameraAccess()
+            scanner.requestCameraAccess(with: captureSession)
         }
         .buttonStyle(PrimaryButtonStyle())
     }
