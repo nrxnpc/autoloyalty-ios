@@ -57,6 +57,7 @@
 		7E5350142EDC6A9A0020AF96 /* InboxMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E5350132EDC6A9A0020AF96 /* InboxMessage.swift */; };
 		7E5350162EDC6B510020AF96 /* InboxMessage+FetchRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E5350152EDC6B510020AF96 /* InboxMessage+FetchRequest.swift */; };
 		7E5350182EDCD09D0020AF96 /* InboxMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E5350172EDCD09D0020AF96 /* InboxMonitor.swift */; };
+		7E72940E2EF6E45E00C37B85 /* ContactSupportView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E72940D2EF6E45E00C37B85 /* ContactSupportView.swift */; };
 		7E95E8852E7AFA0800B45539 /* UIDevice+Shake.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E95E8822E7AFA0800B45539 /* UIDevice+Shake.swift */; };
 		7E95E8862E7AFA0800B45539 /* AnimationSystem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E95E8752E7AFA0800B45539 /* AnimationSystem.swift */; };
 		7E95E8882E7AFA0800B45539 /* SearchManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E95E8812E7AFA0800B45539 /* SearchManager.swift */; };
@@ -204,6 +205,7 @@
 		7E5350132EDC6A9A0020AF96 /* InboxMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InboxMessage.swift; sourceTree = "<group>"; };
 		7E5350152EDC6B510020AF96 /* InboxMessage+FetchRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "InboxMessage+FetchRequest.swift"; sourceTree = "<group>"; };
 		7E5350172EDCD09D0020AF96 /* InboxMonitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InboxMonitor.swift; sourceTree = "<group>"; };
+		7E72940D2EF6E45E00C37B85 /* ContactSupportView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactSupportView.swift; sourceTree = "<group>"; };
 		7E95E8632E7AFA0800B45539 /* APIModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIModels.swift; sourceTree = "<group>"; };
 		7E95E8642E7AFA0800B45539 /* APIRequestModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIRequestModels.swift; sourceTree = "<group>"; };
 		7E95E8652E7AFA0800B45539 /* DateExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateExtensions.swift; sourceTree = "<group>"; };
@@ -461,6 +463,14 @@
 			path = Inbox;
 			sourceTree = "<group>";
 		};
+		7E72940C2EF6E43A00C37B85 /* Contact Support */ = {
+			isa = PBXGroup;
+			children = (
+				7E72940D2EF6E45E00C37B85 /* ContactSupportView.swift */,
+			);
+			path = "Contact Support";
+			sourceTree = "<group>";
+		};
 		7E95E8682E7AFA0800B45539 /* Archived */ = {
 			isa = PBXGroup;
 			children = (
@@ -578,6 +588,7 @@
 		7ECC3FE72E65D0680014E97E /* Application */ = {
 			isa = PBXGroup;
 			children = (
+				7E72940C2EF6E43A00C37B85 /* Contact Support */,
 				7ECC40282E66FCAE0014E97E /* Authentication */,
 				7E462FF42EE65EFA00B7F5EC /* Orders */,
 				7E462FD22EE4E00100B7F5EC /* Balance */,
@@ -933,6 +944,7 @@
 				7ECC40092E6628E90014E97E /* DesignComponents.swift in Sources */,
 				7EE878082EA3153100CFC230 /* ChangeAccountImage.swift in Sources */,
 				7E4BA2152EE30DC40004CFB3 /* RewardDetails.swift in Sources */,
+				7E72940E2EF6E45E00C37B85 /* ContactSupportView.swift in Sources */,
 				7EE878092EA3153100CFC230 /* ChangeAccountImage+Cropper.swift in Sources */,
 				7E5350142EDC6A9A0020AF96 /* InboxMessage.swift in Sources */,
 				7ECC40152E6628E90014E97E /* ProfileView.swift in Sources */,
@@ -1204,7 +1216,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 25.12.22;
-				PRODUCT_BUNDLE_IDENTIFIER = prototype.hidden;
+				PRODUCT_BUNDLE_IDENTIFIER = hidden.prototype;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -1238,7 +1250,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 25.12.22;
-				PRODUCT_BUNDLE_IDENTIFIER = prototype.hidden;
+				PRODUCT_BUNDLE_IDENTIFIER = hidden.prototype;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_EMIT_LOC_STRINGS = YES;

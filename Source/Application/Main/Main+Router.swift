@@ -23,6 +23,7 @@ extension Main {
             case scanner
             case scanHistory
             case reauthenticationView
+            case contacSupport
             case console
         }
         
@@ -199,6 +200,13 @@ extension Main {
                         }
                         .presentationDetents([.medium])
                         .presentationDragIndicator(.visible)
+                    case .contacSupport:
+                        NavigationView {
+                            ContactSupportView()
+                                .environmentObject(router)
+                        }
+                        .presentationDetents([.large])
+                        .presentationDragIndicator(.visible)
                     case .console:
                         NavigationView {
                             PulseConsoleView()
@@ -235,6 +243,7 @@ extension Main.Router.SheetDestination: Identifiable, Equatable {
         case .scanner: return "scanner"
         case .scanHistory: return "scanHistory"
         case .reauthenticationView: return "reauthenticationView"
+        case .contacSupport: return "contacSupport"
         case .console: return "console"
         }
     }

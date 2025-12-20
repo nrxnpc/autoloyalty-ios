@@ -69,16 +69,25 @@ extension AboutMeView {
     @ViewBuilder private func makeSupportSection() -> some View {
         MakeSection {
             VStack(spacing: 8) {
-                MakeListRow(title: "Contact Support", subtitle: "Get help and send feedback", icon: "message", iconColor: .secondary) { }
-                MakeListRow(title: "FAQ", subtitle: "Knowledge base", icon: "questionmark.circle", iconColor: .secondary) { }
-                
-                // TODO:
-                // MakeListRow(title: "About App", subtitle: "Version and contacts", icon: "info.circle", iconColor: .init(hex: 0x48484A)) { }
+                MakeOptionsListRow(title: "Have Questions?", subtitle: "We're here to help", icon: "questionmark.circle", iconColor: .secondary) {
+                    VStack(spacing: 8) {
+                        MakeListRow(title: "Contact Support", subtitle: "Chat with support team", icon: "headphones", iconColor: .secondary) {
+                            router.route(sheet: .contacSupport)
+                        }
+                        MakeListRow(title: "Send Email", subtitle: "support@nsp-app.ru", icon: "envelope", iconColor: .secondary) {
+                            if let url = URL(string: "mailto:support@nsp-app.ru?subject=App Support Request") {
+                                UIApplication.shared.open(url)
+                            }
+                        }
+                        MakeListRow(title: "FAQ", subtitle: "Frequently asked questions", icon: "book", iconColor: .secondary) { }
+                    }
+                }
             }
         }
     }
     
     @ViewBuilder private func makePolicySection() -> some View {
+        // TODO: extract to AppVersionView
         VStack(spacing: 16) {
             HStack(spacing: 32) {
                 Link("Privacy Policy", destination: URL(string: "http://nsp-app.ru/#privacy")!)
