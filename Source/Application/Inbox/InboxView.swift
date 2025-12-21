@@ -113,12 +113,25 @@ struct InboxView: View {
 extension InboxView {
     @ViewBuilder func makeEmptyState() -> some View {
         ScrollView {
-            VStack {
-                Text("Your inbox is empty")
+            HStack {
+                Image(systemName: "tray")
+                    .font(.title2)
+                    .foregroundStyle(.secondary)
+                
+                VStack(alignment: .leading) {
+                    Text("Your inbox is empty")
                         .font(.headline)
-                Text("All your relevant notifications will be here.")
-                    .font(.subheadline)
+                    Text("All your relevant notifications will be here.")
+                        .font(.subheadline)
+                }
+                .frame(maxWidth: .infinity)
             }
+            .padding()
+            .background {
+                RoundedRectangle(cornerRadius: 16)
+                    .foregroundStyle(.ultraThinMaterial)
+            }
+            .padding(.horizontal)
         }
     }
     

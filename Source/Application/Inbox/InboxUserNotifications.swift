@@ -249,7 +249,7 @@ struct PushNotificationsSuggestionView: View {
     
     // MARK: - Computed Properties
     
-    private var titleText: String {
+    private var titleText: LocalizedStringKey {
         switch userNotifications.authorizationStatus {
         case .unknown:
             return "Never Miss Important Updates"
@@ -260,7 +260,7 @@ struct PushNotificationsSuggestionView: View {
         }
     }
     
-    private var subtitleText: String {
+    private var subtitleText: LocalizedStringKey {
         switch userNotifications.authorizationStatus {
         case .unknown:
             return "Tap to enable instant alerts for orders, rewards, and exclusive offers"
