@@ -12,6 +12,7 @@ struct InboxView: View {
     private var messages: FetchedResults<InboxMessage>
     
     @StateObject private var inbox = Inbox()
+    @StateObject private var userNotifications = InboxUserNotifications()
     
     // MARK: -
     
@@ -20,16 +21,28 @@ struct InboxView: View {
             if messages.isEmpty {
                 makeEmptyState()
             } else {
-                List(messages, id: \.id) { message in
-                    makeRow(with: message)
-                        .contentShape(Rectangle())
-                        .onTapGesture {
-                            router.route(sheet: .inboxMessage(message))
+                List {
+                    if !userNotifications.isSuggestionHidden {
+                        Section {
+                            makeTurnOnNotificationsRow()
                         }
-                        .padding(.vertical, 4)
+                    }
+                    
+                    Section {
+                        ForEach(messages, id: \.id) { message in
+                            makeRow(with: message)
+                                .contentShape(Rectangle())
+                                .onTapGesture {
+                                    router.route(sheet: .inboxMessage(message))
+                                }
+                                .padding(.vertical, 4)
+                        }
+                    }
                 }
             }
         }
+        .animation(.easeInOut, value: userNotifications.authorizationStatus)
+        .animation(.easeInOut, value: userNotifications.isSuggestionHidden)
         .toolbar(content: makeToolbar)
         .navigationTitle("Notifications")
         .navigationBarTitleDisplayMode(.large)
@@ -71,6 +84,11 @@ extension InboxView {
                 .font(.subheadline)
         }
         .lineLimit(2)
+    }
+    
+    @ViewBuilder func makeTurnOnNotificationsRow() -> some View {
+        PushNotificationsSuggestionView()
+            .environmentObject(userNotifications)
     }
     
     @ToolbarContentBuilder func makeToolbar() -> some ToolbarContent {
