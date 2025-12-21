@@ -2,7 +2,7 @@ import SwiftUI
 import SwiftUIComponents
 
 struct HomeView: View, ComponentBuilder {
-    @EnvironmentObject var router: Main.Router
+    @Environment(Main.Router.self) var router
     @StateObject var inboxMonitor = InboxMonitor()
     
     @MainActor

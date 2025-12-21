@@ -16,6 +16,16 @@ extension InboxMessage {
         request.sortDescriptors = [NSSortDescriptor(key: "createdAt", ascending: false)]
         return request
     }
+    
+    /// Fetch messages filtered by search text
+    static func messagesFilteredBy(searchText: String) -> NSFetchRequest<InboxMessage> {
+        let request = NSFetchRequest<InboxMessage>(entityName: "InboxMessage")
+        if !searchText.isEmpty {
+            request.predicate = NSPredicate(format: "title CONTAINS[cd] %@ OR subtitle CONTAINS[cd] %@", searchText, searchText)
+        }
+        request.sortDescriptors = [NSSortDescriptor(key: "createdAt", ascending: false)]
+        return request
+    }
 }
 
 extension InboxMessage {

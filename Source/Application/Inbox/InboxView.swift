@@ -4,21 +4,30 @@ import SwiftUIComponents
 struct InboxView: View {
     // MARK: - Dependencies
     
-    @EnvironmentObject var router: Main.Router
+    @Environment(Main.Router.self) private var router
+    
+    //@EnvironmentObject var router: Main.Router
+    @StateObject var inbox = Inbox()
+    @StateObject var userNotifications = InboxUserNotifications()
     
     // MARK: -
     
-    @FetchRequest(fetchRequest: InboxMessage.allMessagesSortedByCreatedDate())
-    private var messages: FetchedResults<InboxMessage>
-    
-    @StateObject private var inbox = Inbox()
-    @StateObject private var userNotifications = InboxUserNotifications()
+    @FetchRequest private var messages: FetchedResults<InboxMessage>
+    @State private var searchText = ""
     
     // MARK: -
+    
+    init() {
+        _messages = FetchRequest(
+            sortDescriptors: [NSSortDescriptor(key: "createdAt", ascending: false)],
+            predicate: nil,
+            animation: .smooth
+        )
+    }
     
     var body: some View {
         ZStack {
-            if messages.isEmpty {
+            if messages.isEmpty && searchText.isEmpty {
                 makeEmptyState()
             } else {
                 List {
@@ -39,6 +48,7 @@ struct InboxView: View {
                         }
                     }
                 }
+                .searchable(text: $searchText, prompt: "Search notifications")
             }
         }
         .animation(.easeInOut, value: userNotifications.authorizationStatus)
@@ -46,6 +56,20 @@ struct InboxView: View {
         .toolbar(content: makeToolbar)
         .navigationTitle("Notifications")
         .navigationBarTitleDisplayMode(.large)
+        .onChange(of: searchText) {
+            updatePredicate()
+        }
+        .onAppear {
+            updatePredicate()
+        }
+    }
+    
+    private func updatePredicate() {
+        if searchText.isEmpty {
+            messages.nsPredicate = nil
+        } else {
+            messages.nsPredicate = NSPredicate(format: "title CONTAINS[cd] %@ OR subtitle CONTAINS[cd] %@", searchText, searchText)
+        }
     }
 }
 

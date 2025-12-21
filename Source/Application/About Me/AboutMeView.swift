@@ -5,7 +5,7 @@ struct AboutMeView: View, ComponentBuilder {
     // MARK: - Depndencies
     
     @Environment(\.dismiss) var dismiss
-    @EnvironmentObject var router: Main.Router
+    @Environment(Main.Router.self) var router
     
     // MARK: - State
     

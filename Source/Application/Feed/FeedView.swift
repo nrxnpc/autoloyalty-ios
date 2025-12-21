@@ -3,7 +3,7 @@ import SwiftUI
 struct FeedView: View {
     // MARK: - Dependencies
     
-    @EnvironmentObject var router: Main.Router
+    @Environment(Main.Router.self) var router
     @StateObject var applicaiton: FeedApplication = .init()
     
     @StateObject var inboxMonitor = InboxMonitor()

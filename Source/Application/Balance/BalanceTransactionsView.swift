@@ -4,7 +4,7 @@ struct BalanceTransactionsView: View {
     // MARK: - Dependencies
     
     @Environment(\.dismiss) private var dismiss
-    @EnvironmentObject var router: Main.Router
+    @Environment(Main.Router.self) var router
     
     @FetchRequest var transactions: FetchedResults<BalanceTransaction>
     

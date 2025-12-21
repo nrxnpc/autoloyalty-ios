@@ -11,7 +11,7 @@ struct ReauthenticationView: View, ComponentBuilder {
     
     @Environment(\.dismiss) private var dismiss
     @EnvironmentObject var main: Main
-    @EnvironmentObject var router: Main.Router
+    @Environment(Main.Router.self) var router
     
     // MARK: -
     

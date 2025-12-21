@@ -5,7 +5,7 @@ struct LoginView: View, ComponentBuilder {
     // MARK: -
     
     @EnvironmentObject var main: Main
-    @EnvironmentObject var router: Main.Router
+    @Environment(Main.Router.self) var router
     
     // MARK: -
     

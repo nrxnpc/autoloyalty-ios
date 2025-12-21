@@ -5,7 +5,7 @@ struct QRScannerView: View, ComponentBuilder {
     // MARK: - Dependencies
     
     @Environment(\.dismiss) var dismiss
-    @EnvironmentObject var router: Main.Router
+    @Environment(Main.Router.self) var router
     @EnvironmentObject var captureSession: CaptureSession
     
     // MARK: - State

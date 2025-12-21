@@ -2,7 +2,7 @@ import SwiftUI
 import SwiftUIComponents
 
 struct BalanceView: View, ComponentBuilder {
-    @EnvironmentObject var router: Main.Router
+    @Environment(Main.Router.self) var router
     @EnvironmentObject var balanceMonitor: BalanceMonitor
     
     var body: some View {

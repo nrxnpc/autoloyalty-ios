@@ -5,6 +5,7 @@ import EndpointUI
  
 extension Main {
     @MainActor
+    @Observable
     final class Router: ObservableObject {
         enum Destination: String {
             case aboutMe
@@ -33,9 +34,9 @@ extension Main {
         
         // MARK: - Output
         
-        @Published var destination: Destination?
-        @Published var sheet: SheetDestination?
-        @Published var fullScreen: FullScreenDestination?
+        var destination: Destination?
+        var sheet: SheetDestination?
+        var fullScreen: FullScreenDestination?
         
         init() {
             injectNetworkLogger()
@@ -98,7 +99,7 @@ extension Main {
         // MARK: - Dependencies
         
         @StateObject var router: Main.Router
-        
+
         // MARK: -
         
         public func body(content: Content) -> some View {
@@ -107,10 +108,11 @@ extension Main {
                     switch destination {
                     case .aboutMe:
                         AboutMeView()
-                            .environmentObject(router)
+                            .environment(router)
                     case .inbox:
                         InboxView()
-                            .environmentObject(router)
+                            .environment(router)
+                            .id("InboxView")
                     case .commingSoon:
                         CommingSoon()
                     }
@@ -120,7 +122,7 @@ extension Main {
                     case .scanner:
                         NavigationView {
                             QRScannerView()
-                                .environmentObject(router)
+                                .environment(router)
                         }
                     }
                 }
@@ -130,7 +132,7 @@ extension Main {
                         NavigationView {
                             CreateAccountView()
                                 .environmentObject(application)
-                                .environmentObject(router)
+                                .environment(router)
                         }
                         .presentationDetents([.large])
                         .presentationDragIndicator(.visible)
@@ -138,7 +140,7 @@ extension Main {
                         NavigationView {
                             ChangeAboutMeView()
                                 .environmentObject(application)
-                                .environmentObject(router)
+                                .environment(router)
                         }
                         .presentationDetents([.large])
                         .presentationDragIndicator(.visible)
@@ -182,28 +184,28 @@ extension Main {
                     case .scanner:
                         NavigationView {
                             QRScannerView()
-                                .environmentObject(router)
+                                .environment(router)
                         }
                         .presentationDetents([.large])
                         .presentationDragIndicator(.visible)
                     case .scanHistory:
                         NavigationView {
                             QRScanHistoryView()
-                                .environmentObject(router)
+                                .environment(router)
                         }
                         .presentationDetents([.large])
                         .presentationDragIndicator(.visible)
                     case .reauthenticationView:
                         NavigationView {
                             ReauthenticationView()
-                                .environmentObject(router)
+                                .environment(router)
                         }
                         .presentationDetents([.medium])
                         .presentationDragIndicator(.visible)
                     case .contactSupport:
                         NavigationView {
                             ContactSupportView()
-                                .environmentObject(router)
+                                .environment(router)
                         }
                         .presentationDetents([.large])
                         .presentationDragIndicator(.visible)
