@@ -45,8 +45,7 @@ final class AboutMe: ObservableObject {
 
 extension AboutMe {
     private func subscribeOnSessionUpdates() {
-        scope.$session
-            .removeDuplicates()
+        scope.sessionPublisher
             .sink { [weak self] _ in self?.updateSession() }
             .store(in: &cancellables)
     }

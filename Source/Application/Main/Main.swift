@@ -45,8 +45,7 @@ extension Main {
     }
     
     private func subscribeOnSessionUpdates() {
-        scope.$session
-            .removeDuplicates()
+        scope.sessionPublisher
             .sink { [weak self] session in
                 self?.suncWithSessionChanges()
             }
