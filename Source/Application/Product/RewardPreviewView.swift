@@ -42,13 +42,15 @@ extension RewardPreviewView {
     @ViewBuilder func makeItemInfo() -> some View {
         VStack(alignment: .leading) {
             BalanceLabel(points: product.pointsCost)
-                .font(.caption)
+                .font(.headline)
             
             Text(product.name)
-                .font(.caption)
+                .font(.subheadline)
                 .lineLimit(2)
         }
-        .padding(.all, 8)
+        .padding(.top, 8)
+        .padding(.bottom, 16)
+        .padding(.horizontal, 8)
     }
     
     @ViewBuilder func makeFavoriteButton() -> some View {
@@ -59,9 +61,14 @@ extension RewardPreviewView {
                 }
                 try await context.perform {
                     product.isFavorite.toggle()
-                    try context.save()
+                    if context.hasChanges {
+                        try context.save()
+                    }
                 }
-                isFavorite = product.isFavorite
+                
+                await MainActor.run {
+                    isFavorite = product.isFavorite
+                }
             }
         } label: {
             ZStack {

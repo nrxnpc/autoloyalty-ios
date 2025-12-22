@@ -552,7 +552,7 @@ extension RestEndpoint {
         /// Creation date
         public let createdAt: String
         /// Delivery options
-        public let deliveryOptions: [String]
+        // public let deliveryOptions: [String]
     }
     
     /// Product catalog listing response

@@ -371,7 +371,7 @@ extension RestEndpoint.Product {
             isActive: isActive,
             status: .pending,
             createdAt: ISO8601DateFormatter().date(from: createdAt) ?? Date(),
-            deliveryOptions: deliveryOptions.compactMap { FullProduct.DeliveryOption(rawValue: $0) }, supplierId: nil
+            deliveryOptions: [], supplierId: nil
         )
     }
 }

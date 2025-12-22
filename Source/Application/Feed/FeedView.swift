@@ -4,8 +4,8 @@ struct FeedView: View {
     // MARK: - Dependencies
     
     @Environment(Main.Router.self) var router
-    @StateObject var applicaiton: FeedApplication = .init()
     
+    @StateObject var applicaiton: FeedApplication = .init()
     @StateObject var inboxMonitor = InboxMonitor()
     @StateObject var balanceMonitor = BalanceMonitor()
     
@@ -24,7 +24,7 @@ struct FeedView: View {
     // MARK: - Initialization
     
     init() {
-        _products = FetchRequest(fetchRequest: Product.availableProductsFetchRequest(), animation: .smooth)
+        _products = FetchRequest(fetchRequest: Product.allProductsFetchRequest(), animation: .smooth)
     }
     
     var body: some View {
@@ -111,7 +111,7 @@ extension FeedView {
         if showFavoritesOnly {
             products.nsPredicate = NSPredicate(format: "isFavorite == YES")
         } else {
-            products.nsPredicate = NSPredicate(format: "isOutOfStock == NO")
+            products.nsPredicate = nil
         }
     }
 }
