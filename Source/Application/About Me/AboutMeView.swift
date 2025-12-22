@@ -51,7 +51,7 @@ extension AboutMeView {
     
     @ViewBuilder private func makeActivitySection() -> some View {
         MakeSection {
-            MakeListRow(title: "QR Scan History", subtitle: "QR codes you've recently scanned", icon: "qrcode", iconColor: .blue) {
+            MakeListRow(title: "Scan History", subtitle: "QR codes you've recently scanned", icon: "qrcode", iconColor: .blue) {
                 router.route(sheet: .scanHistory)
             }
             

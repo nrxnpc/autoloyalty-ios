@@ -6,8 +6,8 @@ struct MainView: View {
     
     @Dependency(\.scope) var scope
     
-    @StateObject var router: Main.Router
-    @StateObject var application: Main
+    @State var router: Main.Router
+    @State var application: Main
     @StateObject var captureSession = CaptureSession()
     
     init() {
@@ -32,10 +32,10 @@ struct MainView: View {
             .animation(.smooth, value: application.state)
             .sensoryFeedback(.start, trigger: application.state)
             .modifier(Main.DestinationProcessor(router: router))
-            .environmentObject(router)
-            .environmentObject(application)
             .environmentObject(captureSession)
         }
+        .environment(router)
+        .environment(application)
         .environment(\.managedObjectContext, scope.coreDataContext)
         .onShake {
             router.route(sheet: .console)

@@ -7,6 +7,7 @@ struct InboxView: View {
     @Environment(Main.Router.self) private var router
     
     @StateObject var inbox = Inbox()
+    @StateObject var inboxMonitor = InboxMonitor()
     @StateObject var userNotifications = InboxUserNotifications()
     
     // MARK: -
@@ -173,7 +174,7 @@ extension InboxView {
                 } label: {
                     Label("Mark all as read", systemImage: "checkmark.circle")
                 }
-                .disabled(messages.isEmpty)
+                .disabled(inboxMonitor.unreadCount == 0)
                 
                 Divider()
                 

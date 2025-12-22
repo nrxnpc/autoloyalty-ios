@@ -3,12 +3,20 @@ import Dependencies
 import Foundation
 import ScopeGraph
 
+@Observable
 @MainActor
-final class Main: ObservableObject {
+final class Main {
+    @ObservationIgnored
     @Dependency(\.scope) var scope
+    
+    @ObservationIgnored
     @Dependency(\.endpoint) internal var endpoint
     
+    @ObservationIgnored
     private weak var router: Main.Router?
+    
+    @ObservationIgnored
+    internal var cancellables: Set<AnyCancellable> = []
     
     init(router: Main.Router) {
         self.router = router
@@ -20,8 +28,7 @@ final class Main: ObservableObject {
         case session(String)
         case guestSession
     }
-    @Published var state: State = .loading
-    internal var cancellables: Set<AnyCancellable> = []
+    var state: State = .loading
 }
 
 // MARK: - Session

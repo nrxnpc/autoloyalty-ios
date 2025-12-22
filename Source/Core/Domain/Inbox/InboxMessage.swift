@@ -16,7 +16,9 @@ extension InboxMessage {
             existing.title = raw.title
             existing.subtitle = raw.content
             
-            if let date = ISO8601DateFormatter().date(from: raw.createdAt) {
+            if let publishedAt = raw.publishedAt, let published = ISO8601DateFormatter().date(from: publishedAt) {
+                existing.createdAt = published
+            } else if let date = ISO8601DateFormatter().date(from: raw.createdAt) {
                 existing.createdAt = date
             }
         } else {

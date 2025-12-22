@@ -6,7 +6,7 @@ import EndpointUI
 extension Main {
     @MainActor
     @Observable
-    final class Router: ObservableObject {
+    final class Router {
         enum Destination: String {
             case aboutMe
             case inbox
@@ -98,7 +98,7 @@ extension Main {
     struct DestinationProcessor: ViewModifier {
         // MARK: - Dependencies
         
-        @StateObject var router: Main.Router
+        @Bindable var router: Main.Router
 
         // MARK: -
         
@@ -108,11 +108,8 @@ extension Main {
                     switch destination {
                     case .aboutMe:
                         AboutMeView()
-                            .environment(router)
                     case .inbox:
                         InboxView()
-                            .environment(router)
-                            .id("InboxView")
                     case .commingSoon:
                         CommingSoon()
                     }
@@ -122,7 +119,6 @@ extension Main {
                     case .scanner:
                         NavigationView {
                             QRScannerView()
-                                .environment(router)
                         }
                     }
                 }
@@ -132,7 +128,6 @@ extension Main {
                         NavigationView {
                             CreateAccountView()
                                 .environmentObject(application)
-                                .environment(router)
                         }
                         .presentationDetents([.large])
                         .presentationDragIndicator(.visible)
@@ -140,7 +135,6 @@ extension Main {
                         NavigationView {
                             ChangeAboutMeView()
                                 .environmentObject(application)
-                                .environment(router)
                         }
                         .presentationDetents([.large])
                         .presentationDragIndicator(.visible)
@@ -184,28 +178,24 @@ extension Main {
                     case .scanner:
                         NavigationView {
                             QRScannerView()
-                                .environment(router)
                         }
                         .presentationDetents([.large])
                         .presentationDragIndicator(.visible)
                     case .scanHistory:
                         NavigationView {
                             QRScanHistoryView()
-                                .environment(router)
                         }
                         .presentationDetents([.large])
                         .presentationDragIndicator(.visible)
                     case .reauthenticationView:
                         NavigationView {
                             ReauthenticationView()
-                                .environment(router)
                         }
                         .presentationDetents([.medium])
                         .presentationDragIndicator(.visible)
                     case .contactSupport:
                         NavigationView {
                             ContactSupportView()
-                                .environment(router)
                         }
                         .presentationDetents([.large])
                         .presentationDragIndicator(.visible)
@@ -226,7 +216,7 @@ extension Main {
 
 // MARK: - Utilitites
 
-extension Main.Router.Destination: Identifiable, Equatable {
+extension Main.Router.Destination: Identifiable {
     var id: String {
         rawValue
     }
