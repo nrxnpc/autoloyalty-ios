@@ -228,12 +228,8 @@ public extension RestEndpoint {
             .get("cars")
             .session(session)
         
-        if let limit = pagination.limit {
-            endpoint = endpoint.parameter(key: "limit", value: String(limit))
-        }
-        if let offset = pagination.offset {
-            endpoint = endpoint.parameter(key: "offset", value: String(offset))
-        }
+        endpoint = endpoint.parameter(key: "limit", value: String(pagination.limit ?? 32768))
+        endpoint = endpoint.parameter(key: "offset", value: String(pagination.offset ?? 0))
         
         return try await endpoint.call(decoder: Self.jsonDecoder, isDataWrapped: false)
     }

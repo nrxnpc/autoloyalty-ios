@@ -46,6 +46,12 @@ extension Main {
                 } catch {
                     debugPrint("[DEBUG] Cannot pull catalog: \(error)")
                 }
+                
+                do {
+                    try await PullRecommendationsUseCase(scope: scope).execute()
+                } catch {
+                    debugPrint("[DEBUG] Cannot pull catalog: \(error)")
+                }
             }
         }
     }
