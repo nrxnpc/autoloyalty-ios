@@ -12,6 +12,7 @@ struct FeedView: View {
     // MARK: - FetchRequests
     
     @FetchRequest var products: FetchedResults<Product>
+    @FetchRequest var recommendations: FetchedResults<CarRecommendation>
     
     // MARK: - State
     
@@ -25,11 +26,17 @@ struct FeedView: View {
     
     init() {
         _products = FetchRequest(fetchRequest: Product.allProductsFetchRequest(), animation: .smooth)
+        _recommendations = FetchRequest(fetchRequest: CarRecommendation.all(), animation: .smooth)
     }
     
     var body: some View {
         ScrollView {
             makeBalanceSection()
+            
+            if !recommendations.isEmpty {
+                makeRecommendationsSection()
+            }
+            
             makeCatalogSection()
         }
         .animation(.easeInOut, value: showFavoritesOnly)

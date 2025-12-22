@@ -62,6 +62,8 @@
 		7E72CB772EF987DC00D647F7 /* CarRecommendation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E72CB762EF987DC00D647F7 /* CarRecommendation.swift */; };
 		7E72CB792EF988B900D647F7 /* CarRecommendation+FetchRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E72CB782EF988B900D647F7 /* CarRecommendation+FetchRequest.swift */; };
 		7E72CB7B2EF98BCF00D647F7 /* PullRecommendationsUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E72CB7A2EF98BCF00D647F7 /* PullRecommendationsUseCase.swift */; };
+		7E72CB7D2EF9919C00D647F7 /* FeedView+Recommendations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E72CB7C2EF9919C00D647F7 /* FeedView+Recommendations.swift */; };
+		7E72CB802EF993AE00D647F7 /* RecommendationsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E72CB7F2EF993AE00D647F7 /* RecommendationsView.swift */; };
 		7E95E8852E7AFA0800B45539 /* UIDevice+Shake.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E95E8822E7AFA0800B45539 /* UIDevice+Shake.swift */; };
 		7E95E8862E7AFA0800B45539 /* AnimationSystem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E95E8752E7AFA0800B45539 /* AnimationSystem.swift */; };
 		7E95E8882E7AFA0800B45539 /* SearchManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E95E8812E7AFA0800B45539 /* SearchManager.swift */; };
@@ -194,6 +196,8 @@
 		7E72CB762EF987DC00D647F7 /* CarRecommendation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarRecommendation.swift; sourceTree = "<group>"; };
 		7E72CB782EF988B900D647F7 /* CarRecommendation+FetchRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CarRecommendation+FetchRequest.swift"; sourceTree = "<group>"; };
 		7E72CB7A2EF98BCF00D647F7 /* PullRecommendationsUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PullRecommendationsUseCase.swift; sourceTree = "<group>"; };
+		7E72CB7C2EF9919C00D647F7 /* FeedView+Recommendations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FeedView+Recommendations.swift"; sourceTree = "<group>"; };
+		7E72CB7F2EF993AE00D647F7 /* RecommendationsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecommendationsView.swift; sourceTree = "<group>"; };
 		7E95E8632E7AFA0800B45539 /* APIModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIModels.swift; sourceTree = "<group>"; };
 		7E95E8642E7AFA0800B45539 /* APIRequestModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIRequestModels.swift; sourceTree = "<group>"; };
 		7E95E8652E7AFA0800B45539 /* DateExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateExtensions.swift; sourceTree = "<group>"; };
@@ -377,9 +381,10 @@
 			isa = PBXGroup;
 			children = (
 				7E462FD62EE4E6A300B7F5EC /* FeedView.swift */,
+				7E462FD82EE4E6F300B7F5EC /* FeedApplication.swift */,
 				7E462FEB2EE63CBF00B7F5EC /* FeedView+Balance.swift */,
 				7E462FED2EE63CE100B7F5EC /* FeedView+Catalog.swift */,
-				7E462FD82EE4E6F300B7F5EC /* FeedApplication.swift */,
+				7E72CB7C2EF9919C00D647F7 /* FeedView+Recommendations.swift */,
 			);
 			path = Feed;
 			sourceTree = "<group>";
@@ -457,6 +462,14 @@
 				7E72CB782EF988B900D647F7 /* CarRecommendation+FetchRequest.swift */,
 			);
 			path = Car;
+			sourceTree = "<group>";
+		};
+		7E72CB7E2EF9939900D647F7 /* Recommendations */ = {
+			isa = PBXGroup;
+			children = (
+				7E72CB7F2EF993AE00D647F7 /* RecommendationsView.swift */,
+			);
+			path = Recommendations;
 			sourceTree = "<group>";
 		};
 		7E95E8682E7AFA0800B45539 /* Archived */ = {
@@ -576,6 +589,7 @@
 		7ECC3FE72E65D0680014E97E /* Application */ = {
 			isa = PBXGroup;
 			children = (
+				7E72CB7E2EF9939900D647F7 /* Recommendations */,
 				7E72940C2EF6E43A00C37B85 /* Contact Support */,
 				7ECC40282E66FCAE0014E97E /* Authentication */,
 				7E462FF42EE65EFA00B7F5EC /* Orders */,
@@ -900,6 +914,7 @@
 				7E0FAB9D2EE9A6BB00498CEA /* Order+FetchRequest.swift in Sources */,
 				7ED1439F2E6740F1003BE287 /* Endpoint+Dependencies.swift in Sources */,
 				7EE878082EA3153100CFC230 /* ChangeAccountImage.swift in Sources */,
+				7E72CB7D2EF9919C00D647F7 /* FeedView+Recommendations.swift in Sources */,
 				7E4BA2152EE30DC40004CFB3 /* RewardDetails.swift in Sources */,
 				7E72940E2EF6E45E00C37B85 /* ContactSupportView.swift in Sources */,
 				7E72CB7B2EF98BCF00D647F7 /* PullRecommendationsUseCase.swift in Sources */,
@@ -958,6 +973,7 @@
 				7E95E8882E7AFA0800B45539 /* SearchManager.swift in Sources */,
 				7E95E88B2E7AFA0800B45539 /* ToastService.swift in Sources */,
 				7EAF29402EE879DC00E4201A /* View+OnTap.swift in Sources */,
+				7E72CB802EF993AE00D647F7 /* RecommendationsView.swift in Sources */,
 				7E95E88D2E7AFA0800B45539 /* DataManager.swift in Sources */,
 				7EAF29422EE882DD00E4201A /* CreateAccountView.swift in Sources */,
 				7E462FEC2EE63CBF00B7F5EC /* FeedView+Balance.swift in Sources */,
