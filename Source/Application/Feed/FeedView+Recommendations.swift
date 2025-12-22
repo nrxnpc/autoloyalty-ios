@@ -19,7 +19,7 @@ extension FeedView {
     
     @ViewBuilder func makeRecommendationsHeader() -> some View {
         HStack {
-            Text("Do you like this car?")
+            Text("Do you like it?")
                 .font(.title2.weight(.semibold))
             
             Spacer()

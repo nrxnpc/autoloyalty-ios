@@ -80,7 +80,7 @@ extension RewardDetailsView {
     
     @ViewBuilder func makeDescription(_ description: String) -> some View {
         HStack {
-            Text(description)
+            Text(LocalizedStringKey(description))
                 .font(.body)
                 .multilineTextAlignment(.leading)
             Spacer()
