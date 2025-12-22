@@ -7,6 +7,10 @@ final class FeedApplication: ObservableObject {
     // MARK: - Dependencies
     
     @Dependency(\.scope) var scope
+    
+    var accountID: String? {
+        scope.currentSessionInfo.accountID
+    }
 }
 
 extension FeedApplication {

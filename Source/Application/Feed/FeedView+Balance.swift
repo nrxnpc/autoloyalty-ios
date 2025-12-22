@@ -1,4 +1,5 @@
 import SwiftUI
+import SwiftUIComponents
 
 // MARK: - View Builder
 
@@ -7,6 +8,7 @@ extension FeedView {
     
     @ViewBuilder func makeBalanceSection() -> some View {
         BalanceView()
+            .trigger(visible: $isBalanceVisible)
             .padding(.horizontal)
     }
 }

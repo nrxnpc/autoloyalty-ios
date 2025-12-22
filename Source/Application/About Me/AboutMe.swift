@@ -45,8 +45,7 @@ final class AboutMe: ObservableObject {
 
 extension AboutMe {
     private func subscribeOnSessionUpdates() {
-        scope.$session
-            .removeDuplicates()
+        scope.sessionPublisher
             .sink { [weak self] _ in self?.updateSession() }
             .store(in: &cancellables)
     }
@@ -123,6 +122,19 @@ extension AboutMe {
         
         do {
             try await LogoutUseCase(scope: scope).execute()
+        } catch {
+            UINotificationFeedbackGenerator().notificationOccurred(.error)
+        }
+    }
+    
+    func deleteAccount() async {
+        isUpdating = true
+        defer {
+            isUpdating = false
+        }
+        
+        do {
+            try await DeleteAccountUseCase(scope: scope).execute()
         } catch {
             UINotificationFeedbackGenerator().notificationOccurred(.error)
         }

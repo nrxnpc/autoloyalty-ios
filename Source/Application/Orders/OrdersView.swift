@@ -4,7 +4,7 @@ struct OrdersView: View {
     // MARK: - Dependencies
     
     @Environment(\.dismiss) private var dismiss
-    @EnvironmentObject var router: Main.Router
+    @Environment(Main.Router.self) var router
     
     @FetchRequest var orders: FetchedResults<Order>
     
@@ -120,8 +120,18 @@ extension OrdersView {
         }
         
         ToolbarItem(placement: .topBarTrailing) {
-            Button {
-                showRedeemInfo = true
+            Menu {
+                Text("Need Help?")
+                
+                Button("Contact Support", systemImage: "headphones") {
+                    router.route(sheet: .contactSupport)
+                }
+                
+                Menu("FAQ", systemImage: "book") {
+                    Button("How Does Delivery Work?") {
+                        showRedeemInfo = true
+                    }
+                }
             } label: {
                 Image(systemName: "questionmark.circle")
             }

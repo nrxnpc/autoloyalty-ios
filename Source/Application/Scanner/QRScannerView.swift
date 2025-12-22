@@ -5,7 +5,7 @@ struct QRScannerView: View, ComponentBuilder {
     // MARK: - Dependencies
     
     @Environment(\.dismiss) var dismiss
-    @EnvironmentObject var router: Main.Router
+    @Environment(Main.Router.self) var router
     @EnvironmentObject var captureSession: CaptureSession
     
     // MARK: - State
@@ -39,12 +39,10 @@ struct QRScannerView: View, ComponentBuilder {
         }
         .confettiCannon(trigger: $confettiCannonTrigger, num: 100, openingAngle: .degrees(0), closingAngle: .degrees(180), radius: 400, repetitions: 2, repetitionInterval: 0.25)
         .task {
-            await captureSession.prepareForUse()
+            captureSession.prepareForUse()
         }
         .onDisappear {
-            Task.detached {
-                await captureSession.stopRunning()
-            }
+            captureSession.stopRunning()
         }
         .toolbar(content: makeToolbar)
         .onChange(of: captureSession.detectedQRCode) {

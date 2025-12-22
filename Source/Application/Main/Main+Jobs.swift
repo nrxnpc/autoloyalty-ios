@@ -26,11 +26,29 @@ extension Main {
                 } catch {
                     debugPrint("[DEBUG] Cannot pull user transactions: \(error)")
                 }
+                
+                do {
+                    try await PullScanHistoryUseCase(scope: scope).execute()
+                } catch {
+                    debugPrint("[DEBUG] Cannot pull scan history: \(error)")
+                }
+                
+                do {
+                    try await PullNewsUseCase(scope: scope).execute()
+                } catch {
+                    debugPrint("[DEBUG] Cannot pull news transactions: \(error)")
+                }
             }
             
             Job(.polling(.strategy(.intensive))) { [scope] in
                 do {
                     try await PullCatalogUseCase(scope: scope).execute()
+                } catch {
+                    debugPrint("[DEBUG] Cannot pull catalog: \(error)")
+                }
+                
+                do {
+                    try await PullRecommendationsUseCase(scope: scope).execute()
                 } catch {
                     debugPrint("[DEBUG] Cannot pull catalog: \(error)")
                 }
@@ -52,11 +70,6 @@ extension Main {
                 try await Task.sleep(for: .seconds(5))
                 try await Product.fillInDemo(context: scope.coreDataContext)
             }
-            
-            // TODO:
-            // Job(.polling(.strategy(.intensive))) { [scope] in
-            //   try await PullNotificationsUseCase(scope: scope).execute()
-            // }
             
             Job(.polling(.strategy(.normal))) { [scope] in
                 try await FetchAttachmentsUseCase(scope: scope).execute()

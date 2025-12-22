@@ -18,29 +18,39 @@ final class CaptureSession: ObservableObject {
         }
     }
     
-    func prepareForUse() async {
-        let running = await device.prepareForUse()
-        readyForUse = running
-        await device.reset()
+    func prepareForUse() {
+        Task {
+            guard CapturePermission().status == .granted else { return }
+            let running = await device.prepareForUse()
+            await MainActor.run {
+                readyForUse = running
+            }
+            await device.reset()
+        }
+    }
+
+    func stopRunning() {
+        Task {
+            await device.stopRunning()
+            await MainActor.run {
+                readyForUse = false
+                detectedQRCode = nil
+            }
+        }
     }
     
-    func stopRunning() async {
-        await device.stopRunning()
-        readyForUse = false
-        detectedQRCode = nil
-    }
-    
-    func reset() async {
-        await stopRunning()
-        await prepareForUse()
+    func reset() {
+        stopRunning()
+        prepareForUse()
     }
 }
 
 actor CaptureSessionDevice {
     private let session = AVCaptureSession()
     private var sessionDelegate: CaptureSessionDelegate?
-    private var currentTask: Task<Void, Never>?
     private var qrDetectionHandler: (@Sendable (String) -> Void)?
+    private var isStarting = false
+    private var isStopping = false
     
     func setQRDetectionHandler(_ handler: @escaping @Sendable (String) -> Void) {
         qrDetectionHandler = handler
@@ -52,15 +62,16 @@ actor CaptureSessionDevice {
     }
     
     func prepareForUse() async -> Bool {
-        currentTask?.cancel()
+        guard !isStarting else { return session.isRunning }
+        isStopping = false
+        isStarting = true
         
-        currentTask = Task {
-            try? await Task.sleep(for: .milliseconds(100))
-            guard !Task.isCancelled else { return }
-            await configureSession()
-        }
+        defer { isStarting = false }
         
-        await currentTask?.value
+        try? await Task.sleep(for: .milliseconds(100))
+        guard !isStopping else { return false }
+        
+        await configureSession()
         return session.isRunning
     }
     
@@ -69,18 +80,18 @@ actor CaptureSessionDevice {
     }
     
     func stopRunning() async {
-        currentTask?.cancel()
+        guard !isStopping else { return }
+        isStarting = false
+        isStopping = true
         
-        currentTask = Task {
-            try? await Task.sleep(for: .milliseconds(50))
-            guard !Task.isCancelled else { return }
-            
-            if session.isRunning {
-                session.stopRunning()
-            }
+        defer { isStopping = false }
+        
+        try? await Task.sleep(for: .milliseconds(50))
+        guard !isStarting else { return }
+        
+        if session.isRunning {
+            session.stopRunning()
         }
-        
-        await currentTask?.value
     }
     
     private func configureSession() async {
@@ -123,7 +134,6 @@ actor CaptureSessionDevice {
     }
     
     deinit {
-        currentTask?.cancel()
         if session.isRunning {
             session.stopRunning()
         }

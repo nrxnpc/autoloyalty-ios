@@ -18,7 +18,11 @@ private struct TapGestureModifier: ViewModifier {
             .animation(.easeOut(duration: 0.1), value: isPressed)
             .onTapGesture {
                 action()
-                UIImpactFeedbackGenerator(style: .light).impactOccurred()
+            }
+            .onLongPressGesture(minimumDuration: 0, maximumDistance: .infinity) {
+                // Empty action for long press
+            } onPressingChanged: { pressing in
+                isPressed = pressing
             }
     }
 }

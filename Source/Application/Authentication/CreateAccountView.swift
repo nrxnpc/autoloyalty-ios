@@ -5,7 +5,7 @@ struct CreateAccountView: View, ComponentBuilder {
     // MARK: - Dependensies
     
     @Environment(\.dismiss) var dismiss
-    @EnvironmentObject var router: Main.Router
+    @Environment(Main.Router.self) var router
     @EnvironmentObject internal var authentication: Authentication
     
     // MARK: - State

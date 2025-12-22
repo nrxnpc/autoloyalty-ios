@@ -107,7 +107,7 @@ struct QRHistorySection: View {
                 Text("История сканирований")
                     .font(.headline)
                 Spacer()
-                NavigationLink("Все", destination: QRScanHistoryView())
+                NavigationLink("Все", destination: MAGAQRScanHistoryView())
                     .font(.subheadline)
                     .foregroundColor(AppConstants.Colors.primary)
             }
@@ -125,7 +125,7 @@ struct QRHistorySection: View {
     }
 }
 
-struct QRScanHistoryView: View {
+struct MAGAQRScanHistoryView: View {
     @EnvironmentObject var dataManager: DataManager
     
     var body: some View {

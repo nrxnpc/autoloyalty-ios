@@ -79,6 +79,34 @@ extension Scope {
                     Field("productCategory", .text)
                     Relationship("product", to: "Product", optional: true)
                 }
+                
+                // Scan Item Entity
+                EntitySchema("ScanItem", inherits: "Entity") {
+                    Field("productName", .text)
+                    Field("productCategory", .text)
+                    Field("pointsEarned", .number)
+                }
+                
+                // Cars
+                
+                EntitySchema("CarRecommendation", inherits: "Entity") {
+                    Field("brand", .text)
+                    Field("model", .text)
+                    Field("year", .number)
+                    Field("price", .text)
+                    Field("imageURL", .url, optional: true)
+                    Field("carDescription", .text)
+                    Field("isActive", .boolean)
+                    
+                    // MARK: - Specification
+                    
+                    Field("engine", .text)
+                    Field("transmission", .text)
+                    Field("fuelType", .text)
+                    Field("bodyType", .text)
+                    Field("drivetrain", .text)
+                    Field("color", .text)
+                }
             }
         }
     }

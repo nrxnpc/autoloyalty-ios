@@ -512,6 +512,15 @@ extension RestEndpoint {
         /// Pagination info
         public let pagination: PaginationResponse?
         
+        public init(from decoder: Decoder) throws {
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            userId = try container.decodeIfPresent(String.self, forKey: .userId) ?? ""
+            totalScans = try container.decodeIfPresent(Int.self, forKey: .totalScans) ?? 0
+            totalPoints = try container.decodeIfPresent(Int.self, forKey: .totalPoints) ?? 0
+            scans = try container.decodeIfPresent([UserScan].self, forKey: .scans) ?? []
+            pagination = try container.decodeIfPresent(PaginationResponse.self, forKey: .pagination)
+        }
+        
         private enum CodingKeys: String, CodingKey {
             case userId = "user_id"
             case totalScans = "total_scans"
@@ -543,7 +552,7 @@ extension RestEndpoint {
         /// Creation date
         public let createdAt: String
         /// Delivery options
-        public let deliveryOptions: [String]
+        // public let deliveryOptions: [String]
     }
     
     /// Product catalog listing response

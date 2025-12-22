@@ -4,23 +4,78 @@ import SwiftUIComponents
 struct InboxView: View {
     // MARK: - Dependencies
     
-    @EnvironmentObject var router: Main.Router
+    @Environment(Main.Router.self) private var router
+    
+    @StateObject var inbox = Inbox()
+    @StateObject var inboxMonitor = InboxMonitor()
+    @StateObject var userNotifications = InboxUserNotifications()
     
     // MARK: -
     
-    @FetchRequest(fetchRequest: InboxMessage.allMessagesSortedByCreatedDate())
-    private var messages: FetchedResults<InboxMessage>
+    @FetchRequest private var messages: FetchedResults<InboxMessage>
+    @State private var searchText = ""
+    @AppStorage("inbox.sortOrder") private var sortOrder = SortOrder.newestFirst.rawValue
     
-    @StateObject private var inbox = Inbox()
+    enum SortOrder: String {
+        case newestFirst = "newest"
+        case oldestFirst = "oldest"
+    }
     
     // MARK: -
+    
+    init() {
+        let key = "inbox.sortOrder"
+        let savedSort = UserDefaults.standard.string(forKey: key) ?? SortOrder.newestFirst.rawValue
+        
+        _messages = FetchRequest(
+            sortDescriptors: Self.sortDescriptors(for: SortOrder(rawValue: savedSort) ?? .newestFirst),
+            predicate: nil,
+            animation: .smooth
+        )
+    }
     
     var body: some View {
+        let contentView = makeContentView()
+        
+        contentView
+            .animation(.easeInOut, value: userNotifications.authorizationStatus)
+            .animation(.easeInOut, value: userNotifications.isSuggestionHidden)
+            .toolbar(content: makeToolbar)
+            .navigationTitle("Notifications")
+            .navigationBarTitleDisplayMode(.large)
+            .onChange(of: sortOrder) {
+                updateSortDescriptors()
+            }
+            .onChange(of: searchText) {
+                updatePredicate()
+            }
+            .onAppear {
+                updatePredicate()
+            }
+    }
+    
+    @ViewBuilder
+    private func makeContentView() -> some View {
         ZStack {
-            if messages.isEmpty {
+            if messages.isEmpty && searchText.isEmpty {
                 makeEmptyState()
             } else {
-                List(messages, id: \.id) { message in
+                makeListView()
+            }
+        }
+    }
+    
+    @ViewBuilder
+    private func makeListView() -> some View {
+        List {
+            if !userNotifications.isSuggestionHidden {
+                Section {
+                    makeTurnOnNotificationsRow()
+                }
+            }
+            
+            Section {
+                ForEach(messages, id: \.id) { message in
                     makeRow(with: message)
                         .contentShape(Rectangle())
                         .onTapGesture {
@@ -30,21 +85,54 @@ struct InboxView: View {
                 }
             }
         }
-        .toolbar(content: makeToolbar)
-        .navigationTitle("Notifications")
-        .navigationBarTitleDisplayMode(.large)
+        .searchable(text: $searchText, prompt: "Search notifications")
+    }
+    
+    private func updatePredicate() {
+        if searchText.isEmpty {
+            messages.nsPredicate = nil
+        } else {
+            messages.nsPredicate = NSPredicate(format: "title CONTAINS[cd] %@ OR subtitle CONTAINS[cd] %@", searchText, searchText)
+        }
+    }
+    
+    private func updateSortDescriptors() {
+        messages.nsSortDescriptors = Self.sortDescriptors(for: SortOrder(rawValue: sortOrder) ?? .newestFirst)
+        
+    }
+    
+    private static func sortDescriptors(for order: SortOrder) -> [NSSortDescriptor] {
+        switch order {
+        case .newestFirst:
+            return [NSSortDescriptor(key: "createdAt", ascending: false)]
+        case .oldestFirst:
+            return [NSSortDescriptor(key: "createdAt", ascending: true)]
+        }
     }
 }
 
 extension InboxView {
     @ViewBuilder func makeEmptyState() -> some View {
         ScrollView {
-            VStack {
-                Text("Your inbox is empty")
+            HStack {
+                Image(systemName: "tray")
+                    .font(.title2)
+                    .foregroundStyle(.secondary)
+                
+                VStack(alignment: .leading) {
+                    Text("Your inbox is empty")
                         .font(.headline)
-                Text("All your relevant notifications will be here.")
-                    .font(.subheadline)
+                    Text("All your relevant notifications will be here.")
+                        .font(.subheadline)
+                }
+                .frame(maxWidth: .infinity)
             }
+            .padding()
+            .background {
+                RoundedRectangle(cornerRadius: 16)
+                    .foregroundStyle(.ultraThinMaterial)
+            }
+            .padding(.horizontal)
         }
     }
     
@@ -73,6 +161,11 @@ extension InboxView {
         .lineLimit(2)
     }
     
+    @ViewBuilder func makeTurnOnNotificationsRow() -> some View {
+        PushNotificationsSuggestionView()
+            .environmentObject(userNotifications)
+    }
+    
     @ToolbarContentBuilder func makeToolbar() -> some ToolbarContent {
         ToolbarItem(placement: .topBarTrailing) {
             Menu {
@@ -81,7 +174,19 @@ extension InboxView {
                 } label: {
                     Label("Mark all as read", systemImage: "checkmark.circle")
                 }
-                .disabled(messages.isEmpty)
+                .disabled(inboxMonitor.unreadCount == 0)
+                
+                Divider()
+                
+                Menu("Sort", systemImage: "arrow.up.arrow.down") {
+                    Button("Newest First", systemImage: sortOrder == SortOrder.newestFirst.rawValue ? "checkmark" : "") {
+                        sortOrder = SortOrder.newestFirst.rawValue
+                    }
+                    
+                    Button("Oldest First", systemImage: sortOrder == SortOrder.oldestFirst.rawValue ? "checkmark" : "") {
+                        sortOrder = SortOrder.oldestFirst.rawValue
+                    }
+                }
             } label: {
                 Image(systemName: "ellipsis")
             }

@@ -4,8 +4,8 @@ import SwiftUIComponents
 struct LoginView: View, ComponentBuilder {
     // MARK: -
     
-    @EnvironmentObject var main: Main
-    @EnvironmentObject var router: Main.Router
+    @Environment(Main.self) var main
+    @Environment(Main.Router.self) var router
     
     // MARK: -
     

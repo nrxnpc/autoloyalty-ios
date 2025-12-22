@@ -156,6 +156,47 @@ public extension ComponentBuilder {
         .buttonStyle(.plain)
     }
     
+    /// Creates an options list row with expandable content.
+    /// - Parameters:
+    ///   - title: Row title
+    ///   - subtitle: Optional subtitle
+    ///   - icon: SF Symbol name
+    ///   - iconColor: Icon color
+    ///   - content: Expandable content
+    /// - Returns: Options list row view with disclosure functionality
+    @ViewBuilder
+    func MakeOptionsListRow<Content: View>(title: String, subtitle: String? = nil, icon: String, iconColor: Color = .primary, @ViewBuilder content: @escaping () -> Content) -> some View {
+        DisclosureGroup(
+            content: {
+                content()
+                    .frame(minHeight: 46)
+                    .padding(.leading, 16)
+            },
+            label: {
+                HStack(spacing: 12) {
+                    Image(systemName: icon)
+                        .frame(width: 24)
+                        .foregroundStyle(iconColor)
+                    
+                    VStack(alignment: .leading, spacing: 2) {
+                        Text(title)
+                            .fontWeight(.medium)
+                            .foregroundStyle(.primary)
+                        if let subtitle {
+                            Text(subtitle)
+                                .font(.caption)
+                                .foregroundStyle(.secondary)
+                        }
+                    }
+                    
+                    Spacer()
+                }
+                .contentShape(Rectangle())
+            }
+        )
+        .foregroundStyle(.primary)
+    }
+    
     /// Creates a navigation row.
     /// - Parameters:
     ///   - title: Row title

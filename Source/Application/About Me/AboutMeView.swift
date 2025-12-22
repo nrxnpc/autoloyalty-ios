@@ -5,11 +5,12 @@ struct AboutMeView: View, ComponentBuilder {
     // MARK: - Depndencies
     
     @Environment(\.dismiss) var dismiss
-    @EnvironmentObject var router: Main.Router
+    @Environment(Main.Router.self) var router
     
     // MARK: - State
     
     @StateObject var application = AboutMe()
+    @State var deleteAccountConfirmation: Bool = false
     
     // MARK: -
     
@@ -18,8 +19,7 @@ struct AboutMeView: View, ComponentBuilder {
             makeAboutSection()
             makeActivitySection()
             makeSupportSection()
-        }
-        .overlay(alignment: .bottom) {
+            
             makePolicySection()
                 .padding()
         }
@@ -51,32 +51,48 @@ extension AboutMeView {
     
     @ViewBuilder private func makeActivitySection() -> some View {
         MakeSection {
-            VStack(spacing: 8) {
-                MakeListRow(title: "Scan History", subtitle: "Your QR codes", icon: "qrcode", iconColor: .blue) {
-                    router.route(sheet: .transactionHistory)
-                }
-                MakeListRow(title: "My Orders", subtitle: "Point exchanges", icon: "giftcard", iconColor: .pink) {
-                    router.route(sheet: .orders)
-                }
+            MakeListRow(title: "Scan History", subtitle: "QR codes you've recently scanned", icon: "qrcode", iconColor: .blue) {
+                router.route(sheet: .scanHistory)
             }
+            
+            MakeListRow(title: "Transactions", subtitle: "Full history of your point activity", icon: "arrow.up.arrow.down", iconColor: .green) {
+                router.route(sheet: .transactionHistory)
+            }
+            
+            MakeListRow(title: "Orders", subtitle: "History of your point exchanges", icon: "giftcard", iconColor: .pink) {
+                router.route(sheet: .orders)
+            }
+            .frame(maxHeight: .infinity)
         }
     }
     
     @ViewBuilder private func makeSupportSection() -> some View {
         MakeSection {
-            VStack(spacing: 8) {
-                MakeListRow(title: "Contact Support", subtitle: "Get help and send feedback", icon: "message", iconColor: .secondary) { }
-                MakeListRow(title: "FAQ", subtitle: "Knowledge base", icon: "questionmark.circle", iconColor: .secondary) { }
-                
-                // TODO:
-                // MakeListRow(title: "About App", subtitle: "Version and contacts", icon: "info.circle", iconColor: .init(hex: 0x48484A)) { }
+            MakeOptionsListRow(title: "Have Questions?", subtitle: "We're here to help", icon: "questionmark.circle", iconColor: .secondary) {
+                MakeListRow(title: "Contact Support", subtitle: "Chat with support team", icon: "headphones", iconColor: .secondary) {
+                    router.route(sheet: .contactSupport)
+                }
+                MakeListRow(title: "Send Email", subtitle: "support@nsp-app.ru", icon: "envelope", iconColor: .secondary) {
+                    if let url = URL(string: "mailto:support@nsp-app.ru?subject=App Support Request") {
+                        UIApplication.shared.open(url)
+                    }
+                }
+            }
+            
+            MakeOptionsListRow(title: "FAQ", subtitle: "Frequently asked questions", icon: "book", iconColor: .secondary) {
+                MakeListRow(title: "How to Top Up Balance", subtitle: "Learn about earning points", icon: "plus.circle", iconColor: .secondary) {
+                    router.route(sheet: .howTo(.topUpYourBalance))
+                }
+                MakeListRow(title: "How Does Delivery Work?", subtitle: "Order fulfillment process", icon: "shippingbox", iconColor: .secondary) {
+                    router.route(sheet: .howTo(.howToRedeemGiftCards))
+                }
             }
         }
     }
     
     @ViewBuilder private func makePolicySection() -> some View {
         VStack(spacing: 16) {
-            HStack(spacing: 32) {
+            HStack(spacing: 16) {
                 Link("Privacy Policy", destination: URL(string: "http://nsp-app.ru/#privacy")!)
                     .font(.callout)
                     .foregroundStyle(.primary)
@@ -101,6 +117,7 @@ extension AboutMeView {
             .onTap {
                 let version = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "Unknown"
                 UIPasteboard.general.string = "App Version: \(version)"
+                UIImpactFeedbackGenerator(style: .light).impactOccurred()
             }
         }
     }
@@ -115,10 +132,21 @@ extension AboutMeView {
                     }
                 }
                 Button("Delete Account", systemImage: "person.slash", role: .destructive) {
-                    
+                    deleteAccountConfirmation = true
                 }
             } label: {
                 Image(systemName: "ellipsis")
+            }
+            .confirmationDialog("Delete Account?", isPresented: $deleteAccountConfirmation, titleVisibility: .visible) {
+                Button("Delete Account", role: .destructive) {
+                    Task { @MainActor in
+                        await application.deleteAccount()
+                        router.reset()
+                    }
+                }
+                Button("Cancel", role: .cancel) { }
+            } message: {
+                Text("This will permanently delete all your data, including bonus points. This action cannot be undone.")
             }
         }
     }

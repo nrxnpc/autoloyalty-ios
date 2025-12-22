@@ -9,7 +9,7 @@ import SwiftUI
 public struct SectionRowStyle: ViewModifier {
     public func body(content: Content) -> some View {
         content
-            .frame(minHeight: 48)
+            .frame(minHeight: 50)
             .padding(.horizontal)
     }
 }

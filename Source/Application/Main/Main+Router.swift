@@ -5,7 +5,8 @@ import EndpointUI
  
 extension Main {
     @MainActor
-    final class Router: ObservableObject {
+    @Observable
+    final class Router {
         enum Destination: String {
             case aboutMe
             case inbox
@@ -21,7 +22,9 @@ extension Main {
             case orders
             case inboxMessage(InboxMessage)
             case scanner
+            case scanHistory
             case reauthenticationView
+            case contactSupport
             case console
         }
         
@@ -31,9 +34,9 @@ extension Main {
         
         // MARK: - Output
         
-        @Published var destination: Destination?
-        @Published var sheet: SheetDestination?
-        @Published var fullScreen: FullScreenDestination?
+        var destination: Destination?
+        var sheet: SheetDestination?
+        var fullScreen: FullScreenDestination?
         
         init() {
             injectNetworkLogger()
@@ -95,8 +98,8 @@ extension Main {
     struct DestinationProcessor: ViewModifier {
         // MARK: - Dependencies
         
-        @StateObject var router: Main.Router
-        
+        @Bindable var router: Main.Router
+
         // MARK: -
         
         public func body(content: Content) -> some View {
@@ -105,10 +108,8 @@ extension Main {
                     switch destination {
                     case .aboutMe:
                         AboutMeView()
-                            .environmentObject(router)
                     case .inbox:
                         InboxView()
-                            .environmentObject(router)
                     case .commingSoon:
                         CommingSoon()
                     }
@@ -118,7 +119,6 @@ extension Main {
                     case .scanner:
                         NavigationView {
                             QRScannerView()
-                                .environmentObject(router)
                         }
                     }
                 }
@@ -128,7 +128,6 @@ extension Main {
                         NavigationView {
                             CreateAccountView()
                                 .environmentObject(application)
-                                .environmentObject(router)
                         }
                         .presentationDetents([.large])
                         .presentationDragIndicator(.visible)
@@ -136,7 +135,6 @@ extension Main {
                         NavigationView {
                             ChangeAboutMeView()
                                 .environmentObject(application)
-                                .environmentObject(router)
                         }
                         .presentationDetents([.large])
                         .presentationDragIndicator(.visible)
@@ -180,16 +178,26 @@ extension Main {
                     case .scanner:
                         NavigationView {
                             QRScannerView()
-                                .environmentObject(router)
+                        }
+                        .presentationDetents([.large])
+                        .presentationDragIndicator(.visible)
+                    case .scanHistory:
+                        NavigationView {
+                            QRScanHistoryView()
                         }
                         .presentationDetents([.large])
                         .presentationDragIndicator(.visible)
                     case .reauthenticationView:
                         NavigationView {
                             ReauthenticationView()
-                                .environmentObject(router)
                         }
                         .presentationDetents([.medium])
+                        .presentationDragIndicator(.visible)
+                    case .contactSupport:
+                        NavigationView {
+                            ContactSupportView()
+                        }
+                        .presentationDetents([.large])
                         .presentationDragIndicator(.visible)
                     case .console:
                         NavigationView {
@@ -199,6 +207,9 @@ extension Main {
                         .presentationDragIndicator(.visible)
                     }
                 }
+                .sensoryFeedback(.impact, trigger: router.destination)
+                .sensoryFeedback(.impact, trigger: router.sheet)
+                .sensoryFeedback(.impact, trigger: router.fullScreen)
         }
     }
 }
@@ -211,7 +222,7 @@ extension Main.Router.Destination: Identifiable {
     }
 }
 
-extension Main.Router.SheetDestination: Identifiable {
+extension Main.Router.SheetDestination: Identifiable, Equatable {
     var id: String {
         switch self {
         case .createAccount: return "createAccount"
@@ -222,15 +233,20 @@ extension Main.Router.SheetDestination: Identifiable {
         case .orders: return "orders"
         case .inboxMessage: return "inboxMessage"
         case .scanner: return "scanner"
+        case .scanHistory: return "scanHistory"
         case .reauthenticationView: return "reauthenticationView"
+        case .contactSupport: return "contactSupport"
         case .console: return "console"
         }
     }
+    
+    static func == (lhs: Main.Router.SheetDestination, rhs: Main.Router.SheetDestination) -> Bool {
+        lhs.id == rhs.id
+    }
 }
 
-extension Main.Router.FullScreenDestination: Identifiable {
+extension Main.Router.FullScreenDestination: Identifiable, Equatable {
     var id: String {
         rawValue
     }
 }
-
