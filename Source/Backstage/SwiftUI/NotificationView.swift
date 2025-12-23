@@ -29,7 +29,6 @@ struct NotificationMessageView: View, ComponentBuilder {
             .foregroundStyle(.secondary)
             .padding([.top, .trailing], 8)
         }
-        // .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
         .frame(maxWidth: .infinity, alignment: .center)
     }
 }
