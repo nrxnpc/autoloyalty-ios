@@ -67,6 +67,10 @@
 		7E72CB822EFAAF5200D647F7 /* UIDevice+Shake.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E72CB812EFAAF5200D647F7 /* UIDevice+Shake.swift */; };
 		7E72CB842EFAB11500D647F7 /* NotificationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E72CB832EFAB11500D647F7 /* NotificationView.swift */; };
 		7E72CB8B2EFAE97F00D647F7 /* CardSwipeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E72CB8A2EFAE97F00D647F7 /* CardSwipeView.swift */; };
+		7E72CB8D2EFB039600D647F7 /* CreateBuiltInRecommendationsSetUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E72CB8C2EFB039600D647F7 /* CreateBuiltInRecommendationsSetUseCase.swift */; };
+		7E72CB902EFB16CA00D647F7 /* Nuke in Frameworks */ = {isa = PBXBuildFile; productRef = 7E72CB8F2EFB16CA00D647F7 /* Nuke */; };
+		7E72CB922EFB16CA00D647F7 /* NukeExtensions in Frameworks */ = {isa = PBXBuildFile; productRef = 7E72CB912EFB16CA00D647F7 /* NukeExtensions */; };
+		7E72CB942EFB16CA00D647F7 /* NukeUI in Frameworks */ = {isa = PBXBuildFile; productRef = 7E72CB932EFB16CA00D647F7 /* NukeUI */; };
 		7E95E8982E7AFA0800B45539 /* RestEndpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E95E86A2E7AFA0800B45539 /* RestEndpoint.swift */; };
 		7E95E89F2E7AFA0800B45539 /* RestEndpoint+Raw.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E95E86C2E7AFA0800B45539 /* RestEndpoint+Raw.swift */; };
 		7EAF29402EE879DC00E4201A /* View+OnTap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EAF293F2EE879DC00E4201A /* View+OnTap.swift */; };
@@ -182,6 +186,7 @@
 		7E72CB812EFAAF5200D647F7 /* UIDevice+Shake.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIDevice+Shake.swift"; sourceTree = "<group>"; };
 		7E72CB832EFAB11500D647F7 /* NotificationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationView.swift; sourceTree = "<group>"; };
 		7E72CB8A2EFAE97F00D647F7 /* CardSwipeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardSwipeView.swift; sourceTree = "<group>"; };
+		7E72CB8C2EFB039600D647F7 /* CreateBuiltInRecommendationsSetUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateBuiltInRecommendationsSetUseCase.swift; sourceTree = "<group>"; };
 		7E95E8692E7AFA0800B45539 /* API_REFERENCE.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = API_REFERENCE.md; sourceTree = "<group>"; };
 		7E95E86A2E7AFA0800B45539 /* RestEndpoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestEndpoint.swift; sourceTree = "<group>"; };
 		7E95E86C2E7AFA0800B45539 /* RestEndpoint+Raw.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RestEndpoint+Raw.swift"; sourceTree = "<group>"; };
@@ -248,8 +253,11 @@
 				7EE877B92E9FE17900CFC230 /* ScopeGraph in Frameworks */,
 				7EE877D22EA2680C00CFC230 /* SwiftUIComponents in Frameworks */,
 				7E36E0072E7B0256009522B5 /* DependenciesMacros in Frameworks */,
+				7E72CB942EFB16CA00D647F7 /* NukeUI in Frameworks */,
 				7ECC3FEF2E6628260014E97E /* SwiftUIComponents in Frameworks */,
 				7E36E0052E7B0256009522B5 /* Dependencies in Frameworks */,
+				7E72CB902EFB16CA00D647F7 /* Nuke in Frameworks */,
+				7E72CB922EFB16CA00D647F7 /* NukeExtensions in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -647,6 +655,7 @@
 				7E0FABA02EE9A82E00498CEA /* CreateOrderUseCase.swift */,
 				7E0FAB9E2EE9A82500498CEA /* PullMyOrdersUseCase.swift */,
 				7E462FE52EE60E9F00B7F5EC /* CreateWelcomeMessageUseCase.swift */,
+				7E72CB8C2EFB039600D647F7 /* CreateBuiltInRecommendationsSetUseCase.swift */,
 				7E3477DF2EF56FE0004F9F01 /* PullNewsUseCase.swift */,
 				7E3477E32EF5DEEB004F9F01 /* PullScanHistoryUseCase.swift */,
 				7E72CB7A2EF98BCF00D647F7 /* PullRecommendationsUseCase.swift */,
@@ -719,6 +728,9 @@
 				7E36E0062E7B0256009522B5 /* DependenciesMacros */,
 				7EE877B82E9FE17900CFC230 /* ScopeGraph */,
 				7EE877D12EA2680C00CFC230 /* SwiftUIComponents */,
+				7E72CB8F2EFB16CA00D647F7 /* Nuke */,
+				7E72CB912EFB16CA00D647F7 /* NukeExtensions */,
+				7E72CB932EFB16CA00D647F7 /* NukeUI */,
 			);
 			productName = "NSP app";
 			productReference = 08DB73C32DF6CC1B007D80CB /* Application.app */;
@@ -754,6 +766,7 @@
 				7E36E0032E7B0256009522B5 /* XCRemoteSwiftPackageReference "swift-dependencies" */,
 				7EE877B72E9FE17900CFC230 /* XCLocalSwiftPackageReference "Packages/swift-scope-graph" */,
 				7EE877D02EA2680C00CFC230 /* XCLocalSwiftPackageReference "Packages/swift-components" */,
+				7E72CB8E2EFB16CA00D647F7 /* XCRemoteSwiftPackageReference "Nuke" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 08DB73C42DF6CC1B007D80CB /* Products */;
@@ -789,6 +802,7 @@
 				7EE877F12EA2D31000CFC230 /* AboutMe.swift in Sources */,
 				7EAF294E2EE8D0A200E4201A /* PullUserTransactionsUseCase.swift in Sources */,
 				7E72CB842EFAB11500D647F7 /* NotificationView.swift in Sources */,
+				7E72CB8D2EFB039600D647F7 /* CreateBuiltInRecommendationsSetUseCase.swift in Sources */,
 				7E0FAB9D2EE9A6BB00498CEA /* Order+FetchRequest.swift in Sources */,
 				7ED1439F2E6740F1003BE287 /* Endpoint+Dependencies.swift in Sources */,
 				7EE878082EA3153100CFC230 /* ChangeAccountImage.swift in Sources */,
@@ -1128,6 +1142,14 @@
 				minimumVersion = 1.9.4;
 			};
 		};
+		7E72CB8E2EFB16CA00D647F7 /* XCRemoteSwiftPackageReference "Nuke" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/kean/Nuke.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 12.8.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -1140,6 +1162,21 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 7E36E0032E7B0256009522B5 /* XCRemoteSwiftPackageReference "swift-dependencies" */;
 			productName = DependenciesMacros;
+		};
+		7E72CB8F2EFB16CA00D647F7 /* Nuke */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 7E72CB8E2EFB16CA00D647F7 /* XCRemoteSwiftPackageReference "Nuke" */;
+			productName = Nuke;
+		};
+		7E72CB912EFB16CA00D647F7 /* NukeExtensions */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 7E72CB8E2EFB16CA00D647F7 /* XCRemoteSwiftPackageReference "Nuke" */;
+			productName = NukeExtensions;
+		};
+		7E72CB932EFB16CA00D647F7 /* NukeUI */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 7E72CB8E2EFB16CA00D647F7 /* XCRemoteSwiftPackageReference "Nuke" */;
+			productName = NukeUI;
 		};
 		7ECC3FE92E66280A0014E97E /* Endpoint */ = {
 			isa = XCSwiftPackageProductDependency;

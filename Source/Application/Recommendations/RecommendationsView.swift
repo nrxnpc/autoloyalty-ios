@@ -1,5 +1,7 @@
 import SwiftUI
 import SwiftUIComponents
+import Nuke
+import NukeUI
 import CoreData
 
 struct RecommendationsView: View {
@@ -28,7 +30,7 @@ struct RecommendationsView: View {
                 .onNoMoreCardsLeft {
                     // Cards finished
                 }
-                .aspectRatio(1/1.4, contentMode: .fit)
+                .aspectRatio(1/1.6, contentMode: .fit)
                 .padding(32)
             }
             Spacer()
@@ -96,13 +98,16 @@ struct CarCardView: View {
     
     @ViewBuilder func makePreview() -> some View {
         ZStack {
-            makeImagePreview()
-            
-            VStack {
-                Spacer()
-                VStack(alignment: .leading) {
+            VStack(spacing: 0) {
+                makeImagePreview()
+                VStack(alignment: .leading, spacing: 12) {
                     makeHeadlineRow()
-                    makeSpecificatoinsRow()
+                    
+                    if !recommendation.carDescription.isEmpty {
+                        makeDescriptionRow()
+                    }
+                    
+                    makeSpecificationsRow()
                 }
                 .padding()
                 .background(.ultraThinMaterial)
@@ -111,75 +116,93 @@ struct CarCardView: View {
     }
     
     @ViewBuilder func makeImagePreview() -> some View {
-        AsyncImage(url: recommendation.imageURL) { image in
-            image
-                .resizable()
-                .aspectRatio(contentMode: .fill)
-        } placeholder: {
-            Rectangle()
-                .fill(.gray.opacity(0.3))
-                .overlay {
-                    Image(systemName: "car")
-                        .font(.system(size: 40))
-                        .foregroundColor(.gray)
+        ZStack {
+            LazyImage(url: recommendation.imageURL) { state in
+                if let image = state.image {
+                    GeometryReader { geometry in
+                        image
+                            .resizable()
+                            .aspectRatio(contentMode: .fill)
+                            .frame(width: geometry.size.width, height: geometry.size.height)
+                            .clipped()
+                    }
+                } else {
+                    Rectangle()
+                        .fill(.gray.opacity(0.3))
+                        .overlay {
+                            Image(systemName: "car")
+                                .font(.system(size: 40))
+                                .foregroundColor(.gray)
+                        }
                 }
+            }
         }
-        .clipped()
     }
     
     @ViewBuilder func makeHeadlineRow() -> some View {
-        HStack(alignment: .firstTextBaseline) {
-            Text(recommendation.brand)
-                .font(.title2.weight(.semibold))
-                .foregroundColor(.primary)
-            Text(recommendation.model)
-                .font(.headline.weight(.semibold))
-                .foregroundColor(.secondary)
-            
-            Spacer()
-        }
-    }
-    
-    @ViewBuilder func makeSpecificatoinsRow() -> some View {
-        HStack {
-            if recommendation.year != 0 {
-                Text(String(recommendation.year))
-                    .font(.subheadline)
-                    .padding(.horizontal, 8)
-                    .padding(.vertical, 4)
-                    .background(.ultraThinMaterial)
-                    .cornerRadius(6)
-            }
-            
-            if !recommendation.engine.isEmpty {
-                HStack(spacing: 4) {
-                    Image(systemName: "engine.combustion")
-                    Text(recommendation.engine)
-                }
-                .font(.subheadline)
-                .padding(.horizontal, 8)
-                .padding(.vertical, 4)
-                .background(.ultraThinMaterial)
-                .cornerRadius(6)
-            }
-            
-            Spacer()
-        }
-    }
-    
-    private func specItem(_ title: String, _ value: String) -> some View {
         VStack(alignment: .leading, spacing: 4) {
-            Text(title)
-                .font(.caption2)
-                .foregroundColor(.secondary)
+            HStack(alignment: .firstTextBaseline) {
+                Text(recommendation.brand)
+                    .font(.title2.weight(.semibold))
+                    .foregroundColor(.primary)
+                Text(recommendation.model)
+                    .font(.headline.weight(.semibold))
+                    .foregroundColor(.secondary)
+                
+                Spacer()
+            }
+            makeYearLabel()
+        }
+    }
+    
+    @ViewBuilder func makeYearLabel() -> some View {
+        Text(String(recommendation.year))
+            .font(.caption)
+            .fontWeight(.semibold)
+            .foregroundColor(.primary)
+            .padding(.vertical, 6)
+            .padding(.horizontal, 8)
+            .background {
+                RoundedRectangle(cornerRadius: 6)
+                    .foregroundStyle(.ultraThinMaterial)
+            }
+    }
+    
+    @ViewBuilder func makeDescriptionRow() -> some View {
+        Text(recommendation.carDescription)
+            .font(.caption)
+            .foregroundColor(.secondary)
+    }
+    
+    @ViewBuilder func makeSpecificationsRow() -> some View {
+        VStack(alignment: .leading, spacing: 8) {
+            specItem("engine.combustion", recommendation.engine)
+            
+            LazyVGrid(columns: [GridItem(.flexible(), alignment: .centerFirstTextBaseline), GridItem(.flexible(), alignment: .centerFirstTextBaseline)], spacing: 8) {
+                specItem("gearshift.layout.sixspeed", recommendation.transmission)
+                specItem("gearshape.2", recommendation.drivetrain)
+                specItem("fuelpump", recommendation.fuelType)
+                specItem("car.side", recommendation.bodyType)
+            }
+        }
+        .padding(.horizontal, 8)
+        .padding(.vertical, 4)
+        .background(.ultraThinMaterial)
+        .cornerRadius(6)
+    }
+    
+    private func specItem(_ icon: String, _ value: String) -> some View {
+        HStack(alignment: .center, spacing: 6) {
+            Image(systemName: icon)
+                .font(.caption)
+                .frame(width: 16)
+                .foregroundStyle(.secondary)
+                .scaleEffect(.init(width: 0.8, height: 0.8))
             Text(value)
                 .font(.caption)
                 .foregroundColor(.primary)
+            Spacer()
         }
-        .frame(maxWidth: .infinity, alignment: .leading)
-        .padding(8)
-        .background(.secondary.opacity(0.1))
-        .cornerRadius(6)
     }
 }
 

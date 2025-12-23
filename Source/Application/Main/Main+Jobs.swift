@@ -6,6 +6,7 @@ extension Main {
         scope.scheduleSessionJobs {
             Job(.once) { [scope] in
                 try await CreateWelcomeMessageUseCase(scope: scope).execute()
+                try await CreateBuiltInRecommendationsSetUseCase(scope: scope).execute()
             }
             
             Job(.polling(.strategy(.intensive))) { [scope] in

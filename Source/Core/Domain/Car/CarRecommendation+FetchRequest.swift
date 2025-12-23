@@ -12,10 +12,17 @@ extension CarRecommendation {
         return request
     }
     
+    public static func allDrafts() -> NSFetchRequest<CarRecommendation> {
+        let request = NSFetchRequest<CarRecommendation>(entityName: "CarRecommendation")
+        request.predicate = NSPredicate(format: "sync.isDraft == YES")
+        request.sortDescriptors = [NSSortDescriptor(keyPath: \CarRecommendation.createdAt, ascending: false)]
+        return request
+    }
+    
     public static func byID(_ id: String) -> NSFetchRequest<CarRecommendation> {
         let request = NSFetchRequest<CarRecommendation>(entityName: "CarRecommendation")
         request.fetchLimit = 1
-        request.sortDescriptors = [NSSortDescriptor(key: "id", ascending: true)]
+        request.sortDescriptors = [NSSortDescriptor(keyPath: \CarRecommendation.createdAt, ascending: false)]
         return request
     }
     
@@ -23,7 +30,7 @@ extension CarRecommendation {
         let request = NSFetchRequest<CarRecommendation>(entityName: "CarRecommendation")
         request.predicate = NSPredicate(format: "sync.externalID == %@", externalID)
         request.fetchLimit = 1
-        request.sortDescriptors = [NSSortDescriptor(key: "sync.externalID", ascending: true)]
+        request.sortDescriptors = [NSSortDescriptor(keyPath: \CarRecommendation.createdAt, ascending: false)]
         return request
     }
 }
