@@ -16,7 +16,7 @@ struct FeedView: View {
     
     // MARK: - State
     
-    @Namespace internal var profileNamespace
+    @Namespace internal var namespace
     
     @State internal var showFavoritesOnly = false
     /// To show balance on navigation title

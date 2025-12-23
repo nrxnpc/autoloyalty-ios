@@ -12,8 +12,12 @@ extension FeedView {
             
             RoundedRectangle(cornerRadius: 16)
                 .foregroundStyle(.ultraThinMaterial)
-                .aspectRatio(1/1.2, contentMode: .fit)
+                .aspectRatio(1/1.1, contentMode: .fit)
+                .onTap {
+                    router.route(fullScreen: .recommendations(namespace))
+                }
         }
+        .matchedTransitionSource(id: "recommendations", in: namespace)
         .padding()
     }
     

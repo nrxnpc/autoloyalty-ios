@@ -16,7 +16,7 @@ extension Main {
         enum SheetDestination {
             case createAccount(Authentication)
             case changeAboutMe(AboutMe)
-            case productDetails(String)
+            case productDetails(String, Namespace.ID)
             case howTo(HowTo)
             case transactionHistory
             case orders
@@ -28,8 +28,9 @@ extension Main {
             case console
         }
         
-        enum FullScreenDestination: String {
+        enum FullScreenDestination {
             case scanner
+            case recommendations(Namespace.ID)
         }
         
         // MARK: - Output
@@ -120,6 +121,11 @@ extension Main {
                         NavigationView {
                             QRScannerView()
                         }
+                    case .recommendations(let namespace):
+                        NavigationView {
+                            RecommendationsView()
+                        }
+                        .navigationTransition(.zoom(sourceID: "recommendations", in: namespace))
                     }
                 }
                 .sheet(item: $router.sheet) { destination in
@@ -138,10 +144,13 @@ extension Main {
                         }
                         .presentationDetents([.large])
                         .presentationDragIndicator(.visible)
-                    case .productDetails(let id):
-                        RewardDetailsView(id: id)
-                            .presentationDetents([.large])
-                            .presentationDragIndicator(.visible)
+                    case .productDetails(let id, let namespace):
+                        NavigationView {
+                            RewardDetailsView(id: id)
+                        }
+                        .presentationDetents([.large])
+                        .presentationDragIndicator(.visible)
+                        .navigationTransition(.zoom(sourceID: id, in: namespace))
                     case .howTo(let howTo):
                         switch howTo {
                         case .topUpYourBalance:
@@ -227,7 +236,7 @@ extension Main.Router.SheetDestination: Identifiable, Equatable {
         switch self {
         case .createAccount: return "createAccount"
         case .changeAboutMe: return "changeAboutMe"
-        case .productDetails(let id): return id
+        case .productDetails(let id, _): return id
         case .howTo(let howTo): return howTo.id
         case .transactionHistory: return "transactionHistory"
         case .orders: return "orders"
@@ -247,6 +256,9 @@ extension Main.Router.SheetDestination: Identifiable, Equatable {
 
 extension Main.Router.FullScreenDestination: Identifiable, Equatable {
     var id: String {
-        rawValue
+        switch self {
+        case .scanner: return "scanner"
+        case .recommendations: return "recommendations"
+        }
     }
 }
