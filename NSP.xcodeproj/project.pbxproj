@@ -66,6 +66,7 @@
 		7E72CB802EF993AE00D647F7 /* RecommendationsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E72CB7F2EF993AE00D647F7 /* RecommendationsView.swift */; };
 		7E72CB822EFAAF5200D647F7 /* UIDevice+Shake.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E72CB812EFAAF5200D647F7 /* UIDevice+Shake.swift */; };
 		7E72CB842EFAB11500D647F7 /* NotificationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E72CB832EFAB11500D647F7 /* NotificationView.swift */; };
+		7E72CB8B2EFAE97F00D647F7 /* CardSwipeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E72CB8A2EFAE97F00D647F7 /* CardSwipeView.swift */; };
 		7E95E8982E7AFA0800B45539 /* RestEndpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E95E86A2E7AFA0800B45539 /* RestEndpoint.swift */; };
 		7E95E89F2E7AFA0800B45539 /* RestEndpoint+Raw.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E95E86C2E7AFA0800B45539 /* RestEndpoint+Raw.swift */; };
 		7EAF29402EE879DC00E4201A /* View+OnTap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EAF293F2EE879DC00E4201A /* View+OnTap.swift */; };
@@ -180,6 +181,7 @@
 		7E72CB7F2EF993AE00D647F7 /* RecommendationsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecommendationsView.swift; sourceTree = "<group>"; };
 		7E72CB812EFAAF5200D647F7 /* UIDevice+Shake.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIDevice+Shake.swift"; sourceTree = "<group>"; };
 		7E72CB832EFAB11500D647F7 /* NotificationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationView.swift; sourceTree = "<group>"; };
+		7E72CB8A2EFAE97F00D647F7 /* CardSwipeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardSwipeView.swift; sourceTree = "<group>"; };
 		7E95E8692E7AFA0800B45539 /* API_REFERENCE.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = API_REFERENCE.md; sourceTree = "<group>"; };
 		7E95E86A2E7AFA0800B45539 /* RestEndpoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestEndpoint.swift; sourceTree = "<group>"; };
 		7E95E86C2E7AFA0800B45539 /* RestEndpoint+Raw.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RestEndpoint+Raw.swift"; sourceTree = "<group>"; };
@@ -415,6 +417,7 @@
 			isa = PBXGroup;
 			children = (
 				7E72CB7F2EF993AE00D647F7 /* RecommendationsView.swift */,
+				7E72CB8A2EFAE97F00D647F7 /* CardSwipeView.swift */,
 			);
 			path = Recommendations;
 			sourceTree = "<group>";
@@ -870,6 +873,7 @@
 				7EE877FA2EA2ED7F00CFC230 /* Attachment.swift in Sources */,
 				7EAF294C2EE8C42000E4201A /* ReauthenticationView.swift in Sources */,
 				7EE877FB2EA2ED7F00CFC230 /* Attachment+Predicate.swift in Sources */,
+				7E72CB8B2EFAE97F00D647F7 /* CardSwipeView.swift in Sources */,
 				7EE877FC2EA2ED7F00CFC230 /* Attachment+Loader.swift in Sources */,
 				7E462FE42EE60B9800B7F5EC /* DateFormatters.swift in Sources */,
 				7EE877FD2EA2ED7F00CFC230 /* Attachment+UseCase.swift in Sources */,
