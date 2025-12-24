@@ -12,6 +12,11 @@ public class CarRecommendation: Entity {
     @NSManaged public var carDescription: String
     @NSManaged public var isActive: Bool
     
+    // MARK: - User Feedback
+    
+    /// 1 (Like), -1 (Dislike) или 0 (Neutral).
+    @NSManaged public var sentimentScore: Int
+    
     // MARK: - Specification
     
     @NSManaged public var engine: String

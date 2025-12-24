@@ -4,6 +4,7 @@ struct FeedView: View {
     // MARK: - Dependencies
     
     @Environment(Main.Router.self) var router
+    @Environment(Recommendations.self) var recommendations
     
     @StateObject var applicaiton: FeedApplication = .init()
     @StateObject var inboxMonitor = InboxMonitor()
@@ -12,11 +13,11 @@ struct FeedView: View {
     // MARK: - FetchRequests
     
     @FetchRequest var products: FetchedResults<Product>
-    @FetchRequest var recommendations: FetchedResults<CarRecommendation>
+    @FetchRequest var recommendationSet: FetchedResults<CarRecommendation>
     
     // MARK: - State
     
-    @Namespace internal var profileNamespace
+    @Namespace internal var namespace
     
     @State internal var showFavoritesOnly = false
     /// To show balance on navigation title
@@ -26,14 +27,14 @@ struct FeedView: View {
     
     init() {
         _products = FetchRequest(fetchRequest: Product.allProductsFetchRequest(), animation: .smooth)
-        _recommendations = FetchRequest(fetchRequest: CarRecommendation.all(), animation: .smooth)
+        _recommendationSet = FetchRequest(fetchRequest: CarRecommendation.allNeutralSentiment(), animation: .smooth)
     }
     
     var body: some View {
         ScrollView {
             makeBalanceSection()
             
-            if !recommendations.isEmpty {
+            if !recommendationSet.isEmpty {
                 makeRecommendationsSection()
             }
             

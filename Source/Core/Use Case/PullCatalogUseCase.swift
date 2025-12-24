@@ -8,7 +8,7 @@ public struct PullCatalogUseCase {
     }
     
     public func execute() async throws {
-        let context = scope.coreDataContext
+        let context = scope.createBackgroundContext()
         let products = try await scope.endpoint.getProducts().products
         try await context.perform {
             products.forEach { raw in

@@ -9,7 +9,7 @@ public struct PullRecommendationsUseCase {
     }
     
     public func execute() async throws {
-        let context = scope.coreDataContext
+        let context = scope.createBackgroundContext()
         let cars = try await scope.endpoint.getCars().cars
         
         try await context.perform {

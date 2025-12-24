@@ -9,7 +9,7 @@ public struct PullMyOrdersUseCase {
     }
     
     public func execute() async throws {
-        let context = scope.coreDataContext
+        let context = scope.createBackgroundContext()
         let orders = try await scope.endpoint.getUserOrders().orders
         try await context.perform {
             orders.forEach { raw in

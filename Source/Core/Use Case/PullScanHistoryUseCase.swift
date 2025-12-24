@@ -9,7 +9,7 @@ public struct PullScanHistoryUseCase {
     }
     
     public func execute() async throws {
-        let context = scope.coreDataContext
+        let context = scope.createBackgroundContext()
         let scans = try await scope.endpoint.getUserScans().scans
         try await context.perform {
             scans.forEach { raw in

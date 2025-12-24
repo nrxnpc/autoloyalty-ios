@@ -75,6 +75,10 @@ public final class Scope: @unchecked Sendable {
         dataPipeline.coreDataStack().viewContext
     }
     
+    public func createBackgroundContext() -> NSManagedObjectContext {
+        dataPipeline.coreDataStack().newBackgroundContext()
+    }
+    
     /// Check if user is authenticated
     public var isAuthenticated: Bool {
         !session.isGuestSync

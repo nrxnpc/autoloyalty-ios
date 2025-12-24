@@ -18,6 +18,7 @@ struct AboutMeView: View, ComponentBuilder {
         MakeList {
             makeAboutSection()
             makeActivitySection()
+            makeRecommendationsSection()
             makeSupportSection()
             
             makePolicySection()
@@ -59,10 +60,18 @@ extension AboutMeView {
                 router.route(sheet: .transactionHistory)
             }
             
-            MakeListRow(title: "Orders", subtitle: "History of your point exchanges", icon: "giftcard", iconColor: .pink) {
+            MakeListRow(title: "Orders", subtitle: "History of your point exchanges", icon: "cart", iconColor: .pink) {
                 router.route(sheet: .orders)
             }
             .frame(maxHeight: .infinity)
+        }
+    }
+    
+    @ViewBuilder private func makeRecommendationsSection() -> some View {
+        MakeSection {
+            MakeListRow(title: "Recommendations & Offers", subtitle: "Personalized offers for liked cars", icon: "heart.text.square", iconColor: .orange) {
+                router.route(sheet: .offers)
+            }
         }
     }
     

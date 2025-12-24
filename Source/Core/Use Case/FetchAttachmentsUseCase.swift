@@ -11,7 +11,7 @@ public struct FetchAttachmentsUseCase {
     }
     
     public func execute() async throws {
-        let context = scope.coreDataContext
+        let context = scope.createBackgroundContext()
         let request = Attachment.notLoaded()
         let attachments = try context.fetch(request)
         

@@ -15,9 +15,7 @@ public class Entity: NSManagedObject, Identifiable {
     public override func awakeFromInsert() {
         super.awakeFromInsert()
         let now = Date()
-        if id.isEmpty {
-            id = UUID().uuidString
-        }
+        id = UUID().uuidString
         createdAt = now
         updatedAt = now
         sync = EntitySync(context: self.managedObjectContext!)

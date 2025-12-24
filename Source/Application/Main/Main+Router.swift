@@ -16,20 +16,22 @@ extension Main {
         enum SheetDestination {
             case createAccount(Authentication)
             case changeAboutMe(AboutMe)
-            case productDetails(String)
+            case productDetails(String, Namespace.ID)
             case howTo(HowTo)
             case transactionHistory
             case orders
             case inboxMessage(InboxMessage)
             case scanner
             case scanHistory
+            case offers
             case reauthenticationView
             case contactSupport
             case console
         }
         
-        enum FullScreenDestination: String {
+        enum FullScreenDestination {
             case scanner
+            case recommendations(Namespace.ID, FetchedResults<CarRecommendation>)
         }
         
         // MARK: - Output
@@ -120,6 +122,11 @@ extension Main {
                         NavigationView {
                             QRScannerView()
                         }
+                    case .recommendations(let namespace, let recommendationSet):
+                        NavigationView {
+                            RecommendationsView(recommendationSet: recommendationSet)
+                        }
+                        .navigationTransition(.zoom(sourceID: "recommendations", in: namespace))
                     }
                 }
                 .sheet(item: $router.sheet) { destination in
@@ -138,10 +145,13 @@ extension Main {
                         }
                         .presentationDetents([.large])
                         .presentationDragIndicator(.visible)
-                    case .productDetails(let id):
-                        RewardDetailsView(id: id)
-                            .presentationDetents([.large])
-                            .presentationDragIndicator(.visible)
+                    case .productDetails(let id, let namespace):
+                        NavigationView {
+                            RewardDetailsView(id: id)
+                        }
+                        .presentationDetents([.large])
+                        .presentationDragIndicator(.visible)
+                        .navigationTransition(.zoom(sourceID: id, in: namespace))
                     case .howTo(let howTo):
                         switch howTo {
                         case .topUpYourBalance:
@@ -187,6 +197,12 @@ extension Main {
                         }
                         .presentationDetents([.large])
                         .presentationDragIndicator(.visible)
+                    case .offers:
+                        NavigationView {
+                            OffersView()
+                        }
+                        .presentationDetents([.large])
+                        .presentationDragIndicator(.visible)
                     case .reauthenticationView:
                         NavigationView {
                             ReauthenticationView()
@@ -227,13 +243,14 @@ extension Main.Router.SheetDestination: Identifiable, Equatable {
         switch self {
         case .createAccount: return "createAccount"
         case .changeAboutMe: return "changeAboutMe"
-        case .productDetails(let id): return id
+        case .productDetails(let id, _): return id
         case .howTo(let howTo): return howTo.id
         case .transactionHistory: return "transactionHistory"
         case .orders: return "orders"
         case .inboxMessage: return "inboxMessage"
         case .scanner: return "scanner"
         case .scanHistory: return "scanHistory"
+        case .offers: return "offers"
         case .reauthenticationView: return "reauthenticationView"
         case .contactSupport: return "contactSupport"
         case .console: return "console"
@@ -247,6 +264,13 @@ extension Main.Router.SheetDestination: Identifiable, Equatable {
 
 extension Main.Router.FullScreenDestination: Identifiable, Equatable {
     var id: String {
-        rawValue
+        switch self {
+        case .scanner: return "scanner"
+        case .recommendations: return "recommendations"
+        }
+    }
+    
+    static func == (lhs: Main.Router.FullScreenDestination, rhs: Main.Router.FullScreenDestination) -> Bool {
+        lhs.id == rhs.id
     }
 }

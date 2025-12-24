@@ -8,6 +8,7 @@ struct MainView: View {
     
     @State var router: Main.Router
     @State var application: Main
+    @State var recommendations: Recommendations = .init()
     @StateObject var captureSession = CaptureSession()
     
     init() {
@@ -36,6 +37,7 @@ struct MainView: View {
         }
         .environment(router)
         .environment(application)
+        .environment(recommendations)
         .environment(\.managedObjectContext, scope.coreDataContext)
         .onShake {
             router.route(sheet: .console)

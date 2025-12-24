@@ -11,8 +11,9 @@ extension BalanceTransaction {
     
     static func byID(_ id: String) -> NSFetchRequest<BalanceTransaction> {
         let request = NSFetchRequest<BalanceTransaction>(entityName: "BalanceTransaction")
+        request.predicate = NSPredicate(format: "id == %@", id)
         request.fetchLimit = 1
-        request.sortDescriptors = [NSSortDescriptor(key: "id", ascending: true)]
+        request.sortDescriptors = [NSSortDescriptor(key: "createdAt", ascending: false)]
         return request
     }
     

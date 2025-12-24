@@ -41,7 +41,7 @@ extension QRScanHistoryView {
                     Text("Your history will appear here once you start scanning QR codes to earn points")
                         .font(.callout)
                         .foregroundStyle(.secondary)
-                        .multilineTextAlignment(.center)
+                        .multilineTextAlignment(.leading)
                 }
             }
             .padding()

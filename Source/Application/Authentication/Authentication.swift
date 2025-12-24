@@ -51,7 +51,15 @@ extension Authentication {
         }
         
         let createAccount = CreateAccountUseCase(scope: scope)
-        try await createAccount.execute(email: input.email, password: input.password, confirmationCode: "")
+        func name() -> String {
+            guard input.name.isEmpty else {
+                return input.name
+            }
+            
+            return String(input.email.split(separator: "@").first ?? "user")
+        }
+        
+        try await createAccount.execute(name: name(), email: input.email, password: input.password, confirmationCode: "")
     }
 }
 

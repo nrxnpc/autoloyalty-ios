@@ -52,7 +52,7 @@ extension BalanceTransactionsView {
                     Text("All your point transactions will appear here once you start earning or spending points")
                         .font(.callout)
                         .foregroundStyle(.secondary)
-                        .multilineTextAlignment(.center)
+                        .multilineTextAlignment(.leading)
                 }
             }
             .padding()
