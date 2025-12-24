@@ -5,14 +5,14 @@ extension SupportMessage {
     /// Fetch all messages sorted by date
     static func allMessagesSortedByCreatedDate() -> NSFetchRequest<SupportMessage> {
         let request = NSFetchRequest<SupportMessage>(entityName: "SupportMessage")
-        request.sortDescriptors = [NSSortDescriptor(key: "createdAt", ascending: false)]
+        request.sortDescriptors = [NSSortDescriptor(key: "createdAt", ascending: true)]
         return request
     }
     
     /// Fetch all drafts
     static func allDrafts() -> NSFetchRequest<SupportMessage> {
         let request = NSFetchRequest<SupportMessage>(entityName: "SupportMessage")
-        request.predicate = NSPredicate(format: "isDraft == YES")
+        request.predicate = NSPredicate(format: "sync.isDraft == YES")
         request.sortDescriptors = [NSSortDescriptor(key: "createdAt", ascending: false)]
         return request
     }

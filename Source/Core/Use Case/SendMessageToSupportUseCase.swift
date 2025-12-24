@@ -3,10 +3,7 @@ import Foundation
 import ScopeGraph
 
 public struct SendMessageToSupportUseCase {
-    private let scope: Scope
-    public init(scope: Scope) {
-        self.scope = scope
-    }
+    @Dependency(\.scope) var scope
     
     public func send(text: String) async throws {
         let context = scope.createBackgroundContext()
@@ -20,6 +17,7 @@ public struct SendMessageToSupportUseCase {
                 try context.save()
             }
         }
+        
         try await Task.sleep(for: .seconds(1))
         
         try await context.perform {
@@ -29,10 +27,13 @@ public struct SendMessageToSupportUseCase {
             }
             
             let supportMessage = SupportMessage(context: context)
+            supportMessage.sync.isDraft = true
             supportMessage.text = """
-                Our service is temporarily unavailable due to technical reasons. We are currently working on resolving the issue and will be back online as soon as possible.
-                If you have an urgent matter, you can contact us via e-mail: support@nsp-app.ru
-                We apologize for any inconvenience this may cause.
+                Service Unavailable 🛠️ 
+                
+                We’re undergoing technical maintenance and will be back as soon as possible. Sorry for the inconvenience!
+                
+                If you need urgent help, please contact us via email. ✉️
                 """
             supportMessage.isOwned = false
             
