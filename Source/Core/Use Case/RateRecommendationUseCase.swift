@@ -1,11 +1,9 @@
+import Dependencies
 import Foundation
 import ScopeGraph
 
 public struct RateRecommendationUseCase {
-    private let scope: Scope
-    public init(scope: Scope) {
-        self.scope = scope
-    }
+    @Dependency(\.scope) var scope
     
     public enum FeedbackSentiment : Sendable { case accept, reject }
     public func submitFeedback(recommendation id: String, sentiment: FeedbackSentiment) async throws {
@@ -28,10 +26,7 @@ public struct RateRecommendationUseCase {
 }
 
 public struct ResetRecommendationsUseCase {
-    private let scope: Scope
-    public init(scope: Scope) {
-        self.scope = scope
-    }
+    @Dependency(\.scope) var scope
     
     public func execute() async throws {
         let context = scope.createBackgroundContext()

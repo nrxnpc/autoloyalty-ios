@@ -50,8 +50,9 @@ extension RecommendationsView {
                 }
                 
                 Button("Review Recommendations Again", systemImage: "arrow.clockwise") {
-                    recommendations.reset()
-                    showCompletionState = false
+                    recommendations.reset {
+                        showCompletionState = false
+                    }
                 }
                 .font(.callout)
                 .foregroundStyle(.secondary)
@@ -95,8 +96,9 @@ extension RecommendationsView {
         ToolbarItem(placement: .topBarTrailing) {
             Menu {
                 Button("Reset", systemImage: "arrow.clockwise") {
-                    recommendations.reset()
-                    showCompletionState = false
+                    recommendations.reset {
+                        showCompletionState = false
+                    }
                 }
             } label: {
                 Image(systemName: "ellipsis")
@@ -150,8 +152,8 @@ struct CarCardView: View {
         }
         .background(.ultraThinMaterial)
         .cornerRadius(32)
-        .shadow(radius: 8)
-        .overlay(alignment: .topTrailing) {
+        .shadow(radius: 2, y: 2)
+        .overlay(alignment: direction == .left ? .topTrailing : .topLeading) {
             if direction != .idle {
                 Text(direction == .left ? "NOPE" : "LIKE")
                     .font(.title.weight(.bold))

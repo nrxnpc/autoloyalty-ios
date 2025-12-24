@@ -384,7 +384,7 @@ struct CardSwipeEffect: ViewModifier {
     func body(content: Content) -> some View {
         switch index {
         case 0:
-            let angle = Angle(degrees: Double(offset.x) / 20)
+            let angle = Angle(degrees: Double(offset.x) / 40)
             content
                 .offset(x: offset.x, y: offset.y)
                 .rotationEffect(angle, anchor: .bottom)
