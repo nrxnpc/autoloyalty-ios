@@ -24,7 +24,8 @@ public struct PullAboutMeUseCase: Sendable {
     /// Prevents race conditions by combining find-or-create and update operations.
     @MainActor
     private func upsertAccount(accountID: String, from accountInfo: RestEndpoint.UserProfile) async throws {
-        try await scope.coreDataContext.perform {
+        let context = scope.createBackgroundContext()
+        try await context.perform {
             if let account = try Account.byID(accountID).execute().first {
                 // TODO: a name may be overriden by the user without backend sync
                 // account.name = accountInfo.name
@@ -32,13 +33,15 @@ public struct PullAboutMeUseCase: Sendable {
                 account.email = accountInfo.email
                 account.points = accountInfo.points
             } else {
-                let account = try Account.create(id: accountID, externalID: accountInfo.id, in: scope.coreDataContext)
+                let account = try Account.create(id: accountID, externalID: accountInfo.id, in: context)
                 account.name = accountInfo.name
                 account.email = accountInfo.email
                 account.points = accountInfo.points
             }
             
-            try scope.coreDataContext.save()
+            if context.hasChanges {
+                try context.save()
+            }
         }
     }
     

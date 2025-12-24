@@ -8,7 +8,7 @@ public struct PullNewsUseCase {
     }
     
     public func execute() async throws {
-        let context = scope.coreDataContext
+        let context = scope.createBackgroundContext()
         let news = try await scope.endpoint.getNews().news
         try await context.perform {
             news.forEach { raw in

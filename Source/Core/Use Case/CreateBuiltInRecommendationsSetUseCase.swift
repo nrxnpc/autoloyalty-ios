@@ -9,7 +9,7 @@ public struct CreateBuiltInRecommendationsSetUseCase {
     }
     
     public func execute() async throws {
-        let context = scope.coreDataContext
+        let context = scope.createBackgroundContext()
         
         let messages = try context.fetch(CarRecommendation.allDrafts())
         guard messages.isEmpty else {

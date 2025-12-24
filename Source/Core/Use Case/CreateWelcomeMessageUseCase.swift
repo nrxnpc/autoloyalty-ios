@@ -9,7 +9,7 @@ public struct CreateWelcomeMessageUseCase {
     }
     
     public func execute() async throws {
-        let context = scope.coreDataContext
+        let context = scope.createBackgroundContext()
         let messages = try context.fetch(InboxMessage.allMessagesSortedByCreatedDate())
         guard messages.isEmpty else {
             return

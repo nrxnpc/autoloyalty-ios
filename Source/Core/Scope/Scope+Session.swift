@@ -205,7 +205,7 @@ public extension Scope {
         if context.hasChanges {
             try context.save()
         }
-        dataPipeline.coreDataStack().switchUser(to: userIdentifier, inMemory: inMemory)
+        await dataPipeline.coreDataStack().switchUser(to: userIdentifier, inMemory: inMemory)
         debugPrint("[DEBUG][Scope] switched to database with identifier: \(CacheKey(userIdentifier).value)")
     }
     

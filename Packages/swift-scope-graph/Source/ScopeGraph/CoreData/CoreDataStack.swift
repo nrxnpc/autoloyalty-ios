@@ -1,11 +1,7 @@
 import Foundation
 import CoreData
 
-/// CoreData stack with user-specific databases and migration support
-/// 
-/// Provides CoreData implementation with user-specific databases for data isolation,
-/// in-memory storage for testing, and automatic migration handling.
-@available(iOS 18.0, macOS 15.0, watchOS 11.0, tvOS 18.0, visionOS 2.0, *)
+/// CoreData stack with user-specific databases
 public final class CoreDataStack: @unchecked Sendable {
     private var userId: String
     private var _persistentContainer: NSPersistentContainer?
@@ -13,12 +9,8 @@ public final class CoreDataStack: @unchecked Sendable {
     private let modelBundle: Bundle?
     private var isInMemory: Bool
     private let customModel: NSManagedObjectModel?
+    private let lock = NSLock()
     
-    /// Initialize CoreData stack with bundle-based model
-    /// - Parameters:
-    ///   - userId: Unique user identifier for database isolation
-    ///   - modelName: Name of the .xcdatamodeld file
-    ///   - modelBundle: Bundle containing the data model
     public init(userId: String, modelName: String, modelBundle: Bundle) {
         self.userId = userId
         self.modelName = modelName
@@ -35,12 +27,7 @@ public final class CoreDataStack: @unchecked Sendable {
         self.customModel = model
     }
     
-    /// Create in-memory CoreData stack for testing
-    /// - Parameters:
-    ///   - userId: User identifier (default: "test_user")
-    ///   - modelName: Model name (default: "InMemoryModel")
-    ///   - model: Custom managed object model
-    /// - Returns: Configured in-memory CoreData stack
+    /// Create in-memory CoreData stack with custom model
     public static func inMemory(userId: String = "test_user", modelName: String = "InMemoryModel", model: NSManagedObjectModel) -> CoreDataStack {
         return CoreDataStack(
             userId: userId,
@@ -50,9 +37,10 @@ public final class CoreDataStack: @unchecked Sendable {
         )
     }
     
-    /// Access the persistent container with lazy initialization
-    /// - Returns: Configured NSPersistentContainer
     public var persistentContainer: NSPersistentContainer {
+        lock.lock()
+        defer { lock.unlock() }
+        
         if let container = _persistentContainer {
             return container
         }
@@ -66,6 +54,8 @@ public final class CoreDataStack: @unchecked Sendable {
         } else {
             let storeURL = databaseURL
             let storeDescription = NSPersistentStoreDescription(url: storeURL)
+            storeDescription.shouldMigrateStoreAutomatically = true
+            storeDescription.shouldInferMappingModelAutomatically = true
             storeDescription.type = NSSQLiteStoreType
             container.persistentStoreDescriptions = [storeDescription]
             debugPrint("[DEBUG][ScopeGraph] Created SQLite store at \(databaseURL)")
@@ -80,53 +70,60 @@ public final class CoreDataStack: @unchecked Sendable {
                     fatalError("[ScopeGraph] CoreData error: \(error)")
                 }
             }
+            
+            Task { @MainActor in
+                container.viewContext.automaticallyMergesChangesFromParent = true
+                container.viewContext.mergePolicy = NSMergePolicy.mergeByPropertyObjectTrump
+            }
         }
         
         _persistentContainer = container
         return container
     }
     
-    /// Main thread managed object context
-    /// - Returns: View context for UI operations
     public var viewContext: NSManagedObjectContext {
         persistentContainer.viewContext
     }
     
-    /// Save changes to persistent store
-    /// - Throws: CoreData save errors
+    public func newBackgroundContext() -> NSManagedObjectContext {
+         let context = persistentContainer.newBackgroundContext()
+         context.mergePolicy = NSMergePolicy.mergeByPropertyObjectTrump
+         return context
+    }
+    
     public func save() async throws {
         let context = viewContext
-        if context.hasChanges {
-            try await context.perform {
-                try context.save()
-            }
+        
+        try await context.perform {
+            guard context.hasChanges else { return }
+            try context.save()
         }
     }
     
-    /// Switch to different user database
-    /// - Parameters:
-    ///   - userId: New user identifier
-    ///   - inMemory: Whether to use in-memory storage (default: true)
-    public func switchUser(to userId: String, inMemory: Bool = true) {
+    public func switchUser(to userId: String, inMemory: Bool = true) async {
+        let shouldSwitch = await lock.withLock {
+            guard self.userId != userId else {
+                return false
+            }
+            return true
+        }
+        
+        guard shouldSwitch else { return }
+        
         // Save current context if it has changes
         if let container = _persistentContainer, !inMemory {
             let context = container.viewContext
-            if context.hasChanges {
-                try? context.save()
+            try? await context.perform {
+                guard context.hasChanges else { return }
+                try context.save()
             }
         }
         
-        self.isInMemory = inMemory
-        
-        // Clear the container to force recreation with new user database
-        _persistentContainer = nil
-        self.userId = userId
-    }
-    
-    /// Create a new background context for background operations
-    /// - Returns: Background managed object context
-    public func newBackgroundContext() -> NSManagedObjectContext {
-        return persistentContainer.newBackgroundContext()
+        await lock.withLock {
+            self.isInMemory = inMemory
+            _persistentContainer = nil
+            self.userId = userId
+        }
     }
     
     private var databaseURL: URL {
@@ -173,12 +170,20 @@ public final class CoreDataStack: @unchecked Sendable {
         // Recreate store
         let storeDescription = NSPersistentStoreDescription(url: storeURL)
         storeDescription.type = NSSQLiteStoreType
+        storeDescription.shouldMigrateStoreAutomatically = true
+        storeDescription.shouldInferMappingModelAutomatically = true
         container.persistentStoreDescriptions = [storeDescription]
         
         container.loadPersistentStores { _, error in
             if let error = error {
                 fatalError("Failed to recreate CoreData store: \(error)")
             }
+            
+            Task { @MainActor in
+                container.viewContext.automaticallyMergesChangesFromParent = true
+                container.viewContext.mergePolicy = NSMergePolicy.mergeByPropertyObjectTrump
+            }
+            
             print("[ScopeGraph] Database \(storeURL.lastPathComponent) was re-created.")
         }
     }

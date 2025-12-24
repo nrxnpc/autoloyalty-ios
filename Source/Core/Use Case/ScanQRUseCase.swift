@@ -12,7 +12,7 @@ public struct ScanQRUseCase {
     }
     
     public func execute(value: String) async throws -> Int {
-        let context = scope.coreDataContext
+        let context = scope.createBackgroundContext()
         let scan = try await scope.endpoint.scanQRCode(.init(qrCode: value))
         
         if let income = scan.pointsEarned, income > 0 {
