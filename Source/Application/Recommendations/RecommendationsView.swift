@@ -6,39 +6,28 @@ import CoreData
 
 struct RecommendationsView: View {
     @Environment(\.dismiss) var dismiss
-    @FetchRequest var recommendations: FetchedResults<CarRecommendation>
-    @State private var cards: [CarRecommendation] = []
-    @State private var selectedCard: CarRecommendation?
-    @State private var popTrigger: CardSwipeDirection?
+    @Environment(\.managedObjectContext) private var context
+    @Environment(Recommendations.self) var recommendations
     
+    @State var selectedCard: CarRecommendation?
+    @State var popTrigger: CardSwipeDirection?
+    
+    @FetchRequest var recommendationSet: FetchedResults<CarRecommendation>
     init() {
-        _recommendations = FetchRequest(fetchRequest: CarRecommendation.all())
+        _recommendationSet = FetchRequest(fetchRequest: CarRecommendation.all(), animation: .smooth)
     }
     
     var body: some View {
+        @Bindable var recommendations = recommendations
         VStack {
             if recommendations.isEmpty {
                 emptyView
             } else {
-                CardSwipeView(items: $cards, selectedItem: $selectedCard, popTrigger: $popTrigger) { recommendation, progress, direction in
-                    CarCardView(recommendation: recommendation, progress: progress, direction: direction)
-                }
-                .configure(threshold: 150, minimumDistance: 20, animateOnYAxes: false)
-                .onSwipeEnd { card, direction in
-                    UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-                }
-                .onNoMoreCardsLeft {
-                    // Cards finished
-                }
-                .aspectRatio(1/1.6, contentMode: .fit)
-                .padding(32)
+                makeStackView()
             }
             Spacer()
         }
         .interactiveDismissDisabled()
-        .onAppear {
-            cards = Array(recommendations)
-        }
         .toolbar(content: makeToolbar)
     }
     
@@ -57,7 +46,7 @@ struct RecommendationsView: View {
                 .padding(.bottom, 20)
             
             Button("Reset") {
-                cards = Array(recommendations)
+                recommendations.reset()
             }
             .font(.headline)
             .frame(width: 200, height: 50)
@@ -68,10 +57,65 @@ struct RecommendationsView: View {
     }
 }
 
+extension RecommendationsView {
+    @ViewBuilder func makeStackView() -> some View {
+        FetchedCardSwipeView(fetchedResults: recommendationSet, selectedItem: $selectedCard, popTrigger: $popTrigger) { recommendation, progress, direction in
+            CarCardView(recommendation: recommendation, progress: progress, direction: direction, compact: false)
+        }
+        .configure(cardSpacing: 16)
+        .onSwipeEnd { card, direction in
+            recommendations.removeCard(card)
+            UIImpactFeedbackGenerator(style: .medium).impactOccurred()
+        }
+        .onNoMoreCardsLeft {
+            // Cards finished
+        }
+        .aspectRatio(1/1.6, contentMode: .fit)
+        .padding(.horizontal, 16)
+        .padding(.bottom, 32)
+    }
+    
+    @ToolbarContentBuilder func makeToolbar() -> some ToolbarContent {
+        ToolbarItem(placement: .cancellationAction) {
+            Button(action: dismiss.callAsFunction) {
+                Image(systemName: "xmark")
+            }
+        }
+        
+        ToolbarItem(placement: .topBarTrailing) {
+            Menu {
+                Button("Reset", systemImage: "arrow.clockwise") {
+                    recommendations.reset()
+                }
+            } label: {
+                Image(systemName: "ellipsis")
+                    .contentShape(Rectangle())
+            }
+        }
+        
+        ToolbarItemGroup(placement: .bottomBar) {
+            Button {
+                
+            } label: {
+                Image(systemName: "xmark")
+                    .foregroundStyle(.red)
+            }
+            
+            Button {
+                
+            } label: {
+                Image(systemName: "checkmark")
+                    .foregroundStyle(.green)
+            }
+        }
+    }
+}
+
 struct CarCardView: View {
     let recommendation: CarRecommendation
     let progress: CGFloat
     let direction: CardSwipeDirection
+    let compact: Bool
     
     var body: some View {
         ZStack(alignment: .bottom) {
@@ -100,14 +144,15 @@ struct CarCardView: View {
         ZStack {
             VStack(spacing: 0) {
                 makeImagePreview()
-                VStack(alignment: .leading, spacing: 12) {
+                VStack(alignment: .leading, spacing: 8) {
                     makeHeadlineRow()
-                    
-                    if !recommendation.carDescription.isEmpty {
-                        makeDescriptionRow()
+                    if !compact {
+                        makeSpecificationsRow()
+                        
+                        if !recommendation.carDescription.isEmpty {
+                            makeDescriptionRow()
+                        }
                     }
-                    
-                    makeSpecificationsRow()
                 }
                 .padding()
                 .background(.ultraThinMaterial)
@@ -150,8 +195,15 @@ struct CarCardView: View {
                     .foregroundColor(.secondary)
                 
                 Spacer()
+                
+                if compact {
+                    makeYearLabel()
+                }
             }
-            makeYearLabel()
+            
+            if !compact {
+                makeYearLabel()
+            }
         }
     }
     
@@ -179,10 +231,10 @@ struct CarCardView: View {
             specItem("engine.combustion", recommendation.engine)
             
             LazyVGrid(columns: [GridItem(.flexible(), alignment: .centerFirstTextBaseline), GridItem(.flexible(), alignment: .centerFirstTextBaseline)], spacing: 8) {
-                specItem("gearshift.layout.sixspeed", recommendation.transmission)
-                specItem("gearshape.2", recommendation.drivetrain)
                 specItem("fuelpump", recommendation.fuelType)
-                specItem("car.side", recommendation.bodyType)
+                specItem("gearshift.layout.sixspeed", recommendation.transmission)
+                //specItem("gearshape.2", recommendation.drivetrain)
+                //specItem("car.side", recommendation.bodyType)
             }
         }
         .padding(.horizontal, 8)
@@ -226,12 +278,3 @@ struct RoundedCorner: Shape {
     }
 }
 
-extension RecommendationsView {
-    @ToolbarContentBuilder func makeToolbar() -> some ToolbarContent {
-        ToolbarItem(placement: .cancellationAction) {
-            Button(action: dismiss.callAsFunction) {
-                Image(systemName: "xmark")
-            }
-        }
-    }
-}

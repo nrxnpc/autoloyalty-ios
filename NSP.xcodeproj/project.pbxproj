@@ -71,6 +71,8 @@
 		7E72CB902EFB16CA00D647F7 /* Nuke in Frameworks */ = {isa = PBXBuildFile; productRef = 7E72CB8F2EFB16CA00D647F7 /* Nuke */; };
 		7E72CB922EFB16CA00D647F7 /* NukeExtensions in Frameworks */ = {isa = PBXBuildFile; productRef = 7E72CB912EFB16CA00D647F7 /* NukeExtensions */; };
 		7E72CB942EFB16CA00D647F7 /* NukeUI in Frameworks */ = {isa = PBXBuildFile; productRef = 7E72CB932EFB16CA00D647F7 /* NukeUI */; };
+		7E72CB962EFB3A9C00D647F7 /* RecommendationsView+Compact.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E72CB952EFB3A9C00D647F7 /* RecommendationsView+Compact.swift */; };
+		7E72CB982EFB4C3D00D647F7 /* Recommendations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E72CB972EFB4C3D00D647F7 /* Recommendations.swift */; };
 		7E95E8982E7AFA0800B45539 /* RestEndpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E95E86A2E7AFA0800B45539 /* RestEndpoint.swift */; };
 		7E95E89F2E7AFA0800B45539 /* RestEndpoint+Raw.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E95E86C2E7AFA0800B45539 /* RestEndpoint+Raw.swift */; };
 		7EAF29402EE879DC00E4201A /* View+OnTap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EAF293F2EE879DC00E4201A /* View+OnTap.swift */; };
@@ -187,6 +189,8 @@
 		7E72CB832EFAB11500D647F7 /* NotificationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationView.swift; sourceTree = "<group>"; };
 		7E72CB8A2EFAE97F00D647F7 /* CardSwipeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardSwipeView.swift; sourceTree = "<group>"; };
 		7E72CB8C2EFB039600D647F7 /* CreateBuiltInRecommendationsSetUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateBuiltInRecommendationsSetUseCase.swift; sourceTree = "<group>"; };
+		7E72CB952EFB3A9C00D647F7 /* RecommendationsView+Compact.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RecommendationsView+Compact.swift"; sourceTree = "<group>"; };
+		7E72CB972EFB4C3D00D647F7 /* Recommendations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Recommendations.swift; sourceTree = "<group>"; };
 		7E95E8692E7AFA0800B45539 /* API_REFERENCE.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = API_REFERENCE.md; sourceTree = "<group>"; };
 		7E95E86A2E7AFA0800B45539 /* RestEndpoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestEndpoint.swift; sourceTree = "<group>"; };
 		7E95E86C2E7AFA0800B45539 /* RestEndpoint+Raw.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RestEndpoint+Raw.swift"; sourceTree = "<group>"; };
@@ -424,7 +428,9 @@
 		7E72CB7E2EF9939900D647F7 /* Recommendations */ = {
 			isa = PBXGroup;
 			children = (
+				7E72CB972EFB4C3D00D647F7 /* Recommendations.swift */,
 				7E72CB7F2EF993AE00D647F7 /* RecommendationsView.swift */,
+				7E72CB952EFB3A9C00D647F7 /* RecommendationsView+Compact.swift */,
 				7E72CB8A2EFAE97F00D647F7 /* CardSwipeView.swift */,
 			);
 			path = Recommendations;
@@ -848,6 +854,7 @@
 				7EE877D42EA2A2F800CFC230 /* Authentication.swift in Sources */,
 				7E4BA2112EE0D2310004CFB3 /* Product+Demo.swift in Sources */,
 				7EE877CE2EA01BB000CFC230 /* EntitySync.swift in Sources */,
+				7E72CB962EFB3A9C00D647F7 /* RecommendationsView+Compact.swift in Sources */,
 				7EE877CF2EA01BB000CFC230 /* Entity.swift in Sources */,
 				7E43D3AB2EC740DE0039FCE4 /* CaptureSession.swift in Sources */,
 				7E72CB822EFAAF5200D647F7 /* UIDevice+Shake.swift in Sources */,
@@ -887,6 +894,7 @@
 				7EE877FA2EA2ED7F00CFC230 /* Attachment.swift in Sources */,
 				7EAF294C2EE8C42000E4201A /* ReauthenticationView.swift in Sources */,
 				7EE877FB2EA2ED7F00CFC230 /* Attachment+Predicate.swift in Sources */,
+				7E72CB982EFB4C3D00D647F7 /* Recommendations.swift in Sources */,
 				7E72CB8B2EFAE97F00D647F7 /* CardSwipeView.swift in Sources */,
 				7EE877FC2EA2ED7F00CFC230 /* Attachment+Loader.swift in Sources */,
 				7E462FE42EE60B9800B7F5EC /* DateFormatters.swift in Sources */,

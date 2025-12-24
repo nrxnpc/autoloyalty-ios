@@ -1,4 +1,87 @@
 import SwiftUI
+import CoreData
+
+public struct FetchedCardSwipeView<Item: NSManagedObject & Identifiable & Hashable, Content: View>: View {
+    private let fetchedResults: FetchedResults<Item>
+    @Binding private var selectedItem: Item?
+    @Binding private var popTrigger: CardSwipeDirection?
+    private let content: (Item, CGFloat, CardSwipeDirection) -> Content
+    
+    @State private var items: [Item] = []
+    @State private var configuration = Configuration<Item>()
+    
+    public init(
+        fetchedResults: FetchedResults<Item>,
+        selectedItem: Binding<Item?> = .constant(nil),
+        popTrigger: Binding<CardSwipeDirection?> = .constant(nil),
+        @ViewBuilder content: @escaping (Item, CGFloat, CardSwipeDirection) -> Content
+    ) {
+        self.fetchedResults = fetchedResults
+        self._selectedItem = selectedItem
+        self._popTrigger = popTrigger
+        self.content = content
+        self._items = State(initialValue: Array(fetchedResults))
+    }
+    
+    public var body: some View {
+        CardSwipeView(
+            items: $items,
+            selectedItem: $selectedItem,
+            popTrigger: $popTrigger,
+            content: content
+        )
+        .configure(
+            threshold: configuration.triggerThreshold,
+            minimumDistance: configuration.minimumDistance,
+            animateOnYAxes: configuration.animateOnYAxes,
+            cardSpacing: configuration.cardSpacing
+        )
+        .onSwipeEnd { item, direction in
+            configuration.onSwipeEnd?(item, direction)
+        }
+        .onNoMoreCardsLeft {
+            configuration.onNoMoreCardsLeft?()
+        }
+        .onThresholdPassed {
+            configuration.onThresholdPassed?()
+        }
+        .onChange(of: fetchedResults.map(\.id)) { _, newIDs in
+            let currentIDs = items.map(\.id)
+            if newIDs != currentIDs {
+                items = Array(fetchedResults)
+            }
+        }
+        .onAppear {
+            items = Array(fetchedResults)
+        }
+    }
+}
+
+public extension FetchedCardSwipeView {
+    func configure(threshold: CGFloat = 150, minimumDistance: CGFloat = 20, animateOnYAxes: Bool = false, cardSpacing: CGFloat = 20) -> FetchedCardSwipeView {
+        configuration.triggerThreshold = threshold
+        configuration.minimumDistance = minimumDistance
+        configuration.animateOnYAxes = animateOnYAxes
+        configuration.cardSpacing = cardSpacing
+        return self
+    }
+    
+    func onSwipeEnd(_ handler: @escaping (Item, CardSwipeDirection) -> Void) -> FetchedCardSwipeView {
+        configuration.onSwipeEnd = handler
+        return self
+    }
+    
+    func onNoMoreCardsLeft(_ handler: @escaping () -> Void) -> FetchedCardSwipeView {
+        configuration.onNoMoreCardsLeft = handler
+        return self
+    }
+    
+    func onThresholdPassed(_ handler: @escaping () -> Void) -> FetchedCardSwipeView {
+        configuration.onThresholdPassed = handler
+        return self
+    }
+}
+
 
 /// A SwiftUI view that provides Tinder-like swipeable card functionality.
 ///
@@ -85,7 +168,8 @@ public struct CardSwipeView<Item: Identifiable & Hashable, Content: View>: View 
                         CardSwipeEffect(
                             index: index,
                             offset: offset,
-                            triggerThreshold: configuration.triggerThreshold
+                            triggerThreshold: configuration.triggerThreshold,
+                            cardSpacing: configuration.cardSpacing
                         )
                     )
             }
@@ -112,7 +196,8 @@ public struct CardSwipeView<Item: Identifiable & Hashable, Content: View>: View 
                     CardSwipeEffect(
                         index: 0,
                         offset: poppedOffset,
-                        triggerThreshold: configuration.triggerThreshold
+                        triggerThreshold: configuration.triggerThreshold,
+                        cardSpacing: configuration.cardSpacing
                     )
                 )
                 .id(poppedItem.id)
@@ -210,11 +295,13 @@ public extension CardSwipeView {
     func configure(
         threshold: CGFloat,
         minimumDistance: CGFloat,
-        animateOnYAxes: Bool
+        animateOnYAxes: Bool,
+        cardSpacing: CGFloat = 20
     ) -> CardSwipeView {
         configuration.triggerThreshold = threshold
         configuration.minimumDistance = minimumDistance
         configuration.animateOnYAxes = animateOnYAxes
+        configuration.cardSpacing = cardSpacing
         return self
     }
     
@@ -279,6 +366,7 @@ final class Configuration<Item: Identifiable> {
     var triggerThreshold: CGFloat = 150
     var minimumDistance: CGFloat = 20
     var animateOnYAxes: Bool = false
+    var cardSpacing: CGFloat = 20
     var onSwipeEnd: ((Item, CardSwipeDirection) -> Void)?
     var onThresholdPassed: (() -> Void)?
     var onNoMoreCardsLeft: (() -> Void)?
@@ -291,6 +379,7 @@ struct CardSwipeEffect: ViewModifier {
     let index: Int
     let offset: CGPoint
     let triggerThreshold: CGFloat
+    let cardSpacing: CGFloat
 
     func body(content: Content) -> some View {
         switch index {
@@ -303,20 +392,20 @@ struct CardSwipeEffect: ViewModifier {
         case 1:
             let progress = min(abs(offset.x) / triggerThreshold, 1)
             content
-                .offset(y: CGFloat((1 - progress) * 50))
+                .offset(y: CGFloat((1 - progress) * cardSpacing * 2.5))
                 .scaleEffect(CGFloat(0.9 + progress * 0.1))
                 .zIndex(3)
         case 2:
             let progress = min(abs(offset.x) / triggerThreshold, 1)
             content
-                .offset(y: CGFloat(110 - progress * 60))
+                .offset(y: CGFloat(cardSpacing * 5.5 - progress * cardSpacing * 3))
                 .scaleEffect(CGFloat(0.8 + progress * 0.1))
                 .zIndex(2)
         case 3:
             let progress = min(abs(offset.x) / triggerThreshold, 1)
             content
                 .opacity(progress)
-                .offset(y: CGFloat(180 - progress * 70))
+                .offset(y: CGFloat(cardSpacing * 9 - progress * cardSpacing * 3.5))
                 .scaleEffect(CGFloat(0.7 + progress * 0.1))
                 .zIndex(1)
         default:

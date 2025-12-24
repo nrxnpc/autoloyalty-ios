@@ -9,16 +9,21 @@ extension FeedView {
     @ViewBuilder func makeRecommendationsSection() -> some View {
         VStack(alignment: .leading, spacing: 16) {
             makeRecommendationsHeader()
+                .padding(.leading, 16)
             
-            RoundedRectangle(cornerRadius: 16)
-                .foregroundStyle(.ultraThinMaterial)
-                .aspectRatio(1/1.1, contentMode: .fit)
-                .onTap {
+            ZStack {
+                RecommendationsView.Compact() {
                     router.route(fullScreen: .recommendations(namespace))
                 }
+                .padding(.horizontal, 16)
+                .aspectRatio(1/0.8, contentMode: .fit)
+            }
+            .onTapGesture {
+                router.route(fullScreen: .recommendations(namespace))
+            }
         }
         .matchedTransitionSource(id: "recommendations", in: namespace)
-        .padding()
+        .padding(.vertical)
     }
     
     @ViewBuilder func makeRecommendationsHeader() -> some View {
@@ -30,7 +35,5 @@ extension FeedView {
         }
         .foregroundStyle(.primary)
     }
-    
-    
 }
 
