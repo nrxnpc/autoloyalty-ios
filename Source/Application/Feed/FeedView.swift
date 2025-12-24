@@ -27,7 +27,7 @@ struct FeedView: View {
     
     init() {
         _products = FetchRequest(fetchRequest: Product.allProductsFetchRequest(), animation: .smooth)
-        _recommendationSet = FetchRequest(fetchRequest: CarRecommendation.all(), animation: .smooth)
+        _recommendationSet = FetchRequest(fetchRequest: CarRecommendation.allNeutralSentiment(), animation: .smooth)
     }
     
     var body: some View {

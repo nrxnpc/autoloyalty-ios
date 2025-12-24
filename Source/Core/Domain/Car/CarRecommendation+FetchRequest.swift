@@ -12,6 +12,13 @@ extension CarRecommendation {
         return request
     }
     
+    public static func allNeutralSentiment() -> NSFetchRequest<CarRecommendation> {
+        let request = fetchRequest()
+        request.predicate = NSPredicate(format: "sentimentScore == 0")
+        request.sortDescriptors = [NSSortDescriptor(keyPath: \CarRecommendation.createdAt, ascending: false)]
+        return request
+    }
+    
     public static func allDrafts() -> NSFetchRequest<CarRecommendation> {
         let request = NSFetchRequest<CarRecommendation>(entityName: "CarRecommendation")
         request.predicate = NSPredicate(format: "sync.isDraft == YES")

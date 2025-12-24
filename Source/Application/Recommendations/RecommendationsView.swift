@@ -6,7 +6,6 @@ import CoreData
 
 struct RecommendationsView: View {
     @Environment(\.dismiss) var dismiss
-    @Environment(\.managedObjectContext) private var context
     @Environment(Recommendations.self) var recommendations
     
     @State var selectedCard: CarRecommendation?
@@ -14,13 +13,13 @@ struct RecommendationsView: View {
     
     @FetchRequest var recommendationSet: FetchedResults<CarRecommendation>
     init() {
-        _recommendationSet = FetchRequest(fetchRequest: CarRecommendation.all(), animation: .smooth)
+        _recommendationSet = FetchRequest(fetchRequest: CarRecommendation.allNeutralSentiment(), animation: .smooth)
     }
     
     var body: some View {
         @Bindable var recommendations = recommendations
         VStack {
-            if recommendations.isEmpty {
+            if recommendationSet.isEmpty {
                 emptyView
             } else {
                 makeStackView()
@@ -64,7 +63,11 @@ extension RecommendationsView {
         }
         .configure(cardSpacing: 16)
         .onSwipeEnd { card, direction in
-            recommendations.removeCard(card)
+            switch direction {
+            case .left: recommendations.feedback(recommendation: card.id, sentiment: .reject)
+            case .right: recommendations.feedback(recommendation: card.id, sentiment: .accept)
+            case .idle: break
+            }
             UIImpactFeedbackGenerator(style: .medium).impactOccurred()
         }
         .onNoMoreCardsLeft {

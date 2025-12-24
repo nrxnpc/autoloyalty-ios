@@ -98,6 +98,10 @@ extension Scope {
                     Field("carDescription", .text)
                     Field("isActive", .boolean)
                     
+                    // MARK: - User Feedbask
+                    
+                    Field("sentimentScore", .number, default: 0)
+                    
                     // MARK: - Specification
                     
                     Field("engine", .text)

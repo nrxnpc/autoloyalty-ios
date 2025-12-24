@@ -13,7 +13,7 @@ extension RecommendationsView {
         
         init(onSwipeEnd: @escaping (() -> Void)) {
             self.onSwipeEnd = onSwipeEnd
-            _recommendationSet = FetchRequest(fetchRequest: CarRecommendation.all(), animation: .smooth)
+            _recommendationSet = FetchRequest(fetchRequest: CarRecommendation.allNeutralSentiment(), animation: .smooth)
         }
         
         var body: some View {
@@ -24,7 +24,11 @@ extension RecommendationsView {
                 }
                 .configure(cardSpacing: 9)
                 .onSwipeEnd { card, direction in
-                    recommendations.removeCard(card)
+                    switch direction {
+                    case .left: recommendations.feedback(recommendation: card.id, sentiment: .reject)
+                    case .right: recommendations.feedback(recommendation: card.id, sentiment: .accept)
+                    case .idle: break
+                    }
                     onSwipeEnd?()
                 }
                 .onNoMoreCardsLeft {
