@@ -12,48 +12,54 @@ struct RecommendationsView: View {
     @State var popTrigger: CardSwipeDirection?
     
     let recommendationSet: FetchedResults<CarRecommendation>
+    @State private var showCompletionState = false
     
     var body: some View {
         @Bindable var recommendations = recommendations
         VStack {
-            if recommendationSet.isEmpty {
-                emptyView
+            if recommendationSet.isEmpty || showCompletionState  {
+                makeEmptyState()
             } else {
                 makeStackView()
             }
             Spacer()
         }
+        .animation(.smooth, value: [showCompletionState, recommendationSet.isEmpty])
         .interactiveDismissDisabled()
         .toolbar(content: makeToolbar)
-    }
-    
-    private var emptyView: some View {
-        VStack {
-            Text("No recommendations")
-                .font(.title)
-                .foregroundStyle(.gray)
-        }
-    }
-    
-    private var completionView: some View {
-        VStack {
-            Text("All cards viewed")
-                .font(.title)
-                .padding(.bottom, 20)
-            
-            Button("Reset") {
-                recommendations.reset()
-            }
-            .font(.headline)
-            .frame(width: 200, height: 50)
-            .background(Color.accentColor)
-            .foregroundColor(.white)
-            .cornerRadius(10)
-        }
     }
 }
 
 extension RecommendationsView {
+    @ViewBuilder func makeEmptyState() -> some View {
+        ScrollView {
+            VStack(spacing: 20) {
+                Image(systemName: "heart.text.square")
+                    .font(.system(size: 60))
+                    .foregroundStyle(.orange)
+                
+                VStack(spacing: 12) {
+                    Text("That's all for today!")
+                        .font(.title2)
+                        .fontWeight(.semibold)
+                    
+                    Text("Keep exploring cars you love - we'll send you exclusive offers based on your preferences")
+                        .font(.callout)
+                        .foregroundStyle(.secondary)
+                        .multilineTextAlignment(.center)
+                }
+                
+                Button("Review Recommendations Again", systemImage: "arrow.clockwise") {
+                    recommendations.reset()
+                    showCompletionState = false
+                }
+                .font(.callout)
+                .foregroundStyle(.secondary)
+            }
+            .padding()
+        }
+    }
+    
     @ViewBuilder func makeStackView() -> some View {
         FetchedCardSwipeView(fetchedResults: recommendationSet, selectedItem: $selectedCard, popTrigger: $popTrigger) { recommendation, progress, direction in
             CarCardView(recommendation: recommendation, progress: progress, direction: direction, compact: false)
@@ -72,7 +78,7 @@ extension RecommendationsView {
             }
         }
         .onNoMoreCardsLeft {
-            // Cards finished
+            showCompletionState = true
         }
         .aspectRatio(1/1.6, contentMode: .fit)
         .padding(.horizontal, 16)
@@ -90,6 +96,7 @@ extension RecommendationsView {
             Menu {
                 Button("Reset", systemImage: "arrow.clockwise") {
                     recommendations.reset()
+                    showCompletionState = false
                 }
             } label: {
                 Image(systemName: "ellipsis")
