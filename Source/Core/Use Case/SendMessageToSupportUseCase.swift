@@ -18,14 +18,17 @@ public struct SendMessageToSupportUseCase {
             }
         }
         
+        let firstMessage = try await context.perform {
+            let messages = try context.fetch(SupportMessage.allDrafts())
+            return messages.count == 0
+        }
+        
+        guard firstMessage else {
+            return
+        }
         try await Task.sleep(for: .seconds(1))
         
         try await context.perform {
-            let messages = try context.fetch(SupportMessage.allDrafts())
-            guard messages.count == 0 else {
-                return
-            }
-            
             let supportMessage = SupportMessage(context: context)
             supportMessage.sync.isDraft = true
             supportMessage.text = """

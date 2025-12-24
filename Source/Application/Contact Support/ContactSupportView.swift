@@ -185,9 +185,12 @@ extension ContactSupportView {
         ToolbarItemGroup(placement: .bottomBar) {
             TextField("Type a message...", text: $userMessageText)
                 .textFieldStyle(.automatic)
+                .submitLabel(.send)
                 .onSubmit {
-                    if !userMessageText.isEmpty {
-                        sentMessage()
+                    Task { @MainActor in
+                        if !userMessageText.isEmpty {
+                            sentMessage()
+                        }
                     }
                 }
                 .padding(.horizontal)
