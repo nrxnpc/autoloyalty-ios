@@ -15,6 +15,7 @@ extension CarRecommendation {
     public static func allNeutralSentiment() -> NSFetchRequest<CarRecommendation> {
         let request = fetchRequest()
         request.predicate = NSPredicate(format: "sentimentScore == 0")
+        request.fetchLimit = 5
         request.sortDescriptors = [NSSortDescriptor(keyPath: \CarRecommendation.createdAt, ascending: false)]
         return request
     }
@@ -28,6 +29,7 @@ extension CarRecommendation {
     
     public static func byID(_ id: String) -> NSFetchRequest<CarRecommendation> {
         let request = NSFetchRequest<CarRecommendation>(entityName: "CarRecommendation")
+        request.predicate = NSPredicate(format: "id == %@", id)
         request.fetchLimit = 1
         request.sortDescriptors = [NSSortDescriptor(keyPath: \CarRecommendation.createdAt, ascending: false)]
         return request

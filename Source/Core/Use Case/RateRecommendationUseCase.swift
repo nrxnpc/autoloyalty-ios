@@ -20,7 +20,6 @@ public struct RateRecommendationUseCase {
             case .accept: recommendation.sentimentScore = 1
             case .reject: recommendation.sentimentScore = -1
             }
-            
             if context.hasChanges {
                 try context.save()
             }

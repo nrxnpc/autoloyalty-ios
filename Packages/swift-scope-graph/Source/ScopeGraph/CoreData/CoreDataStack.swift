@@ -86,9 +86,10 @@ public final class CoreDataStack: @unchecked Sendable {
     }
     
     public func newBackgroundContext() -> NSManagedObjectContext {
-         let context = persistentContainer.newBackgroundContext()
-         context.mergePolicy = NSMergePolicy.mergeByPropertyObjectTrump
-         return context
+        let context = persistentContainer.newBackgroundContext()
+        context.mergePolicy = NSMergePolicy.mergeByPropertyObjectTrump
+        context.automaticallyMergesChangesFromParent = true
+        return context
     }
     
     public func save() async throws {
