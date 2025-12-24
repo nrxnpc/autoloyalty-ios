@@ -74,6 +74,9 @@
 		7E72CB962EFB3A9C00D647F7 /* RecommendationsView+Compact.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E72CB952EFB3A9C00D647F7 /* RecommendationsView+Compact.swift */; };
 		7E72CB982EFB4C3D00D647F7 /* Recommendations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E72CB972EFB4C3D00D647F7 /* Recommendations.swift */; };
 		7E72CB9A2EFC0D1A00D647F7 /* RateRecommendationUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E72CB992EFC0D1A00D647F7 /* RateRecommendationUseCase.swift */; };
+		7E72CB9D2EFC3D0B00D647F7 /* SupportMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E72CB9C2EFC3D0B00D647F7 /* SupportMessage.swift */; };
+		7E72CB9F2EFC3DA500D647F7 /* SupportMessage+FetchRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E72CB9E2EFC3DA500D647F7 /* SupportMessage+FetchRequest.swift */; };
+		7E72CBA12EFC3DE800D647F7 /* SendMessageToSupportUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E72CBA02EFC3DE800D647F7 /* SendMessageToSupportUseCase.swift */; };
 		7E95E8982E7AFA0800B45539 /* RestEndpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E95E86A2E7AFA0800B45539 /* RestEndpoint.swift */; };
 		7E95E89F2E7AFA0800B45539 /* RestEndpoint+Raw.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E95E86C2E7AFA0800B45539 /* RestEndpoint+Raw.swift */; };
 		7EAF29402EE879DC00E4201A /* View+OnTap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EAF293F2EE879DC00E4201A /* View+OnTap.swift */; };
@@ -193,6 +196,9 @@
 		7E72CB952EFB3A9C00D647F7 /* RecommendationsView+Compact.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RecommendationsView+Compact.swift"; sourceTree = "<group>"; };
 		7E72CB972EFB4C3D00D647F7 /* Recommendations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Recommendations.swift; sourceTree = "<group>"; };
 		7E72CB992EFC0D1A00D647F7 /* RateRecommendationUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RateRecommendationUseCase.swift; sourceTree = "<group>"; };
+		7E72CB9C2EFC3D0B00D647F7 /* SupportMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SupportMessage.swift; sourceTree = "<group>"; };
+		7E72CB9E2EFC3DA500D647F7 /* SupportMessage+FetchRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SupportMessage+FetchRequest.swift"; sourceTree = "<group>"; };
+		7E72CBA02EFC3DE800D647F7 /* SendMessageToSupportUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SendMessageToSupportUseCase.swift; sourceTree = "<group>"; };
 		7E95E8692E7AFA0800B45539 /* API_REFERENCE.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = API_REFERENCE.md; sourceTree = "<group>"; };
 		7E95E86A2E7AFA0800B45539 /* RestEndpoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestEndpoint.swift; sourceTree = "<group>"; };
 		7E95E86C2E7AFA0800B45539 /* RestEndpoint+Raw.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RestEndpoint+Raw.swift"; sourceTree = "<group>"; };
@@ -438,6 +444,15 @@
 			path = Recommendations;
 			sourceTree = "<group>";
 		};
+		7E72CB9B2EFC3CFE00D647F7 /* Support */ = {
+			isa = PBXGroup;
+			children = (
+				7E72CB9C2EFC3D0B00D647F7 /* SupportMessage.swift */,
+				7E72CB9E2EFC3DA500D647F7 /* SupportMessage+FetchRequest.swift */,
+			);
+			path = Support;
+			sourceTree = "<group>";
+		};
 		7E95E8792E7AFA0800B45539 /* SwiftUI */ = {
 			isa = PBXGroup;
 			children = (
@@ -532,6 +547,7 @@
 		7ECC3FF02E6628AC0014E97E /* Domain */ = {
 			isa = PBXGroup;
 			children = (
+				7E72CB9B2EFC3CFE00D647F7 /* Support */,
 				7E72CB752EF9872300D647F7 /* Car */,
 				7E3477E72EF5DFD8004F9F01 /* Scan */,
 				7E0FAB9A2EE9A63100498CEA /* Order */,
@@ -668,6 +684,7 @@
 				7E3477E32EF5DEEB004F9F01 /* PullScanHistoryUseCase.swift */,
 				7E72CB7A2EF98BCF00D647F7 /* PullRecommendationsUseCase.swift */,
 				7E72CB992EFC0D1A00D647F7 /* RateRecommendationUseCase.swift */,
+				7E72CBA02EFC3DE800D647F7 /* SendMessageToSupportUseCase.swift */,
 			);
 			path = "Use Case";
 			sourceTree = "<group>";
@@ -814,6 +831,7 @@
 				7E72CB8D2EFB039600D647F7 /* CreateBuiltInRecommendationsSetUseCase.swift in Sources */,
 				7E0FAB9D2EE9A6BB00498CEA /* Order+FetchRequest.swift in Sources */,
 				7ED1439F2E6740F1003BE287 /* Endpoint+Dependencies.swift in Sources */,
+				7E72CBA12EFC3DE800D647F7 /* SendMessageToSupportUseCase.swift in Sources */,
 				7EE878082EA3153100CFC230 /* ChangeAccountImage.swift in Sources */,
 				7E72CB7D2EF9919C00D647F7 /* FeedView+Recommendations.swift in Sources */,
 				7E4BA2152EE30DC40004CFB3 /* RewardDetails.swift in Sources */,
@@ -878,6 +896,7 @@
 				7E462FD72EE4E6A300B7F5EC /* FeedView.swift in Sources */,
 				7E3477E92EF5E005004F9F01 /* ScanItem.swift in Sources */,
 				7E462FE22EE6071A00B7F5EC /* InboxMessageView.swift in Sources */,
+				7E72CB9F2EFC3DA500D647F7 /* SupportMessage+FetchRequest.swift in Sources */,
 				7EE877C42E9FEB9C00CFC230 /* Scope.swift in Sources */,
 				7E462FF62EE65F0F00B7F5EC /* OrdersView.swift in Sources */,
 				7EAF29552EE8FA6D00E4201A /* PullCatalogUseCase.swift in Sources */,
@@ -886,6 +905,7 @@
 				7EAF29512EE8D1A000E4201A /* BalanceTransaction.swift in Sources */,
 				7EE877C62E9FEB9C00CFC230 /* Scope+Session.swift in Sources */,
 				7EAF29482EE8994400E4201A /* CreateAccountUseCase.swift in Sources */,
+				7E72CB9D2EFC3D0B00D647F7 /* SupportMessage.swift in Sources */,
 				7E4BA21B2EE4C6410004CFB3 /* BalanceLabel.swift in Sources */,
 				7E72CB792EF988B900D647F7 /* CarRecommendation+FetchRequest.swift in Sources */,
 				7E0FABA12EE9A82E00498CEA /* CreateOrderUseCase.swift in Sources */,

@@ -3,13 +3,27 @@ import SwiftUIComponents
 
 struct ContactSupportView: View, ComponentBuilder {
     @Environment(\.dismiss) var dismiss
-    @State private var messageText = ""
+    
+    @State private var userMessageText = ""
+    @FetchRequest var messages: FetchedResults<SupportMessage>
+    
+    init() {
+        _messages = .init(fetchRequest: SupportMessage.allMessagesSortedByCreatedDate(), animation: .smooth)
+    }
     
     var body: some View {
-        VStack(spacing: 0) {
-            makeEmptyState()
-            makeMessageInput()
+        ZStack {
+            if messages.isEmpty {
+                makeEmptyState()
+            } else {
+                makeMessagesList()
+            }
+            VStack(spacing: 0) {
+                Spacer()
+                makeMessageInput()
+            }
         }
+        .animation(.smooth, value: messages.isEmpty)
         .navigationTitle("Contact Support")
         .navigationBarTitleDisplayMode(.inline)
         .toolbar(content: makeToolbar)
@@ -21,7 +35,7 @@ struct ContactSupportView: View, ComponentBuilder {
 extension ContactSupportView {
     @ViewBuilder func makeEmptyState() -> some View {
         ScrollView {
-            VStack(spacing: 16) {
+            VStack(alignment: .leading, spacing: 16) {
                 HStack(alignment: .center) {
                     Image(systemName: "headphones")
                         .font(.title)
@@ -29,7 +43,7 @@ extension ContactSupportView {
                     Text("Start a conversation with our support team. We're here to help with any questions or issues you may have.")
                         .font(.callout)
                         .foregroundStyle(.secondary)
-                        .multilineTextAlignment(.center)
+                        .multilineTextAlignment(.leading)
                 }
             }
             .padding()
@@ -41,16 +55,35 @@ extension ContactSupportView {
         }
     }
     
+    @ViewBuilder func makeMessagesList() -> some View {
+        ScrollView {
+            VStack(alignment: .leading, spacing: 16) {
+                ForEach(messages, id: \.id) { message in
+                    makeMessagesRow(message)
+                }
+            }
+        }
+    }
+    
+    @ViewBuilder func makeMessagesRow(_ message: SupportMessage) -> some View {
+        HStack(alignment: .firstTextBaseline) {
+            Text(message.text)
+            Spacer()
+            Text(DateFormatters.shared.day.string(from: message.createdAt))
+                .font(.caption)
+                .foregroundStyle(.tertiary)
+        }
+    }
+    
     @ViewBuilder func makeMessageInput() -> some View {
         HStack(spacing: 12) {
-            TextField("Type a message...", text: $messageText)
+            TextField("Type a message...", text: $userMessageText)
                 .textFieldStyle(.automatic)
                 .padding()
                 .background {
                     RoundedRectangle(cornerRadius: 16)
                         .foregroundStyle(.thickMaterial)
                 }
-                .disabled(true)
             
             Button(action: {}) {
                 Image(systemName: "paperplane.fill")
@@ -59,8 +92,9 @@ extension ContactSupportView {
                     .background(.thickMaterial)
                     .clipShape(Circle())
             }
-            .disabled(true)
+            .disabled(userMessageText.isEmpty)
         }
+        .animation(.smooth, value: userMessageText.isEmpty)
         .padding(.horizontal, 16)
         .padding(.vertical, 16)
     }

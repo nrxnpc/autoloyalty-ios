@@ -50,6 +50,12 @@ extension Scope {
                     Field("wasReaded", .boolean, default: false)
                 }
                 
+                // Support Message
+                EntitySchema("SupportMessage", inherits: "Entity") {
+                    Field("text", .text)
+                    Field("isOwned", .boolean, default: false)
+                }
+                
                 // Product Entity
                 EntitySchema("Product", inherits: "Entity") {
                     Field("name", .text)

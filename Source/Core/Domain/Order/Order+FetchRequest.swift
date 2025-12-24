@@ -21,8 +21,9 @@ extension Order {
     
     public static func byID(_ id: String) -> NSFetchRequest<Order> {
         let request = NSFetchRequest<Order>(entityName: "Order")
+        request.predicate = NSPredicate(format: "id == %@", id)
         request.fetchLimit = 1
-        request.sortDescriptors = [NSSortDescriptor(key: "id", ascending: true)]
+        request.sortDescriptors = [NSSortDescriptor(key: "createdAt", ascending: false)]
         return request
     }
     
