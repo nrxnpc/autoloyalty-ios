@@ -45,7 +45,7 @@ extension OrdersView {
         ScrollView {
             VStack(spacing: 16) {
                 HStack(alignment: .center) {
-                    Image(systemName: "giftcard")
+                    Image(systemName: "cart")
                         .font(.title)
                         .foregroundStyle(.pink)
                     Text("Your reward orders will appear here once you start redeeming points from the catalog")

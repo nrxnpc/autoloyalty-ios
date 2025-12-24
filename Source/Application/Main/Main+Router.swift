@@ -143,7 +143,7 @@ extension Main {
                             ChangeAboutMeView()
                                 .environmentObject(application)
                         }
-                        .presentationDetents([.large])
+                        .presentationDetents([.medium])
                         .presentationDragIndicator(.visible)
                     case .productDetails(let id, let namespace):
                         NavigationView {

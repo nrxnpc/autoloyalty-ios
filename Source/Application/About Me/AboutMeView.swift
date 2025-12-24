@@ -19,7 +19,8 @@ struct AboutMeView: View, ComponentBuilder {
             makeAboutSection()
             makeActivitySection()
             makeRecommendationsSection()
-            makeSupportSection()
+            // Moved to toolbar
+            // makeSupportSection()
             
             makePolicySection()
                 .padding()
@@ -134,12 +135,35 @@ extension AboutMeView {
     @ToolbarContentBuilder func makeToolbar() -> some ToolbarContent {
         ToolbarItem(placement: .topBarTrailing) {
             Menu {
+                Menu("Have Questions?", systemImage: "questionmark.circle") {
+                    Button("Contact Support", systemImage: "headphones") {
+                        router.route(sheet: .contactSupport)
+                    }
+                    
+                    Button("Email Us", systemImage: "envelope") {
+                        if let url = URL(string: "mailto:support@nsp-app.ru?subject=App Support Request") {
+                            UIApplication.shared.open(url)
+                        }
+                    }
+                    
+                    Menu("FAQ", systemImage: "book") {
+                        Button("How to Top Up Balance?") {
+                            router.route(sheet: .howTo(.topUpYourBalance))
+                        }
+                        
+                        Button("How Does Delivery Work?") {
+                            router.route(sheet: .howTo(.howToRedeemGiftCards))
+                        }
+                    }
+                }
+                
                 Button("Logout", systemImage: "person.fill.xmark", role: .cancel) {
                     Task { @MainActor in
                         await application.logout()
                         router.reset()
                     }
                 }
+                
                 Button("Delete Account", systemImage: "person.slash", role: .destructive) {
                     deleteAccountConfirmation = true
                 }

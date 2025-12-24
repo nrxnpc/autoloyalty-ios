@@ -14,7 +14,7 @@ private struct TapGestureModifier: ViewModifier {
     func body(content: Content) -> some View {
         content
             .contentShape(Rectangle())
-            .scaleEffect(isPressed ? 0.95 : 1.0)
+            .scaleEffect(isPressed ? 0.98 : 1.0)
             .animation(.easeOut(duration: 0.1), value: isPressed)
             .onTapGesture {
                 action()

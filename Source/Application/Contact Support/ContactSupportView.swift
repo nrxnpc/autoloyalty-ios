@@ -151,30 +151,6 @@ extension ContactSupportView {
         }
     }
     
-    @ViewBuilder func makeMessageInput() -> some View {
-        HStack(spacing: 12) {
-            TextField("Type a message...", text: $userMessageText)
-                .textFieldStyle(.automatic)
-                .padding()
-                .background {
-                    RoundedRectangle(cornerRadius: 16)
-                        .foregroundStyle(.thickMaterial)
-                }
-            
-            Button(action: {}) {
-                Image(systemName: "paperplane.fill")
-                    .foregroundStyle(.white)
-                    .padding(8)
-                    .background(.thickMaterial)
-                    .clipShape(Circle())
-            }
-            .disabled(userMessageText.isEmpty)
-        }
-        .animation(.smooth, value: userMessageText.isEmpty)
-        .padding(.horizontal, 16)
-        .padding(.vertical, 16)
-    }
-    
     @ToolbarContentBuilder func makeToolbar() -> some ToolbarContent {
         ToolbarItem(placement: .cancellationAction) {
             Button(action: dismiss.callAsFunction) {
@@ -201,7 +177,7 @@ extension ContactSupportView {
                     .foregroundStyle(.white)
                     .padding(8)
                     .background(userMessageText.isEmpty ? .gray : .blue)
-                    .clipShape(Capsule())
+                    .clipShape(Circle())
             }
             .disabled(userMessageText.isEmpty)
             .animation(.easeInOut, value: userMessageText.isEmpty)
