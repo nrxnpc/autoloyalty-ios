@@ -23,6 +23,7 @@ extension Main {
             case inboxMessage(InboxMessage)
             case scanner
             case scanHistory
+            case offers
             case reauthenticationView
             case contactSupport
             case console
@@ -196,6 +197,12 @@ extension Main {
                         }
                         .presentationDetents([.large])
                         .presentationDragIndicator(.visible)
+                    case .offers:
+                        NavigationView {
+                            OffersView()
+                        }
+                        .presentationDetents([.large])
+                        .presentationDragIndicator(.visible)
                     case .reauthenticationView:
                         NavigationView {
                             ReauthenticationView()
@@ -243,6 +250,7 @@ extension Main.Router.SheetDestination: Identifiable, Equatable {
         case .inboxMessage: return "inboxMessage"
         case .scanner: return "scanner"
         case .scanHistory: return "scanHistory"
+        case .offers: return "offers"
         case .reauthenticationView: return "reauthenticationView"
         case .contactSupport: return "contactSupport"
         case .console: return "console"

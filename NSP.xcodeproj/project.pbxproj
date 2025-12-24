@@ -77,6 +77,7 @@
 		7E72CB9D2EFC3D0B00D647F7 /* SupportMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E72CB9C2EFC3D0B00D647F7 /* SupportMessage.swift */; };
 		7E72CB9F2EFC3DA500D647F7 /* SupportMessage+FetchRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E72CB9E2EFC3DA500D647F7 /* SupportMessage+FetchRequest.swift */; };
 		7E72CBA12EFC3DE800D647F7 /* SendMessageToSupportUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E72CBA02EFC3DE800D647F7 /* SendMessageToSupportUseCase.swift */; };
+		7E72CBA32EFC60D900D647F7 /* OffersView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E72CBA22EFC60D900D647F7 /* OffersView.swift */; };
 		7E95E8982E7AFA0800B45539 /* RestEndpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E95E86A2E7AFA0800B45539 /* RestEndpoint.swift */; };
 		7E95E89F2E7AFA0800B45539 /* RestEndpoint+Raw.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E95E86C2E7AFA0800B45539 /* RestEndpoint+Raw.swift */; };
 		7EAF29402EE879DC00E4201A /* View+OnTap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EAF293F2EE879DC00E4201A /* View+OnTap.swift */; };
@@ -199,6 +200,7 @@
 		7E72CB9C2EFC3D0B00D647F7 /* SupportMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SupportMessage.swift; sourceTree = "<group>"; };
 		7E72CB9E2EFC3DA500D647F7 /* SupportMessage+FetchRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SupportMessage+FetchRequest.swift"; sourceTree = "<group>"; };
 		7E72CBA02EFC3DE800D647F7 /* SendMessageToSupportUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SendMessageToSupportUseCase.swift; sourceTree = "<group>"; };
+		7E72CBA22EFC60D900D647F7 /* OffersView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OffersView.swift; sourceTree = "<group>"; };
 		7E95E8692E7AFA0800B45539 /* API_REFERENCE.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = API_REFERENCE.md; sourceTree = "<group>"; };
 		7E95E86A2E7AFA0800B45539 /* RestEndpoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestEndpoint.swift; sourceTree = "<group>"; };
 		7E95E86C2E7AFA0800B45539 /* RestEndpoint+Raw.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RestEndpoint+Raw.swift"; sourceTree = "<group>"; };
@@ -218,7 +220,6 @@
 		7ECC3F372E65CEEF0014E97E /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		7ECC3F382E65CEFD0014E97E /* BACKEND_SETUP.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = BACKEND_SETUP.md; sourceTree = "<group>"; };
 		7ECC3FFF2E6628E90014E97E /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
-		7ECC40012E6628E90014E97E /* CarTinderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarTinderView.swift; sourceTree = "<group>"; };
 		7ECC40222E66D8150014E97E /* Main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Main.swift; sourceTree = "<group>"; };
 		7ECC40242E66D8370014E97E /* Main+Router.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Main+Router.swift"; sourceTree = "<group>"; };
 		7ECC40262E66FBD80014E97E /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
@@ -440,6 +441,7 @@
 				7E72CB7F2EF993AE00D647F7 /* RecommendationsView.swift */,
 				7E72CB952EFB3A9C00D647F7 /* RecommendationsView+Compact.swift */,
 				7E72CB8A2EFAE97F00D647F7 /* CardSwipeView.swift */,
+				7E72CBA22EFC60D900D647F7 /* OffersView.swift */,
 			);
 			path = Recommendations;
 			sourceTree = "<group>";
@@ -538,7 +540,6 @@
 				7E53500D2EDC2EE50020AF96 /* Inbox */,
 				7E3B427B2EC0F9F8005B7E57 /* Scanner */,
 				7EE877ED2EA2D25500CFC230 /* About Me */,
-				7EE877D82EA2B92400CFC230 /* MAGA */,
 				7ECC40212E66D80C0014E97E /* Main */,
 			);
 			path = Application;
@@ -583,14 +584,6 @@
 				7EAF294B2EE8C42000E4201A /* ReauthenticationView.swift */,
 			);
 			path = Authentication;
-			sourceTree = "<group>";
-		};
-		7ECC402B2E6700AC0014E97E /* User */ = {
-			isa = PBXGroup;
-			children = (
-				7ECC40012E6628E90014E97E /* CarTinderView.swift */,
-			);
-			path = User;
 			sourceTree = "<group>";
 		};
 		7ECC402C2E6700C30014E97E /* Entity */ = {
@@ -652,14 +645,6 @@
 				7EE877E22EA2BAF200CFC230 /* Account+UseCase.swift */,
 			);
 			path = Account;
-			sourceTree = "<group>";
-		};
-		7EE877D82EA2B92400CFC230 /* MAGA */ = {
-			isa = PBXGroup;
-			children = (
-				7ECC402B2E6700AC0014E97E /* User */,
-			);
-			path = MAGA;
 			sourceTree = "<group>";
 		};
 		7EE877D92EA2B94300CFC230 /* Use Case */ = {
@@ -864,6 +849,7 @@
 				7ECC40252E66D8370014E97E /* Main+Router.swift in Sources */,
 				7E5350112EDC4DA80020AF96 /* Inbox.swift in Sources */,
 				7EE8780B2EA398B600CFC230 /* ChangeAboutMeView.swift in Sources */,
+				7E72CBA32EFC60D900D647F7 /* OffersView.swift in Sources */,
 				7E462FE02EE5F2A400B7F5EC /* BalanceTransactionsView.swift in Sources */,
 				7E3B427D2EC0FA06005B7E57 /* QRScannerView.swift in Sources */,
 				7E0FAB9F2EE9A82500498CEA /* PullMyOrdersUseCase.swift in Sources */,

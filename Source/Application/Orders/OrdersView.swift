@@ -51,7 +51,7 @@ extension OrdersView {
                     Text("Your reward orders will appear here once you start redeeming points from the catalog")
                         .font(.callout)
                         .foregroundStyle(.secondary)
-                        .multilineTextAlignment(.center)
+                        .multilineTextAlignment(.leading)
                 }
             }
             .padding()
