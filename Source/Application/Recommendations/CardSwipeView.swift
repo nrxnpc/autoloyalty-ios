@@ -181,8 +181,8 @@ public struct CardSwipeView<Item: Identifiable & Hashable, Content: View>: View 
             selectedItem = items.first
         }
         .onChange(of: popTrigger ?? .idle) {
-            guard popTrigger != .idle else { return }
-            lastDirection = popTrigger ?? .idle
+            guard let trigger = popTrigger, trigger != .idle else { return }
+            poppedDirection = trigger
             popItem(notifyCaller: false)
             popTrigger = nil
         }
@@ -249,6 +249,7 @@ public struct CardSwipeView<Item: Identifiable & Hashable, Content: View>: View 
             } completion: {
                 self.poppedItem = nil
                 self.poppedOffset = .zero
+                self.lastDirection = .idle
                 
                 if items.isEmpty {
                     configuration.onNoMoreCardsLeft?()
@@ -263,6 +264,7 @@ public struct CardSwipeView<Item: Identifiable & Hashable, Content: View>: View 
                 try? await Task.sleep(nanoseconds: (1 * NSEC_PER_SEC) / 2)
                 
                 self.poppedItem = nil
+                self.lastDirection = .idle
                 
                 if items.isEmpty {
                     configuration.onNoMoreCardsLeft?()
@@ -273,13 +275,23 @@ public struct CardSwipeView<Item: Identifiable & Hashable, Content: View>: View 
     
     func popItem(notifyCaller: Bool = true) {
         guard !items.isEmpty else { return }
-        poppedOffset = offset
-        poppedDirection = lastDirection
-        poppedItem = items.removeFirst()
-        selectedItem = items.first
-        if let poppedItem, notifyCaller {
-            configuration.onSwipeEnd?(poppedItem, lastDirection)
+        
+        let item = items.removeFirst()
+        
+        if !notifyCaller {
+            poppedOffset = CGPoint(x: poppedDirection == .left ? -configuration.triggerThreshold : configuration.triggerThreshold, y: 0)
+        } else {
+            poppedOffset = offset
+            poppedDirection = lastDirection
         }
+        
+        poppedItem = item
+        selectedItem = items.first
+        
+        if notifyCaller {
+            configuration.onSwipeEnd?(item, poppedDirection)
+        }
+        
         offset = .zero
     }
 }

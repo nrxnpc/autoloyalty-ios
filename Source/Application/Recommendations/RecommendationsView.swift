@@ -109,6 +109,8 @@ extension RecommendationsView {
         ToolbarItemGroup(placement: .bottomBar) {
             Button {
                 if let card = selectedCard {
+                    popTrigger = .left
+                    UIImpactFeedbackGenerator(style: .medium).impactOccurred()
                     Task {
                         do {
                             try await recommendations.feedback(recommendation: card.id, sentiment: .reject)
@@ -119,11 +121,17 @@ extension RecommendationsView {
                 }
             } label: {
                 Image(systemName: "xmark")
+                    .font(.headline)
                     .foregroundStyle(.red)
+                    .frame(width: 44, height: 44)
+                    .contentShape(Rectangle())
             }
+            .disabled(selectedCard == nil)
             
             Button {
                 if let card = selectedCard {
+                     popTrigger = .right
+                    UIImpactFeedbackGenerator(style: .medium).impactOccurred()
                     Task {
                         do {
                             try await recommendations.feedback(recommendation: card.id, sentiment: .accept)
@@ -134,8 +142,12 @@ extension RecommendationsView {
                 }
             } label: {
                 Image(systemName: "checkmark")
+                    .font(.headline)
                     .foregroundStyle(.green)
+                    .frame(width: 44, height: 44)
+                    .contentShape(Rectangle())
             }
+            .disabled(selectedCard == nil)
         }
     }
 }
