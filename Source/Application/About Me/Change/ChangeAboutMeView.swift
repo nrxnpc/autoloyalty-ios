@@ -65,9 +65,7 @@ extension ChangeAboutMeView {
     
     @ViewBuilder func makeInfoSection() -> some View {
         MakeSection {
-            MakeTextFieldRow(placeholder: "Enter your name", text: $application.username)
-                // TODO: fix updates
-                .disabled(true)
+            MakeCopyableTextRow(placeholder: "Your name", value: application.username)
             MakeCopyableTextRow(placeholder: "Login Email", value: application.email)
         }
     }

@@ -83,7 +83,7 @@ private final class Validator: ObservableObject {
             case .email: return Authentication.contains(email: value)
             case .password(let minimumRequirements):
                 if minimumRequirements {
-                    return !value.isEmpty
+                    return Authentication.hasMinimumLength(password: value)
                 } else {
                     return Authentication.hasMinimumLength(password: value) &&
                         Authentication.containsUppercaseLetter(password: value) &&

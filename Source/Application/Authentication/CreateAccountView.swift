@@ -10,8 +10,8 @@ struct CreateAccountView: View, ComponentBuilder {
     
     // MARK: - State
     
-    enum Step { case enterEmail, confirmEmail }
-    @State private var step: Step = .enterEmail
+    enum Step { case enterName, enterEmail, confirmEmail }
+    @State private var step: Step = .enterName
     
     @StateObject internal var input: Authentication.Input = .init()
     @FocusState var focused: Authentication.Input.Item?
@@ -24,6 +24,9 @@ struct CreateAccountView: View, ComponentBuilder {
         ScrollView {
             VStack(spacing: 32) {
                 switch step {
+                case .enterName:
+                    makeEnterNameStep()
+                        .transition(.scale.combined(with: .opacity))
                 case .enterEmail:
                     makeEnterEmailStep()
                         .transition(.scale.combined(with: .opacity))
@@ -74,8 +77,14 @@ struct CreateAccountView: View, ComponentBuilder {
 // MARK: - View Builders
 
 extension CreateAccountView {
+    @ViewBuilder func makeEnterNameStep() -> some View {
+        make(title: "Let’s get to know you")
+        makeInputNameFields()
+        makeConfirmEmailButton()
+    }
+    
     @ViewBuilder func makeEnterEmailStep() -> some View {
-        make(title: "Create New Account")
+        make(title: "Hi, \(input.name)!")
         makeInputRegistrationFields()
         
         if checklistVisible {
@@ -83,7 +92,8 @@ extension CreateAccountView {
                 .transition(.opacity)
         }
         
-        makeConfirmEmailButton()
+        makeSignUpButton()
+        makeBackToEnterNameButton()
         
         NotificationMessageView(text: .init(throwingErrorWithDescription ?? "")) {
             throwingErrorWithDescription = nil
@@ -104,6 +114,14 @@ extension CreateAccountView {
         .padding(.bottom, 8)
     }
     
+    @ViewBuilder func makeInputNameFields() -> some View {
+        MakeSection {
+            makeInputField(name: $input.name)
+                .submitLabel(.continue)
+                .onSubmit { step = .enterEmail }
+        }
+    }
+    
     @ViewBuilder func makeInputRegistrationFields() -> some View {
         MakeSection {
             makeInputField(email: $input.email)
@@ -114,9 +132,6 @@ extension CreateAccountView {
             makeInputField(password: $input.password)
                 .focused($focused, equals: .password)
                 .submitLabel(.done)
-                .onSubmit {
-                    confirmEmail()
-                }
         }
     }
     
@@ -132,11 +147,10 @@ extension CreateAccountView {
     
     @ViewBuilder func makeConfirmEmailButton() -> some View {
         Button("Continue") {
-            confirmEmail()
+            step = .enterEmail
         }
         .buttonStyle(PrimaryButtonStyle())
-        .validated(email: input.$email)
-        .validated(password: input.$password, minimumRequirements: true)
+        .validated(name: input.$name)
     }
     
     @ViewBuilder func makeSignUpButton() -> some View {
@@ -144,7 +158,15 @@ extension CreateAccountView {
             signUp()
         }
         .buttonStyle(PrimaryButtonStyle())
-        .validated(code: input.$confirmationCode)
+        .validated(email: input.$email)
+        .validated(password: input.$password, minimumRequirements: true)
+    }
+    
+    @ViewBuilder func makeBackToEnterNameButton() -> some View {
+        Button("Back") {
+            step = .enterName
+        }
+        .foregroundStyle(.secondary)
     }
     
     @ToolbarContentBuilder func makeToolbar() -> some ToolbarContent {
@@ -166,6 +188,11 @@ extension CreateAccountView {
         Text(subtitle)
             .font(.body)
             .foregroundStyle(.secondary)
+    }
+    
+    @MainActor @ViewBuilder func makeInputField(name text: Binding<String>) -> some View {
+        MakeTextFieldRow(placeholder: "What is your name?", text: text, inputType: .email)
+            .disabled(authentication.isUpdating)
     }
     
     @MainActor @ViewBuilder func makeInputField(email text: Binding<String>) -> some View {

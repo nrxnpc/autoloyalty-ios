@@ -7,9 +7,9 @@ public struct CreateAccountUseCase {
         self.scope = scope
     }
     
-    public func execute(email: String, password: String, confirmationCode: String) async throws {
+    public func execute(name: String, email: String, password: String, confirmationCode: String) async throws {
         let loginResponse = try await scope.endpoint.register(
-            .init(name: String(email.split(separator: "@").first ?? "user"),
+            .init(name: name,
                   email: email,
                   phone: String(UUID().uuidString.prefix(20)),
                   password: password,

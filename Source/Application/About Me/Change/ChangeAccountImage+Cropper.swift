@@ -146,7 +146,7 @@ struct ImageCropperView: View {
     let inputImage: UIImage
     let onComplete: (UIImage?) -> Void
     
-    private let targetSize = CGSize(width: 512, height: 512)
+    private let targetSize = CGSize(width: 128, height: 128)
     @Environment(\.dismiss) private var dismiss
     
     // MARK: - State
