@@ -30,7 +30,7 @@ extension Main {
         
         enum FullScreenDestination {
             case scanner
-            case recommendations(Namespace.ID)
+            case recommendations(Namespace.ID, FetchedResults<CarRecommendation>)
         }
         
         // MARK: - Output
@@ -121,9 +121,9 @@ extension Main {
                         NavigationView {
                             QRScannerView()
                         }
-                    case .recommendations(let namespace):
+                    case .recommendations(let namespace, let recommendationSet):
                         NavigationView {
-                            RecommendationsView()
+                            RecommendationsView(recommendationSet: recommendationSet)
                         }
                         .navigationTransition(.zoom(sourceID: "recommendations", in: namespace))
                     }
@@ -260,5 +260,9 @@ extension Main.Router.FullScreenDestination: Identifiable, Equatable {
         case .scanner: return "scanner"
         case .recommendations: return "recommendations"
         }
+    }
+    
+    static func == (lhs: Main.Router.FullScreenDestination, rhs: Main.Router.FullScreenDestination) -> Bool {
+        lhs.id == rhs.id
     }
 }

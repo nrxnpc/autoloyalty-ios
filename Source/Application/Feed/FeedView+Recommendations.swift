@@ -12,14 +12,14 @@ extension FeedView {
                 .padding(.leading, 16)
             
             ZStack {
-                RecommendationsView.Compact() {
-                    router.route(fullScreen: .recommendations(namespace))
+                RecommendationsView.Compact(recommendationSet: recommendationSet) {
+                    router.route(fullScreen: .recommendations(namespace, recommendationSet))
                 }
                 .padding(.horizontal, 16)
                 .aspectRatio(1/0.8, contentMode: .fit)
             }
             .onTapGesture {
-                router.route(fullScreen: .recommendations(namespace))
+                router.route(fullScreen: .recommendations(namespace, recommendationSet))
             }
         }
         .matchedTransitionSource(id: "recommendations", in: namespace)

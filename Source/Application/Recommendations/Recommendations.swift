@@ -9,20 +9,20 @@ final class Recommendations {
     @ObservationIgnored
     @Dependency(\.scope) var scope
     
-    func removeCard(_ card: CarRecommendation) {
-    
-    }
-    
     func reset() {
-        // loadInitialBatch()
+        Task {
+            do {
+                try await ResetRecommendationsUseCase(scope: scope).execute()
+            } catch {
+                UINotificationFeedbackGenerator().notificationOccurred(.error)
+            }
+        }
     }
 }
 
 extension Recommendations {
-    func feedback(recommendation id: String, sentiment: RateRecommendationUseCase.FeedbackSentiment) {
-        Task {
-            let feedback = RateRecommendationUseCase(scope: scope)
-            try await feedback.submitFeedback(recommendation: id, sentiment: sentiment)
-        }
+    func feedback(recommendation id: String, sentiment: RateRecommendationUseCase.FeedbackSentiment) async throws {
+        let feedback = RateRecommendationUseCase(scope: scope)
+        try await feedback.submitFeedback(recommendation: id, sentiment: sentiment)
     }
 }

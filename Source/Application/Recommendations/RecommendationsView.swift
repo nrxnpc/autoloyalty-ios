@@ -11,10 +11,7 @@ struct RecommendationsView: View {
     @State var selectedCard: CarRecommendation?
     @State var popTrigger: CardSwipeDirection?
     
-    @FetchRequest var recommendationSet: FetchedResults<CarRecommendation>
-    init() {
-        _recommendationSet = FetchRequest(fetchRequest: CarRecommendation.allNeutralSentiment(), animation: .smooth)
-    }
+    let recommendationSet: FetchedResults<CarRecommendation>
     
     var body: some View {
         @Bindable var recommendations = recommendations
@@ -63,12 +60,16 @@ extension RecommendationsView {
         }
         .configure(cardSpacing: 16)
         .onSwipeEnd { card, direction in
-            switch direction {
-            case .left: recommendations.feedback(recommendation: card.id, sentiment: .reject)
-            case .right: recommendations.feedback(recommendation: card.id, sentiment: .accept)
-            case .idle: break
+            Task {
+                switch direction {
+                case .left:
+                    try await recommendations.feedback(recommendation: card.id, sentiment: .reject)
+                case .right:
+                    try  await recommendations.feedback(recommendation: card.id, sentiment: .accept)
+                case .idle: break
+                }
+                UIImpactFeedbackGenerator(style: .medium).impactOccurred()
             }
-            UIImpactFeedbackGenerator(style: .medium).impactOccurred()
         }
         .onNoMoreCardsLeft {
             // Cards finished
@@ -98,14 +99,30 @@ extension RecommendationsView {
         
         ToolbarItemGroup(placement: .bottomBar) {
             Button {
-                
+                if let card = selectedCard {
+                    Task {
+                        do {
+                            try await recommendations.feedback(recommendation: card.id, sentiment: .reject)
+                        } catch {
+                            UINotificationFeedbackGenerator().notificationOccurred(.error)
+                        }
+                    }
+                }
             } label: {
                 Image(systemName: "xmark")
                     .foregroundStyle(.red)
             }
             
             Button {
-                
+                if let card = selectedCard {
+                    Task {
+                        do {
+                            try await recommendations.feedback(recommendation: card.id, sentiment: .accept)
+                        } catch {
+                            UINotificationFeedbackGenerator().notificationOccurred(.error)
+                        }
+                    }
+                }
             } label: {
                 Image(systemName: "checkmark")
                     .foregroundStyle(.green)

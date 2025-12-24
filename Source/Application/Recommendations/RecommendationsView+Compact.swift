@@ -4,16 +4,17 @@ extension RecommendationsView {
     struct Compact: View {
         @Environment(Main.Router.self) var router
         @Environment(Recommendations.self) var recommendations
-        @FetchRequest var recommendationSet: FetchedResults<CarRecommendation>
+        
+        let recommendationSet: FetchedResults<CarRecommendation>
         
         @State var selectedCard: CarRecommendation?
         @State var popTrigger: CardSwipeDirection?
         
         var onSwipeEnd: (() -> Void)?
         
-        init(onSwipeEnd: @escaping (() -> Void)) {
+        init(recommendationSet: FetchedResults<CarRecommendation>, onSwipeEnd: @escaping (() -> Void)) {
+            self.recommendationSet = recommendationSet
             self.onSwipeEnd = onSwipeEnd
-            _recommendationSet = FetchRequest(fetchRequest: CarRecommendation.allNeutralSentiment(), animation: .smooth)
         }
         
         var body: some View {
@@ -24,12 +25,19 @@ extension RecommendationsView {
                 }
                 .configure(cardSpacing: 9)
                 .onSwipeEnd { card, direction in
-                    switch direction {
-                    case .left: recommendations.feedback(recommendation: card.id, sentiment: .reject)
-                    case .right: recommendations.feedback(recommendation: card.id, sentiment: .accept)
-                    case .idle: break
+                    Task {
+                        switch direction {
+                        case .left:
+                            try await recommendations.feedback(recommendation: card.id, sentiment: .reject)
+                        case .right:
+                            try await recommendations.feedback(recommendation: card.id, sentiment: .accept)
+                        case .idle: break
+                        }
+                        
+                        await MainActor.run {
+                            onSwipeEnd?()
+                        }
                     }
-                    onSwipeEnd?()
                 }
                 .onNoMoreCardsLeft {
                     // Cards finished
