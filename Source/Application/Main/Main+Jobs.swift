@@ -11,6 +11,12 @@ extension Main {
             
             Job(.polling(.strategy(.intensive))) { [scope] in
                 do {
+                    try await PullAboutMeUseCase(scope: scope).execute()
+                } catch {
+                    debugPrint("[DEBUG] Cannot pull uset info: \(error)")
+                }
+                
+                do {
                     try await PullUserTransactionsUseCase(scope: scope).execute()
                 } catch {
                     debugPrint("[DEBUG] Cannot pull user transactions: \(error)")
@@ -24,12 +30,6 @@ extension Main {
             }
             
             Job(.polling(.strategy(.normal))) { [scope] in
-                do {
-                    try await PullAboutMeUseCase(scope: scope).execute()
-                } catch {
-                    debugPrint("[DEBUG] Cannot pull uset info: \(error)")
-                }
-                
                 do {
                     try await PullMyOrdersUseCase(scope: scope).execute()
                 } catch {

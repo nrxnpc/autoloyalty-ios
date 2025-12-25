@@ -39,11 +39,12 @@ public struct ScanQRUseCase {
                     }
                 }
                 
-                do {
-                    try await PullUserTransactionsUseCase(scope: scope).execute()
-                } catch {
-                    debugPrint("[DEBUG][Scan] Can't pull transactions after earning points")
-                }
+                // TODO: Calc total account from history
+                // do {
+                //     try await PullUserTransactionsUseCase(scope: scope).execute()
+                // } catch {
+                //     debugPrint("[DEBUG][Scan] Can't pull transactions after earning points")
+                // }
                 
                 return income
             }
