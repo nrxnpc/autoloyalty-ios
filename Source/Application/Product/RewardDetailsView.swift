@@ -1,5 +1,6 @@
 import SwiftUI
 import SwiftUIComponents
+import NukeUI
 import CoreData
 import Dependencies
 
@@ -32,7 +33,7 @@ struct RewardDetailsView: View {
         ScrollView {
             VStack(spacing: 0) {
                 if let product = product {
-                    makeImages(product)
+                    makeImagePreview(product)
                     
                     VStack(spacing: 16) {
                         makeTitle(product.name)
@@ -57,19 +58,32 @@ struct RewardDetailsView: View {
 }
 
 extension RewardDetailsView {
-    @ViewBuilder func makeImages(_ product: Product) -> some View {
-        AsyncImage(url: product.images.first?.sourceURL) { image in
-            image
-                .resizable()
-                .aspectRatio(contentMode: .fill)
-        } placeholder: {
-            Rectangle()
-                .foregroundStyle(.regularMaterial)
+    @ViewBuilder func makeImagePreview(_ product: Product) -> some View {
+        ZStack {
+            LazyImage(url: product.images.first?.sourceURL) { state in
+                if let image = state.image {
+                    GeometryReader { geometry in
+                        image
+                            .resizable()
+                            .aspectRatio(contentMode: .fill)
+                            .frame(width: geometry.size.width, height: geometry.size.height)
+                            .clipped()
+                    }
+                } else {
+                    Rectangle()
+                        .fill(.gray.opacity(0.3))
+                        .overlay {
+                            Image(systemName: "giftcard")
+                                .font(.system(size: 32))
+                                .foregroundColor(.gray)
+                        }
+                }
+            }
         }
         .frame(height: 300)
         .clipped()
     }
-    
+
     @ViewBuilder func makeTitle(_ title: String) -> some View {
         HStack {
             Text(title)
