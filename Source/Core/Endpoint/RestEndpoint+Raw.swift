@@ -405,6 +405,12 @@ extension RestEndpoint {
         public let refreshToken: String
         /// Error message if failed
         public let error: String?
+        
+        private enum CodingKeys: String, CodingKey {
+            case success, user, error
+            case accessToken = "access_token"
+            case refreshToken = "refresh_token"
+        }
     }
     
     /// Token refresh request
