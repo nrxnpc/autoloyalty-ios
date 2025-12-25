@@ -119,6 +119,7 @@ extension FeedView {
                 RewardPreviewView(product: product)
                     .aspectRatio(1/1.4, contentMode: .fit)
                     .matchedTransitionSource(id: product.id, in: namespace)
+                    .contentShape(Rectangle())
                     .onTapGesture {
                         productDetails = .init(id: product.id)
                     }
