@@ -63,20 +63,20 @@ extension QRScanHistoryView {
         HStack(alignment: .top, spacing: 12) {
             Image(systemName: "qrcode.viewfinder")
                 .font(.title2)
-                .foregroundStyle(.green)
+                .foregroundStyle(.blue, .secondary)
                 .frame(width: 24)
             
             VStack(alignment: .leading, spacing: 4) {
-                BalanceLabel(points: scan.pointsEarned)
-                    .font(.headline)
-                
                 Text(scan.productName)
-                    .font(.callout)
+                    .font(.headline)
                     .foregroundStyle(.primary)
                 
                 Text(scan.productCategory)
-                    .font(.caption)
+                    .font(.subheadline)
                     .foregroundStyle(.secondary)
+                
+                BalanceLabel(points: scan.pointsEarned)
+                    .font(.caption)
             }
             
             Spacer()

@@ -73,10 +73,10 @@ extension BalanceTransactionsView {
     }
     
     @ViewBuilder func makeRow(with transaction: BalanceTransaction) -> some View {
-        HStack(alignment: .center, spacing: 12) {
+        HStack(alignment: .firstTextBaseline, spacing: 12) {
             Image(systemName: transaction.type.iconName)
                 .font(.title2)
-                .foregroundStyle(transaction.type.color)
+                .foregroundStyle(transaction.type.color, transaction.type.secondaryColor)
                 .frame(width: 24)
             
             VStack(alignment: .leading, spacing: 4) {
@@ -84,7 +84,7 @@ extension BalanceTransactionsView {
                     .font(.headline)
                 
                 Text(transaction.transactionDescription)
-                    .font(.callout)
+                    .font(.subheadline)
                     .foregroundStyle(.secondary)
                     .multilineTextAlignment(.leading)
                     .lineLimit(3)
@@ -131,9 +131,9 @@ extension BalanceTransactionsView {
 extension BalanceTransaction.TransactionType {
     var iconName: String {
         switch self {
-        case .earned: return "plus"
+        case .earned: return "qrcode.viewfinder"
         case .bonus: return "gift"
-        case .spent: return "minus"
+        case .spent: return "qrcode.viewfinder"
         case .penalty: return "exclamationmark.triangle"
         }
     }
@@ -144,6 +144,15 @@ extension BalanceTransaction.TransactionType {
         case .bonus: return .green
         case .spent: return .pink
         case .penalty: return .red
+        }
+    }
+    
+    var secondaryColor: Color {
+        switch self {
+        case .earned: return .secondary
+        case .bonus: return .green
+        case .spent: return .secondary
+        case .penalty: return .secondary
         }
     }
     
