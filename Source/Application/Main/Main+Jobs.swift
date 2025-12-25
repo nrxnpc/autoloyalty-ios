@@ -6,23 +6,12 @@ extension Main {
         scope.scheduleSessionJobs {
             Job(.once) { [scope] in
                 try await CreateWelcomeMessageUseCase(scope: scope).execute()
+                try await CreateBuiltInRecommendationsSetUseCase(scope: scope).execute()
             }
             
             Job(.polling(.strategy(.intensive))) { [scope] in
                 do {
-                    try await PullAboutMeUseCase(scope: scope).execute()
-                } catch {
-                    debugPrint("[DEBUG] Cannot pull uset info: \(error)")
-                }
-                
-                do {
                     try await PullUserTransactionsUseCase(scope: scope).execute()
-                } catch {
-                    debugPrint("[DEBUG] Cannot pull user transactions: \(error)")
-                }
-                
-                do {
-                    try await PullMyOrdersUseCase(scope: scope).execute()
                 } catch {
                     debugPrint("[DEBUG] Cannot pull user transactions: \(error)")
                 }
@@ -32,15 +21,23 @@ extension Main {
                 } catch {
                     debugPrint("[DEBUG] Cannot pull scan history: \(error)")
                 }
+            }
+            
+            Job(.polling(.strategy(.normal))) { [scope] in
+                do {
+                    try await PullAboutMeUseCase(scope: scope).execute()
+                } catch {
+                    debugPrint("[DEBUG] Cannot pull uset info: \(error)")
+                }
                 
                 do {
-                    try await PullNewsUseCase(scope: scope).execute()
+                    try await PullMyOrdersUseCase(scope: scope).execute()
                 } catch {
-                    debugPrint("[DEBUG] Cannot pull news transactions: \(error)")
+                    debugPrint("[DEBUG] Cannot pull user transactions: \(error)")
                 }
             }
             
-            Job(.polling(.strategy(.intensive))) { [scope] in
+            Job(.polling(.strategy(.low))) { [scope] in
                 do {
                     try await PullCatalogUseCase(scope: scope).execute()
                 } catch {
@@ -48,10 +45,17 @@ extension Main {
                 }
                 
                 do {
-                    try await PullRecommendationsUseCase(scope: scope).execute()
+                    try await PullNewsUseCase(scope: scope).execute()
                 } catch {
-                    debugPrint("[DEBUG] Cannot pull catalog: \(error)")
+                    debugPrint("[DEBUG] Cannot pull news transactions: \(error)")
                 }
+                
+                // TODO: DISABLED FOR DEMO, USED CreateBuiltInRecommendationsSetUseCase
+                // do {
+                //     try await PullRecommendationsUseCase(scope: scope).execute()
+                // } catch {
+                //     debugPrint("[DEBUG] Cannot pull catalog: \(error)")
+                // }
             }
         }
     }
