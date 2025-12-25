@@ -27,7 +27,6 @@
 		7E43D3AB2EC740DE0039FCE4 /* CaptureSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E43D3AA2EC740DE0039FCE4 /* CaptureSession.swift */; };
 		7E43D3AD2EC745170039FCE4 /* CaptureSessionPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E43D3AC2EC745170039FCE4 /* CaptureSessionPreview.swift */; };
 		7E462FD42EE4E02F00B7F5EC /* BalanceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E462FD32EE4E02F00B7F5EC /* BalanceView.swift */; };
-		7E462FD72EE4E6A300B7F5EC /* FeedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E462FD62EE4E6A300B7F5EC /* FeedView.swift */; };
 		7E462FD92EE4E6F300B7F5EC /* FeedApplication.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E462FD82EE4E6F300B7F5EC /* FeedApplication.swift */; };
 		7E462FDC2EE5CFF300B7F5EC /* HowToView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E462FDB2EE5CFF300B7F5EC /* HowToView.swift */; };
 		7E462FE02EE5F2A400B7F5EC /* BalanceTransactionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E462FDF2EE5F2A400B7F5EC /* BalanceTransactionsView.swift */; };
@@ -78,6 +77,7 @@
 		7E72CB9F2EFC3DA500D647F7 /* SupportMessage+FetchRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E72CB9E2EFC3DA500D647F7 /* SupportMessage+FetchRequest.swift */; };
 		7E72CBA12EFC3DE800D647F7 /* SendMessageToSupportUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E72CBA02EFC3DE800D647F7 /* SendMessageToSupportUseCase.swift */; };
 		7E72CBA32EFC60D900D647F7 /* OffersView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E72CBA22EFC60D900D647F7 /* OffersView.swift */; };
+		7E72CBA52EFD6DD100D647F7 /* FeedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E72CBA42EFD6DD100D647F7 /* FeedView.swift */; };
 		7E95E8982E7AFA0800B45539 /* RestEndpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E95E86A2E7AFA0800B45539 /* RestEndpoint.swift */; };
 		7E95E89F2E7AFA0800B45539 /* RestEndpoint+Raw.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E95E86C2E7AFA0800B45539 /* RestEndpoint+Raw.swift */; };
 		7EAF29402EE879DC00E4201A /* View+OnTap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EAF293F2EE879DC00E4201A /* View+OnTap.swift */; };
@@ -153,7 +153,6 @@
 		7E43D3AA2EC740DE0039FCE4 /* CaptureSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CaptureSession.swift; sourceTree = "<group>"; };
 		7E43D3AC2EC745170039FCE4 /* CaptureSessionPreview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CaptureSessionPreview.swift; sourceTree = "<group>"; };
 		7E462FD32EE4E02F00B7F5EC /* BalanceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BalanceView.swift; sourceTree = "<group>"; };
-		7E462FD62EE4E6A300B7F5EC /* FeedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedView.swift; sourceTree = "<group>"; };
 		7E462FD82EE4E6F300B7F5EC /* FeedApplication.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedApplication.swift; sourceTree = "<group>"; };
 		7E462FDB2EE5CFF300B7F5EC /* HowToView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HowToView.swift; sourceTree = "<group>"; };
 		7E462FDF2EE5F2A400B7F5EC /* BalanceTransactionsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BalanceTransactionsView.swift; sourceTree = "<group>"; };
@@ -201,6 +200,7 @@
 		7E72CB9E2EFC3DA500D647F7 /* SupportMessage+FetchRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SupportMessage+FetchRequest.swift"; sourceTree = "<group>"; };
 		7E72CBA02EFC3DE800D647F7 /* SendMessageToSupportUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SendMessageToSupportUseCase.swift; sourceTree = "<group>"; };
 		7E72CBA22EFC60D900D647F7 /* OffersView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OffersView.swift; sourceTree = "<group>"; };
+		7E72CBA42EFD6DD100D647F7 /* FeedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedView.swift; sourceTree = "<group>"; };
 		7E95E8692E7AFA0800B45539 /* API_REFERENCE.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = API_REFERENCE.md; sourceTree = "<group>"; };
 		7E95E86A2E7AFA0800B45539 /* RestEndpoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestEndpoint.swift; sourceTree = "<group>"; };
 		7E95E86C2E7AFA0800B45539 /* RestEndpoint+Raw.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RestEndpoint+Raw.swift"; sourceTree = "<group>"; };
@@ -350,7 +350,7 @@
 		7E462FD52EE4E69400B7F5EC /* Feed */ = {
 			isa = PBXGroup;
 			children = (
-				7E462FD62EE4E6A300B7F5EC /* FeedView.swift */,
+				7E72CBA42EFD6DD100D647F7 /* FeedView.swift */,
 				7E462FD82EE4E6F300B7F5EC /* FeedApplication.swift */,
 				7E462FEB2EE63CBF00B7F5EC /* FeedView+Balance.swift */,
 				7E462FED2EE63CE100B7F5EC /* FeedView+Catalog.swift */,
@@ -862,6 +862,7 @@
 				7EE877D42EA2A2F800CFC230 /* Authentication.swift in Sources */,
 				7E4BA2112EE0D2310004CFB3 /* Product+Demo.swift in Sources */,
 				7EE877CE2EA01BB000CFC230 /* EntitySync.swift in Sources */,
+				7E72CBA52EFD6DD100D647F7 /* FeedView.swift in Sources */,
 				7E72CB962EFB3A9C00D647F7 /* RecommendationsView+Compact.swift in Sources */,
 				7EE877CF2EA01BB000CFC230 /* Entity.swift in Sources */,
 				7E43D3AB2EC740DE0039FCE4 /* CaptureSession.swift in Sources */,
@@ -879,7 +880,6 @@
 				7EE877DF2EA2BABD00CFC230 /* Account.swift in Sources */,
 				7E3477EB2EF5E02B004F9F01 /* ScanItem+FetchRequest.swift in Sources */,
 				7EE877C32E9FEB9C00CFC230 /* Scope+Grab.swift in Sources */,
-				7E462FD72EE4E6A300B7F5EC /* FeedView.swift in Sources */,
 				7E3477E92EF5E005004F9F01 /* ScanItem.swift in Sources */,
 				7E462FE22EE6071A00B7F5EC /* InboxMessageView.swift in Sources */,
 				7E72CB9F2EFC3DA500D647F7 /* SupportMessage+FetchRequest.swift in Sources */,

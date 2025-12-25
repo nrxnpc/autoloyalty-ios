@@ -19,6 +19,10 @@ public struct ScanQRUseCase {
             let scan = try await scope.endpoint.scanQRCode(.init(qrCode: value))
             debugPrint("[DEBUG][Scan] API response received: pointsEarned=\(scan.pointsEarned ?? 0), usedAt=\(scan.usedAt?.description ?? "nil")")
             
+            if scan.usedAt != nil {
+                throw ScanQRError.wasUsed
+            }
+            
             if let income = scan.pointsEarned, income > 0 {
                 let accountID = scope.currentSessionInfo.accountID
                 debugPrint("[DEBUG][Scan] Updating account: \(accountID)")
@@ -28,18 +32,22 @@ public struct ScanQRUseCase {
                     guard let account = try context.fetch(request).first else {
                         return
                     }
-                    let oldPoints = account.points
+                    
                     account.points += income
-                    try context.save()
+                    if context.hasChanges {
+                        try context.save()
+                    }
                 }
+                
+                do {
+                    try await PullUserTransactionsUseCase(scope: scope).execute()
+                } catch {
+                    debugPrint("[DEBUG][Scan] Can't pull transactions after earning points")
+                }
+                
                 return income
             }
             
-            if scan.usedAt != nil {
-                throw ScanQRError.wasUsed
-            }
-            
-            debugPrint("[DEBUG][Scan] QR code not found or invalid")
             throw ScanQRError.notFound
         } catch {
             debugPrint("[DEBUG][Scan] Error occurred: \(error)")

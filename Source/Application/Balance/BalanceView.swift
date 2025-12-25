@@ -1,9 +1,22 @@
+import Dependencies
 import SwiftUI
 import SwiftUIComponents
 
 struct BalanceView: View, ComponentBuilder {
+    @Dependency(\.scope) var scope
     @Environment(Main.Router.self) var router
-    @EnvironmentObject var balanceMonitor: BalanceMonitor
+    @FetchRequest var account: FetchedResults<Account>
+    
+    var balance: Int {
+        account.first?.points ?? 0
+    }
+    
+    init() {
+        _account = FetchRequest(
+            fetchRequest: Account.current(),
+            animation: .smooth
+        )
+    }
     
     var body: some View {
         ZStack {
@@ -48,7 +61,8 @@ extension BalanceView {
     }
     
     @ViewBuilder func makeBalance() -> some View {
-        Text("\(balanceMonitor.balance)")
+        Text("\(balance)")
+            .contentTransition(.numericText())
             .font(.largeTitle)
             .fontWeight(.semibold)
     }

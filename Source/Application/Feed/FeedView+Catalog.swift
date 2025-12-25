@@ -120,7 +120,7 @@ extension FeedView {
                     .aspectRatio(1/1.4, contentMode: .fit)
                     .matchedTransitionSource(id: product.id, in: namespace)
                     .onTapGesture {
-                        router.route(sheet: .productDetails(product.id, namespace))
+                        productDetails = .init(id: product.id)
                     }
             }
         }

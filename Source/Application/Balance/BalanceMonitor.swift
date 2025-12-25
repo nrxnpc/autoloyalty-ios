@@ -3,19 +3,24 @@ import Combine
 import Dependencies
 import ScopeGraph
 
+@Observable
 @MainActor
-final class BalanceMonitor: ObservableObject {
+final class BalanceMonitor {
     // MARK: - Dependencies
     
+    @ObservationIgnored
     @Dependency(\.scope) var scope
     
     // MARK: -
     
-    @Published var balance: Int = 0
+    var balance: Int = 0
     
     // MARK: -
     
+    @ObservationIgnored
     private var account: FetchedObject<Account>!
+    
+    @ObservationIgnored
     private var cancellables: Set<AnyCancellable> = []
     
     init() {
@@ -26,8 +31,10 @@ final class BalanceMonitor: ObservableObject {
             .removeDuplicates()
             .receive(on: DispatchQueue.main)
             .sink { [weak self] account in
-                if let balance = account?.points {
-                    self?.balance = balance
+                Task { @MainActor in
+                    if let balance = account?.points {
+                        self?.balance = balance
+                    }
                 }
             }
             .store(in: &cancellables)

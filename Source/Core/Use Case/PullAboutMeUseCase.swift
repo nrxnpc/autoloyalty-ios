@@ -31,7 +31,9 @@ public struct PullAboutMeUseCase: Sendable {
                 // account.name = accountInfo.name
                 
                 account.email = accountInfo.email
-                account.points = accountInfo.points
+                // TODO: accountInfo.points is not updated
+                // count points by transaction history see PullUserTransactionsUseCase
+                // account.points = accountInfo.points
             } else {
                 let account = try Account.create(id: accountID, externalID: accountInfo.id, in: context)
                 account.name = accountInfo.name

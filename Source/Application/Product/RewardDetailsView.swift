@@ -7,7 +7,7 @@ struct RewardDetailsView: View {
     @Dependency(\.scope) var scope
     
     @Environment(\.dismiss) var dismiss
-    @EnvironmentObject var balanceMonitor: BalanceMonitor
+    @Environment(BalanceMonitor.self) var balanceMonitor
     
     @FetchRequest var products: FetchedResults<Product>
     @State private var isOrdering = false
@@ -18,8 +18,10 @@ struct RewardDetailsView: View {
     }
     
     var canOrder: Bool {
-        guard let product else { return false }
-        return !product.isOutOfStock && balanceMonitor.balance >= product.pointsCost
+        return false
+        // TODO: FOR DEMO ONLY
+        // guard let product else { return false }
+        // return !product.isOutOfStock && balanceMonitor.balance >= product.pointsCost
     }
     
     init(id: String) {
@@ -96,29 +98,37 @@ extension RewardDetailsView {
     
     @ViewBuilder func makeOrderButton(_ product: Product) -> some View {
         Button {
-            Task {
-                await createOrder(product)
-            }
+             
         } label: {
-            HStack {
-                if isOrdering {
-                    ProgressView()
-                        .progressViewStyle(CircularProgressViewStyle(tint: .white))
-                        .scaleEffect(0.8)
-                } else {
-                    Text("Order")
-                        .fontWeight(.semibold)
-                }
-            }
-            .frame(maxWidth: .infinity)
-            .padding()
-            .background(canOrder ? Color.accentColor : Color.gray)
-            .foregroundColor(.white)
-            .clipShape(RoundedRectangle(cornerRadius: 12))
+            Text("Ouf of order")
         }
-        .disabled(!canOrder || isOrdering)
-        .padding()
-        .background(.regularMaterial)
+        .buttonStyle(StrokeButtonStyle())
+        .background(
+            RoundedRectangle(cornerRadius: 14)
+                .foregroundStyle(.ultraThinMaterial)
+        )
+        .clipShape(RoundedRectangle(cornerRadius: 14))
+        .disabled(true)
+        .padding(.horizontal, 32)
+        
+//        Button {
+//            Task {
+//                await createOrder(product)
+//            }
+//        } label: {
+//            HStack {
+//                Text("Order")
+//                    .fontWeight(.semibold)
+//            }
+//            .frame(maxWidth: .infinity)
+//            .padding()
+//            .background(canOrder ? Color.accentColor : Color.gray)
+//            .foregroundColor(.white)
+//            .clipShape(RoundedRectangle(cornerRadius: 12))
+//        }
+//        .disabled(!canOrder || isOrdering)
+//        .padding()
+//        .background(.regularMaterial)
     }
     
     @ViewBuilder func makeLoadingState() -> some View {

@@ -110,6 +110,7 @@ extension ReauthenticationView {
             loginErrorMessage = nil
             do {
                 try await application.login(with: input)
+                dismiss()
             } catch {
                 loginErrorMessage = Authentication.UpdatingError.somethingWentWrong.message
                 defer {
