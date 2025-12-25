@@ -15,6 +15,13 @@ extension Product {
         return request
     }
     
+    public static func allDrafts() -> NSFetchRequest<Product> {
+        let request = NSFetchRequest<Product>(entityName: "Product")
+        request.predicate = NSPredicate(format: "sync.isDraft == YES")
+        request.sortDescriptors = [NSSortDescriptor(keyPath: \Product.createdAt, ascending: false)]
+        return request
+    }
+    
     static func by(id: String) -> NSFetchRequest<Product> {
         let request = NSFetchRequest<Product>(entityName: "Product")
         request.predicate = NSPredicate(format: "id == %@", id)

@@ -7,6 +7,7 @@ extension Main {
             Job(.once) { [scope] in
                 try await CreateWelcomeMessageUseCase(scope: scope).execute()
                 try await CreateBuiltInRecommendationsSetUseCase(scope: scope).execute()
+                try await CreateBuiltInCatalogUseCase(scope: scope).execute()
             }
             
             Job(.polling(.strategy(.intensive))) { [scope] in
@@ -38,11 +39,12 @@ extension Main {
             }
             
             Job(.polling(.strategy(.low))) { [scope] in
-                do {
-                    try await PullCatalogUseCase(scope: scope).execute()
-                } catch {
-                    debugPrint("[DEBUG] Cannot pull catalog: \(error)")
-                }
+                // TODO: DISABLED FOR DEMO, USED CreateBuiltInCatalogUseCase
+                // do {
+                //     try await PullCatalogUseCase(scope: scope).execute()
+                // } catch {
+                //     debugPrint("[DEBUG] Cannot pull catalog: \(error)")
+                // }
                 
                 do {
                     try await PullNewsUseCase(scope: scope).execute()

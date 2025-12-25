@@ -17,6 +17,18 @@ public struct CreateBuiltInRecommendationsSetUseCase {
         }
         
         try await context.perform {
+            let request =  CarRecommendation.all()
+            let products = try context.fetch(request)
+            guard products.isEmpty else {
+                for product in products {
+                    context.delete(product)
+                }
+                try context.save()
+                return
+            }
+        }
+        
+        try await context.perform {
             let rawRecommendations = [
                 ("Porsche", "911 Turbo S", 2020, "", "Legendary sports car with 650 horsepower, speed and elegance. Features carbon roof for improved aerodynamics and premium Burmester sound system. 0-100 km/h in 2.7 seconds makes it one of the fastest cars in its class.", "3.8L Twin-Turbo Flat-6", "Automatic", "Gasoline", "Coupe", "AWD", "", "https://firebasestorage.googleapis.com/v0/b/note-mess-8a48b.firebasestorage.app/o/nsp-content-pack%2F911_0.jpg?alt=media&token=a02489e4-7d7f-4fc6-a3b1-fc97f913bf2e"),
                 ("Rolls-Royce", "Cullinan", 2019, "", "Luxury SUV that perfectly combines power and elegance. Equipped with powerful V12 engine producing 571 hp. Interior features luxurious leather with nubuck panels and LED starlight headliner. Every detail creates unparalleled atmosphere of sophistication and comfort.", "6.7L V12", "Automatic", "Gasoline", "SUV", "AWD", "", "https://firebasestorage.googleapis.com/v0/b/note-mess-8a48b.firebasestorage.app/o/nsp-content-pack%2FCullinan_0.jpg?alt=media&token=10f0a63c-af36-4888-b98c-8c4bd55cebef"),
