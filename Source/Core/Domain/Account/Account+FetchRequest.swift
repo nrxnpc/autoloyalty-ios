@@ -53,6 +53,13 @@ public extension Account {
         return request
     }
     
+    static func current() -> NSFetchRequest<Account> {
+        let request = createFetchRequest()
+        request.fetchLimit = 1
+        request.sortDescriptors = [NSSortDescriptor(key: "sync.externalID", ascending: true)]
+        return request
+    }
+    
     static func byID(_ id: String) -> NSFetchRequest<Account> {
         let request = createFetchRequest()
         request.predicate = idPredicate(for: id)
