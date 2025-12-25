@@ -1,5 +1,6 @@
 import CoreData
 import SwiftUI
+import NukeUI
 import SwiftUIComponents
 
 struct RewardPreviewView: View {
@@ -14,7 +15,7 @@ struct RewardPreviewView: View {
     
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
-            makeItemPreview()
+            makeImagePreview()
             makeItemInfo()
         }
         // TODO: disabled
@@ -28,29 +29,45 @@ struct RewardPreviewView: View {
 }
 
 extension RewardPreviewView {
-    @ViewBuilder func makeItemPreview() -> some View {
-        AsyncImage(url: product.images.first?.sourceURL) { image in
-            image
-                .resizable()
-                .aspectRatio(contentMode: .fill)
-        } placeholder: {
-            Rectangle()
-                .foregroundStyle(.regularMaterial)
+    @ViewBuilder func makeImagePreview() -> some View {
+        ZStack {
+            LazyImage(url: product.images.first?.sourceURL) { state in
+                if let image = state.image {
+                    GeometryReader { geometry in
+                        image
+                            .resizable()
+                            .aspectRatio(contentMode: .fill)
+                            .frame(width: geometry.size.width, height: geometry.size.height)
+                            .clipped()
+                    }
+                } else {
+                    Rectangle()
+                        .fill(.gray.opacity(0.3))
+                        .overlay {
+                            Image(systemName: "giftcard")
+                                .font(.system(size: 32))
+                                .foregroundColor(.gray)
+                        }
+                }
+            }
         }
-        .clipped()
     }
     
     @ViewBuilder func makeItemInfo() -> some View {
-        VStack(alignment: .leading) {
+        VStack(alignment: .leading, spacing: 4) {
             BalanceLabel(points: product.pointsCost)
                 .font(.headline)
+                .padding(.top, 6)
             
             Text(product.name)
                 .font(.subheadline)
                 .lineLimit(2)
+                .multilineTextAlignment(.leading)
+                .padding(.leading, 6)
+            Spacer()
         }
-        .padding(.top, 8)
-        .padding(.bottom, 16)
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .frame(height: 96)
         .padding(.horizontal, 8)
     }
     

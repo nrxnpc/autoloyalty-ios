@@ -5,17 +5,10 @@ import SwiftUIComponents
 struct BalanceView: View, ComponentBuilder {
     @Dependency(\.scope) var scope
     @Environment(Main.Router.self) var router
-    @FetchRequest var account: FetchedResults<Account>
+    var account: FetchedResults<Account>
     
     var balance: Int {
         account.first?.points ?? 0
-    }
-    
-    init() {
-        _account = FetchRequest(
-            fetchRequest: Account.current(),
-            animation: .smooth
-        )
     }
     
     var body: some View {
@@ -80,8 +73,4 @@ extension BalanceView {
         }
         .buttonStyle(StrokeButtonStyle())
     }
-}
-
-#Preview {
-    BalanceView()
 }

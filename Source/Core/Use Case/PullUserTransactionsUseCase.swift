@@ -21,27 +21,28 @@ public struct PullUserTransactionsUseCase {
             }
         }
         
-        let total = transactions.reduce(0) { sum, transaction in
-            switch transaction.type {
-            case .bonus, .earned: return sum + transaction.amount
-            case .penalty, .spent: return sum - transaction.amount
-            }
-        }
-        
-        let accountID = scope.currentSessionInfo.accountID
-        try await context.perform {
-            let request = Account.byID(accountID)
-            guard let account = try context.fetch(request).first else {
-                return
-            }
-            
-            // TODO: for demo only
-            if account.points < total {
-                account.points = total
-            }
-            if context.hasChanges {
-                try context.save()
-            }
-        }
+        // TODO: Calc total account from history
+        // let total = transactions.reduce(0) { sum, transaction in
+        //     switch transaction.type {
+        //     case .bonus, .earned: return sum + transaction.amount
+        //     case .penalty, .spent: return sum - transaction.amount
+        //     }
+        // }
+        //
+        // let accountID = scope.currentSessionInfo.accountID
+        // try await context.perform {
+        //     let request = Account.byID(accountID)
+        //     guard let account = try context.fetch(request).first else {
+        //         return
+        //     }
+        //
+        //     // TODO: for demo only
+        //     if account.points < total {
+        //         account.points = total
+        //     }
+        //     if context.hasChanges {
+        //         try context.save()
+        //     }
+        // }
     }
 }

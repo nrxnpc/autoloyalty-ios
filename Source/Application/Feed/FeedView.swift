@@ -14,6 +14,11 @@ struct FeedView: View {
     
     @FetchRequest var products: FetchedResults<Product>
     @FetchRequest var recommendationSet: FetchedResults<CarRecommendation>
+    @FetchRequest var account: FetchedResults<Account>
+    
+    var balance: Int {
+        account.first?.points ?? 0
+    }
     
     // MARK: - State
     
@@ -60,6 +65,7 @@ struct FeedView: View {
     init() {
         _products = FetchRequest(fetchRequest: Product.allProductsFetchRequest(), animation: .smooth)
         _recommendationSet = FetchRequest(fetchRequest: CarRecommendation.allNeutralSentiment(), animation: .smooth)
+        _account = FetchRequest(fetchRequest: Account.current(), animation: .smooth)
     }
     
     var body: some View {
@@ -106,7 +112,7 @@ extension FeedView {
                     router.route(sheet: .transactionHistory)
                 } label: {
                     HStack(spacing: 0) {
-                        Text("\(balanceMonitor.balance)")
+                        Text("\(balance)")
                             .foregroundColor(.primary)
                         Image(systemName: "star.fill")
                             .scaleEffect(x: 0.6, y: 0.6)
