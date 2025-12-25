@@ -13,6 +13,7 @@ final class QRScanner: ObservableObject {
         case processing
         case result(Int)
         case processingError
+        case wasUsed
     }
     
     @Published var captureDeviceState: CaptureDeviceState = .unowned
@@ -67,6 +68,7 @@ extension QRScanner {
             
             do {
                 let points = try await ScanQRUseCase(scope: scope).execute(value: value)
+                
                 // TODO: related to transactions polling strategy 
                 // try await PullUserTransactionsUseCase(scope: scope).execute()
                 
@@ -75,7 +77,7 @@ extension QRScanner {
                 }
             } catch ScanQRUseCase.ScanQRError.wasUsed {
                 await MainActor.run {
-                    self.captureDeviceState = .processingError
+                    self.captureDeviceState = .wasUsed
                 }
             } catch {
                 await MainActor.run {

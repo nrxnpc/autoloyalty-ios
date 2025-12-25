@@ -131,11 +131,11 @@ public struct EndpointConfigurator: SessionBuilder {
     /// - Parameter decoder: A `JSONDecoder` to use for decoding the response.
     /// - Parameter wrappedData: root node of the JSON response is a `data`
     /// - Returns: An instance of the specified `Decodable` type.
-    public func call<T: Decodable & Sendable>(decoder: JSONDecoder = JSONDecoder(), isDataWrapped: Bool = true) async throws -> T {
+    public func call<T: Decodable & Sendable>(decoder: JSONDecoder = JSONDecoder(), isDataWrapped: Bool = true, keyDecodingStrategy: JSONDecoder.KeyDecodingStrategy = .useDefaultKeys) async throws -> T {
         let (data, _) = try await executeRequestWithRetry()
         if data.isEmpty { throw EndpointError.noData }
         do {
-            // decoder.keyDecodingStrategy = .convertFromSnakeCase
+            decoder.keyDecodingStrategy = keyDecodingStrategy
             if isDataWrapped {
                 return try decoder.decode(APIResponseWrapper<T>.self, from: data).data
             } else {

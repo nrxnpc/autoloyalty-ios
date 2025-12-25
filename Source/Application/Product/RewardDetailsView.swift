@@ -191,9 +191,7 @@ extension RewardDetailsView {
     @ToolbarContentBuilder func makeToolbar() -> some ToolbarContent {
         ToolbarItem(placement: .topBarLeading) {
             Button(action: dismiss.callAsFunction) {
-                Image(systemName: "xmark.circle.fill")
-                    .foregroundStyle(.regularMaterial)
-                    .background(Circle().fill(.ultraThinMaterial))
+                Image(systemName: "xmark")
             }
         }
         

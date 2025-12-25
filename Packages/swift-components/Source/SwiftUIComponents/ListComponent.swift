@@ -38,7 +38,6 @@ public extension ComponentBuilder {
             .padding(.horizontal)
         }
         .scrollDismissesKeyboard(.interactively)
-        .background(Color.backgroundPrimary)
     }
 }
 

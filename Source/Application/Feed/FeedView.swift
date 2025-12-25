@@ -23,6 +23,32 @@ struct FeedView: View {
     /// To show balance on navigation title
     @State internal var isBalanceVisible: Bool = true
     
+    struct RecommendationPrompts {
+        private static let prompts: [LocalizedStringKey] = [
+            "Do you like it?",
+            "What do you think?",
+            "Is this your style?",
+            "Does this catch your eye?",
+            "How about this one?",
+            "Your thoughts on this car?",
+            "Rate this recommendation",
+            "Swipe to choose",
+            "Find your match",
+            "Love it or leave it?",
+            "Your next ride?",
+            "Perfect for you?",
+            "This one's a keeper?",
+            "Your dream car?",
+            "Worth a test drive?",
+            "Your type of car?"
+        ]
+        
+        static var random: LocalizedStringKey {
+            prompts.randomElement() ?? "Do you like it?"
+        }
+    }
+    internal let recommendationPrompts = RecommendationPrompts.random
+    
     // MARK: - Initialization
     
     init() {

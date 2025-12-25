@@ -75,30 +75,47 @@ extension QRScannerView {
     // MARK: - Processing States
     
     @ViewBuilder func makeProcessing() -> some View {
-        VStack(spacing: 16) {
-            Image(systemName: "arrow.trianglehead.2.clockwise.rotate.90.icloud")
+        VStack(alignment: .center, spacing: 16) {
+            Image(systemName: "qrcode.viewfinder")
                 .resizable()
                 .scaledToFit()
-                .foregroundStyle(.secondary, .tertiary)
-                .symbolEffect(.rotate)
-                .padding(.horizontal, 64)
+                .frame(width: 48, height: 48)
+                .foregroundStyle(.blue, .tertiary)
+                .symbolEffect(.bounce)
             
-            Text("Processing...")
-                .font(.title)
-                .padding(.horizontal, 32)
+            VStack(spacing: 4) {
+                Text("Validating QR code")
+                    .font(.headline)
+                    .fontWeight(.semibold)
+                
+                Text("Please wait for completion")
+                    .font(.subheadline)
+                    .foregroundStyle(.secondary)
+            }
         }
         .padding(.horizontal, 32)
     }
     
     @ViewBuilder func makeResult(with earnedPoints: Int) -> some View {
         VStack(alignment: .center, spacing: 16) {
-            BalanceLabel(points: earnedPoints)
-                .font(.title)
+            Image(systemName: "qrcode.viewfinder")
+                .resizable()
+                .scaledToFit()
+                .frame(width: 48, height: 48)
+                .foregroundStyle(.green, .tertiary)
             
-            Text("Points successfully added to your balance!")
-                .font(.title)
-                .multilineTextAlignment(.center)
-                .padding(.horizontal, 32)
+            BalanceLabel(points: earnedPoints, operation: .income)
+                .font(.headline)
+            
+            VStack(spacing: 4) {
+                Text("Success!")
+                    .font(.headline)
+                    .fontWeight(.semibold)
+                
+                Text("Points added to your balance")
+                    .font(.subheadline)
+                    .foregroundStyle(.secondary)
+            }
         }
         .padding(.horizontal, 32)
         .onAppear {
@@ -108,15 +125,42 @@ extension QRScannerView {
     
     @ViewBuilder func makeProcessingError() -> some View {
         VStack(alignment: .center, spacing: 16) {
-            Image(systemName: "xmark.icloud")
+            Image(systemName: "qrcode.viewfinder")
                 .resizable()
                 .scaledToFit()
-                .foregroundStyle(.secondary, .tertiary)
-                .padding(.horizontal, 64)
+                .frame(width: 48, height: 48)
+                .foregroundStyle(.red, .tertiary)
             
-            Text("This code cannot be scanned. Please try scanning a different QR code")
-                .font(.callout)
-                .padding(.horizontal, 32)
+            VStack(spacing: 4) {
+                Text("Invalid QR Code")
+                    .font(.headline)
+                    .fontWeight(.semibold)
+                
+                Text("This code cannot be used")
+                    .font(.subheadline)
+                    .foregroundStyle(.secondary)
+            }
+        }
+        .padding(.horizontal, 32)
+    }
+    
+    @ViewBuilder func makeWasUsedError() -> some View {
+        VStack(alignment: .center, spacing: 16) {
+            Image(systemName: "qrcode.viewfinder")
+                .resizable()
+                .scaledToFit()
+                .frame(width: 48, height: 48)
+                .foregroundStyle(.red, .tertiary)
+            
+            VStack(spacing: 4) {
+                Text("Already Used")
+                    .font(.headline)
+                    .fontWeight(.semibold)
+                
+                Text("This code was already scanned")
+                    .font(.subheadline)
+                    .foregroundStyle(.secondary)
+            }
         }
         .padding(.horizontal, 32)
     }
@@ -124,7 +168,29 @@ extension QRScannerView {
 
 #Preview {
     NavigationView {
-        QRScannerView()
+        ZStack {
+            VStack(alignment: .center, spacing: 16) {
+                Image(systemName: "qrcode.viewfinder")
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: 48, height: 48)
+                    .foregroundStyle(.green, .tertiary)
+                
+                BalanceLabel(points: 100, operation: .income)
+                    .font(.headline)
+                
+                VStack(spacing: 4) {
+                    Text("Success!")
+                        .font(.headline)
+                        .fontWeight(.semibold)
+                    
+                    Text("Points added to your balance")
+                        .font(.subheadline)
+                        .foregroundStyle(.secondary)
+                }
+            }
+            .padding(.horizontal, 32)
+        }
     }
 }
 

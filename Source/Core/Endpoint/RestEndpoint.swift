@@ -156,7 +156,7 @@ public extension RestEndpoint {
             .body(request, encoder: Self.jsonEncoder)
             .authenticate(with: authenticator)
             .session(session)
-            .call(decoder: Self.jsonDecoder, isDataWrapped: false)
+            .call(decoder: Self.jsonDecoder, isDataWrapped: false, keyDecodingStrategy: .convertFromSnakeCase)
     }
     
     /// Get user's QR scan history (requires authentication)

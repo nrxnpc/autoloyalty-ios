@@ -17,10 +17,11 @@ struct RewardPreviewView: View {
             makeItemPreview()
             makeItemInfo()
         }
-        .overlay(alignment: .topTrailing) {
-            makeFavoriteButton()
-                .padding(8)
-        }
+        // TODO: disabled
+        // .overlay(alignment: .topTrailing) {
+        //     makeFavoriteButton()
+        //         .padding(8)
+        // }
         .background(.regularMaterial)
         .clipShape(RoundedRectangle(cornerRadius: 24))
     }
