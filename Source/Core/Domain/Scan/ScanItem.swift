@@ -13,9 +13,9 @@ extension ScanItem {
     static func createOrUpdate(from raw: RestEndpoint.UserScan, in context: NSManagedObjectContext) {
         let request = ScanItem.byExternalID(raw.id)
         if let existing = try? context.fetch(request).first {
-            existing.productName = raw.productName
-            existing.productCategory = raw.productCategory
-            existing.pointsEarned = raw.pointsEarned
+            existing.productName = raw.productName ?? ""
+            existing.productCategory = raw.productCategory ?? ""
+            existing.pointsEarned = raw.pointsEarned ?? 0
             if let date = ISO8601DateFormatter().date(from: raw.timestamp ?? "") {
                 existing.createdAt = date
             }
@@ -27,9 +27,9 @@ extension ScanItem {
     private static func create(from raw: RestEndpoint.UserScan, in context: NSManagedObjectContext) {
         let scanItem = ScanItem(context: context)
         scanItem.sync.externalID = raw.id
-        scanItem.productName = raw.productName
-        scanItem.productCategory = raw.productCategory
-        scanItem.pointsEarned = raw.pointsEarned
+        scanItem.productName = raw.productName ?? ""
+        scanItem.productCategory = raw.productCategory ?? ""
+        scanItem.pointsEarned = raw.pointsEarned ?? 0
         if let date = ISO8601DateFormatter().date(from: raw.timestamp ?? "") {
             scanItem.createdAt = date
         }

@@ -439,7 +439,7 @@ extension RestEndpoint {
     /// Includes error details if QR code is invalid or already used.
     public struct QRScanResponse: Codable, Sendable {
         /// Scan validity
-        public let valid: Bool
+        public let valid: Bool?
         /// Scan record ID
         public let scanId: String?
         /// Product name
@@ -475,13 +475,13 @@ extension RestEndpoint {
         /// Scan ID
         public let id: String
         /// QR code ID
-        public let qrCode: String
+        public let qrCode: String?
         /// Product name
-        public let productName: String
+        public let productName: String?
         /// Product category
-        public let productCategory: String
+        public let productCategory: String?
         /// Points earned
-        public let pointsEarned: Int
+        public let pointsEarned: Int?
         /// Scan timestamp
         public let timestamp: String?
         /// Scan location

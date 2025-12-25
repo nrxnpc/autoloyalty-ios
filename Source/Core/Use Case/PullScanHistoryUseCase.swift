@@ -9,14 +9,17 @@ public struct PullScanHistoryUseCase {
     }
     
     public func execute() async throws {
+        debugPrint("[DEBUG][PullScanHistory] Starting scan history pull")
         let context = scope.createBackgroundContext()
         let scans = try await scope.endpoint.getUserScans().scans
+        debugPrint("[DEBUG][PullScanHistory] Received \(scans.count) scans")
         try await context.perform {
             scans.forEach { raw in
                 ScanItem.createOrUpdate(from: raw, in: context)
             }
             if context.hasChanges {
                 try context.save()
+                debugPrint("[DEBUG][PullScanHistory] Database saved successfully")
             }
         }
     }

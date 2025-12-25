@@ -24,6 +24,7 @@ struct QRScannerView: View, ComponentBuilder {
                 case .processing: makeProcessing()
                 case .result(let points): makeResult(with: points)
                 case .processingError: makeProcessingError()
+                case .wasUsed: makeWasUsedError()
                 }
             } action: {
                 switch scanner.captureDeviceState {
@@ -34,6 +35,7 @@ struct QRScannerView: View, ComponentBuilder {
                 case .processing: makeProcessingInstructions()
                 case .result: makeFinishButton()
                 case .processingError: makeTryAgainButton()
+                case .wasUsed: makeTryAgainButton()
                 }
             }
         }
