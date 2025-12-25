@@ -3,7 +3,7 @@ import SwiftUIComponents
 
 struct BalanceView: View, ComponentBuilder {
     @Environment(Main.Router.self) var router
-    @EnvironmentObject var balanceMonitor: BalanceMonitor
+    @Environment(BalanceMonitor.self) var balanceMonitor
     
     var body: some View {
         ZStack {
@@ -49,6 +49,7 @@ extension BalanceView {
     
     @ViewBuilder func makeBalance() -> some View {
         Text("\(balanceMonitor.balance)")
+            .contentTransition(.numericText())
             .font(.largeTitle)
             .fontWeight(.semibold)
     }

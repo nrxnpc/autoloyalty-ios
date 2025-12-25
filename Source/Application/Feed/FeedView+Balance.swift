@@ -10,5 +10,6 @@ extension FeedView {
         BalanceView()
             .trigger(visible: $isBalanceVisible)
             .padding(.horizontal)
+            .animation(.bouncy, value: balanceMonitor.balance)
     }
 }

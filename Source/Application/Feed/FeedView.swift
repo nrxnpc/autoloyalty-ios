@@ -8,7 +8,7 @@ struct FeedView: View {
     
     @StateObject var applicaiton: FeedApplication = .init()
     @StateObject var inboxMonitor = InboxMonitor()
-    @StateObject var balanceMonitor = BalanceMonitor()
+    @State var balanceMonitor = BalanceMonitor()
     
     // MARK: - FetchRequests
     
@@ -22,6 +22,12 @@ struct FeedView: View {
     @State internal var showFavoritesOnly = false
     /// To show balance on navigation title
     @State internal var isBalanceVisible: Bool = true
+    
+    struct ProductDetails: Identifiable {
+        let id: String
+    }
+    @State internal var productDetails: ProductDetails? = nil
+    
     
     struct RecommendationPrompts {
         private static let prompts: [LocalizedStringKey] = [
@@ -69,7 +75,16 @@ struct FeedView: View {
         .animation(.easeInOut, value: showFavoritesOnly)
         .toolbar(content: makeToolbar)
         .animation(.smooth, value: isBalanceVisible)
-        .environmentObject(balanceMonitor)
+        .sheet(item: $productDetails) { details in
+            NavigationView {
+                RewardDetailsView(id: details.id)
+                    .environment(balanceMonitor)
+            }
+            .presentationDetents([.large])
+            .presentationDragIndicator(.visible)
+            .navigationTransition(.zoom(sourceID: details.id, in: namespace))
+        }
+        .environment(balanceMonitor)
     }
 }
 
