@@ -51,7 +51,11 @@ extension LoginView {
     
     @ViewBuilder func makeIntro() -> some View {
         VStack(alignment: .center, spacing: 8) {
-            MakeIcon(systemImage: "car", size: .large)
+            Image("logo")
+                .resizable()
+                .scaledToFit()
+                .frame(width: 96, height: 96)
+            
             if focused == nil {
                 MakeTitle("Buy parts. Get rewards.")
                 MakeSubtitle("Scan QR codes on auto parts to earn points and redeem rewards.")
