@@ -184,15 +184,18 @@ final class AkinatorEngine: AkinatorEngineProtocol {
         guard lines.count > 1 else { return nil }
         
         let headers = lines[0].components(separatedBy: ",").map { $0.trimmingCharacters(in: .whitespaces) }
-        let characteristicKeys = Array(headers.dropFirst())
         
         return lines.dropFirst().compactMap { line in
             let values = line.components(separatedBy: ",").map { $0.trimmingCharacters(in: .whitespaces) }
             guard values.count == headers.count else { return nil }
             
             let name = values[0]
-            let preview = values.count > characteristicKeys.count + 1 ? values.last : nil
-            let charValues = Array(values.dropFirst().dropLast(preview != nil ? 1 : 0))
+            let preview = values.last
+            
+            // Get characteristic keys (exclude name and preview columns)
+            let characteristicKeys = Array(headers.dropFirst().dropLast())
+            let charValues = Array(values.dropFirst().dropLast())
+            
             let characteristics = Dictionary(uniqueKeysWithValues: 
                 zip(characteristicKeys, charValues.compactMap(Double.init))
             )
@@ -203,14 +206,25 @@ final class AkinatorEngine: AkinatorEngineProtocol {
     
     private static func loadQuestionsFromCSV() -> [Question]? {
         guard let path = Bundle.main.path(forResource: "questions", ofType: "csv"),
-              let content = try? String(contentsOfFile: path, encoding: .utf8) else { return nil }
+              let content = try? String(contentsOfFile: path, encoding: .utf8) else { 
+            debugPrint("[DEBUG][Akinator] Failed to load questions.csv")
+            return nil 
+        }
         
-        return content.components(separatedBy: .newlines)
+        debugPrint("[DEBUG][Akinator] Questions CSV content: \(content)")
+        
+        let questions: [Question] = content.components(separatedBy: .newlines)
             .filter { !$0.isEmpty }
             .compactMap { line in
                 let components = line.components(separatedBy: ",").map { $0.trimmingCharacters(in: .whitespaces) }
-                guard components.count >= 2 else { return nil }
+                guard components.count >= 2 else { 
+                    debugPrint("[DEBUG][Akinator] Invalid line: \(line)")
+                    return nil 
+                }
                 return Question(text: components[0], characteristicKey: components[1])
             }
+        
+        debugPrint("[DEBUG][Akinator] Loaded \(questions.count) questions")
+        return questions.isEmpty ? nil : questions
     }
 }

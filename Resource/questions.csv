@@ -1,0 +1,11 @@
+Is this an electric car?,isElectric
+Does it have a V8 engine?,hasV8
+Is this a luxury car?,isLuxury
+Is it suitable for off-road?,isOffRoad
+Is this a sports car?,isSportsCar
+Is this a sedan?,isSedan
+Is this an SUV?,isSUV
+Does it have manual transmission?,hasManualTransmission
+Is this a Japanese car?,isJapanese
+Is this a German car?,isGerman
+Is this an American car?,isAmerican

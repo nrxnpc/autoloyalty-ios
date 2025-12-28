@@ -42,8 +42,8 @@
 		7E462FF62EE65F0F00B7F5EC /* OrdersView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E462FF52EE65F0F00B7F5EC /* OrdersView.swift */; };
 		7E486C102F01BA5A007405BB /* Akinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E486C0F2F01BA5A007405BB /* Akinator.swift */; };
 		7E486C122F01BD8C007405BB /* cars.csv in Resources */ = {isa = PBXBuildFile; fileRef = 7E486C112F01BD8C007405BB /* cars.csv */; };
-		7E486C142F01BDBB007405BB /* questions.cvs in Resources */ = {isa = PBXBuildFile; fileRef = 7E486C132F01BDBB007405BB /* questions.cvs */; };
 		7E486C162F01C05B007405BB /* AkinatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E486C152F01C05B007405BB /* AkinatorView.swift */; };
+		7E486C182F01E01B007405BB /* questions.csv in Resources */ = {isa = PBXBuildFile; fileRef = 7E486C172F01E01B007405BB /* questions.csv */; };
 		7E4BA2022EE061840004CFB3 /* Product.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E4BA2012EE061840004CFB3 /* Product.swift */; };
 		7E4BA2042EE0689E0004CFB3 /* ProductDelivery.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E4BA2032EE0689E0004CFB3 /* ProductDelivery.swift */; };
 		7E4BA20B2EE0BB1A0004CFB3 /* RewardPreviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E4BA20A2EE0BB1A0004CFB3 /* RewardPreviewView.swift */; };
@@ -173,8 +173,8 @@
 		7E462FF52EE65F0F00B7F5EC /* OrdersView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrdersView.swift; sourceTree = "<group>"; };
 		7E486C0F2F01BA5A007405BB /* Akinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Akinator.swift; sourceTree = "<group>"; };
 		7E486C112F01BD8C007405BB /* cars.csv */ = {isa = PBXFileReference; lastKnownFileType = text; path = cars.csv; sourceTree = "<group>"; };
-		7E486C132F01BDBB007405BB /* questions.cvs */ = {isa = PBXFileReference; lastKnownFileType = text; path = questions.cvs; sourceTree = "<group>"; };
 		7E486C152F01C05B007405BB /* AkinatorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AkinatorView.swift; sourceTree = "<group>"; };
+		7E486C172F01E01B007405BB /* questions.csv */ = {isa = PBXFileReference; lastKnownFileType = text; path = questions.csv; sourceTree = "<group>"; };
 		7E4BA2012EE061840004CFB3 /* Product.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Product.swift; sourceTree = "<group>"; };
 		7E4BA2032EE0689E0004CFB3 /* ProductDelivery.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductDelivery.swift; sourceTree = "<group>"; };
 		7E4BA20A2EE0BB1A0004CFB3 /* RewardPreviewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RewardPreviewView.swift; sourceTree = "<group>"; };
@@ -515,7 +515,7 @@
 				08DB741B2DF8296F007D80CB /* Assets.xcassets */,
 				7EE878022EA2FD3200CFC230 /* Localizable.xcstrings */,
 				7E486C112F01BD8C007405BB /* cars.csv */,
-				7E486C132F01BDBB007405BB /* questions.cvs */,
+				7E486C172F01E01B007405BB /* questions.csv */,
 			);
 			path = Resource;
 			sourceTree = "<group>";
@@ -811,7 +811,7 @@
 			files = (
 				7EE878032EA2FD3200CFC230 /* Localizable.xcstrings in Resources */,
 				08DB741C2DF8296F007D80CB /* Assets.xcassets in Resources */,
-				7E486C142F01BDBB007405BB /* questions.cvs in Resources */,
+				7E486C182F01E01B007405BB /* questions.csv in Resources */,
 				7E486C122F01BD8C007405BB /* cars.csv in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
