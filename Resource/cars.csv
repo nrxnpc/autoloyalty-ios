@@ -1,2 +1,16 @@
-#  <#Title#>
-
+name,isElectric,hasV8,isLuxury,isOffRoad,isSportsCar,isSedan,isSUV,hasManualTransmission,isJapanese,isGerman,isAmerican,preview
+Tesla Model S,1.0,0.0,1.0,0.0,0.7,1.0,0.0,0.0,0.0,0.0,1.0,tesla_model_s.jpg
+Toyota Land Cruiser,0.0,1.0,0.7,1.0,0.0,0.0,1.0,0.0,1.0,0.0,0.0,land_cruiser.jpg
+Mazda MX-5,0.0,0.0,0.3,0.0,1.0,0.0,0.0,1.0,1.0,0.0,0.0,mx5.jpg
+BMW X5,0.0,1.0,0.8,0.7,0.2,0.0,1.0,0.0,0.0,1.0,0.0,bmw_x5.jpg
+Nissan Leaf,1.0,0.0,0.4,0.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,nissan_leaf.jpg
+Porsche 911,0.0,0.0,1.0,0.0,1.0,0.0,0.0,0.3,0.0,1.0,0.0,porsche_911.jpg
+Ford F-150,0.0,1.0,0.5,0.8,0.0,0.0,0.0,0.0,0.0,0.0,1.0,ford_f150.jpg
+Audi A4,0.0,0.0,0.7,0.0,0.3,1.0,0.0,0.0,0.0,1.0,0.0,audi_a4.jpg
+Jeep Wrangler,0.0,0.0,0.4,1.0,0.0,0.0,1.0,0.7,0.0,0.0,1.0,jeep_wrangler.jpg
+Honda Civic,0.0,0.0,0.3,0.0,0.2,1.0,0.0,0.2,1.0,0.0,0.0,honda_civic.jpg
+Mercedes S-Class,0.0,1.0,1.0,0.0,0.1,1.0,0.0,0.0,0.0,1.0,0.0,mercedes_s_class.jpg
+Subaru Outback,0.0,0.0,0.5,0.7,0.0,0.0,1.0,0.3,1.0,0.0,0.0,subaru_outback.jpg
+Chevrolet Corvette,0.0,1.0,0.8,0.0,1.0,0.0,0.0,0.4,0.0,0.0,1.0,corvette.jpg
+Volkswagen Golf,0.0,0.0,0.4,0.0,0.3,0.0,0.0,0.5,0.0,1.0,0.0,vw_golf.jpg
+Toyota Prius,1.0,0.0,0.4,0.0,0.0,1.0,0.0,0.0,1.0,0.0,0.0,toyota_prius.jpg

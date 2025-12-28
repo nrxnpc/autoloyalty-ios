@@ -63,7 +63,7 @@ extension Main {
          scope.onSessionHasExpired
              .receive(on: DispatchQueue.main)
              .sink { [weak self] _ in
-                 self?.router?.route(sheet: .reauthenticationView)
+                 self?.router?.routeReauthentication()
              }
              .store(in: &cancellables)
     }

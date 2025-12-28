@@ -1,0 +1,6 @@
+name,isElectric,hasV8,isLuxury,isOffRoad,preview
+Tesla Model S,1.0,0.0,1.0,0.0,tesla_model_s.jpg
+Toyota Land Cruiser,0.0,1.0,0.7,1.0,land_cruiser.jpg
+Mazda MX-5,0.0,0.0,0.3,0.0,mx5.jpg
+BMW X5,0.0,1.0,0.8,0.7,bmw_x5.jpg
+Nissan Leaf,1.0,0.0,0.4,0.0,nissan_leaf.jpg

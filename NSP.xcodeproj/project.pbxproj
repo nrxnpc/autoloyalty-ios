@@ -40,6 +40,10 @@
 		7E462FF02EE6489C00B7F5EC /* QRScannerView+States.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E462FEF2EE6489C00B7F5EC /* QRScannerView+States.swift */; };
 		7E462FF32EE648D900B7F5EC /* QRScannerView+Actions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E462FF22EE648D900B7F5EC /* QRScannerView+Actions.swift */; };
 		7E462FF62EE65F0F00B7F5EC /* OrdersView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E462FF52EE65F0F00B7F5EC /* OrdersView.swift */; };
+		7E486C102F01BA5A007405BB /* Akinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E486C0F2F01BA5A007405BB /* Akinator.swift */; };
+		7E486C122F01BD8C007405BB /* cars.csv in Resources */ = {isa = PBXBuildFile; fileRef = 7E486C112F01BD8C007405BB /* cars.csv */; };
+		7E486C142F01BDBB007405BB /* questions.cvs in Resources */ = {isa = PBXBuildFile; fileRef = 7E486C132F01BDBB007405BB /* questions.cvs */; };
+		7E486C162F01C05B007405BB /* AkinatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E486C152F01C05B007405BB /* AkinatorView.swift */; };
 		7E4BA2022EE061840004CFB3 /* Product.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E4BA2012EE061840004CFB3 /* Product.swift */; };
 		7E4BA2042EE0689E0004CFB3 /* ProductDelivery.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E4BA2032EE0689E0004CFB3 /* ProductDelivery.swift */; };
 		7E4BA20B2EE0BB1A0004CFB3 /* RewardPreviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E4BA20A2EE0BB1A0004CFB3 /* RewardPreviewView.swift */; };
@@ -167,6 +171,10 @@
 		7E462FEF2EE6489C00B7F5EC /* QRScannerView+States.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "QRScannerView+States.swift"; sourceTree = "<group>"; };
 		7E462FF22EE648D900B7F5EC /* QRScannerView+Actions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "QRScannerView+Actions.swift"; sourceTree = "<group>"; };
 		7E462FF52EE65F0F00B7F5EC /* OrdersView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrdersView.swift; sourceTree = "<group>"; };
+		7E486C0F2F01BA5A007405BB /* Akinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Akinator.swift; sourceTree = "<group>"; };
+		7E486C112F01BD8C007405BB /* cars.csv */ = {isa = PBXFileReference; lastKnownFileType = text; path = cars.csv; sourceTree = "<group>"; };
+		7E486C132F01BDBB007405BB /* questions.cvs */ = {isa = PBXFileReference; lastKnownFileType = text; path = questions.cvs; sourceTree = "<group>"; };
+		7E486C152F01C05B007405BB /* AkinatorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AkinatorView.swift; sourceTree = "<group>"; };
 		7E4BA2012EE061840004CFB3 /* Product.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Product.swift; sourceTree = "<group>"; };
 		7E4BA2032EE0689E0004CFB3 /* ProductDelivery.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductDelivery.swift; sourceTree = "<group>"; };
 		7E4BA20A2EE0BB1A0004CFB3 /* RewardPreviewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RewardPreviewView.swift; sourceTree = "<group>"; };
@@ -444,6 +452,8 @@
 				7E72CB952EFB3A9C00D647F7 /* RecommendationsView+Compact.swift */,
 				7E72CB8A2EFAE97F00D647F7 /* CardSwipeView.swift */,
 				7E72CBA22EFC60D900D647F7 /* OffersView.swift */,
+				7E486C0F2F01BA5A007405BB /* Akinator.swift */,
+				7E486C152F01C05B007405BB /* AkinatorView.swift */,
 			);
 			path = Recommendations;
 			sourceTree = "<group>";
@@ -504,6 +514,8 @@
 				7EAF29582EE9870C00E4201A /* Application-Info.plist */,
 				08DB741B2DF8296F007D80CB /* Assets.xcassets */,
 				7EE878022EA2FD3200CFC230 /* Localizable.xcstrings */,
+				7E486C112F01BD8C007405BB /* cars.csv */,
+				7E486C132F01BDBB007405BB /* questions.cvs */,
 			);
 			path = Resource;
 			sourceTree = "<group>";
@@ -799,6 +811,8 @@
 			files = (
 				7EE878032EA2FD3200CFC230 /* Localizable.xcstrings in Resources */,
 				08DB741C2DF8296F007D80CB /* Assets.xcassets in Resources */,
+				7E486C142F01BDBB007405BB /* questions.cvs in Resources */,
+				7E486C122F01BD8C007405BB /* cars.csv in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -847,6 +861,7 @@
 				7E4BA20F2EE0CDE10004CFB3 /* RewardDetailsView.swift in Sources */,
 				7E462FEE2EE63CE100B7F5EC /* FeedView+Catalog.swift in Sources */,
 				7E72CB9A2EFC0D1A00D647F7 /* RateRecommendationUseCase.swift in Sources */,
+				7E486C102F01BA5A007405BB /* Akinator.swift in Sources */,
 				7EE877F32EA2E55600CFC230 /* Main+Jobs.swift in Sources */,
 				7E462FF02EE6489C00B7F5EC /* QRScannerView+States.swift in Sources */,
 				7ECC40252E66D8370014E97E /* Main+Router.swift in Sources */,
@@ -915,6 +930,7 @@
 				7EE877FD2EA2ED7F00CFC230 /* Attachment+UseCase.swift in Sources */,
 				7E53500F2EDC2EF70020AF96 /* InboxView.swift in Sources */,
 				7EE877FE2EA2ED7F00CFC230 /* Attachment+FetchRequest.swift in Sources */,
+				7E486C162F01C05B007405BB /* AkinatorView.swift in Sources */,
 				7EE877DB2EA2B94D00CFC230 /* LoginUseCase.swift in Sources */,
 				7E43D3AD2EC745170039FCE4 /* CaptureSessionPreview.swift in Sources */,
 				7EE877D62EA2A8F600CFC230 /* Authentication+Policies.swift in Sources */,
