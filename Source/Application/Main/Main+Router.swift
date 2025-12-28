@@ -71,6 +71,13 @@ extension Main.Router {
         self.fullScreen = destination
     }
     
+    func routeReauthentication() {
+        guard sheet == nil && fullScreen == nil else {
+            return
+        }
+        sheet = .reauthenticationView
+    }
+    
     func openSettings() {
         guard let settingsURL = URL(string: "App-Prefs:root=General") else {
             return
