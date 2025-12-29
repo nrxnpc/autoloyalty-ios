@@ -7,16 +7,26 @@ final class Akinator {
         case onboarding
         case questioning(Question)
         case guessing(Car)
+        case gameOver(winner: GameWinner, questionsAsked: Int)
+    }
+    
+    enum GameWinner: Equatable {
+        case computer(Car)
+        case human
     }
     
     var state: State = .onboarding
     var isLoading = false
+    var questionsAsked = 0
+    private var guessAttempts: [String] = []
     
     let engine = AkinatorEngine()
     
     func startGame() {
         isLoading = true
         engine.reset()
+        questionsAsked = 0
+        guessAttempts = []
         
         if let question = engine.getNextQuestion() {
             state = .questioning(question)
@@ -31,26 +41,42 @@ final class Akinator {
         guard case .questioning(let question) = state else { return }
         
         isLoading = true
+        questionsAsked += 1
         engine.processAnswer(question: question, answer: answerType)
         
         if let winner = engine.checkVictory() {
-            state = .guessing(winner)
+            // Check if same car guessed 3 times
+            guessAttempts.append(winner.name)
+            let recentAttempts = Array(guessAttempts.suffix(3))
+            
+            if recentAttempts.count == 3 && Set(recentAttempts).count == 1 {
+                state = .gameOver(winner: .human, questionsAsked: questionsAsked)
+            } else {
+                state = .guessing(winner)
+            }
         } else if let nextQuestion = engine.getNextQuestion() {
             state = .questioning(nextQuestion)
         } else {
-            state = .onboarding
+            state = .gameOver(winner: .human, questionsAsked: questionsAsked)
         }
         
         isLoading = false
     }
     
-    func continueAfterWrongGuess() {
+    func confirmGuess() {
+        guard case .guessing(let car) = state else { return }
+        state = .gameOver(winner: .computer(car), questionsAsked: questionsAsked)
+    }
+    
+    func rejectGuess() {
+        guard case .guessing = state else { return }
+        
         isLoading = true
         
         if let nextQuestion = engine.getNextQuestion() {
             state = .questioning(nextQuestion)
         } else {
-            state = .onboarding
+            state = .gameOver(winner: .human, questionsAsked: questionsAsked)
         }
         
         isLoading = false

@@ -1,6 +1,7 @@
 import SwiftUI
 import SwiftUIComponents
 
+@available(iOS 18.0, *)
 struct AkinatorView: View {
     @State private var akinator = Akinator()
     @Environment(\.dismiss) private var dismiss
@@ -16,7 +17,6 @@ struct AkinatorView: View {
                         .fontWeight(.medium)
                         .multilineTextAlignment(.leading)
                         .frame(maxWidth: .infinity, alignment: .leading)
-                        
                 case .questioning(let question):
                     Text(question.text)
                         .font(.title)
@@ -24,7 +24,7 @@ struct AkinatorView: View {
                         .multilineTextAlignment(.leading)
                         .frame(maxWidth: .infinity, alignment: .leading)
                         .redacted(reason: akinator.isLoading ? .placeholder : [])
-                        
+                        .transition(.opacity)
                 case .guessing(let car):
                     Text("Is it \(car.name)?")
                         .font(.title)
@@ -32,11 +32,31 @@ struct AkinatorView: View {
                         .multilineTextAlignment(.leading)
                         .frame(maxWidth: .infinity, alignment: .leading)
                         .redacted(reason: akinator.isLoading ? .placeholder : [])
+                        
+                case .gameOver(let winner, let questionsAsked):
+                    VStack(alignment: .leading, spacing: 12) {
+                        switch winner {
+                        case .computer(let car):
+                            Text("I won! 🎉")
+                                .font(.title)
+                                .fontWeight(.bold)
+                            Text("I guessed \(car.name) in \(questionsAsked) questions!")
+                                .font(.title2)
+                        case .human:
+                            Text("You won! 🏆")
+                                .font(.title)
+                                .fontWeight(.bold)
+                            Text("I couldn't guess your car after \(questionsAsked) questions.")
+                                .font(.title2)
+                        }
+                    }
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                        .transition(.opacity)
                 }
             }
             .frame(maxHeight: .infinity, alignment: .top)
-            .padding(.top, 40)
-            .animation(.smooth, value: akinator.state)
+            .padding(.top)
+            .animation(.easeInOut(duration: 0.6), value: akinator.state)
             
             Spacer()
             
@@ -49,10 +69,12 @@ struct AkinatorView: View {
                     makeAnswerButtons()
                 case .guessing:
                     makeResultButtons()
+                case .gameOver:
+                    makeGameOverButtons()
                 }
             }
             .padding(.bottom, 40)
-            .animation(.smooth, value: akinator.state)
+            .animation(.easeInOut, value: akinator.state)
         }
         .padding(.horizontal)
         .navigationTitle("")
@@ -105,15 +127,23 @@ struct AkinatorView: View {
     private func makeResultButtons() -> some View {
         VStack(spacing: 12) {
             Button("Yes, correct!") {
-                akinator.endGame()
+                akinator.confirmGuess()
             }
             .buttonStyle(PrimaryButtonStyle())
             
             Button("Wrong guess") {
-                akinator.continueAfterWrongGuess()
+                akinator.rejectGuess()
             }
             .buttonStyle(StrokeButtonStyle())
         }
+    }
+    
+    @ViewBuilder
+    private func makeGameOverButtons() -> some View {
+        Button("Try Again") {
+            akinator.startGame()
+        }
+        .buttonStyle(PrimaryButtonStyle())
     }
     
     @ToolbarContentBuilder

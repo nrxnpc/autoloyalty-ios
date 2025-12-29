@@ -61,7 +61,7 @@ extension OffersView {
         ToolbarItem(placement: .topBarTrailing) {
             Menu {
                 Text("Recommendations")
-                Button("Car Akinator", systemImage: "car") {
+                Button("Guess My Car", systemImage: "car") {
                     showAkinator = true
                 }
                 Button("Reset", systemImage: "arrow.clockwise") {
