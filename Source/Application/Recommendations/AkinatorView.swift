@@ -86,7 +86,7 @@ struct AkinatorView: View {
     private func makeOnboardingButtons() -> some View {
         VStack(spacing: 20) {
             Text("Let's find out if you can stump me!")
-                .font(.title)
+                .font(.callout)
                 .multilineTextAlignment(.center)
                 .foregroundColor(.secondary)
             
