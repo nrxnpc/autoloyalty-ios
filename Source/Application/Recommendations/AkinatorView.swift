@@ -5,6 +5,7 @@ import SwiftUIComponents
 struct AkinatorView: View {
     @State private var akinator = Akinator()
     @Environment(\.dismiss) private var dismiss
+    @State var confettiCannonTrigger = 0
     
     var body: some View {
         VStack {
@@ -24,7 +25,8 @@ struct AkinatorView: View {
                         .multilineTextAlignment(.leading)
                         .frame(maxWidth: .infinity, alignment: .leading)
                         .redacted(reason: akinator.isLoading ? .placeholder : [])
-                        .transition(.opacity)
+                        .transition(.blurReplace)
+                        .id(question.text)
                 case .guessing(let car):
                     Text("Is it \(car.name)?")
                         .font(.title)
@@ -46,17 +48,20 @@ struct AkinatorView: View {
                             Text("You won! 🏆")
                                 .font(.title)
                                 .fontWeight(.bold)
+                                .onAppear {
+                                    confettiCannonTrigger += 1
+                                }
                             Text("I couldn't guess your car after \(questionsAsked) questions.")
                                 .font(.title2)
                         }
                     }
                     .frame(maxWidth: .infinity, alignment: .leading)
-                        .transition(.opacity)
+                    .transition(.blurReplace)
                 }
             }
             .frame(maxHeight: .infinity, alignment: .top)
             .padding(.top)
-            .animation(.easeInOut(duration: 0.6), value: akinator.state)
+            .animation(.smooth, value: akinator.state)
             
             Spacer()
             
@@ -80,6 +85,7 @@ struct AkinatorView: View {
         .navigationTitle("")
         .navigationBarTitleDisplayMode(.inline)
         .toolbar(content: makeToolbar)
+        .confettiCannon(trigger: $confettiCannonTrigger, num: 100, openingAngle: .degrees(0), closingAngle: .degrees(180), radius: 400)
     }
     
     @ViewBuilder

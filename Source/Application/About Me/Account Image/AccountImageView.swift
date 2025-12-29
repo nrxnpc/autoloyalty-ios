@@ -88,7 +88,7 @@ private extension AccountImage {
                 .resizable()
                 .scaledToFit()
                 .transition(.opacity)
-        } else if accout != nil {
+        } else if let name = accout?.name, !name.isEmpty {
             makeInitialsPlaceholder(for: geometry)
         } else {
             makeDefaultPlaceholder(for: geometry)

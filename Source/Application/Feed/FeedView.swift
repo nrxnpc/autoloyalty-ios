@@ -159,6 +159,25 @@ extension FeedView {
                     Image(systemName: "person")
                 }
             }
+            .contextMenu {
+                Button {
+                    router.route(sheet: .scanHistory)
+                } label: {
+                    Label("Scan History", systemImage: "qrcode") // blue
+                }
+                
+                Button {
+                    router.route(sheet: .transactionHistory)
+                } label: {
+                    Label("Transactions", systemImage: "arrow.up.arrow.down") // green
+                }
+                
+                Button {
+                    router.route(sheet: .orders)
+                } label: {
+                    Label("Orders", systemImage: "cart") // pink
+                }
+            }
             
             Button {
                 router.route(to: .inbox)
@@ -170,6 +189,14 @@ extension FeedView {
                     Image(systemName: "envelope")
                         .foregroundStyle(.primary)
                 }
+            }
+            .contextMenu {
+                Button {
+                    inboxMonitor.markAllAsRead()
+                } label: {
+                    Label("Mark all as read", systemImage: "checkmark.circle")
+                }
+                .disabled(inboxMonitor.unreadCount == 0)
             }
         }
     }

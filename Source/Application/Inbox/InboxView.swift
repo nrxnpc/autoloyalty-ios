@@ -6,7 +6,7 @@ struct InboxView: View {
     
     @Environment(Main.Router.self) private var router
     
-    @StateObject var inbox = Inbox()
+    @State var inbox = Inbox()
     @StateObject var inboxMonitor = InboxMonitor()
     @StateObject var userNotifications = InboxUserNotifications()
     
@@ -170,7 +170,7 @@ extension InboxView {
         ToolbarItem(placement: .topBarTrailing) {
             Menu {
                 Button {
-                    inbox.markAllAsRead()
+                    inboxMonitor.markAllAsRead()
                 } label: {
                     Label("Mark all as read", systemImage: "checkmark.circle")
                 }
