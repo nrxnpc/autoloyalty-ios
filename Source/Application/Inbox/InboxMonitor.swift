@@ -22,4 +22,13 @@ final class InboxMonitor: ObservableObject {
             }
             .store(in: &cancellables)
     }
+    
+    func markAllAsRead() {
+        let context = scope.coreDataContext
+        let request = InboxMessage.unreadMessages()
+        if let messages = try? context.fetch(request) {
+            messages.forEach { $0.wasReaded = true }
+            try? context.save()
+        }
+    }
 }

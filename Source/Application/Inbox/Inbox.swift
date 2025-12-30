@@ -2,16 +2,9 @@ import Dependencies
 import Foundation
 import CoreData
 
+@Observable
 @MainActor
-final class Inbox: ObservableObject {
+final class Inbox {
+    @ObservationIgnored
     @Dependency(\.scope) var scope
-    
-    func markAllAsRead() {
-        let context = scope.coreDataContext
-        let request = InboxMessage.unreadMessages()
-        if let messages = try? context.fetch(request) {
-            messages.forEach { $0.wasReaded = true }
-            try? context.save()
-        }
-    }
 }

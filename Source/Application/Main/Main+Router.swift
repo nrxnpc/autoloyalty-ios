@@ -26,6 +26,7 @@ extension Main {
             case offers
             case reauthenticationView
             case contactSupport
+            case akinator(Namespace.ID)
             case console
         }
         
@@ -69,6 +70,13 @@ extension Main.Router {
     
     func route(fullScreen destination: FullScreenDestination) {
         self.fullScreen = destination
+    }
+    
+    func routeReauthentication() {
+        guard sheet == nil && fullScreen == nil else {
+            return
+        }
+        sheet = .reauthenticationView
     }
     
     func openSettings() {
@@ -215,6 +223,13 @@ extension Main {
                         }
                         .presentationDetents([.large])
                         .presentationDragIndicator(.visible)
+                    case .akinator(let namespace):
+                        NavigationView {
+                            AkinatorView()
+                        }
+                        .presentationDetents([.large])
+                        .presentationDragIndicator(.visible)
+                        .navigationTransition(.zoom(sourceID: "akinator", in: namespace))
                     case .console:
                         NavigationView {
                             PulseConsoleView()
@@ -253,6 +268,7 @@ extension Main.Router.SheetDestination: Identifiable, Equatable {
         case .offers: return "offers"
         case .reauthenticationView: return "reauthenticationView"
         case .contactSupport: return "contactSupport"
+        case .akinator: return "akinator"
         case .console: return "console"
         }
     }

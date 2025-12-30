@@ -36,3 +36,42 @@ extension FeedView {
         .foregroundStyle(.primary)
     }
 }
+
+extension FeedView {
+    // MARK: - Auto Mind Section
+    
+    @ViewBuilder func makeAutoMindSection() -> some View {
+        VStack(alignment: .leading, spacing: 16) {
+            makeAutoMindHeader()
+                .padding(.leading, 16)
+            
+            ZStack {
+                Text("I can guess any car you're thinking of in 10 questions or less!")
+                    .font(.headline)
+                    .multilineTextAlignment(.leading)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .padding(16)
+            }
+            .background {
+                RoundedRectangle(cornerRadius: 32)
+                    .foregroundStyle(.ultraThinMaterial)
+            }
+            .padding(.horizontal)
+            .onTap {
+                router.route(sheet: .akinator(namespace))
+            }
+        }
+        .matchedTransitionSource(id: "akinator", in: namespace)
+        .padding(.vertical)
+    }
+    
+    @ViewBuilder func makeAutoMindHeader() -> some View {
+        HStack {
+            Text(autoMindPrompts)
+                .font(.title2.weight(.semibold))
+            
+            Spacer()
+        }
+        .foregroundStyle(.primary)
+    }
+}

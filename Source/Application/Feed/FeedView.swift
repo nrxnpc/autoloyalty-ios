@@ -33,7 +33,6 @@ struct FeedView: View {
     }
     @State internal var productDetails: ProductDetails? = nil
     
-    
     struct RecommendationPrompts {
         private static let prompts: [LocalizedStringKey] = [
             "Do you like it?",
@@ -60,6 +59,32 @@ struct FeedView: View {
     }
     internal let recommendationPrompts = RecommendationPrompts.random
     
+    struct AutoMindPrompts {
+        private static let prompts: [LocalizedStringKey] = [
+            "Think of any car",
+            "I can read your mind",
+            "Challenge my skills",
+            "Test my knowledge",
+            "Pick your dream car",
+            "I'll guess in 10 questions",
+            "Ready to be amazed?",
+            "Try to stump me",
+            "Mind reading mode",
+            "Car guessing game",
+            "Think I can't guess?",
+            "Your car awaits",
+            "Let's play AutoMind",
+            "Guess what I'm thinking",
+            "Car telepathy active",
+            "Mind over motor"
+        ]
+        
+        static var random: LocalizedStringKey {
+            prompts.randomElement() ?? "Think of any car"
+        }
+    }
+    internal let autoMindPrompts = RecommendationPrompts.random
+    
     // MARK: - Initialization
     
     init() {
@@ -77,6 +102,7 @@ struct FeedView: View {
             }
             
             makeCatalogSection()
+            makeAutoMindSection()
         }
         .animation(.easeInOut, value: showFavoritesOnly)
         .toolbar(content: makeToolbar)
@@ -133,6 +159,25 @@ extension FeedView {
                     Image(systemName: "person")
                 }
             }
+            .contextMenu {
+                Button {
+                    router.route(sheet: .scanHistory)
+                } label: {
+                    Label("Scan History", systemImage: "qrcode") // blue
+                }
+                
+                Button {
+                    router.route(sheet: .transactionHistory)
+                } label: {
+                    Label("Transactions", systemImage: "arrow.up.arrow.down") // green
+                }
+                
+                Button {
+                    router.route(sheet: .orders)
+                } label: {
+                    Label("Orders", systemImage: "cart") // pink
+                }
+            }
             
             Button {
                 router.route(to: .inbox)
@@ -144,6 +189,14 @@ extension FeedView {
                     Image(systemName: "envelope")
                         .foregroundStyle(.primary)
                 }
+            }
+            .contextMenu {
+                Button {
+                    inboxMonitor.markAllAsRead()
+                } label: {
+                    Label("Mark all as read", systemImage: "checkmark.circle")
+                }
+                .disabled(inboxMonitor.unreadCount == 0)
             }
         }
     }

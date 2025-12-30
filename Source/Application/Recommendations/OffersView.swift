@@ -7,6 +7,8 @@ struct OffersView: View {
     @Environment(Main.Router.self) var router
     @Environment(Recommendations.self) var recommendations
     
+    @State var showAkinator: Bool = false
+    
     // MARK: -
     
     var body: some View {
@@ -15,6 +17,13 @@ struct OffersView: View {
         }
         .navigationTitle("Offers")
         .toolbar(content: makeToolbar)
+        .sheet(isPresented: $showAkinator) {
+            NavigationView {
+                AkinatorView()
+            }
+            .presentationDetents([.large])
+            .presentationDragIndicator(.visible)
+        }
     }
 }
 
@@ -52,6 +61,9 @@ extension OffersView {
         ToolbarItem(placement: .topBarTrailing) {
             Menu {
                 Text("Recommendations")
+                Button("Guess My Car", systemImage: "car") {
+                    showAkinator = true
+                }
                 Button("Reset", systemImage: "arrow.clockwise") {
                     recommendations.reset()
                 }
