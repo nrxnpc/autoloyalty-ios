@@ -13,6 +13,8 @@
 		7E0FAB9D2EE9A6BB00498CEA /* Order+FetchRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E0FAB9C2EE9A6BB00498CEA /* Order+FetchRequest.swift */; };
 		7E0FAB9F2EE9A82500498CEA /* PullMyOrdersUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E0FAB9E2EE9A82500498CEA /* PullMyOrdersUseCase.swift */; };
 		7E0FABA12EE9A82E00498CEA /* CreateOrderUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E0FABA02EE9A82E00498CEA /* CreateOrderUseCase.swift */; };
+		7E2AA2E82F031B8E007EDD4E /* Vehicles.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 7E2AA2E72F031B8E007EDD4E /* Vehicles.xcstrings */; };
+		7E2AA2EA2F031DDB007EDD4E /* Questions.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 7E2AA2E92F031DDB007EDD4E /* Questions.xcstrings */; };
 		7E3477DE2EF49BB1004F9F01 /* DeleteAccountUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E3477DD2EF49BB1004F9F01 /* DeleteAccountUseCase.swift */; };
 		7E3477E02EF56FE0004F9F01 /* PullNewsUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E3477DF2EF56FE0004F9F01 /* PullNewsUseCase.swift */; };
 		7E3477E22EF57C43004F9F01 /* QRScanHistoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E3477E12EF57C43004F9F01 /* QRScanHistoryView.swift */; };
@@ -146,6 +148,9 @@
 		7E0FAB9C2EE9A6BB00498CEA /* Order+FetchRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Order+FetchRequest.swift"; sourceTree = "<group>"; };
 		7E0FAB9E2EE9A82500498CEA /* PullMyOrdersUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PullMyOrdersUseCase.swift; sourceTree = "<group>"; };
 		7E0FABA02EE9A82E00498CEA /* CreateOrderUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateOrderUseCase.swift; sourceTree = "<group>"; };
+		7E2AA2E12F031787007EDD4E /* CarMinder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarMinder.swift; sourceTree = "<group>"; };
+		7E2AA2E72F031B8E007EDD4E /* Vehicles.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Vehicles.xcstrings; sourceTree = "<group>"; };
+		7E2AA2E92F031DDB007EDD4E /* Questions.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Questions.xcstrings; sourceTree = "<group>"; };
 		7E3477DD2EF49BB1004F9F01 /* DeleteAccountUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteAccountUseCase.swift; sourceTree = "<group>"; };
 		7E3477DF2EF56FE0004F9F01 /* PullNewsUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PullNewsUseCase.swift; sourceTree = "<group>"; };
 		7E3477E12EF57C43004F9F01 /* QRScanHistoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRScanHistoryView.swift; sourceTree = "<group>"; };
@@ -315,6 +320,18 @@
 			path = Order;
 			sourceTree = "<group>";
 		};
+		7E2AA2E02F03177A007EDD4E /* Car Minder */ = {
+			isa = PBXGroup;
+			children = (
+				7E2AA2E92F031DDB007EDD4E /* Questions.xcstrings */,
+				7E2AA2E72F031B8E007EDD4E /* Vehicles.xcstrings */,
+				7E486C0F2F01BA5A007405BB /* Akinator.swift */,
+				7E486C152F01C05B007405BB /* AkinatorView.swift */,
+				7E2AA2E12F031787007EDD4E /* CarMinder.swift */,
+			);
+			path = "Car Minder";
+			sourceTree = "<group>";
+		};
 		7E3477E72EF5DFD8004F9F01 /* Scan */ = {
 			isa = PBXGroup;
 			children = (
@@ -447,13 +464,12 @@
 		7E72CB7E2EF9939900D647F7 /* Recommendations */ = {
 			isa = PBXGroup;
 			children = (
+				7E2AA2E02F03177A007EDD4E /* Car Minder */,
 				7E72CB972EFB4C3D00D647F7 /* Recommendations.swift */,
 				7E72CB7F2EF993AE00D647F7 /* RecommendationsView.swift */,
 				7E72CB952EFB3A9C00D647F7 /* RecommendationsView+Compact.swift */,
 				7E72CB8A2EFAE97F00D647F7 /* CardSwipeView.swift */,
 				7E72CBA22EFC60D900D647F7 /* OffersView.swift */,
-				7E486C0F2F01BA5A007405BB /* Akinator.swift */,
-				7E486C152F01C05B007405BB /* AkinatorView.swift */,
 			);
 			path = Recommendations;
 			sourceTree = "<group>";
@@ -810,7 +826,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				7EE878032EA2FD3200CFC230 /* Localizable.xcstrings in Resources */,
+				7E2AA2E82F031B8E007EDD4E /* Vehicles.xcstrings in Resources */,
 				08DB741C2DF8296F007D80CB /* Assets.xcassets in Resources */,
+				7E2AA2EA2F031DDB007EDD4E /* Questions.xcstrings in Resources */,
 				7E486C182F01E01B007405BB /* questions.csv in Resources */,
 				7E486C122F01BD8C007405BB /* cars.csv in Resources */,
 			);
