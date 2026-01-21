@@ -6,8 +6,10 @@ extension Main {
         scope.scheduleSessionJobs {
             Job(.once) { [scope] in
                 try await CreateWelcomeMessageUseCase(scope: scope).execute()
-                try await CreateBuiltInRecommendationsSetUseCase(scope: scope).execute()
-                try await CreateBuiltInCatalogUseCase(scope: scope).execute()
+                
+                // TODO: For Demo only
+                // try await CreateBuiltInRecommendationsSetUseCase(scope: scope).execute()
+                // try await CreateBuiltInCatalogUseCase(scope: scope).execute()
             }
             
             Job(.polling(.strategy(.intensive))) { [scope] in
@@ -39,12 +41,11 @@ extension Main {
             }
             
             Job(.polling(.strategy(.low))) { [scope] in
-                // TODO: DISABLED FOR DEMO, USED CreateBuiltInCatalogUseCase
-                // do {
-                //     try await PullCatalogUseCase(scope: scope).execute()
-                // } catch {
-                //     debugPrint("[DEBUG] Cannot pull catalog: \(error)")
-                // }
+                do {
+                    try await PullCatalogUseCase(scope: scope).execute()
+                } catch {
+                    debugPrint("[DEBUG] Cannot pull catalog: \(error)")
+                }
                 
                 do {
                     try await PullNewsUseCase(scope: scope).execute()
@@ -52,12 +53,11 @@ extension Main {
                     debugPrint("[DEBUG] Cannot pull news transactions: \(error)")
                 }
                 
-                // TODO: DISABLED FOR DEMO, USED CreateBuiltInRecommendationsSetUseCase
-                // do {
-                //     try await PullRecommendationsUseCase(scope: scope).execute()
-                // } catch {
-                //     debugPrint("[DEBUG] Cannot pull catalog: \(error)")
-                // }
+                do {
+                    try await PullRecommendationsUseCase(scope: scope).execute()
+                } catch {
+                    debugPrint("[DEBUG] Cannot pull catalog: \(error)")
+                }
             }
         }
     }

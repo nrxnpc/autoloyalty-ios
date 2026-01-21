@@ -8,6 +8,13 @@ extension Product {
         return request
     }
     
+    static func obsoleteProducts(excludingIDs externalIDs: Set<String>) -> NSFetchRequest<Product> {
+        let request = NSFetchRequest<Product>(entityName: "Product")
+        request.predicate = NSPredicate(format: "NOT (sync.externalID IN %@)", externalIDs)
+        request.sortDescriptors = [NSSortDescriptor(keyPath: \Product.createdAt, ascending: true)]
+        return request
+    }
+    
     static func availableProductsFetchRequest() -> NSFetchRequest<Product> {
         let request = NSFetchRequest<Product>(entityName: "Product")
         request.predicate = NSPredicate(format: "isOutOfStock == NO")

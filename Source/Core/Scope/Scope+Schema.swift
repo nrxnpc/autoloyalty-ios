@@ -14,7 +14,7 @@ extension Scope {
                     Field("createdAt", .timestamp)
                     Field("updatedAt", .timestamp)
                     Field("deletedAt", .timestamp, optional: true)
-                    Relationship("sync", to: "EntitySync", inverse: "entityReference")
+                    Relationship("sync", to: "EntitySync", inverse: "entityReference", deleteRule: .cascadeDeleteRule)
                 }
                 
                 // Entity synchronization record
