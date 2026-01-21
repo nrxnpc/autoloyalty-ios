@@ -102,7 +102,9 @@ struct FeedView: View {
             }
             
             makeCatalogSection()
-            makeAutoMindSection()
+            
+            // TODO: Disabled
+            // makeAutoMindSection()
         }
         .animation(.easeInOut, value: showFavoritesOnly)
         .toolbar(content: makeToolbar)
