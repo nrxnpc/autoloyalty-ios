@@ -20,7 +20,7 @@ struct ReauthenticationView: View, ComponentBuilder {
     
     // MARK: - State
     
-    @State private var loginErrorMessage: String?
+    @State private var loginErrorMessage: LocalizedStringKey?
     @FocusState var focused: Authentication.Input.Item?
     
     var body: some View {
@@ -85,12 +85,11 @@ extension ReauthenticationView {
             .validated(email: input.$email)
             .validated(password: input.$password, minimumRequirements: true)
             
-            NotificationMessageView(text: .init(loginErrorMessage ?? "")) {
+            NotificationMessageView(text: loginErrorMessage) {
                 loginErrorMessage = nil
             }
             .opacity(focused != nil || loginErrorMessage == nil ? 0.0 : 1.0)
             .padding(.bottom, 8)
-            
         }
         .foregroundStyle(.secondary)
     }

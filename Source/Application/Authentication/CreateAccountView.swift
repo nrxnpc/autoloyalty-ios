@@ -16,7 +16,7 @@ struct CreateAccountView: View, ComponentBuilder {
     @StateObject internal var input: Authentication.Input = .init()
     @FocusState var focused: Authentication.Input.Item?
     @State var checklistVisible = false
-    @State var throwingErrorWithDescription: String?
+    @State var throwingErrorWithDescription: LocalizedStringKey?
     
     // MARK: -
     
@@ -48,27 +48,24 @@ struct CreateAccountView: View, ComponentBuilder {
         }
     }
     
-    private func confirmEmail() {
-        step = .confirmEmail
-        
-        // TODO: skip for now
-        // Task { @MainActor in
-        //     do {
-        //         // try await authentication.sendVerificationCode(with: input.email)
-        //         step = .confirmEmail
-        //     } catch {
-        //         throwingErrorWithDescription = "Something went wrong while creating your account. Please try again later."
-        //     }
-        // }
-    }
-    
-    private func signUp() {
+    private func createAccount() {
         Task { @MainActor in
             do {
                 try await authentication.createAccount(with: input)
+                step = .confirmEmail
+            } catch {
+                throwingErrorWithDescription = "Something went wrong while creating your account. Please try again later"
+            }
+        }
+    }
+    
+    private func confirmAccount() {
+        Task { @MainActor in
+            do {
+                try await authentication.confirmCreateAccount(with: input)
                 router.reset()
             } catch {
-                throwingErrorWithDescription = "Something went wrong while creating your account. Please try again later."
+                throwingErrorWithDescription = "Invalid or expired verification code. Please try again"
             }
         }
     }
@@ -80,7 +77,7 @@ extension CreateAccountView {
     @ViewBuilder func makeEnterNameStep() -> some View {
         make(title: "Let’s get to know you")
         makeInputNameFields()
-        makeConfirmEmailButton()
+        makeEnterEmailButton()
     }
     
     @ViewBuilder func makeEnterEmailStep() -> some View {
@@ -92,13 +89,13 @@ extension CreateAccountView {
                 .transition(.opacity)
         }
         
-        makeSignUpButton()
+        makeConfirmEmailButton()
         makeBackToEnterNameButton()
         
-        NotificationMessageView(text: .init(throwingErrorWithDescription ?? "")) {
-            throwingErrorWithDescription = nil
+        NotificationMessageView(text: throwingErrorWithDescription) {
+            self.throwingErrorWithDescription = nil
         }
-        .opacity(throwingErrorWithDescription == nil ? 0.0 : 1.0)
+        .opacity(self.throwingErrorWithDescription == nil ? 0.0 : 1.0)
         .padding(.bottom, 8)
     }
     
@@ -106,11 +103,12 @@ extension CreateAccountView {
         make(title: "Enter the code we sent to your email")
         makeInputConfirmationFields()
         makeSignUpButton()
+        makeBackToEnterEmailButton()
         
-        NotificationMessageView(text: .init(throwingErrorWithDescription ?? "")) {
-            throwingErrorWithDescription = nil
+        NotificationMessageView(text: throwingErrorWithDescription) {
+            self.throwingErrorWithDescription = nil
         }
-        .opacity(throwingErrorWithDescription == nil ? 0.0 : 1.0)
+        .opacity(self.throwingErrorWithDescription == nil ? 0.0 : 1.0)
         .padding(.bottom, 8)
     }
     
@@ -140,12 +138,12 @@ extension CreateAccountView {
             makeInputField(code: $input.confirmationCode)
                 .submitLabel(.done)
                 .onSubmit {
-                    signUp()
+                    confirmAccount()
                 }
         }
     }
     
-    @ViewBuilder func makeConfirmEmailButton() -> some View {
+    @ViewBuilder func makeEnterEmailButton() -> some View {
         Button("Continue") {
             step = .enterEmail
         }
@@ -153,18 +151,33 @@ extension CreateAccountView {
         .validated(name: input.$name)
     }
     
-    @ViewBuilder func makeSignUpButton() -> some View {
-        Button("Confirm") {
-            signUp()
+    @ViewBuilder func makeConfirmEmailButton() -> some View {
+        Button("Continue") {
+            createAccount()
         }
         .buttonStyle(PrimaryButtonStyle())
         .validated(email: input.$email)
         .validated(password: input.$password, minimumRequirements: true)
     }
     
+    @ViewBuilder func makeSignUpButton() -> some View {
+        Button("Confirm") {
+            confirmAccount()
+        }
+        .buttonStyle(PrimaryButtonStyle())
+        .validated(code: input.$confirmationCode)
+    }
+    
     @ViewBuilder func makeBackToEnterNameButton() -> some View {
         Button("Back") {
             step = .enterName
+        }
+        .foregroundStyle(.secondary)
+    }
+    
+    @ViewBuilder func makeBackToEnterEmailButton() -> some View {
+        Button("Back") {
+            step = .enterEmail
         }
         .foregroundStyle(.secondary)
     }

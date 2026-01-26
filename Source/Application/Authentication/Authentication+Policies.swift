@@ -53,7 +53,7 @@ extension View {
     }
     
     func validated(code publisher: Published<String>.Publisher) -> some View {
-        modifier(ValidatedViewModifier(publisher: publisher, validation: .password(true)))
+        modifier(ValidatedViewModifier(publisher: publisher, validation: .code))
     }
 }
 
@@ -76,7 +76,7 @@ private struct ValidatedViewModifier: ViewModifier {
 @MainActor
 private final class Validator: ObservableObject {
     enum Validation {
-        case name, email, password(Bool)
+        case name, email, password(Bool), code
         @MainActor func check(value: String) -> Bool {
             switch self {
             case .name: return !value.isEmpty
@@ -86,10 +86,12 @@ private final class Validator: ObservableObject {
                     return Authentication.hasMinimumLength(password: value)
                 } else {
                     return Authentication.hasMinimumLength(password: value) &&
-                        Authentication.containsUppercaseLetter(password: value) &&
-                        Authentication.containsNumber(password: value) &&
-                        Authentication.containsSpecialCharacter(password: value)
+                    Authentication.containsUppercaseLetter(password: value) &&
+                    Authentication.containsNumber(password: value) &&
+                    Authentication.containsSpecialCharacter(password: value)
                 }
+            case .code:
+                return value.count >= 6
             }
         }
     }

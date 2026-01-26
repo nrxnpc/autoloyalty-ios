@@ -1,5 +1,6 @@
 import Dependencies
 import Foundation
+import SwiftUI
 
 @MainActor
 final class Authentication: ObservableObject {
@@ -59,14 +60,33 @@ extension Authentication {
             return String(input.email.split(separator: "@").first ?? "user")
         }
         
-        try await createAccount.execute(name: name(), email: input.email, password: input.password, confirmationCode: "")
+        try await createAccount.requestRegistration(name: name(), email: input.email, password: input.password)
+    }
+    
+    @MainActor
+    func confirmCreateAccount(with input: Authentication.Input) async throws {
+        isUpdating = true
+        defer {
+            isUpdating = false
+        }
+        
+        let createAccount = CreateAccountUseCase(scope: scope)
+        func name() -> String {
+            guard input.name.isEmpty else {
+                return input.name
+            }
+            
+            return String(input.email.split(separator: "@").first ?? "user")
+        }
+        
+        try await createAccount.confirmRegistration(email: input.email, code: input.confirmationCode)
     }
 }
 
 extension Authentication.UpdatingError {
-    var message: String {
+    var message: LocalizedStringKey {
         switch self {
-        case .somethingWentWrong: "Ups! Something went wrong while logging in. Try again later."
+        case .somethingWentWrong: "Ups! Something went wrong while logging in. Try again later"
         }
     }
 }

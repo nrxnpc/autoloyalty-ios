@@ -85,13 +85,25 @@ public extension RestEndpoint {
     
     // MARK: - Authentication & Account Management
     
-    /// Register a new user account
-    /// - Parameter request: User registration data
-    /// - Returns: Authentication response with user profile and token
+    /// Step 1: Request registration - sends verification code to email
+    /// - Parameter request: Registration data (name, email, phone, password, userType)
+    /// - Returns: Confirmation that code was sent to email
     /// - Throws: Network or validation errors
-    func register(_ request: RestEndpoint.UserRegistration) async throws -> RestEndpoint.AuthResponse {
+    func registerRequest(_ request: RestEndpoint.RegistrationRequest) async throws -> RestEndpoint.RegistrationRequestResponse {
         try await Endpoint(baseURL: baseURL)
-            .post("register")
+            .post("register/request")
+            .body(request, encoder: Self.jsonEncoder)
+            .session(session)
+            .call(decoder: Self.jsonDecoder, isDataWrapped: false)
+    }
+    
+    /// Step 2: Confirm registration with verification code from email
+    /// - Parameter request: Email and 6-digit verification code
+    /// - Returns: Authentication response with user profile and tokens
+    /// - Throws: Network or validation errors
+    func registerConfirm(_ request: RestEndpoint.RegistrationConfirm) async throws -> RestEndpoint.AuthResponse {
+        try await Endpoint(baseURL: baseURL)
+            .post("register/confirm")
             .body(request, encoder: Self.jsonEncoder)
             .session(session)
             .call(decoder: Self.jsonDecoder, isDataWrapped: false)
