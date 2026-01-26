@@ -7,13 +7,19 @@ public struct PullSupportMessagesUseCase {
     
     public func execute() async throws {
         let context = scope.createBackgroundContext()
-        let accountID = scope.currentSessionInfo.accountID
+        let accountID = scope.currentSessionInfo.sessionID
         
         let lastMessageDate: Date? = try await context.perform {
             try context.fetch(SupportMessage.lastMessage()).first?.createdAt
         }
         
-        let since = lastMessageDate.map { ISO8601DateFormatter().string(from: $0) }
+        let since: String? = lastMessageDate.map {
+            let formatter = DateFormatter()
+            formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss"
+            formatter.timeZone = TimeZone(secondsFromGMT: 0)
+            return formatter.string(from: $0)
+        }
+        
         let request = RestEndpoint.SupportMessagesRequest(since: since)
         let response = try await scope.endpoint.getSupportMessages(request)
         

@@ -20,7 +20,7 @@ extension SupportMessage {
     /// Fetch all unsynced messages
     static func allUnsynced() -> NSFetchRequest<SupportMessage> {
         let request = NSFetchRequest<SupportMessage>(entityName: "SupportMessage")
-        request.predicate = NSPredicate(format: "sync.externalID == nil")
+        request.predicate = NSPredicate(format: "sync.externalID == nil AND sync.isDraft == NO AND isOwned == YES")
         request.sortDescriptors = [NSSortDescriptor(key: "createdAt", ascending: true)]
         return request
     }
