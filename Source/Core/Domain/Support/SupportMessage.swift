@@ -9,10 +9,24 @@ public class SupportMessage: Entity {
 }
 
 extension SupportMessage {
-    private static func create(from text: String, isOwned: Bool, in context: NSManagedObjectContext) {
+    static func createOrUpdate(from raw: RestEndpoint.SupportMessage, isOwned: Bool, in context: NSManagedObjectContext) {
+        let request = SupportMessage.byExternalID(raw.id)
+        if let existing = try? context.fetch(request).first {
+            existing.text = raw.content
+            existing.isOwned = isOwned
+            if let timestamp = ISO8601DateFormatter().date(from: raw.timestamp ?? "") {
+                existing.createdAt = timestamp
+            }
+        } else {
+            create(from: raw, isOwned: isOwned, in: context)
+        }
+    }
+    
+    private static func create(from raw: RestEndpoint.SupportMessage, isOwned: Bool, in context: NSManagedObjectContext) {
         let message = SupportMessage(context: context)
-        message.sync.isDraft = true
-        message.text = text
+        message.sync.externalID = raw.id
+        message.text = raw.content
         message.isOwned = isOwned
+        message.createdAt = ISO8601DateFormatter().date(from: raw.timestamp ?? "") ?? .now
     }
 }

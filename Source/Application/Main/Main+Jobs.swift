@@ -12,7 +12,7 @@ extension Main {
                 // try await CreateBuiltInCatalogUseCase(scope: scope).execute()
             }
             
-            Job(.polling(.strategy(.intensive))) { [scope] in
+            Job(.polling(.strategy(.normal))) { [scope] in
                 do {
                     try await PullAboutMeUseCase(scope: scope).execute()
                 } catch {
@@ -29,6 +29,20 @@ extension Main {
                     try await PullScanHistoryUseCase(scope: scope).execute()
                 } catch {
                     debugPrint("[DEBUG] Cannot pull scan history: \(error)")
+                }
+            }
+            
+            Job(.polling(.strategy(.normal))) {
+                do {
+                    try await PullSupportMessagesUseCase().execute()
+                } catch {
+                    debugPrint("[DEBUG] Cannot pull messages: \(error)")
+                }
+                
+                do {
+                    try await PushSupportMessagesUseCase().execute()
+                } catch {
+                    debugPrint("[DEBUG] Cannot push messages: \(error)")
                 }
             }
             

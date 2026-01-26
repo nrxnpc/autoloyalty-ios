@@ -13,6 +13,8 @@
 		7E0FAB9D2EE9A6BB00498CEA /* Order+FetchRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E0FAB9C2EE9A6BB00498CEA /* Order+FetchRequest.swift */; };
 		7E0FAB9F2EE9A82500498CEA /* PullMyOrdersUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E0FAB9E2EE9A82500498CEA /* PullMyOrdersUseCase.swift */; };
 		7E0FABA12EE9A82E00498CEA /* CreateOrderUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E0FABA02EE9A82E00498CEA /* CreateOrderUseCase.swift */; };
+		7E148A6A2F27B46B00276397 /* PullSupportMessagesUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E148A692F27B46B00276397 /* PullSupportMessagesUseCase.swift */; };
+		7E148A6C2F27B69600276397 /* PushSupportMessagesUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E148A6B2F27B69600276397 /* PushSupportMessagesUseCase.swift */; };
 		7E2AA2E82F031B8E007EDD4E /* Vehicles.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 7E2AA2E72F031B8E007EDD4E /* Vehicles.xcstrings */; };
 		7E2AA2EA2F031DDB007EDD4E /* Questions.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 7E2AA2E92F031DDB007EDD4E /* Questions.xcstrings */; };
 		7E3477DE2EF49BB1004F9F01 /* DeleteAccountUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E3477DD2EF49BB1004F9F01 /* DeleteAccountUseCase.swift */; };
@@ -148,6 +150,8 @@
 		7E0FAB9C2EE9A6BB00498CEA /* Order+FetchRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Order+FetchRequest.swift"; sourceTree = "<group>"; };
 		7E0FAB9E2EE9A82500498CEA /* PullMyOrdersUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PullMyOrdersUseCase.swift; sourceTree = "<group>"; };
 		7E0FABA02EE9A82E00498CEA /* CreateOrderUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateOrderUseCase.swift; sourceTree = "<group>"; };
+		7E148A692F27B46B00276397 /* PullSupportMessagesUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PullSupportMessagesUseCase.swift; sourceTree = "<group>"; };
+		7E148A6B2F27B69600276397 /* PushSupportMessagesUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushSupportMessagesUseCase.swift; sourceTree = "<group>"; };
 		7E2AA2E12F031787007EDD4E /* CarMinder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarMinder.swift; sourceTree = "<group>"; };
 		7E2AA2E72F031B8E007EDD4E /* Vehicles.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Vehicles.xcstrings; sourceTree = "<group>"; };
 		7E2AA2E92F031DDB007EDD4E /* Questions.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Questions.xcstrings; sourceTree = "<group>"; };
@@ -699,8 +703,10 @@
 				7E3477E32EF5DEEB004F9F01 /* PullScanHistoryUseCase.swift */,
 				7E72CB7A2EF98BCF00D647F7 /* PullRecommendationsUseCase.swift */,
 				7E72CB992EFC0D1A00D647F7 /* RateRecommendationUseCase.swift */,
-				7E72CBA02EFC3DE800D647F7 /* SendMessageToSupportUseCase.swift */,
 				7E72CBA62EFD879000D647F7 /* CreateBuiltInCatalogUseCase.swift */,
+				7E72CBA02EFC3DE800D647F7 /* SendMessageToSupportUseCase.swift */,
+				7E148A692F27B46B00276397 /* PullSupportMessagesUseCase.swift */,
+				7E148A6B2F27B69600276397 /* PushSupportMessagesUseCase.swift */,
 			);
 			path = "Use Case";
 			sourceTree = "<group>";
@@ -851,6 +857,7 @@
 				7E72CB8D2EFB039600D647F7 /* CreateBuiltInRecommendationsSetUseCase.swift in Sources */,
 				7E0FAB9D2EE9A6BB00498CEA /* Order+FetchRequest.swift in Sources */,
 				7ED1439F2E6740F1003BE287 /* Endpoint+Dependencies.swift in Sources */,
+				7E148A6C2F27B69600276397 /* PushSupportMessagesUseCase.swift in Sources */,
 				7E72CBA12EFC3DE800D647F7 /* SendMessageToSupportUseCase.swift in Sources */,
 				7EE878082EA3153100CFC230 /* ChangeAccountImage.swift in Sources */,
 				7E72CB7D2EF9919C00D647F7 /* FeedView+Recommendations.swift in Sources */,
@@ -877,6 +884,7 @@
 				7EE877E52EA2BBE400CFC230 /* PullAboutMeUseCase.swift in Sources */,
 				7E43D2F12EC654330039FCE4 /* QRScanner.swift in Sources */,
 				7E4BA20F2EE0CDE10004CFB3 /* RewardDetailsView.swift in Sources */,
+				7E148A6A2F27B46B00276397 /* PullSupportMessagesUseCase.swift in Sources */,
 				7E462FEE2EE63CE100B7F5EC /* FeedView+Catalog.swift in Sources */,
 				7E72CB9A2EFC0D1A00D647F7 /* RateRecommendationUseCase.swift in Sources */,
 				7E486C102F01BA5A007405BB /* Akinator.swift in Sources */,

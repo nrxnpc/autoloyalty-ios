@@ -864,4 +864,100 @@ extension RestEndpoint {
             case orderId = "order_id"
         }
     }
+    
+    // MARK: - Support Messages
+    
+    /// Support message send request
+    ///
+    /// Used to send a message to support. Creates new ticket if none exists.
+    public struct SupportMessageRequest: Codable, Sendable {
+        /// Message content
+        public let content: String
+        /// Optional subject (for new tickets)
+        public let subject: String?
+        /// Optional priority
+        public let priority: String?
+        /// Optional attachments
+        public let attachments: [String]?
+        
+        public init(content: String, subject: String? = nil, priority: String? = nil, attachments: [String]? = nil) {
+            self.content = content
+            self.subject = subject
+            self.priority = priority
+            self.attachments = attachments
+        }
+    }
+    
+    /// Support message info
+    ///
+    /// Basic message information returned after sending.
+    public struct SupportMessageInfo: Codable, Sendable {
+        /// Message ID
+        public let id: String
+        /// Message content
+        public let content: String
+        /// Message timestamp
+        public let timestamp: String?
+    }
+    
+    /// Support message send response
+    ///
+    /// Returned after successfully sending a support message.
+    public struct SupportMessageResponse: Codable, Sendable {
+        /// Operation success status
+        public let success: Bool
+        /// Ticket ID
+        public let ticketId: String?
+        /// Message info
+        public let message: SupportMessageInfo?
+        /// Error message if failed
+        public let error: String?
+    }
+    
+    /// Support messages polling request
+    ///
+    /// Used to fetch messages with optional timestamp filter for polling.
+    public struct SupportMessagesRequest: Codable, Sendable {
+        /// ISO timestamp to fetch messages after
+        public let since: String?
+        /// Maximum number of messages
+        public let limit: Int?
+        
+        public init(since: String? = nil, limit: Int? = nil) {
+            self.since = since
+            self.limit = limit
+        }
+    }
+    
+    /// Support message record
+    ///
+    /// Represents a single message in support conversation.
+    public struct SupportMessage: Codable, Sendable {
+        /// Message ID
+        public let id: String
+        /// Ticket ID
+        public let ticketId: String
+        /// Message content
+        public let content: String
+        /// Sender ID
+        public let senderId: String
+        /// Sender name
+        public let senderName: String
+        /// Sender role
+        public let senderRole: String
+        /// Message timestamp
+        public let timestamp: String?
+        /// Attachments
+        public let attachments: [String]?
+    }
+    
+    /// Support messages list response
+    ///
+    /// Contains list of support messages for polling.
+    public struct SupportMessagesResponse: Codable, Sendable {
+        /// Messages array
+        public let messages: [SupportMessage]
+        /// Whether more messages are available
+        public let hasMore: Bool?
+    }
 }

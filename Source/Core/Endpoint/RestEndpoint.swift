@@ -320,6 +320,39 @@ public extension RestEndpoint {
         
         return try await endpoint.call(decoder: Self.jsonDecoder, isDataWrapped: false)
     }
+    
+    // MARK: - Support Messages
+    
+    /// Send message to support (requires authentication)
+    /// - Parameter request: Support message request with content and optional subject
+    /// - Returns: Support message response with ticket ID and message info
+    /// - Throws: Network or authorization errors
+    func sendSupportMessage(_ request: RestEndpoint.SupportMessageRequest) async throws -> RestEndpoint.SupportMessageResponse {
+        try await Endpoint(baseURL: baseURL)
+            .post("support/messages")
+            .body(request, encoder: Self.jsonEncoder)
+            .authenticate(with: authenticator)
+            .session(session)
+            .call(decoder: Self.jsonDecoder, isDataWrapped: false)
+    }
+    
+    /// Get user's support messages (requires authentication)
+    /// - Parameter request: Optional polling request with since timestamp
+    /// - Returns: Support messages list
+    /// - Throws: Network or authorization errors
+    func getSupportMessages(_ request: RestEndpoint.SupportMessagesRequest = RestEndpoint.SupportMessagesRequest()) async throws -> RestEndpoint.SupportMessagesResponse {
+        var endpoint = Endpoint(baseURL: baseURL)
+            .get("support/messages")
+            .authenticate(with: authenticator)
+            .session(session)
+        
+        if let since = request.since {
+            endpoint = endpoint.parameter(key: "since", value: since)
+        }
+        endpoint = endpoint.parameter(key: "limit", value: String(request.limit ?? 32768))
+        
+        return try await endpoint.call(decoder: Self.jsonDecoder, isDataWrapped: false)
+    }
 }
 
 // MARK: - JSON Configuration
