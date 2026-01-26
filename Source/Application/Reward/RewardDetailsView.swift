@@ -19,10 +19,8 @@ struct RewardDetailsView: View {
     }
     
     var canOrder: Bool {
-        return false
-        // TODO: FOR DEMO ONLY
-        // guard let product else { return false }
-        // return !product.isOutOfStock && balanceMonitor.balance >= product.pointsCost
+        guard let product else { return false }
+        return !product.isOutOfStock && balanceMonitor.balance >= product.pointsCost
     }
     
     init(id: String) {
@@ -112,37 +110,29 @@ extension RewardDetailsView {
     
     @ViewBuilder func makeOrderButton(_ product: Product) -> some View {
         Button {
-             
+            Task {
+                await createOrder(product)
+            }
         } label: {
-            Text("Ouf of order")
+            HStack {
+                if product.isOutOfStock {
+                    Text("Ouf of stock")
+                        .fontWeight(.semibold)
+                } else {
+                    Text("Order")
+                        .fontWeight(.semibold)
+                }
+            }
+            .frame(maxWidth: .infinity)
+            .padding()
+            .background(canOrder ? Color.accentColor : Color.gray)
+            .foregroundColor(.white)
+            .clipShape(RoundedRectangle(cornerRadius: 14))
         }
         .buttonStyle(StrokeButtonStyle())
-        .background(
-            RoundedRectangle(cornerRadius: 14)
-                .foregroundStyle(.ultraThinMaterial)
-        )
-        .clipShape(RoundedRectangle(cornerRadius: 14))
-        .disabled(true)
+        .disabled(!canOrder || isOrdering)
         .padding(.horizontal, 32)
-        
-//        Button {
-//            Task {
-//                await createOrder(product)
-//            }
-//        } label: {
-//            HStack {
-//                Text("Order")
-//                    .fontWeight(.semibold)
-//            }
-//            .frame(maxWidth: .infinity)
-//            .padding()
-//            .background(canOrder ? Color.accentColor : Color.gray)
-//            .foregroundColor(.white)
-//            .clipShape(RoundedRectangle(cornerRadius: 12))
-//        }
-//        .disabled(!canOrder || isOrdering)
-//        .padding()
-//        .background(.regularMaterial)
+        .background(.regularMaterial)
     }
     
     @ViewBuilder func makeLoadingState() -> some View {

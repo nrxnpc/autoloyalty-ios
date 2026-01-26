@@ -417,14 +417,14 @@
 			path = Product;
 			sourceTree = "<group>";
 		};
-		7E4BA20D2EE0CDBD0004CFB3 /* Product */ = {
+		7E4BA20D2EE0CDBD0004CFB3 /* Reward */ = {
 			isa = PBXGroup;
 			children = (
 				7E4BA20A2EE0BB1A0004CFB3 /* RewardPreviewView.swift */,
 				7E4BA20E2EE0CDE10004CFB3 /* RewardDetailsView.swift */,
 				7E4BA2142EE30DC40004CFB3 /* RewardDetails.swift */,
 			);
-			path = Product;
+			path = Reward;
 			sourceTree = "<group>";
 		};
 		7E53500D2EDC2EE50020AF96 /* Inbox */ = {
@@ -569,7 +569,7 @@
 				7E462FF42EE65EFA00B7F5EC /* Orders */,
 				7E462FD22EE4E00100B7F5EC /* Balance */,
 				7E462FDA2EE5CFE100B7F5EC /* How To */,
-				7E4BA20D2EE0CDBD0004CFB3 /* Product */,
+				7E4BA20D2EE0CDBD0004CFB3 /* Reward */,
 				7E462FD52EE4E69400B7F5EC /* Feed */,
 				7E53500D2EDC2EE50020AF96 /* Inbox */,
 				7E3B427B2EC0F9F8005B7E57 /* Scanner */,
