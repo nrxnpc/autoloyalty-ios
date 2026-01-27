@@ -13,7 +13,7 @@ struct BalanceView: View, ComponentBuilder {
     
     var body: some View {
         ZStack {
-            VStack(alignment: .leading, spacing: 24) {
+            VStack(alignment: .leading, spacing: 8) {
                 makeTitle()
                 makeBalance()
                 makeScanButton()
