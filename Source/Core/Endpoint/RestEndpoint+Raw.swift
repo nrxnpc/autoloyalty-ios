@@ -346,12 +346,12 @@ extension RestEndpoint {
     /// Validates product availability and user's point balance.
     public struct OrderCreateRequest: Codable, Sendable {
         /// Product ID to purchase
-        public let productId: String
+        public let product_id: String
         /// Quantity to order
         public let quantity: Int
         
         public init(productId: String, quantity: Int = 1) {
-            self.productId = productId
+            self.product_id = productId
             self.quantity = quantity
         }
     }

@@ -50,7 +50,7 @@ struct RewardDetailsView: View {
             if let product = product {
                 makeOrderButton(product)
             }
-        }
+         }
         .toolbar(content: makeToolbar)
     }
 }
@@ -109,30 +109,53 @@ extension RewardDetailsView {
     }
     
     @ViewBuilder func makeOrderButton(_ product: Product) -> some View {
-        Button {
-            Task {
-                await createOrder(product)
-            }
-        } label: {
-            HStack {
-                if product.isOutOfStock {
-                    Text("Ouf of stock")
-                        .fontWeight(.semibold)
-                } else {
-                    Text("Order")
-                        .fontWeight(.semibold)
+        if #available(iOS 26.0, *) {
+            Button {
+                Task {
+                    await createOrder(product)
                 }
+            } label: {
+                HStack {
+                    if product.isOutOfStock {
+                        Text("Ouf of stock")
+                    } else {
+                        Image(systemName: "cart")
+                        Text("Order")
+                    }
+                }
+                .fontWeight(.semibold)
+                .frame(maxWidth: .infinity)
+                .padding()
+                .foregroundColor(.white)
+                .clipShape(RoundedRectangle(cornerRadius: 14))
             }
-            .frame(maxWidth: .infinity)
-            .padding()
-            .background(canOrder ? Color.accentColor : Color.gray)
-            .foregroundColor(.white)
-            .clipShape(RoundedRectangle(cornerRadius: 14))
+            .buttonStyle(.glass)
+            .disabled(!canOrder || isOrdering)
+            .padding(.horizontal, 32)
+        } else {
+            Button {
+                Task {
+                    await createOrder(product)
+                }
+            } label: {
+                HStack {
+                    if product.isOutOfStock {
+                        Text("Ouf of stock")
+                    } else {
+                        Image(systemName: "cart")
+                        Text("Order")
+                    }
+                }
+                .fontWeight(.semibold)
+                .frame(maxWidth: .infinity)
+                .padding()
+                .background(canOrder ? Color.accentColor : Color.gray)
+                .foregroundColor(.white)
+                .clipShape(RoundedRectangle(cornerRadius: 14))
+            }
+            .disabled(!canOrder || isOrdering)
+            .padding(.horizontal, 32)
         }
-        .buttonStyle(StrokeButtonStyle())
-        .disabled(!canOrder || isOrdering)
-        .padding(.horizontal, 32)
-        .background(.regularMaterial)
     }
     
     @ViewBuilder func makeLoadingState() -> some View {
@@ -198,7 +221,7 @@ extension RewardDetailsView {
             _ = try await useCase.execute(productId: product.sync.externalID ?? "")
             dismiss()
         } catch {
-            // Handle error
+            UINotificationFeedbackGenerator().notificationOccurred(.error)
         }
     }
     
