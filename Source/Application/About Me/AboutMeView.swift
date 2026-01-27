@@ -21,7 +21,8 @@ struct AboutMeView: View, ComponentBuilder {
             makeRecommendationsSection()
             // Moved to toolbar
             // makeSupportSection()
-            
+        }
+        .overlay(alignment: .bottom) {
             makePolicySection()
                 .padding()
         }
@@ -102,7 +103,7 @@ extension AboutMeView {
     
     @ViewBuilder private func makePolicySection() -> some View {
         VStack(spacing: 16) {
-            HStack(spacing: 16) {
+            VStack(spacing: 4) {
                 Link("Privacy Policy", destination: URL(string: "http://nsp-app.ru/#privacy")!)
                     .font(.callout)
                     .foregroundStyle(.primary)

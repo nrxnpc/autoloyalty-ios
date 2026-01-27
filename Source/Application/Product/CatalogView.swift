@@ -46,7 +46,7 @@ extension CatalogView {
             Text("No Favorites Yet")
                 .font(.headline)
             
-            HStack(spacing: 4) {
+            HStack(alignment: .firstTextBaseline, spacing: 4) {
                 Text("Tap")
                 Image(systemName: "heart")
                     .foregroundStyle(.red)
@@ -54,9 +54,6 @@ extension CatalogView {
             }
             .font(.subheadline)
             .foregroundStyle(.secondary)
-            
-            Spacer()
-                .frame(height: 8)
             
             Button("Browse Products") {
                 toggleFavoritesFilter()
