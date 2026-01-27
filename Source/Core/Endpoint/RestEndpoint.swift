@@ -85,13 +85,25 @@ public extension RestEndpoint {
     
     // MARK: - Authentication & Account Management
     
-    /// Register a new user account
-    /// - Parameter request: User registration data
-    /// - Returns: Authentication response with user profile and token
+    /// Step 1: Request registration - sends verification code to email
+    /// - Parameter request: Registration data (name, email, phone, password, userType)
+    /// - Returns: Confirmation that code was sent to email
     /// - Throws: Network or validation errors
-    func register(_ request: RestEndpoint.UserRegistration) async throws -> RestEndpoint.AuthResponse {
+    func registerRequest(_ request: RestEndpoint.RegistrationRequest) async throws -> RestEndpoint.RegistrationRequestResponse {
         try await Endpoint(baseURL: baseURL)
-            .post("register")
+            .post("register/request")
+            .body(request, encoder: Self.jsonEncoder)
+            .session(session)
+            .call(decoder: Self.jsonDecoder, isDataWrapped: false)
+    }
+    
+    /// Step 2: Confirm registration with verification code from email
+    /// - Parameter request: Email and 6-digit verification code
+    /// - Returns: Authentication response with user profile and tokens
+    /// - Throws: Network or validation errors
+    func registerConfirm(_ request: RestEndpoint.RegistrationConfirm) async throws -> RestEndpoint.AuthResponse {
+        try await Endpoint(baseURL: baseURL)
+            .post("register/confirm")
             .body(request, encoder: Self.jsonEncoder)
             .session(session)
             .call(decoder: Self.jsonDecoder, isDataWrapped: false)
@@ -317,6 +329,39 @@ public extension RestEndpoint {
         
         endpoint = endpoint.parameter(key: "limit", value: String(pagination.limit ?? 32768))
         endpoint = endpoint.parameter(key: "offset", value: String(pagination.offset ?? 0))
+        
+        return try await endpoint.call(decoder: Self.jsonDecoder, isDataWrapped: false)
+    }
+    
+    // MARK: - Support Messages
+    
+    /// Send message to support (requires authentication)
+    /// - Parameter request: Support message request with content and optional subject
+    /// - Returns: Support message response with ticket ID and message info
+    /// - Throws: Network or authorization errors
+    func sendSupportMessage(_ request: RestEndpoint.SupportMessageRequest) async throws -> RestEndpoint.SupportMessageResponse {
+        try await Endpoint(baseURL: baseURL)
+            .post("support/messages")
+            .body(request, encoder: Self.jsonEncoder)
+            .authenticate(with: authenticator)
+            .session(session)
+            .call(decoder: Self.jsonDecoder, isDataWrapped: false)
+    }
+    
+    /// Get user's support messages (requires authentication)
+    /// - Parameter request: Optional polling request with since timestamp
+    /// - Returns: Support messages list
+    /// - Throws: Network or authorization errors
+    func getSupportMessages(_ request: RestEndpoint.SupportMessagesRequest = RestEndpoint.SupportMessagesRequest()) async throws -> RestEndpoint.SupportMessagesResponse {
+        var endpoint = Endpoint(baseURL: baseURL)
+            .get("support/messages")
+            .authenticate(with: authenticator)
+            .session(session)
+        
+        if let since = request.since {
+            endpoint = endpoint.parameter(key: "since", value: since)
+        }
+        endpoint = endpoint.parameter(key: "limit", value: String(request.limit ?? 32768))
         
         return try await endpoint.call(decoder: Self.jsonDecoder, isDataWrapped: false)
     }

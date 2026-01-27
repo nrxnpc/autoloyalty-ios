@@ -27,10 +27,9 @@ extension Product {
             existing.stockQuantity = raw.stockQuantity
             existing.isActive = raw.isActive
             existing.isOutOfStock = raw.stockQuantity <= 0
-            // TODO: reuse attachments
-            // if let imageURL = URL(string: raw.imageURL) {
-            //     existing.images = [.fromURL(imageURL, in: context)]
-            // }
+            if let imageURL = URL(string: raw.imageURL) {
+                existing.images = [.fromURL(imageURL, in: context)]
+            }
             if let date = ISO8601DateFormatter().date(from: raw.createdAt) {
                 existing.createdAt = date
             }

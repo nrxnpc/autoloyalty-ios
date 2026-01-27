@@ -23,7 +23,6 @@ extension FeedView {
             }
         }
         .matchedTransitionSource(id: "recommendations", in: namespace)
-        .padding(.vertical)
     }
     
     @ViewBuilder func makeRecommendationsHeader() -> some View {

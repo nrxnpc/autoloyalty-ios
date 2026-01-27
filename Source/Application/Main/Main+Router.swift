@@ -7,9 +7,10 @@ extension Main {
     @MainActor
     @Observable
     final class Router {
-        enum Destination: String {
+        enum Destination {
             case aboutMe
             case inbox
+            case catalog
             case commingSoon
         }
         
@@ -94,6 +95,13 @@ extension Main.Router {
             }
         }
     }
+    
+    var isContactSupportOpen: Bool {
+        if case .contactSupport = sheet {
+            return true
+        }
+        return false
+    }
 }
 
 // MARK: - Destination Processor
@@ -120,6 +128,8 @@ extension Main {
                         AboutMeView()
                     case .inbox:
                         InboxView()
+                    case .catalog:
+                        CatalogView()
                     case .commingSoon:
                         CommingSoon()
                     }
@@ -155,7 +165,7 @@ extension Main {
                         .presentationDragIndicator(.visible)
                     case .productDetails(let id, let namespace):
                         NavigationView {
-                            RewardDetailsView(id: id)
+                            ProductView(id: id)
                         }
                         .presentationDetents([.large])
                         .presentationDragIndicator(.visible)
@@ -247,9 +257,22 @@ extension Main {
 
 // MARK: - Utilitites
 
-extension Main.Router.Destination: Identifiable {
+extension Main.Router.Destination: Identifiable, Equatable, Hashable {
     var id: String {
-        rawValue
+        switch self {
+        case .aboutMe: return "aboutMe"
+        case .inbox: return "inbox"
+        case .catalog: return "catalog"
+        case .commingSoon: return "commingSoon"
+        }
+    }
+    
+    static func == (lhs: Main.Router.Destination, rhs: Main.Router.Destination) -> Bool {
+        lhs.id == rhs.id
+    }
+    
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(id)
     }
 }
 

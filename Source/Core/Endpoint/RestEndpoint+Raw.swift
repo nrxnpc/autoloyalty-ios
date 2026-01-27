@@ -106,30 +106,48 @@ extension RestEndpoint {
     
     // MARK: - Request Models
     
-    /// User registration request data
+    /// Registration request - Step 1: Send verification code to email
     ///
-    /// Contains all required information for creating a new user account.
-    /// Successful registration grants 100 bonus points automatically.
-    public struct UserRegistration: Codable, Sendable {
-        /// Full name
+    /// Initiates registration by sending a 6-digit verification code to the provided email.
+    /// Code expires in 15 minutes with maximum 3 attempts.
+    public struct RegistrationRequest: Codable, Sendable {
         public let name: String
-        /// Email address (unique)
         public let email: String
-        /// Phone number
         public let phone: String
-        /// Password (will be hashed)
         public let password: String
-        /// Account type
         public let userType: UserType
-        /// Optional device information
-        public let deviceInfo: String?
         
-        public init(name: String, email: String, phone: String, password: String, userType: UserType, deviceInfo: String? = nil) {
+        public init(name: String, email: String, phone: String, password: String, userType: UserType) {
             self.name = name
             self.email = email
             self.phone = phone
             self.password = password
             self.userType = userType
+        }
+    }
+    
+    /// Registration request response - Step 1
+    ///
+    /// Confirms verification code was sent to email.
+    public struct RegistrationRequestResponse: Codable, Sendable {
+        public let success: Bool
+        public let message: String
+        public let email: String
+        public let error: String?
+    }
+    
+    /// Registration confirmation - Step 2: Verify code and complete registration
+    ///
+    /// Completes registration by verifying the email code.
+    /// Returns user profile and authentication tokens on success.
+    public struct RegistrationConfirm: Codable, Sendable {
+        public let email: String
+        public let code: String
+        public let deviceInfo: String?
+        
+        public init(email: String, code: String, deviceInfo: String? = nil) {
+            self.email = email
+            self.code = code
             self.deviceInfo = deviceInfo
         }
     }
@@ -328,12 +346,12 @@ extension RestEndpoint {
     /// Validates product availability and user's point balance.
     public struct OrderCreateRequest: Codable, Sendable {
         /// Product ID to purchase
-        public let productId: String
+        public let product_id: String
         /// Quantity to order
         public let quantity: Int
         
         public init(productId: String, quantity: Int = 1) {
-            self.productId = productId
+            self.product_id = productId
             self.quantity = quantity
         }
     }
@@ -392,24 +410,21 @@ extension RestEndpoint {
     
     /// Authentication operation response
     ///
-    /// Returned by login and registration endpoints. Contains user profile
-    /// and bearer token for subsequent authenticated requests.
+    /// Returned by login and registration confirm endpoints. Contains user profile
+    /// and bearer tokens for subsequent authenticated requests.
     public struct AuthResponse: Codable, Sendable {
-        /// Operation success status
         public let success: Bool
-        /// User profile data
         public let user: UserProfile
-        /// Authentication token
         public let accessToken: String
-        /// Refresh token
         public let refreshToken: String
-        /// Error message if failed
+        public let expiresIn: Int?
         public let error: String?
         
         private enum CodingKeys: String, CodingKey {
             case success, user, error
             case accessToken = "access_token"
             case refreshToken = "refresh_token"
+            case expiresIn = "expires_in"
         }
     }
     
@@ -863,5 +878,101 @@ extension RestEndpoint {
             case campaignId = "campaign_id"
             case orderId = "order_id"
         }
+    }
+    
+    // MARK: - Support Messages
+    
+    /// Support message send request
+    ///
+    /// Used to send a message to support. Creates new ticket if none exists.
+    public struct SupportMessageRequest: Codable, Sendable {
+        /// Message content
+        public let content: String
+        /// Optional subject (for new tickets)
+        public let subject: String?
+        /// Optional priority
+        public let priority: String?
+        /// Optional attachments
+        public let attachments: [String]?
+        
+        public init(content: String, subject: String? = nil, priority: String? = nil, attachments: [String]? = nil) {
+            self.content = content
+            self.subject = subject
+            self.priority = priority
+            self.attachments = attachments
+        }
+    }
+    
+    /// Support message info
+    ///
+    /// Basic message information returned after sending.
+    public struct SupportMessageInfo: Codable, Sendable {
+        /// Message ID
+        public let id: String
+        /// Message content
+        public let content: String
+        /// Message timestamp
+        public let timestamp: String?
+    }
+    
+    /// Support message send response
+    ///
+    /// Returned after successfully sending a support message.
+    public struct SupportMessageResponse: Codable, Sendable {
+        /// Operation success status
+        public let success: Bool
+        /// Ticket ID
+        public let ticketId: String?
+        /// Message info
+        public let message: SupportMessageInfo?
+        /// Error message if failed
+        public let error: String?
+    }
+    
+    /// Support messages polling request
+    ///
+    /// Used to fetch messages with optional timestamp filter for polling.
+    public struct SupportMessagesRequest: Codable, Sendable {
+        /// ISO timestamp to fetch messages after
+        public let since: String?
+        /// Maximum number of messages
+        public let limit: Int?
+        
+        public init(since: String? = nil, limit: Int? = nil) {
+            self.since = since
+            self.limit = limit
+        }
+    }
+    
+    /// Support message record
+    ///
+    /// Represents a single message in support conversation.
+    public struct SupportMessage: Codable, Sendable {
+        /// Message ID
+        public let id: String
+        /// Ticket ID
+        public let ticketId: String
+        /// Message content
+        public let content: String
+        /// Sender ID
+        public let senderId: String
+        /// Sender name
+        public let senderName: String
+        /// Sender role
+        public let senderRole: String
+        /// Message timestamp
+        public let timestamp: String?
+        /// Attachments
+        public let attachments: [String]?
+    }
+    
+    /// Support messages list response
+    ///
+    /// Contains list of support messages for polling.
+    public struct SupportMessagesResponse: Codable, Sendable {
+        /// Messages array
+        public let messages: [SupportMessage]
+        /// Whether more messages are available
+        public let hasMore: Bool?
     }
 }

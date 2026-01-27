@@ -16,6 +16,22 @@ extension SupportMessage {
         request.sortDescriptors = [NSSortDescriptor(key: "createdAt", ascending: false)]
         return request
     }
+    
+    /// Fetch all unsynced messages
+    static func allUnsynced() -> NSFetchRequest<SupportMessage> {
+        let request = NSFetchRequest<SupportMessage>(entityName: "SupportMessage")
+        request.predicate = NSPredicate(format: "sync.externalID == nil AND sync.isDraft == NO AND isOwned == YES")
+        request.sortDescriptors = [NSSortDescriptor(key: "createdAt", ascending: true)]
+        return request
+    }
+    
+    /// Fetch last message by creation date
+    static func lastMessage() -> NSFetchRequest<SupportMessage> {
+        let request = NSFetchRequest<SupportMessage>(entityName: "SupportMessage")
+        request.fetchLimit = 1
+        request.sortDescriptors = [NSSortDescriptor(key: "createdAt", ascending: false)]
+        return request
+    }
 }
 
 extension SupportMessage {

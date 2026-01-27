@@ -3,7 +3,7 @@ import SwiftUI
 import NukeUI
 import SwiftUIComponents
 
-struct RewardPreviewView: View {
+struct ProductPreviewView: View {
     let product: Product
     
     @State var isFavorite: Bool
@@ -28,7 +28,7 @@ struct RewardPreviewView: View {
     }
 }
 
-extension RewardPreviewView {
+extension ProductPreviewView {
     @ViewBuilder func makeImagePreview() -> some View {
         ZStack {
             LazyImage(url: product.images.first?.sourceURL) { state in
@@ -104,6 +104,6 @@ extension RewardPreviewView {
 }
 
 #Preview {
-    RewardPreviewView(product: Product())
+    ProductPreviewView(product: Product())
         .frame(width: 200, height: 250)
 }

@@ -7,6 +7,12 @@ public class InboxMessage: Entity {
     @NSManaged public var title: String
     @NSManaged public var subtitle: String
     @NSManaged public var wasReaded: Bool
+    @NSManaged public var type: MessageType
+    
+    @objc public enum MessageType: Int {
+        case news = 0
+        case supportMessage = 1
+    }
 }
 
 extension InboxMessage {
@@ -32,5 +38,14 @@ extension InboxMessage {
         inbox.title = raw.title
         inbox.subtitle = raw.content
         inbox.createdAt = ISO8601DateFormatter().date(from: raw.createdAt) ?? .now
+    }
+    
+    static func createSupportNotification(in context: NSManagedObjectContext) {
+        let inbox = InboxMessage(context: context)
+        inbox.title = "New Support Message"
+        inbox.subtitle = "You have received a new message from support"
+        inbox.createdAt = .now
+        inbox.wasReaded = false
+        inbox.type = .supportMessage
     }
 }

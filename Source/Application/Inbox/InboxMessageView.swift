@@ -12,14 +12,14 @@ struct InboxMessageView: View {
         ScrollView {
             VStack(alignment: .leading, spacing: 16) {
                 VStack(alignment: .leading, spacing: 0) {
-                    Text(message.title)
+                    Text(LocalizedStringKey(message.title))
                         .font(.title)
                     Text(DateFormatters.shared.day.string(from: message.createdAt))
                         .font(.subheadline)
                         .foregroundStyle(.secondary)
                 }
                 Divider()
-                Text(message.subtitle)
+                Text(LocalizedStringKey(message.subtitle))
             }
             .frame(maxWidth: .infinity, alignment: .leading)
             .padding()

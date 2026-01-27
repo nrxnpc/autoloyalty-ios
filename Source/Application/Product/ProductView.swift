@@ -4,26 +4,32 @@ import NukeUI
 import CoreData
 import Dependencies
 
-struct RewardDetailsView: View {
-    @Dependency(\.scope) var scope
+struct ProductView: View {
+    // MARK: - Dependencies
     
+    @Dependency(\.scope) var scope
     @Environment(\.dismiss) var dismiss
-    @Environment(BalanceMonitor.self) var balanceMonitor
+    
+    // MARK: -
     
     @FetchRequest var products: FetchedResults<Product>
+    
+    // MARK: -
+    
     @State private var isOrdering = false
     @State private var isLoading = true
+    @State var balanceMonitor = BalanceMonitor()
     
     var product: Product? {
         products.first
     }
     
     var canOrder: Bool {
-        return false
-        // TODO: FOR DEMO ONLY
-        // guard let product else { return false }
-        // return !product.isOutOfStock && balanceMonitor.balance >= product.pointsCost
+        guard let product else { return false }
+        return !product.isOutOfStock && balanceMonitor.balance >= product.pointsCost
     }
+    
+    // MARK: - Initialization
     
     init(id: String) {
         _products = FetchRequest(fetchRequest: Product.by(id: id))
@@ -52,12 +58,12 @@ struct RewardDetailsView: View {
             if let product = product {
                 makeOrderButton(product)
             }
-        }
+         }
         .toolbar(content: makeToolbar)
     }
 }
 
-extension RewardDetailsView {
+extension ProductView {
     @ViewBuilder func makeImagePreview(_ product: Product) -> some View {
         ZStack {
             LazyImage(url: product.images.first?.sourceURL) { state in
@@ -111,38 +117,53 @@ extension RewardDetailsView {
     }
     
     @ViewBuilder func makeOrderButton(_ product: Product) -> some View {
-        Button {
-             
-        } label: {
-            Text("Ouf of order")
+        if #available(iOS 26.0, *) {
+            Button {
+                Task {
+                    await createOrder(product)
+                }
+            } label: {
+                HStack {
+                    if product.isOutOfStock {
+                        Text("Ouf of stock")
+                    } else {
+                        Image(systemName: "cart")
+                        Text("Order")
+                    }
+                }
+                .fontWeight(.semibold)
+                .frame(maxWidth: .infinity)
+                .padding()
+                .foregroundColor(.white)
+                .clipShape(RoundedRectangle(cornerRadius: 14))
+            }
+            .buttonStyle(.glass)
+            .disabled(!canOrder || isOrdering)
+            .padding(.horizontal, 32)
+        } else {
+            Button {
+                Task {
+                    await createOrder(product)
+                }
+            } label: {
+                HStack {
+                    if product.isOutOfStock {
+                        Text("Ouf of stock")
+                    } else {
+                        Image(systemName: "cart")
+                        Text("Order")
+                    }
+                }
+                .fontWeight(.semibold)
+                .frame(maxWidth: .infinity)
+                .padding()
+                .background(canOrder ? Color.accentColor : Color.gray)
+                .foregroundColor(.white)
+                .clipShape(RoundedRectangle(cornerRadius: 14))
+            }
+            .disabled(!canOrder || isOrdering)
+            .padding(.horizontal, 32)
         }
-        .buttonStyle(StrokeButtonStyle())
-        .background(
-            RoundedRectangle(cornerRadius: 14)
-                .foregroundStyle(.ultraThinMaterial)
-        )
-        .clipShape(RoundedRectangle(cornerRadius: 14))
-        .disabled(true)
-        .padding(.horizontal, 32)
-        
-//        Button {
-//            Task {
-//                await createOrder(product)
-//            }
-//        } label: {
-//            HStack {
-//                Text("Order")
-//                    .fontWeight(.semibold)
-//            }
-//            .frame(maxWidth: .infinity)
-//            .padding()
-//            .background(canOrder ? Color.accentColor : Color.gray)
-//            .foregroundColor(.white)
-//            .clipShape(RoundedRectangle(cornerRadius: 12))
-//        }
-//        .disabled(!canOrder || isOrdering)
-//        .padding()
-//        .background(.regularMaterial)
     }
     
     @ViewBuilder func makeLoadingState() -> some View {
@@ -208,7 +229,7 @@ extension RewardDetailsView {
             _ = try await useCase.execute(productId: product.sync.externalID ?? "")
             dismiss()
         } catch {
-            // Handle error
+            UINotificationFeedbackGenerator().notificationOccurred(.error)
         }
     }
     

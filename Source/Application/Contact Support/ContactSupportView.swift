@@ -4,6 +4,7 @@ import SwiftUIComponents
 struct ContactSupportView: View, ComponentBuilder {
     @Environment(\.dismiss) var dismiss
     
+    @State private var contactSupport = ContactSupport()
     @State private var userMessageText = ""
     @FetchRequest var messages: FetchedResults<SupportMessage>
     
@@ -20,9 +21,12 @@ struct ContactSupportView: View, ComponentBuilder {
             }
         }
         .animation(.smooth, value: messages.isEmpty)
-        .navigationTitle("Contact Support")
+        .navigationTitle("Customer Support")
         .navigationBarTitleDisplayMode(.inline)
         .toolbar(content: makeToolbar)
+        .task {
+            await contactSupport.markInboxMessagesAsReadIfNeeded()
+        }
     }
     
     func sentMessage() {

@@ -127,7 +127,7 @@ public extension ComponentBuilder {
     ///   - action: Tap action
     /// - Returns: List row view
     @ViewBuilder
-    func MakeListRow(title: String, subtitle: String? = nil, icon: String, iconColor: Color = .primary, action: @escaping () -> Void) -> some View {
+    func MakeListRow(title: LocalizedStringKey, subtitle: LocalizedStringKey? = nil, icon: String, iconColor: Color = .primary, action: @escaping () -> Void) -> some View {
         Button(action: action) {
             HStack(spacing: 12) {
                 Image(systemName: icon)
@@ -165,7 +165,7 @@ public extension ComponentBuilder {
     ///   - content: Expandable content
     /// - Returns: Options list row view with disclosure functionality
     @ViewBuilder
-    func MakeOptionsListRow<Content: View>(title: String, subtitle: String? = nil, icon: String, iconColor: Color = .primary, @ViewBuilder content: @escaping () -> Content) -> some View {
+    func MakeOptionsListRow<Content: View>(title: LocalizedStringKey, subtitle: LocalizedStringKey? = nil, icon: String, iconColor: Color = .primary, @ViewBuilder content: @escaping () -> Content) -> some View {
         DisclosureGroup(
             content: {
                 content()

@@ -11,16 +11,14 @@ extension FeedView {
             makeCatalogHeader()
             
             if products.isEmpty {
-                if showFavoritesOnly {
-                    makeEmptyFavorites()
-                } else {
-                    makeLoadingState()
-                }
+                CatalogView.makeLoadingState()
             } else {
-                makeCatalogGrid()
+                CatalogView.makeCatalogGrid(products: products.prefix(6), router: router, namespace: namespace)
+                makeCatalogFooter()
             }
         }
-        .padding()
+        .padding(.horizontal)
+        .padding(.vertical, 8)
     }
     
     @ViewBuilder func makeCatalogHeader() -> some View {
@@ -29,106 +27,28 @@ extension FeedView {
                 .font(.title2.weight(.semibold))
             
             Spacer()
-            
-            Menu {
-                Button("Low to High") {
-                    sortProductsLowToHigh()
-                }
-                
-                Button("High to Low") {
-                    sortProductsHighToLow()
-                }
-            } label: {
-                Image(systemName: "arrow.up.arrow.down")
-            }
-            .disabled(products.isEmpty)
-            .opacity(products.isEmpty ? 0.2 : 1.0)
-            
-            
-            Button {
-                toggleFavoritesFilter()
-            } label: {
-                ZStack {
-                    if showFavoritesOnly {
-                        Image(systemName: "heart.fill")
-                            .foregroundStyle(.red)
-                    } else {
-                        Image(systemName: "heart")
-                    }
-                }
-                .contentTransition(.symbolEffect(.replace))
-            }
-            .disabled(products.isEmpty && !showFavoritesOnly)
-            .opacity(products.isEmpty && !showFavoritesOnly ? 0.2 : 1.0)
         }
         .foregroundStyle(.primary)
-    }
-    
-    @ViewBuilder func makeLoadingState() -> some View {
-        LazyVGrid(columns: makeGridColumns(), spacing: 8) {
-            ForEach(0..<6, id: \.self) { _ in
-                RoundedRectangle(cornerRadius: 24)
-                    .fill(.ultraThinMaterial)
-                    .aspectRatio(1/1.4, contentMode: .fit)
-            }
+        .onTap {
+            router.route(to: .catalog)
         }
-        .mask(
-            LinearGradient(
-                gradient: Gradient(stops: [
-                    Gradient.Stop(color: .black, location: 0.0),
-                    Gradient.Stop(color: .black, location: 0.6),
-                    Gradient.Stop(color: .clear, location: 1.0)
-                ]), startPoint: .top, endPoint: .bottom)
-        )
-        .loading(active: true)
     }
     
-    @ViewBuilder func makeEmptyFavorites() -> some View {
-        VStack(spacing: 16) {
-            Text("No Favorites Yet")
-                .font(.headline)
-            
-            HStack(spacing: 4) {
-                Text("Tap")
-                Image(systemName: "heart")
-                    .foregroundStyle(.red)
-                Text("on products to add them to favorites")
-            }
-            .font(.subheadline)
-            .foregroundStyle(.secondary)
-            
+    @ViewBuilder func makeCatalogFooter() -> some View {
+        HStack {
+            Text("See more")
             Spacer()
-                .frame(height: 8)
-            
-            Button("Browse Products") {
-                toggleFavoritesFilter()
-            }
-            .buttonStyle(StrokeButtonStyle())
+            Image(systemName: "chevron.forward")
         }
-        .frame(maxWidth: .infinity, alignment: .center)
+        .foregroundStyle(.primary)
+        .font(.headline)
         .padding()
         .background {
-            RoundedRectangle(cornerRadius: 24)
-                .foregroundStyle(.regularMaterial)
+            RoundedRectangle(cornerRadius: 14)
+                .foregroundStyle(.ultraThinMaterial)
+        }
+        .onTap {
+            router.route(to: .catalog)
         }
     }
-    
-    @ViewBuilder func makeCatalogGrid() -> some View {
-        LazyVGrid(columns: makeGridColumns(), spacing: 8) {
-            ForEach(products, id: \.id) { product in
-                RewardPreviewView(product: product)
-                    .aspectRatio(1/1.4, contentMode: .fit)
-                    .matchedTransitionSource(id: product.id, in: namespace)
-                    .contentShape(Rectangle())
-                    .onTapGesture {
-                        productDetails = .init(id: product.id)
-                    }
-            }
-        }
-    }
-    
-    private func makeGridColumns() -> [GridItem] {
-        Array(repeating: GridItem(.flexible(), spacing: 8), count: 2)
-    }
-    
 }

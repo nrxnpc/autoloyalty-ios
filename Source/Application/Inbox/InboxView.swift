@@ -6,7 +6,6 @@ struct InboxView: View {
     
     @Environment(Main.Router.self) private var router
     
-    @State var inbox = Inbox()
     @StateObject var inboxMonitor = InboxMonitor()
     @StateObject var userNotifications = InboxUserNotifications()
     
@@ -79,7 +78,10 @@ struct InboxView: View {
                     makeRow(with: message)
                         .contentShape(Rectangle())
                         .onTapGesture {
-                            router.route(sheet: .inboxMessage(message))
+                            switch message.type {
+                            case .news: router.route(sheet: .inboxMessage(message))
+                            case .supportMessage: router.route(sheet: .contactSupport)
+                            }
                         }
                         .padding(.vertical, 4)
                 }
@@ -145,7 +147,7 @@ extension InboxView {
                             .font(.headline)
                             .foregroundStyle(.red)
                     }
-                    Text(message.title)
+                    Text(LocalizedStringKey(message.title))
                         .font(.headline)
                 }
                 .animation(.smooth, value: message.wasReaded)
@@ -155,7 +157,7 @@ extension InboxView {
                     .font(.subheadline)
                     .foregroundStyle(.secondary)
             }
-            Text(message.subtitle)
+            Text(LocalizedStringKey(message.subtitle))
                 .font(.subheadline)
         }
         .lineLimit(2)

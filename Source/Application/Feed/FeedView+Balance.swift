@@ -10,6 +10,8 @@ extension FeedView {
         BalanceView(account: account)
             .trigger(visible: $isBalanceVisible)
             .padding(.horizontal)
+            .padding(.vertical, 8)
+            .padding(.bottom, 8)
             .animation(.bouncy, value: balanceMonitor.balance)
     }
 }

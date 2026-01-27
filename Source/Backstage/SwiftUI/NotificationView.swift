@@ -2,12 +2,12 @@ import SwiftUI
 import SwiftUIComponents
 
 struct NotificationMessageView: View, ComponentBuilder {
-    let text: LocalizedStringKey
+    let text: LocalizedStringKey?
     let action: () -> Void
     
     var body: some View {
         HStack(alignment: .firstTextBaseline, spacing: 0) {
-            Text(text)
+            Text(text ?? "")
                 .lineLimit(nil)
                 .font(.subheadline)
                 .padding(.horizontal, 8)
