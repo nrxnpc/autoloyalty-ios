@@ -24,14 +24,8 @@ struct FeedView: View {
     
     @Namespace internal var namespace
     
-    @State internal var showFavoritesOnly = false
     /// To show balance on navigation title
     @State internal var isBalanceVisible: Bool = true
-    
-    struct ProductDetails: Identifiable {
-        let id: String
-    }
-    @State internal var productDetails: ProductDetails? = nil
     
     struct RecommendationPrompts {
         private static let prompts: [LocalizedStringKey] = [
@@ -106,18 +100,8 @@ struct FeedView: View {
             // TODO: Disabled
             // makeAutoMindSection()
         }
-        .animation(.easeInOut, value: showFavoritesOnly)
         .toolbar(content: makeToolbar)
         .animation(.smooth, value: isBalanceVisible)
-        .sheet(item: $productDetails) { details in
-            NavigationView {
-                RewardDetailsView(id: details.id)
-                    .environment(balanceMonitor)
-            }
-            .presentationDetents([.large])
-            .presentationDragIndicator(.visible)
-            .navigationTransition(.zoom(sourceID: details.id, in: namespace))
-        }
         .environment(balanceMonitor)
     }
 }
@@ -200,28 +184,6 @@ extension FeedView {
                 }
                 .disabled(inboxMonitor.unreadCount == 0)
             }
-        }
-    }
-}
-
-// MARK: - FetchRequests Configuration
-
-extension FeedView {
-    internal func sortProductsLowToHigh() {
-        products.nsSortDescriptors = [NSSortDescriptor(keyPath: \Product.pointsCost, ascending: true)]
-    }
-    
-    internal func sortProductsHighToLow() {
-        products.nsSortDescriptors = [NSSortDescriptor(keyPath: \Product.pointsCost, ascending: false)]
-    }
-    
-    internal func toggleFavoritesFilter() {
-        showFavoritesOnly.toggle()
-        
-        if showFavoritesOnly {
-            products.nsPredicate = NSPredicate(format: "isFavorite == YES")
-        } else {
-            products.nsPredicate = nil
         }
     }
 }

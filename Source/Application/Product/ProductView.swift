@@ -4,15 +4,21 @@ import NukeUI
 import CoreData
 import Dependencies
 
-struct RewardDetailsView: View {
-    @Dependency(\.scope) var scope
+struct ProductView: View {
+    // MARK: - Dependencies
     
+    @Dependency(\.scope) var scope
     @Environment(\.dismiss) var dismiss
-    @Environment(BalanceMonitor.self) var balanceMonitor
+    
+    // MARK: -
     
     @FetchRequest var products: FetchedResults<Product>
+    
+    // MARK: -
+    
     @State private var isOrdering = false
     @State private var isLoading = true
+    @State var balanceMonitor = BalanceMonitor()
     
     var product: Product? {
         products.first
@@ -22,6 +28,8 @@ struct RewardDetailsView: View {
         guard let product else { return false }
         return !product.isOutOfStock && balanceMonitor.balance >= product.pointsCost
     }
+    
+    // MARK: - Initialization
     
     init(id: String) {
         _products = FetchRequest(fetchRequest: Product.by(id: id))
@@ -55,7 +63,7 @@ struct RewardDetailsView: View {
     }
 }
 
-extension RewardDetailsView {
+extension ProductView {
     @ViewBuilder func makeImagePreview(_ product: Product) -> some View {
         ZStack {
             LazyImage(url: product.images.first?.sourceURL) { state in

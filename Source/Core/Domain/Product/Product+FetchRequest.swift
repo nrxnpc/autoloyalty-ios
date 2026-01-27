@@ -4,7 +4,7 @@ import Foundation
 extension Product {
     static func allProductsFetchRequest() -> NSFetchRequest<Product> {
         let request = NSFetchRequest<Product>(entityName: "Product")
-        request.sortDescriptors = [NSSortDescriptor(keyPath: \Product.name, ascending: true)]
+        request.sortDescriptors = [NSSortDescriptor(keyPath: \Product.createdAt, ascending: true)]
         return request
     }
     
