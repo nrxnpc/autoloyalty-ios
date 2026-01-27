@@ -13,7 +13,7 @@ struct BalanceView: View, ComponentBuilder {
     
     var body: some View {
         ZStack {
-            VStack(alignment: .leading, spacing: 8) {
+            VStack(alignment: .leading, spacing: 12) {
                 makeTitle()
                 makeBalance()
                 makeScanButton()
@@ -37,11 +37,6 @@ extension BalanceView {
             Text("Balance")
                 .font(.callout)
             
-            Image(systemName: "star.fill")
-                .font(.callout)
-                .foregroundColor(.orange)
-                .scaleEffect(0.8)
-            
             Spacer()
             
             Button {
@@ -54,10 +49,16 @@ extension BalanceView {
     }
     
     @ViewBuilder func makeBalance() -> some View {
-        Text("\(balance)")
-            .contentTransition(.numericText())
-            .font(.largeTitle)
-            .fontWeight(.semibold)
+        HStack(spacing: 0) {
+            Text("\(balance)")
+                .contentTransition(.numericText())
+                .fontWeight(.semibold)
+            
+            Image(systemName: "star.fill")
+                .foregroundColor(.orange)
+                .scaleEffect(0.6)
+        }
+        .font(.largeTitle)
     }
     
     @ViewBuilder func makeScanButton() -> some View {
