@@ -13,7 +13,7 @@ final class Main {
     @Dependency(\.endpoint) internal var endpoint
     
     @ObservationIgnored
-    private weak var router: Main.Router?
+    internal weak var router: Main.Router?
     
     @ObservationIgnored
     internal var cancellables: Set<AnyCancellable> = []

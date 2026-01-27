@@ -48,6 +48,7 @@ extension Scope {
                     Field("title", .text)
                     Field("subtitle", .text)
                     Field("wasReaded", .boolean, default: false)
+                    Field("type", .number, default: 0)
                 }
                 
                 // Support Message

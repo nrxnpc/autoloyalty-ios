@@ -95,6 +95,13 @@ extension Main.Router {
             }
         }
     }
+    
+    var isContactSupportOpen: Bool {
+        if case .contactSupport = sheet {
+            return true
+        }
+        return false
+    }
 }
 
 // MARK: - Destination Processor

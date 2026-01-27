@@ -169,10 +169,11 @@ extension FeedView {
                 router.route(to: .inbox)
             } label: {
                 if inboxMonitor.unreadCount > 0 {
-                    Image(systemName: "envelope.badge")
+                    Image(systemName: "bell.badge")
                         .foregroundStyle(.red, .primary)
+                        .symbolEffect(.wiggle, options: .repeat(3))
                 } else {
-                    Image(systemName: "envelope")
+                    Image(systemName: "bell")
                         .foregroundStyle(.primary)
                 }
             }

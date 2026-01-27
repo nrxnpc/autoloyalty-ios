@@ -10,6 +10,26 @@ extension InboxMessage {
         return request
     }
     
+    /// Fetch all unread messages from support team
+    static func unreadSupportMessages() -> NSFetchRequest<InboxMessage> {
+        let request = NSFetchRequest<InboxMessage>(entityName: "InboxMessage")
+        request.predicate = NSPredicate(format: "wasReaded == NO AND type == %d", InboxMessage.MessageType.supportMessage.rawValue)
+        request.sortDescriptors = [NSSortDescriptor(key: "createdAt", ascending: false)]
+        return request
+    }
+    
+    /// Fetch all readed messages from support team
+    static func readSupportMessagesOlderThan(hours: Int) -> NSFetchRequest<InboxMessage> {
+        let request = NSFetchRequest<InboxMessage>(entityName: "InboxMessage")
+        let date = Calendar.current.date(byAdding: .hour, value: -hours, to: .now)!
+        request.predicate = NSPredicate(
+            format: "wasReaded == YES AND type == %d AND createdAt < %@",
+            InboxMessage.MessageType.supportMessage.rawValue,
+            date as NSDate
+        )
+        return request
+    }
+    
     /// Fetch all messages sorted by date
     static func allMessagesSortedByCreatedDate() -> NSFetchRequest<InboxMessage> {
         let request = NSFetchRequest<InboxMessage>(entityName: "InboxMessage")

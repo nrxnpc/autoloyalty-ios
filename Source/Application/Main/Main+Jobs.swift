@@ -32,9 +32,9 @@ extension Main {
                 }
             }
             
-            Job(.polling(.strategy(.normal))) {
+            Job(.polling(.strategy(.intensive))) { [weak router] in
                 do {
-                    try await PullSupportMessagesUseCase().execute()
+                    try await PullSupportMessagesUseCase(router: router).execute()
                 } catch {
                     debugPrint("[DEBUG] Cannot pull messages: \(error)")
                 }

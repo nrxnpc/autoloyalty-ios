@@ -16,6 +16,7 @@
 		7E148A6A2F27B46B00276397 /* PullSupportMessagesUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E148A692F27B46B00276397 /* PullSupportMessagesUseCase.swift */; };
 		7E148A6C2F27B69600276397 /* PushSupportMessagesUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E148A6B2F27B69600276397 /* PushSupportMessagesUseCase.swift */; };
 		7E148A6E2F28FF5600276397 /* CatalogView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E148A6D2F28FF5600276397 /* CatalogView.swift */; };
+		7E148A702F293E2D00276397 /* ContactSupport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E148A6F2F293E2D00276397 /* ContactSupport.swift */; };
 		7E2AA2E82F031B8E007EDD4E /* Vehicles.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 7E2AA2E72F031B8E007EDD4E /* Vehicles.xcstrings */; };
 		7E2AA2EA2F031DDB007EDD4E /* Questions.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 7E2AA2E92F031DDB007EDD4E /* Questions.xcstrings */; };
 		7E3477DE2EF49BB1004F9F01 /* DeleteAccountUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E3477DD2EF49BB1004F9F01 /* DeleteAccountUseCase.swift */; };
@@ -60,7 +61,6 @@
 		7E4BA21B2EE4C6410004CFB3 /* BalanceLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E4BA21A2EE4C6410004CFB3 /* BalanceLabel.swift */; };
 		7E53500C2EDAFA180020AF96 /* ConfettiAnimation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E53500B2EDAFA180020AF96 /* ConfettiAnimation.swift */; };
 		7E53500F2EDC2EF70020AF96 /* InboxView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E53500E2EDC2EF70020AF96 /* InboxView.swift */; };
-		7E5350112EDC4DA80020AF96 /* Inbox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E5350102EDC4DA80020AF96 /* Inbox.swift */; };
 		7E5350142EDC6A9A0020AF96 /* InboxMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E5350132EDC6A9A0020AF96 /* InboxMessage.swift */; };
 		7E5350162EDC6B510020AF96 /* InboxMessage+FetchRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E5350152EDC6B510020AF96 /* InboxMessage+FetchRequest.swift */; };
 		7E5350182EDCD09D0020AF96 /* InboxMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E5350172EDCD09D0020AF96 /* InboxMonitor.swift */; };
@@ -153,6 +153,7 @@
 		7E148A692F27B46B00276397 /* PullSupportMessagesUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PullSupportMessagesUseCase.swift; sourceTree = "<group>"; };
 		7E148A6B2F27B69600276397 /* PushSupportMessagesUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushSupportMessagesUseCase.swift; sourceTree = "<group>"; };
 		7E148A6D2F28FF5600276397 /* CatalogView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CatalogView.swift; sourceTree = "<group>"; };
+		7E148A6F2F293E2D00276397 /* ContactSupport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactSupport.swift; sourceTree = "<group>"; };
 		7E2AA2E12F031787007EDD4E /* CarMinder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarMinder.swift; sourceTree = "<group>"; };
 		7E2AA2E72F031B8E007EDD4E /* Vehicles.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Vehicles.xcstrings; sourceTree = "<group>"; };
 		7E2AA2E92F031DDB007EDD4E /* Questions.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Questions.xcstrings; sourceTree = "<group>"; };
@@ -196,7 +197,6 @@
 		7E4BA21A2EE4C6410004CFB3 /* BalanceLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BalanceLabel.swift; sourceTree = "<group>"; };
 		7E53500B2EDAFA180020AF96 /* ConfettiAnimation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfettiAnimation.swift; sourceTree = "<group>"; };
 		7E53500E2EDC2EF70020AF96 /* InboxView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InboxView.swift; sourceTree = "<group>"; };
-		7E5350102EDC4DA80020AF96 /* Inbox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Inbox.swift; sourceTree = "<group>"; };
 		7E5350132EDC6A9A0020AF96 /* InboxMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InboxMessage.swift; sourceTree = "<group>"; };
 		7E5350152EDC6B510020AF96 /* InboxMessage+FetchRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "InboxMessage+FetchRequest.swift"; sourceTree = "<group>"; };
 		7E5350172EDCD09D0020AF96 /* InboxMonitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InboxMonitor.swift; sourceTree = "<group>"; };
@@ -431,7 +431,6 @@
 			isa = PBXGroup;
 			children = (
 				7E53500E2EDC2EF70020AF96 /* InboxView.swift */,
-				7E5350102EDC4DA80020AF96 /* Inbox.swift */,
 				7E5350172EDCD09D0020AF96 /* InboxMonitor.swift */,
 				7E462FE12EE6071A00B7F5EC /* InboxMessageView.swift */,
 				7E72940F2EF804FD00C37B85 /* InboxUserNotifications.swift */,
@@ -452,6 +451,7 @@
 			isa = PBXGroup;
 			children = (
 				7E72940D2EF6E45E00C37B85 /* ContactSupportView.swift */,
+				7E148A6F2F293E2D00276397 /* ContactSupport.swift */,
 			);
 			path = "Contact Support";
 			sourceTree = "<group>";
@@ -891,7 +891,6 @@
 				7EE877F32EA2E55600CFC230 /* Main+Jobs.swift in Sources */,
 				7E462FF02EE6489C00B7F5EC /* QRScannerView+States.swift in Sources */,
 				7ECC40252E66D8370014E97E /* Main+Router.swift in Sources */,
-				7E5350112EDC4DA80020AF96 /* Inbox.swift in Sources */,
 				7EE8780B2EA398B600CFC230 /* ChangeAboutMeView.swift in Sources */,
 				7E72CBA32EFC60D900D647F7 /* OffersView.swift in Sources */,
 				7E462FE02EE5F2A400B7F5EC /* BalanceTransactionsView.swift in Sources */,
@@ -910,6 +909,7 @@
 				7E72CB962EFB3A9C00D647F7 /* RecommendationsView+Compact.swift in Sources */,
 				7EE877CF2EA01BB000CFC230 /* Entity.swift in Sources */,
 				7E43D3AB2EC740DE0039FCE4 /* CaptureSession.swift in Sources */,
+				7E148A702F293E2D00276397 /* ContactSupport.swift in Sources */,
 				7E72CB822EFAAF5200D647F7 /* UIDevice+Shake.swift in Sources */,
 				7EE877EF2EA2D26700CFC230 /* AboutMeView.swift in Sources */,
 				7E462FEA2EE638D400B7F5EC /* LoadingAnimationView.swift in Sources */,
