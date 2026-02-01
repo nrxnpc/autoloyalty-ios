@@ -78,29 +78,25 @@ extension OrdersView {
                 .foregroundStyle(order.status.color)
                 .frame(width: 24)
             
-            VStack(alignment: .leading, spacing: 4) {
+            VStack(alignment: .leading, spacing: 8) {
                 Text(order.productName)
                     .font(.headline)
-                    .lineLimit(2)
                 
-                HStack {
-                    Text("Qty: \(order.quantity)")
-                        .font(.callout)
-                        .foregroundStyle(.secondary)
-                    
-                    Spacer()
-                    
-                    BalanceLabel(points: order.totalPoints, operation: .outcome)
-                        .font(.callout)
-                }
+                BalanceLabel(points: order.totalPoints, operation: .outcome)
+                    .font(.callout)
                 
-                Text(order.status.displayName)
-                    .font(.caption)
-                    .foregroundStyle(order.status.color)
-                    .padding(.horizontal, 8)
-                    .padding(.vertical, 2)
-                    .background(order.status.color.opacity(0.1))
-                    .clipShape(Capsule())
+                // HStack {
+                //     BalanceLabel(points: order.totalPoints, operation: .outcome)
+                //         .font(.callout)
+                //
+                //     Text(order.status.displayName)
+                //         .font(.caption)
+                //         .foregroundStyle(order.status.color)
+                //         .padding(.horizontal, 8)
+                //         .padding(.vertical, 2)
+                //         .background(order.status.color.opacity(0.1))
+                //         .clipShape(Capsule())
+                // }
             }
             
             Spacer()

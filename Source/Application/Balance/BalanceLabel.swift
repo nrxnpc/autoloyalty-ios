@@ -11,9 +11,8 @@ struct BalanceLabel: View {
         
         var prefix: String {
             switch self {
-            case .none: return ""
+            case .none, .outcome: return ""
             case .income: return "+"
-            case .outcome: return "-"
             }
         }
         

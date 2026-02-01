@@ -18,8 +18,8 @@ public struct RefreshTokenUseCase {
         let response = try await scope.endpoint.refreshToken(.init(refreshToken: currentTokens.refreshToken))
         
         let newTokens = AppSessionTokens(
-            accessToken: response.accessToken,
-            refreshToken: response.refreshToken
+            accessToken: response.access_token,
+            refreshToken: response.refresh_token
         )
         
         await session.setTokens(newTokens)
