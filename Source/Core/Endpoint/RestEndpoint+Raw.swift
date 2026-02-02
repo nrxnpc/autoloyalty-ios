@@ -445,11 +445,11 @@ extension RestEndpoint {
     /// Contains new access and refresh tokens with expiration info.
     public struct RefreshResponse: Codable, Sendable {
         /// New access token
-        public let accessToken: String
+        public let access_token: String
         /// New refresh token
-        public let refreshToken: String
+        public let refresh_token: String
         /// Token expiration time in seconds
-        public let expiresIn: Int
+        public let expiresIn: Int?
         /// Error message if refresh failed
         public let error: String?
     }
@@ -787,11 +787,11 @@ extension RestEndpoint {
         /// Quantity ordered
         public let quantity: Int
         /// Total points spent
-        public let totalPoints: Int
+        public let total_points: Int
         /// Order status
         public let status: OrderStatus
         /// Order creation date
-        public let createdAt: String?
+        public let created_at: String?
     }
     
     /// Order creation response

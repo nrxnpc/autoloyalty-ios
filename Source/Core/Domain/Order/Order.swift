@@ -31,10 +31,10 @@ extension Order {
         if let existing = try? context.fetch(request).first {
             existing.status = orderStatus(from: raw.status)
             existing.quantity = raw.quantity
-            existing.totalPoints = raw.totalPoints
+            existing.totalPoints = raw.total_points
             existing.productName = raw.product?.name ?? ""
             existing.productCategory = raw.product?.category ?? ""
-            if let date = ISO8601DateFormatter().date(from: raw.createdAt ?? "") {
+            if let date = ISO8601DateFormatter().date(from: raw.created_at ?? "") {
                 existing.createdAt = date
             }
         } else {
@@ -47,10 +47,10 @@ extension Order {
         order.sync.externalID = raw.id
         order.status = orderStatus(from: raw.status)
         order.quantity = raw.quantity
-        order.totalPoints = raw.totalPoints
+        order.totalPoints = raw.total_points
         order.productName = raw.product?.name ?? ""
         order.productCategory = raw.product?.category ?? ""
-        order.createdAt = ISO8601DateFormatter().date(from: raw.createdAt ?? "") ?? .now
+        order.createdAt = ISO8601DateFormatter().date(from: raw.created_at ?? "") ?? .now
     }
     
     private static func orderStatus(from status: RestEndpoint.OrderStatus) -> OrderStatus {
