@@ -216,7 +216,9 @@ extension ProductView {
         let context = scope.coreDataContext
         context.perform {
             product.isFavorite.toggle()
-            try? context.save()
+            if context.hasChanges {
+                try? context.save()
+            }
         }
     }
     
@@ -254,7 +256,6 @@ extension ProductView {
                             .foregroundStyle(.red)
                     }
                 }
-                .background(Circle().fill(.ultraThinMaterial))
                 .animation(.easeInOut, value: product)
             }
         }
