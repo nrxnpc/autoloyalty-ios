@@ -113,6 +113,7 @@ extension OrdersView {
             Button(action: dismiss.callAsFunction) {
                 Image(systemName: "xmark")
             }
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
         }
         
         ToolbarItem(placement: .topBarTrailing) {

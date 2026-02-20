@@ -160,6 +160,7 @@ extension ContactSupportView {
             Button(action: dismiss.callAsFunction) {
                 Image(systemName: "xmark")
             }
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
         }
         
         ToolbarItemGroup(placement: .bottomBar) {
