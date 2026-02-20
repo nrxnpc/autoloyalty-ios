@@ -134,7 +134,7 @@ extension ProductView {
                 .fontWeight(.semibold)
                 .frame(maxWidth: .infinity)
                 .padding()
-                .foregroundColor(.white)
+                .foregroundColor(.primary)
                 .clipShape(RoundedRectangle(cornerRadius: 14))
             }
             .buttonStyle(.glass)
@@ -158,7 +158,7 @@ extension ProductView {
                 .frame(maxWidth: .infinity)
                 .padding()
                 .background(canOrder ? Color.accentColor : Color.gray)
-                .foregroundColor(.white)
+                .foregroundColor(.primary)
                 .clipShape(RoundedRectangle(cornerRadius: 14))
             }
             .disabled(!canOrder || isOrdering)
