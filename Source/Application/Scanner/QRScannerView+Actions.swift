@@ -58,7 +58,7 @@ extension QRScannerView {
     @ViewBuilder func makeCameraInstructions() -> some View {
         Text("Point your camera at the QR code on the auto parts packaging to earn points")
             .font(.callout)
-            .foregroundColor(.white)
+            .foregroundColor(.primary)
             .padding(.horizontal, 16)
             .padding(.vertical, 10)
             .background {
@@ -71,7 +71,7 @@ extension QRScannerView {
     @ViewBuilder func makeProcessingInstructions() -> some View {
         Text("Please do not close this screen until you receive your points")
             .font(.callout)
-            .foregroundColor(.white)
+            .foregroundColor(.primary)
             .padding(.horizontal, 16)
             .padding(.vertical, 10)
             .background {

@@ -90,6 +90,7 @@ extension HowToTopUpYourBalanceView {
             Button(action: dismiss.callAsFunction) {
                 Image(systemName: "xmark")
             }
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
         }
     }
 }
@@ -127,6 +128,7 @@ extension HowToRedeemGiftCardsView {
             Button(action: dismiss.callAsFunction) {
                 Image(systemName: "xmark")
             }
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
         }
     }
 }

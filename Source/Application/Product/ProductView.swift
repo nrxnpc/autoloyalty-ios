@@ -134,7 +134,7 @@ extension ProductView {
                 .fontWeight(.semibold)
                 .frame(maxWidth: .infinity)
                 .padding()
-                .foregroundColor(.white)
+                .foregroundColor(.primary)
                 .clipShape(RoundedRectangle(cornerRadius: 14))
             }
             .buttonStyle(.glass)
@@ -158,7 +158,7 @@ extension ProductView {
                 .frame(maxWidth: .infinity)
                 .padding()
                 .background(canOrder ? Color.accentColor : Color.gray)
-                .foregroundColor(.white)
+                .foregroundColor(.primary)
                 .clipShape(RoundedRectangle(cornerRadius: 14))
             }
             .disabled(!canOrder || isOrdering)
@@ -216,7 +216,9 @@ extension ProductView {
         let context = scope.coreDataContext
         context.perform {
             product.isFavorite.toggle()
-            try? context.save()
+            if context.hasChanges {
+                try? context.save()
+            }
         }
     }
     
@@ -238,6 +240,7 @@ extension ProductView {
             Button(action: dismiss.callAsFunction) {
                 Image(systemName: "xmark")
             }
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
         }
         
         ToolbarItem(placement: .topBarTrailing) {
@@ -253,7 +256,6 @@ extension ProductView {
                             .foregroundStyle(.red)
                     }
                 }
-                .background(Circle().fill(.ultraThinMaterial))
                 .animation(.easeInOut, value: product)
             }
         }

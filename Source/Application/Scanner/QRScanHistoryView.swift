@@ -96,6 +96,7 @@ extension QRScanHistoryView {
             Button(action: dismiss.callAsFunction) {
                 Image(systemName: "xmark")
             }
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
         }
     }
 }
