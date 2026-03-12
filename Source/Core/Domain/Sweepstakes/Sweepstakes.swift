@@ -11,7 +11,7 @@ public class Sweepstakes: Entity {
     @NSManaged public var statusRaw: Int16
     @NSManaged public var entryConditionRaw: Int16
     @NSManaged public var requiredValue: Int
-    @NSManaged public var images: Set<Attachment>
+    @NSManaged public var image: URL?
     @NSManaged public var prizes: Set<Product>
     @NSManaged public var entries: Set<SweepstakesEntry>
 }
@@ -69,9 +69,7 @@ extension Sweepstakes {
             existing.status = Status(rawValue: Int16(raw.status)) ?? .draft
             existing.entryCondition = EntryCondition(rawValue: Int16(raw.entryConditionType)) ?? .free
             existing.requiredValue = raw.requiredValue
-            if let imageURL = URL(string: raw.imageURL) {
-                existing.images = [.fromURL(imageURL, in: context)]
-            }
+            existing.image = URL(string: raw.imageURL)
             if let startDate = ISO8601DateFormatter().date(from: raw.startDate) {
                 existing.startDate = startDate
             }
@@ -91,9 +89,7 @@ extension Sweepstakes {
         sweepstakes.status = Status(rawValue: Int16(raw.status)) ?? .draft
         sweepstakes.entryCondition = EntryCondition(rawValue: Int16(raw.entryConditionType)) ?? .free
         sweepstakes.requiredValue = raw.requiredValue
-        if let imageURL = URL(string: raw.imageURL) {
-            sweepstakes.images = [.fromURL(imageURL, in: context)]
-        }
+        sweepstakes.image = URL(string: raw.imageURL)
         sweepstakes.startDate = ISO8601DateFormatter().date(from: raw.startDate) ?? .now
         sweepstakes.endDate = ISO8601DateFormatter().date(from: raw.endDate) ?? .now
     }

@@ -58,24 +58,29 @@ struct SweepstakesView: View {
 extension SweepstakesView {
     @ViewBuilder func makeImagePreview() -> some View {
         ZStack {
-            LazyImage(url: sweepstake.images.first?.sourceURL) { state in
-                if let image = state.image {
-                    GeometryReader { geometry in
-                        image
-                            .resizable()
-                            .aspectRatio(contentMode: .fill)
-                            .frame(width: geometry.size.width, height: geometry.size.height)
-                            .clipped()
-                    }
-                } else {
-                    Rectangle()
-                        .fill(.gray.opacity(0.3))
-                        .overlay {
-                            Image(systemName: "gift")
-                                .font(.system(size: 32))
-                                .foregroundColor(.gray)
+            GeometryReader { geometry in
+                LazyImage(url: sweepstake.image) { state in
+                    if let image = state.image {
+                        GeometryReader { geometry in
+                            image
+                                .resizable()
+                                .aspectRatio(contentMode: .fill)
+                                .frame(width: geometry.size.width, height: geometry.size.height)
+                                .clipped()
                         }
+                    } else {
+                        Rectangle()
+                            .fill(.gray.opacity(0.3))
+                            .overlay {
+                                Image(systemName: "gift")
+                                    .font(.system(size: 32))
+                                    .foregroundColor(.gray)
+                            }
+                    }
                 }
+                .processors([
+                    .resize(size: geometry.size, contentMode: .aspectFill)
+                ])
             }
         }
         .frame(height: 300)

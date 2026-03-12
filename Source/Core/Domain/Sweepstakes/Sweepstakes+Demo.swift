@@ -27,7 +27,7 @@ extension Sweepstakes {
             testDrive.requiredValue = 10
             testDrive.startDate = calendar.date(byAdding: .day, value: 5, to: startOfCurrentMonth)!
             testDrive.endDate = calendar.date(byAdding: .day, value: 25, to: startOfCurrentMonth)!
-            testDrive.images = [Attachment.fromURL(URL(string: "https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7")!, in: context)]
+            testDrive.image = URL(string: "https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7")
             if let prize = products.first(where: { $0.name.contains("Тест-драйв") }) {
                 testDrive.prizes = [prize]
             }
@@ -41,7 +41,7 @@ extension Sweepstakes {
             cleaning.requiredValue = 3
             cleaning.startDate = calendar.date(byAdding: .day, value: 15, to: startOfCurrentMonth)!
             cleaning.endDate = calendar.date(byAdding: .day, value: 28, to: startOfCurrentMonth)!
-            cleaning.images = [Attachment.fromURL(URL(string: "https://images.unsplash.com/photo-1607860108855-64acf2078ed9")!, in: context)]
+            cleaning.image = URL(string: "https://images.unsplash.com/photo-1607860108855-64acf2078ed9")!
             if let prize = products.first(where: { $0.name.contains("Химчистка") }) {
                 cleaning.prizes = [prize]
             }
@@ -57,7 +57,7 @@ extension Sweepstakes {
             aprilGiveaway.requiredValue = 0
             aprilGiveaway.startDate = calendar.date(byAdding: .month, value: 1, to: startOfCurrentMonth)!
             aprilGiveaway.endDate = calendar.date(byAdding: DateComponents(month: 1, day: 20), to: startOfCurrentMonth)!
-            aprilGiveaway.images = [Attachment.fromURL(URL(string: "https://images.unsplash.com/photo-1607083206869-4c7672e72a8a")!, in: context)]
+            aprilGiveaway.image = URL(string: "https://images.unsplash.com/photo-1607083206869-4c7672e72a8a")!
             if let prize = products.first(where: { $0.name.contains("1000") && $0.name.contains("OZON") }) {
                 aprilGiveaway.prizes = [prize]
             }
@@ -71,7 +71,7 @@ extension Sweepstakes {
             mayGiveaway.requiredValue = 3000
             mayGiveaway.startDate = calendar.date(byAdding: .month, value: 2, to: startOfCurrentMonth)!
             mayGiveaway.endDate = calendar.date(byAdding: DateComponents(month: 2, day: 25), to: startOfCurrentMonth)!
-            mayGiveaway.images = [Attachment.fromURL(URL(string: "https://images.unsplash.com/photo-1601362840469-51e4d8d58785")!, in: context)]
+            mayGiveaway.image = URL(string: "https://images.unsplash.com/photo-1601362840469-51e4d8d58785")!
             if let prize = products.first(where: { $0.name.contains("мойка") }) {
                 mayGiveaway.prizes = [prize]
             }
@@ -87,7 +87,7 @@ extension Sweepstakes {
             februaryGiveaway.requiredValue = 5
             februaryGiveaway.startDate = calendar.date(byAdding: .month, value: -1, to: startOfCurrentMonth)!
             februaryGiveaway.endDate = calendar.date(byAdding: DateComponents(month: -1, day: 25), to: startOfCurrentMonth)!
-            februaryGiveaway.images = [Attachment.fromURL(URL(string: "https://images.unsplash.com/photo-1486262715619-67b85e0b08d3")!, in: context)]
+            februaryGiveaway.image = URL(string: "https://images.unsplash.com/photo-1486262715619-67b85e0b08d3")!
             if let prize = products.first(where: { $0.name.contains("балансировка") || $0.name.contains("колес") }) {
                 februaryGiveaway.prizes = [prize]
             }
@@ -101,7 +101,7 @@ extension Sweepstakes {
             januaryGiveaway.requiredValue = 5000
             januaryGiveaway.startDate = calendar.date(byAdding: .month, value: -2, to: startOfCurrentMonth)!
             januaryGiveaway.endDate = calendar.date(byAdding: DateComponents(month: -2, day: 28), to: startOfCurrentMonth)!
-            januaryGiveaway.images = [Attachment.fromURL(URL(string: "https://images.unsplash.com/photo-1487754180451-c456f719a1fc")!, in: context)]
+            januaryGiveaway.image = URL(string: "https://images.unsplash.com/photo-1487754180451-c456f719a1fc")!
             if let prize = products.first(where: { $0.name.contains("диагностика") }) {
                 januaryGiveaway.prizes = [prize]
             }

@@ -67,7 +67,7 @@ extension Scope {
                     Field("category", .text, default: "")
                     Field("stockQuantity", .number, default: 0)
                     Field("isActive", .boolean, default: true)
-                    Relationship("images", to: "Attachment", toMany: true, deleteRule: .cascadeDeleteRule)
+                    Field("image", .url, optional: true)
                 }
                 
                 // Balance Transaction
@@ -128,7 +128,7 @@ extension Scope {
                     Field("statusRaw", .int16)
                     Field("entryConditionRaw", .int16)
                     Field("requiredValue", .number, default: 0)
-                    Relationship("images", to: "Attachment", toMany: true, deleteRule: .cascadeDeleteRule)
+                    Field("image", .url, optional: true)
                     Relationship("prizes", to: "Product", optional: true, toMany: true)
                     Relationship("entries", to: "SweepstakesEntry", inverse: "sweepstakes", toMany: true, deleteRule: .cascadeDeleteRule)
                 }

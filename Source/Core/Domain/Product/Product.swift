@@ -9,7 +9,7 @@ public class Product: Entity {
     @NSManaged public var pointsCost: Int
     @NSManaged public var isOutOfStock: Bool
     @NSManaged public var isFavorite: Bool
-    @NSManaged public var images: Set<Attachment>
+    @NSManaged public var image: URL?
     
     @NSManaged public var category: String
     @NSManaged public var stockQuantity: Int
@@ -27,9 +27,7 @@ extension Product {
             existing.stockQuantity = raw.stockQuantity
             existing.isActive = raw.isActive
             existing.isOutOfStock = raw.stockQuantity <= 0
-            if let imageURL = URL(string: raw.imageURL) {
-                existing.images = [.fromURL(imageURL, in: context)]
-            }
+            existing.image = URL(string: raw.imageURL)
             if let date = ISO8601DateFormatter().date(from: raw.createdAt) {
                 existing.createdAt = date
             }
@@ -47,9 +45,7 @@ extension Product {
         product.pointsCost = raw.pointsCost
         product.stockQuantity = raw.stockQuantity
         product.isActive = raw.isActive
-        if let imageURL = URL(string: raw.imageURL) {
-            product.images = [.fromURL(imageURL, in: context)]
-        }
+        product.image = URL(string: raw.imageURL)
         product.isOutOfStock = raw.stockQuantity <= 0
         product.isFavorite = false
         product.createdAt = ISO8601DateFormatter().date(from: raw.createdAt) ?? .now

@@ -152,11 +152,7 @@ extension Product {
                 product.isActive = true
                 product.isOutOfStock = false
                 product.isFavorite = false
-                if let imageURL = URL(string: imageURLString) {
-                    product.images = [
-                        Attachment.fromURL(imageURL, in: context)
-                    ]
-                }
+                product.image = URL(string: imageURLString)
             }
             
             try context.save()
