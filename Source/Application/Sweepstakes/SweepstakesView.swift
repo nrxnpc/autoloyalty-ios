@@ -51,9 +51,6 @@ struct SweepstakesView: View {
             }
         }
         .ignoresSafeArea(edges: .top)
-        .overlay(alignment: .bottom) {
-            makeEnterButton()
-        }
         .toolbar(content: makeToolbar)
     }
 }
@@ -183,33 +180,6 @@ extension SweepstakesView {
                 }
             }
         }
-    }
-    
-    @ViewBuilder func makeEnterButton() -> some View {
-        Button {
-            Task {
-                await enterSweepstakes()
-            }
-        } label: {
-            HStack {
-                if sweepstake.status == .finished {
-                    Text("Finished")
-                } else if sweepstake.status == .draft {
-                    Text("Coming Soon")
-                } else {
-                    Image(systemName: "ticket")
-                    Text("Enter Sweepstakes")
-                }
-            }
-            .fontWeight(.semibold)
-            .frame(maxWidth: .infinity)
-            .padding()
-            .background(canEnter && sweepstake.status == .active ? Color.accentColor : Color.gray)
-            .foregroundColor(.primary)
-            .clipShape(RoundedRectangle(cornerRadius: 14))
-        }
-        .disabled(!canEnter || isEntering || sweepstake.status != .active)
-        .padding(.horizontal, 32)
     }
     
     private func statusText(_ status: Sweepstakes.Status) -> String {

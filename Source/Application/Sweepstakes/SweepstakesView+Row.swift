@@ -140,6 +140,53 @@ extension SweepstakesView.Row {
     }
 }
 
+// MARK: - Paginator
+
+extension SweepstakesView {
+    struct Paginator: View {
+        let sweepstakes: [Sweepstakes]
+        let namespace: Namespace.ID
+        let onTap: (Sweepstakes) -> Void
+        
+        @State private var currentIndex: Int = 0
+        
+        var body: some View {
+            VStack(spacing: 12) {
+                TabView(selection: $currentIndex) {
+                    ForEach(Array(sweepstakes.enumerated()), id: \.element.id) { index, sweepstake in
+                        Row(sweepstake: sweepstake)
+                            .matchedTransitionSource(id: sweepstake.id, in: namespace)
+                            .contentShape(Rectangle())
+                            .onTapGesture {
+                                onTap(sweepstake)
+                            }
+                            .tag(index)
+                    }
+                }
+                .tabViewStyle(.page(indexDisplayMode: .never))
+                .frame(height: 200)
+                
+                if sweepstakes.count > 1 {
+                    makePageIndicator()
+                }
+            }
+        }
+    }
+}
+
+extension SweepstakesView.Paginator {
+    @ViewBuilder func makePageIndicator() -> some View {
+        HStack(spacing: 8) {
+            ForEach(0..<sweepstakes.count, id: \.self) { index in
+                Circle()
+                    .fill(currentIndex == index ? Color.primary : Color.primary.opacity(0.3))
+                    .frame(width: 8, height: 8)
+                    .animation(.easeInOut, value: currentIndex)
+            }
+        }
+    }
+}
+
 #Preview {
     SweepstakesView.Row(sweepstake: Sweepstakes())
         .padding()

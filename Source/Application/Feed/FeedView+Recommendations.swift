@@ -41,20 +41,17 @@ extension FeedView {
 extension FeedView {
     // MARK: - Sweepstakes Section
     
-    @ViewBuilder func makeSweepstakesSection(_ sweepstake: Sweepstakes) -> some View {
+    @ViewBuilder func makeSweepstakesSection(_ sweepstakes: [Sweepstakes]) -> some View {
         VStack(alignment: .leading, spacing: 16) {
             makeSweepstakesHeader()
                 .padding(.leading, 16)
             
             ZStack {
-                SweepstakesView.Row(sweepstake: sweepstake)
-                    .padding(.horizontal, 16)
-                    .onTap {
-                        router.route(sheet: .sweepstakesDetails(sweepstake, namespace))
-                    }
+                SweepstakesView.Paginator(sweepstakes: sweepstakes, namespace: namespace) { sweepstake in
+                    router.route(sheet: .sweepstakesDetails(sweepstake, namespace))
+                }
             }
         }
-        .matchedTransitionSource(id: "sweepstakes", in: namespace)
     }
     
     @ViewBuilder func makeSweepstakesHeader() -> some View {
