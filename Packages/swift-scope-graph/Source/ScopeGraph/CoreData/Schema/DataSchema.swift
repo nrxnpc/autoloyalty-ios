@@ -186,7 +186,7 @@ public struct Relationship {
 
 /// Supported attribute types for entity fields.
 public enum FieldType {
-    case identifier, text, boolean, timestamp, number, data, url
+    case identifier, text, boolean, timestamp, number, int16, data, url
 }
 
 /// A definition for a field that allows external storage for large binary data.
@@ -268,6 +268,7 @@ extension Field: FieldDefinition {
         case .boolean:          attribute.attributeType = .booleanAttributeType
         case .timestamp:        attribute.attributeType = .dateAttributeType
         case .number:           attribute.attributeType = .integer64AttributeType
+        case .int16:            attribute.attributeType = .integer16AttributeType
         case .data:             attribute.attributeType = .binaryDataAttributeType
         case .url:              attribute.attributeType = .URIAttributeType
         }

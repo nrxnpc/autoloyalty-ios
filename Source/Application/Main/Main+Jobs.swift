@@ -8,8 +8,9 @@ extension Main {
                 try await CreateWelcomeMessageUseCase(scope: scope).execute()
                 
                 // TODO: For Demo only
-                // try await CreateBuiltInRecommendationsSetUseCase(scope: scope).execute()
-                // try await CreateBuiltInCatalogUseCase(scope: scope).execute()
+                try await CreateBuiltInRecommendationsSetUseCase(scope: scope).execute()
+                try await CreateBuiltInCatalogUseCase(scope: scope).execute()
+                try await CreateBuiltInSweepstakesSetUseCase(scope: scope).execute()
             }
             
             Job(.polling(.strategy(.normal))) { [scope] in
@@ -55,11 +56,12 @@ extension Main {
             }
             
             Job(.polling(.strategy(.low))) { [scope] in
-                do {
-                    try await PullCatalogUseCase(scope: scope).execute()
-                } catch {
-                    debugPrint("[DEBUG] Cannot pull catalog: \(error)")
-                }
+                // TODO: For Test Only
+                // do {
+                //     try await PullCatalogUseCase(scope: scope).execute()
+                // } catch {
+                //     debugPrint("[DEBUG] Cannot pull catalog: \(error)")
+                // }
                 
                 do {
                     try await PullNewsUseCase(scope: scope).execute()
@@ -67,11 +69,12 @@ extension Main {
                     debugPrint("[DEBUG] Cannot pull news transactions: \(error)")
                 }
                 
-                do {
-                    try await PullRecommendationsUseCase(scope: scope).execute()
-                } catch {
-                    debugPrint("[DEBUG] Cannot pull catalog: \(error)")
-                }
+                // TODO: For Test Only
+                // do {
+                //     try await PullRecommendationsUseCase(scope: scope).execute()
+                // } catch {
+                //     debugPrint("[DEBUG] Cannot pull catalog: \(error)")
+                // }
             }
         }
     }

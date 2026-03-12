@@ -118,6 +118,29 @@ extension Scope {
                     Field("drivetrain", .text)
                     Field("color", .text)
                 }
+                
+                // Sweepstakes Entity
+                EntitySchema("Sweepstakes", inherits: "Entity") {
+                    Field("title", .text)
+                    Field("promoDescription", .text)
+                    Field("startDate", .timestamp)
+                    Field("endDate", .timestamp)
+                    Field("statusRaw", .int16)
+                    Field("entryConditionRaw", .int16)
+                    Field("requiredValue", .number, default: 0)
+                    Relationship("images", to: "Attachment", toMany: true, deleteRule: .cascadeDeleteRule)
+                    Relationship("prizes", to: "Product", optional: true, toMany: true)
+                    Relationship("entries", to: "SweepstakesEntry", inverse: "sweepstakes", toMany: true, deleteRule: .cascadeDeleteRule)
+                }
+                
+                // Sweepstakes Entry Entity
+                EntitySchema("SweepstakesEntry", inherits: "Entity") {
+                    Field("entryDate", .timestamp)
+                    Field("isWinner", .boolean, default: false)
+                    Relationship("account", to: "Account")
+                    Relationship("sweepstakes", to: "Sweepstakes", inverse: "entries")
+                    Relationship("wonProduct", to: "Product", optional: true)
+                }
             }
         }
     }

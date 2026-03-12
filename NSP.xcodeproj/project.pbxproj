@@ -17,6 +17,13 @@
 		7E148A6C2F27B69600276397 /* PushSupportMessagesUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E148A6B2F27B69600276397 /* PushSupportMessagesUseCase.swift */; };
 		7E148A6E2F28FF5600276397 /* CatalogView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E148A6D2F28FF5600276397 /* CatalogView.swift */; };
 		7E148A702F293E2D00276397 /* ContactSupport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E148A6F2F293E2D00276397 /* ContactSupport.swift */; };
+		7E1696642F62EB39005BD85E /* Sweepstakes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E1696632F62EB39005BD85E /* Sweepstakes.swift */; };
+		7E1696672F62EDB5005BD85E /* SweepstakesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E1696662F62EDB5005BD85E /* SweepstakesView.swift */; };
+		7E1696692F62EDCC005BD85E /* SweepstakesView+Row.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E1696682F62EDCC005BD85E /* SweepstakesView+Row.swift */; };
+		7E16966D2F62EDEC005BD85E /* SweepstakesView+Application.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E16966C2F62EDEC005BD85E /* SweepstakesView+Application.swift */; };
+		7E16966F2F62EE03005BD85E /* Sweepstakes+FetchRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E16966E2F62EE03005BD85E /* Sweepstakes+FetchRequest.swift */; };
+		7E1696712F62EE1F005BD85E /* Sweepstakes+Demo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E1696702F62EE1F005BD85E /* Sweepstakes+Demo.swift */; };
+		7E1696732F62F918005BD85E /* CreateBuiltInSweepstakesSetUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E1696722F62F918005BD85E /* CreateBuiltInSweepstakesSetUseCase.swift */; };
 		7E2AA2E82F031B8E007EDD4E /* Vehicles.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 7E2AA2E72F031B8E007EDD4E /* Vehicles.xcstrings */; };
 		7E2AA2EA2F031DDB007EDD4E /* Questions.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 7E2AA2E92F031DDB007EDD4E /* Questions.xcstrings */; };
 		7E3477DE2EF49BB1004F9F01 /* DeleteAccountUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E3477DD2EF49BB1004F9F01 /* DeleteAccountUseCase.swift */; };
@@ -154,6 +161,13 @@
 		7E148A6B2F27B69600276397 /* PushSupportMessagesUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushSupportMessagesUseCase.swift; sourceTree = "<group>"; };
 		7E148A6D2F28FF5600276397 /* CatalogView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CatalogView.swift; sourceTree = "<group>"; };
 		7E148A6F2F293E2D00276397 /* ContactSupport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactSupport.swift; sourceTree = "<group>"; };
+		7E1696632F62EB39005BD85E /* Sweepstakes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sweepstakes.swift; sourceTree = "<group>"; };
+		7E1696662F62EDB5005BD85E /* SweepstakesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SweepstakesView.swift; sourceTree = "<group>"; };
+		7E1696682F62EDCC005BD85E /* SweepstakesView+Row.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SweepstakesView+Row.swift"; sourceTree = "<group>"; };
+		7E16966C2F62EDEC005BD85E /* SweepstakesView+Application.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SweepstakesView+Application.swift"; sourceTree = "<group>"; };
+		7E16966E2F62EE03005BD85E /* Sweepstakes+FetchRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Sweepstakes+FetchRequest.swift"; sourceTree = "<group>"; };
+		7E1696702F62EE1F005BD85E /* Sweepstakes+Demo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Sweepstakes+Demo.swift"; sourceTree = "<group>"; };
+		7E1696722F62F918005BD85E /* CreateBuiltInSweepstakesSetUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateBuiltInSweepstakesSetUseCase.swift; sourceTree = "<group>"; };
 		7E2AA2E12F031787007EDD4E /* CarMinder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarMinder.swift; sourceTree = "<group>"; };
 		7E2AA2E72F031B8E007EDD4E /* Vehicles.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Vehicles.xcstrings; sourceTree = "<group>"; };
 		7E2AA2E92F031DDB007EDD4E /* Questions.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Questions.xcstrings; sourceTree = "<group>"; };
@@ -322,6 +336,26 @@
 				7E0FAB9C2EE9A6BB00498CEA /* Order+FetchRequest.swift */,
 			);
 			path = Order;
+			sourceTree = "<group>";
+		};
+		7E1696622F62EA5B005BD85E /* Sweepstakes */ = {
+			isa = PBXGroup;
+			children = (
+				7E1696632F62EB39005BD85E /* Sweepstakes.swift */,
+				7E16966E2F62EE03005BD85E /* Sweepstakes+FetchRequest.swift */,
+				7E1696702F62EE1F005BD85E /* Sweepstakes+Demo.swift */,
+			);
+			path = Sweepstakes;
+			sourceTree = "<group>";
+		};
+		7E1696652F62EDA4005BD85E /* Sweepstakes */ = {
+			isa = PBXGroup;
+			children = (
+				7E1696662F62EDB5005BD85E /* SweepstakesView.swift */,
+				7E1696682F62EDCC005BD85E /* SweepstakesView+Row.swift */,
+				7E16966C2F62EDEC005BD85E /* SweepstakesView+Application.swift */,
+			);
+			path = Sweepstakes;
 			sourceTree = "<group>";
 		};
 		7E2AA2E02F03177A007EDD4E /* Car Minder */ = {
@@ -563,6 +597,7 @@
 		7ECC3FE72E65D0680014E97E /* Application */ = {
 			isa = PBXGroup;
 			children = (
+				7E1696652F62EDA4005BD85E /* Sweepstakes */,
 				7E72CB7E2EF9939900D647F7 /* Recommendations */,
 				7E72940C2EF6E43A00C37B85 /* Contact Support */,
 				7ECC40282E66FCAE0014E97E /* Authentication */,
@@ -582,6 +617,7 @@
 		7ECC3FF02E6628AC0014E97E /* Domain */ = {
 			isa = PBXGroup;
 			children = (
+				7E1696622F62EA5B005BD85E /* Sweepstakes */,
 				7E72CB9B2EFC3CFE00D647F7 /* Support */,
 				7E72CB752EF9872300D647F7 /* Car */,
 				7E3477E72EF5DFD8004F9F01 /* Scan */,
@@ -707,6 +743,7 @@
 				7E72CBA02EFC3DE800D647F7 /* SendMessageToSupportUseCase.swift */,
 				7E148A692F27B46B00276397 /* PullSupportMessagesUseCase.swift */,
 				7E148A6B2F27B69600276397 /* PushSupportMessagesUseCase.swift */,
+				7E1696722F62F918005BD85E /* CreateBuiltInSweepstakesSetUseCase.swift */,
 			);
 			path = "Use Case";
 			sourceTree = "<group>";
@@ -866,18 +903,22 @@
 				7EE878092EA3153100CFC230 /* ChangeAccountImage+Cropper.swift in Sources */,
 				7E72CB772EF987DC00D647F7 /* CarRecommendation.swift in Sources */,
 				7E5350142EDC6A9A0020AF96 /* InboxMessage.swift in Sources */,
+				7E1696642F62EB39005BD85E /* Sweepstakes.swift in Sources */,
 				7E3477DE2EF49BB1004F9F01 /* DeleteAccountUseCase.swift in Sources */,
 				7ECC40272E66FBD80014E97E /* MainView.swift in Sources */,
 				7E462FE62EE60E9F00B7F5EC /* CreateWelcomeMessageUseCase.swift in Sources */,
+				7E1696672F62EDB5005BD85E /* SweepstakesView.swift in Sources */,
 				7EAF29442EE8849E00E4201A /* PasswordRequirementsView.swift in Sources */,
 				08DB741A2DF82926007D80CB /* EntryPoint.swift in Sources */,
 				7E4BA2042EE0689E0004CFB3 /* ProductDelivery.swift in Sources */,
 				7EE877DD2EA2B9A900CFC230 /* CreateSessionUseCase.swift in Sources */,
 				7E148A6E2F28FF5600276397 /* CatalogView.swift in Sources */,
+				7E1696712F62EE1F005BD85E /* Sweepstakes+Demo.swift in Sources */,
 				7E4BA2022EE061840004CFB3 /* Product.swift in Sources */,
 				7E462FF32EE648D900B7F5EC /* QRScannerView+Actions.swift in Sources */,
 				7E43D2F32EC66D670039FCE4 /* CapturePermission.swift in Sources */,
 				7E4BA2192EE32F890004CFB3 /* AttachmentImage.swift in Sources */,
+				7E1696732F62F918005BD85E /* CreateBuiltInSweepstakesSetUseCase.swift in Sources */,
 				7ECC40192E6628E90014E97E /* LoginView.swift in Sources */,
 				7EE878002EA2F97C00CFC230 /* AccountImageView.swift in Sources */,
 				7E4BA2172EE32BF00004CFB3 /* FetchAttachmentsUseCase.swift in Sources */,
@@ -916,6 +957,7 @@
 				7E4BA2132EE228090004CFB3 /* Product+FetchRequest.swift in Sources */,
 				7E462FD92EE4E6F300B7F5EC /* FeedApplication.swift in Sources */,
 				7EAF29402EE879DC00E4201A /* View+OnTap.swift in Sources */,
+				7E16966D2F62EDEC005BD85E /* SweepstakesView+Application.swift in Sources */,
 				7E72CB802EF993AE00D647F7 /* RecommendationsView.swift in Sources */,
 				7EAF29422EE882DD00E4201A /* CreateAccountView.swift in Sources */,
 				7E462FEC2EE63CBF00B7F5EC /* FeedView+Balance.swift in Sources */,
@@ -923,6 +965,7 @@
 				7E7294102EF804FD00C37B85 /* InboxUserNotifications.swift in Sources */,
 				7EE877DF2EA2BABD00CFC230 /* Account.swift in Sources */,
 				7E3477EB2EF5E02B004F9F01 /* ScanItem+FetchRequest.swift in Sources */,
+				7E16966F2F62EE03005BD85E /* Sweepstakes+FetchRequest.swift in Sources */,
 				7EE877C32E9FEB9C00CFC230 /* Scope+Grab.swift in Sources */,
 				7E3477E92EF5E005004F9F01 /* ScanItem.swift in Sources */,
 				7E462FE22EE6071A00B7F5EC /* InboxMessageView.swift in Sources */,
@@ -950,6 +993,7 @@
 				7EE877FB2EA2ED7F00CFC230 /* Attachment+Predicate.swift in Sources */,
 				7E72CB982EFB4C3D00D647F7 /* Recommendations.swift in Sources */,
 				7E72CB8B2EFAE97F00D647F7 /* CardSwipeView.swift in Sources */,
+				7E1696692F62EDCC005BD85E /* SweepstakesView+Row.swift in Sources */,
 				7EE877FC2EA2ED7F00CFC230 /* Attachment+Loader.swift in Sources */,
 				7E462FE42EE60B9800B7F5EC /* DateFormatters.swift in Sources */,
 				7E72CBA72EFD879000D647F7 /* CreateBuiltInCatalogUseCase.swift in Sources */,

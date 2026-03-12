@@ -975,4 +975,51 @@ extension RestEndpoint {
         /// Whether more messages are available
         public let hasMore: Bool?
     }
+    
+    // MARK: - Sweepstakes
+    
+    /// Sweepstakes information
+    ///
+    /// Represents a promotional sweepstakes with prizes.
+    public struct Sweepstake: Codable, Sendable {
+        /// Sweepstakes ID
+        public let id: String
+        /// Title
+        public let title: String
+        /// Description
+        public let description: String
+        /// Start date (ISO8601)
+        public let startDate: String
+        /// End date (ISO8601)
+        public let endDate: String
+        /// Status (0: draft, 1: active, 2: finished)
+        public let status: Int
+        /// Entry condition type (0: free, 1: minScans, 2: minPoints)
+        public let entryConditionType: Int
+        /// Required value for entry condition
+        public let requiredValue: Int
+        /// Image URL
+        public let imageURL: String
+        /// Prize product IDs
+        public let prizeIds: [String]?
+        
+        private enum CodingKeys: String, CodingKey {
+            case id, title, description, status, imageURL
+            case startDate = "start_date"
+            case endDate = "end_date"
+            case entryConditionType = "entry_condition_type"
+            case requiredValue = "required_value"
+            case prizeIds = "prize_ids"
+        }
+    }
+    
+    /// Sweepstakes listing response
+    ///
+    /// Contains paginated list of sweepstakes.
+    public struct SweepstakesResponse: Codable, Sendable {
+        /// Sweepstakes array
+        public let sweepstakes: [Sweepstake]
+        /// Pagination info
+        public let pagination: PaginationResponse?
+    }
 }
