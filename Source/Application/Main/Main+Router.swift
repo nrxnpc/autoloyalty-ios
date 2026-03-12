@@ -18,6 +18,7 @@ extension Main {
             case createAccount(Authentication)
             case changeAboutMe(AboutMe)
             case productDetails(String, Namespace.ID)
+            case sweepstakesDetails(Sweepstakes, Namespace.ID)
             case howTo(HowTo)
             case transactionHistory
             case orders
@@ -170,6 +171,13 @@ extension Main {
                         .presentationDetents([.large])
                         .presentationDragIndicator(.visible)
                         .navigationTransition(.zoom(sourceID: id, in: namespace))
+                    case .sweepstakesDetails(let sweepstake, let namespace):
+                        NavigationView {
+                            SweepstakesView(sweepstake: sweepstake)
+                        }
+                        .presentationDetents([.large])
+                        .presentationDragIndicator(.visible)
+                        .navigationTransition(.zoom(sourceID: sweepstake.id, in: namespace))
                     case .howTo(let howTo):
                         switch howTo {
                         case .topUpYourBalance:
@@ -282,6 +290,7 @@ extension Main.Router.SheetDestination: Identifiable, Equatable {
         case .createAccount: return "createAccount"
         case .changeAboutMe: return "changeAboutMe"
         case .productDetails(let id, _): return id
+        case .sweepstakesDetails(let sweepstake, _): return sweepstake.id
         case .howTo(let howTo): return howTo.id
         case .transactionHistory: return "transactionHistory"
         case .orders: return "orders"

@@ -36,6 +36,37 @@ extension FeedView {
     }
 }
 
+// MARK: - View Builder
+
+extension FeedView {
+    // MARK: - Sweepstakes Section
+    
+    @ViewBuilder func makeSweepstakesSection(_ sweepstake: Sweepstakes) -> some View {
+        VStack(alignment: .leading, spacing: 16) {
+            makeSweepstakesHeader()
+                .padding(.leading, 16)
+            
+            ZStack {
+                SweepstakesView.Row(sweepstake: sweepstake)
+                    .padding(.horizontal, 16)
+                    .onTap {
+                        router.route(sheet: .sweepstakesDetails(sweepstake, namespace))
+                    }
+            }
+        }
+        .matchedTransitionSource(id: "sweepstakes", in: namespace)
+    }
+    
+    @ViewBuilder func makeSweepstakesHeader() -> some View {
+        HStack {
+            Text("Sweepstakes")
+                .font(.title2.weight(.semibold))
+            
+            Spacer()
+        }
+        .foregroundStyle(.primary)
+    }
+}
 extension FeedView {
     // MARK: - Auto Mind Section
     

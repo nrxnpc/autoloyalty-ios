@@ -15,6 +15,7 @@ struct FeedView: View {
     @FetchRequest var products: FetchedResults<Product>
     @FetchRequest var recommendationSet: FetchedResults<CarRecommendation>
     @FetchRequest var account: FetchedResults<Account>
+    @FetchRequest var sweepstakes: FetchedResults<Sweepstakes>
     
     var balance: Int {
         account.first?.points ?? 0
@@ -85,11 +86,16 @@ struct FeedView: View {
         _products = FetchRequest(fetchRequest: Product.allProductsFetchRequest(), animation: .smooth)
         _recommendationSet = FetchRequest(fetchRequest: CarRecommendation.allNeutralSentiment(), animation: .smooth)
         _account = FetchRequest(fetchRequest: Account.current(), animation: .smooth)
+        _sweepstakes = FetchRequest(fetchRequest: Sweepstakes.upcomingSweepstakesFetchRequest(), animation: .smooth)
     }
     
     var body: some View {
         ScrollView {
             makeBalanceSection()
+            
+            if let current = sweepstakes.first {
+                makeSweepstakesSection(current)
+            }
             
             if !recommendationSet.isEmpty {
                 makeRecommendationsSection()
