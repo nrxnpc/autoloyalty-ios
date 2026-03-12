@@ -97,11 +97,11 @@ struct FeedView: View {
                 makeSweepstakesSection(Array(sweepstakes))
             }
             
+            makeCatalogSection()
+            
             if !recommendationSet.isEmpty {
                 makeRecommendationsSection()
             }
-            
-            makeCatalogSection()
             
             // TODO: Disabled
             // makeAutoMindSection()
