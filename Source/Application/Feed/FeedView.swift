@@ -86,7 +86,7 @@ struct FeedView: View {
         _products = FetchRequest(fetchRequest: Product.allProductsFetchRequest(), animation: .smooth)
         _recommendationSet = FetchRequest(fetchRequest: CarRecommendation.allNeutralSentiment(), animation: .smooth)
         _account = FetchRequest(fetchRequest: Account.current(), animation: .smooth)
-        _sweepstakes = FetchRequest(fetchRequest: Sweepstakes.allSweepstakesFetchRequest(), animation: .smooth)
+        _sweepstakes = FetchRequest(fetchRequest: Sweepstakes.activeSweepstakesFetchRequest(), animation: .smooth)
     }
     
     var body: some View {

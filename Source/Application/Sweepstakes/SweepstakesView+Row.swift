@@ -160,6 +160,7 @@ extension SweepstakesView {
                             .onTapGesture {
                                 onTap(sweepstake)
                             }
+                            .padding(.horizontal, 16)
                             .tag(index)
                     }
                 }
