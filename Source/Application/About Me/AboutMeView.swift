@@ -19,8 +19,6 @@ struct AboutMeView: View, ComponentBuilder {
             makeAboutSection()
             makeActivitySection()
             makeRecommendationsSection()
-            // Moved to toolbar
-            // makeSupportSection()
         }
         .overlay(alignment: .bottom) {
             makePolicySection()
@@ -45,6 +43,7 @@ extension AboutMeView {
                         .font(.callout)
                 }
             }
+            .padding(.vertical)
             .frame(maxWidth: .infinity, alignment: .leading)
         }
         .onTapGesture {
@@ -73,30 +72,6 @@ extension AboutMeView {
         MakeSection {
             MakeListRow(title: "Recommendations & Offers", subtitle: "Personalized offers for liked cars", icon: "heart.text.square", iconColor: .orange) {
                 router.route(sheet: .offers)
-            }
-        }
-    }
-    
-    @ViewBuilder private func makeSupportSection() -> some View {
-        MakeSection {
-            MakeOptionsListRow(title: "Have Questions?", subtitle: "We're here to help", icon: "questionmark.circle", iconColor: .secondary) {
-                MakeListRow(title: "Contact Support", subtitle: "Chat with support team", icon: "headphones", iconColor: .secondary) {
-                    router.route(sheet: .contactSupport)
-                }
-                MakeListRow(title: "Send Email", subtitle: "support@nsp-app.ru", icon: "envelope", iconColor: .secondary) {
-                    if let url = URL(string: "mailto:support@nsp-app.ru?subject=App Support Request") {
-                        UIApplication.shared.open(url)
-                    }
-                }
-            }
-            
-            MakeOptionsListRow(title: "FAQ", subtitle: "Frequently asked questions", icon: "book", iconColor: .secondary) {
-                MakeListRow(title: "How to Top Up Balance", subtitle: "Learn about earning points", icon: "plus.circle", iconColor: .secondary) {
-                    router.route(sheet: .howTo(.topUpYourBalance))
-                }
-                MakeListRow(title: "How Does Delivery Work?", subtitle: "Order fulfillment process", icon: "shippingbox", iconColor: .secondary) {
-                    router.route(sheet: .howTo(.howToRedeemGiftCards))
-                }
             }
         }
     }
@@ -152,21 +127,25 @@ extension AboutMeView {
                             router.route(sheet: .howTo(.topUpYourBalance))
                         }
                         
-                        Button("How Does Delivery Work?") {
-                            router.route(sheet: .howTo(.howToRedeemGiftCards))
+                        // Button("How Does Delivery Work?") {
+                        //     router.route(sheet: .howTo(.howToRedeemGiftCards))
+                        // }
+                    }
+                }
+                
+                Menu("Account", systemImage: "person") {
+                    Button("Logout") {
+                        Task { @MainActor in
+                            await application.logout()
+                            router.reset()
                         }
                     }
-                }
-                
-                Button("Logout", systemImage: "person.fill.xmark", role: .cancel) {
-                    Task { @MainActor in
-                        await application.logout()
-                        router.reset()
+                    Menu("Delete Account") {
+                        Text("This will permanently delete all your data")
+                        Button("Delete Account", role: .destructive) {
+                            deleteAccountConfirmation = true
+                        }
                     }
-                }
-                
-                Button("Delete Account", systemImage: "person.slash", role: .destructive) {
-                    deleteAccountConfirmation = true
                 }
             } label: {
                 Image(systemName: "ellipsis")

@@ -4,7 +4,7 @@ import NukeUI
 import CoreData
 import Dependencies
 
-struct ProductView: View {
+struct BonusView: View {
     // MARK: - Dependencies
     
     @Dependency(\.scope) var scope
@@ -63,7 +63,7 @@ struct ProductView: View {
     }
 }
 
-extension ProductView {
+extension BonusView {
     @ViewBuilder func makeImagePreview(_ product: Product) -> some View {
         ZStack {
             GeometryReader { geometry in
@@ -133,7 +133,7 @@ extension ProductView {
                         Text("Ouf of stock")
                     } else {
                         Image(systemName: "cart")
-                        Text("Order")
+                        Text("Claim Bonus")
                     }
                 }
                 .fontWeight(.semibold)
@@ -156,7 +156,7 @@ extension ProductView {
                         Text("Ouf of stock")
                     } else {
                         Image(systemName: "cart")
-                        Text("Order")
+                        Text("Claim Bonus")
                     }
                 }
                 .fontWeight(.semibold)

@@ -34,7 +34,7 @@ struct BalanceView: View, ComponentBuilder {
 extension BalanceView {
     @ViewBuilder func makeTitle() -> some View {
         HStack(alignment: .center, spacing: 2) {
-            Text("Balance")
+            Text("Your Points")
                 .font(.callout)
             
             Spacer()

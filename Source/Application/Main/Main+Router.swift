@@ -130,7 +130,7 @@ extension Main {
                     case .inbox:
                         InboxView()
                     case .catalog:
-                        CatalogView()
+                        BonusesView()
                     case .commingSoon:
                         CommingSoon()
                     }
@@ -166,7 +166,7 @@ extension Main {
                         .presentationDragIndicator(.visible)
                     case .productDetails(let id, let namespace):
                         NavigationView {
-                            ProductView(id: id)
+                            BonusView(id: id)
                         }
                         .presentationDetents([.large])
                         .presentationDragIndicator(.visible)

@@ -3,32 +3,34 @@ import SwiftUI
 import NukeUI
 import SwiftUIComponents
 
-struct ProductPreviewView: View {
-    let product: Product
-    
-    @State var isFavorite: Bool
-    
-    init(product: Product) {
-        self.product = product
-        _isFavorite = .init(initialValue: product.isFavorite)
-    }
-    
-    var body: some View {
-        VStack(alignment: .leading, spacing: 0) {
-            makeImagePreview()
-            makeItemInfo()
+extension BonusView {
+    struct Row: View {
+        let product: Product
+        
+        @State var isFavorite: Bool
+        
+        init(product: Product) {
+            self.product = product
+            _isFavorite = .init(initialValue: product.isFavorite)
         }
-        // TODO: disabled
-        // .overlay(alignment: .topTrailing) {
-        //     makeFavoriteButton()
-        //         .padding(8)
-        // }
-        .background(.regularMaterial)
-        .clipShape(RoundedRectangle(cornerRadius: 24))
+        
+        var body: some View {
+            VStack(alignment: .leading, spacing: 0) {
+                makeImagePreview()
+                makeItemInfo()
+            }
+            // TODO: disabled
+            // .overlay(alignment: .topTrailing) {
+            //     makeFavoriteButton()
+            //         .padding(8)
+            // }
+            .background(.regularMaterial)
+            .clipShape(RoundedRectangle(cornerRadius: 24))
+        }
     }
 }
 
-extension ProductPreviewView {
+extension BonusView.Row {
     @ViewBuilder func makeImagePreview() -> some View {
         ZStack {
             GeometryReader { geometry in
@@ -109,6 +111,6 @@ extension ProductPreviewView {
 }
 
 #Preview {
-    ProductPreviewView(product: Product())
+    BonusView.Row(product: Product())
         .frame(width: 200, height: 250)
 }
