@@ -1,7 +1,7 @@
 import SwiftUI
 import SwiftUIComponents
 
-struct AboutMeView: View, ComponentBuilder {
+struct ProfileView: View, ComponentBuilder {
     // MARK: - Depndencies
     
     @Environment(\.dismiss) var dismiss
@@ -20,17 +20,13 @@ struct AboutMeView: View, ComponentBuilder {
             makeActivitySection()
             makeRecommendationsSection()
         }
-        .overlay(alignment: .bottom) {
-            makePolicySection()
-                .padding()
-        }
         .toolbar(content: makeToolbar)
         .navigationTitle("Profile")
         .navigationBarTitleDisplayMode(.large)
     }
 }
 
-extension AboutMeView {
+extension ProfileView {
     @ViewBuilder private func makeAboutSection() -> some View {
         MakeSection() {
             HStack(spacing: 16) {
@@ -76,38 +72,6 @@ extension AboutMeView {
         }
     }
     
-    @ViewBuilder private func makePolicySection() -> some View {
-        VStack(spacing: 16) {
-            VStack(spacing: 4) {
-                Link("Privacy Policy", destination: URL(string: "http://nsp-app.ru/#privacy")!)
-                    .font(.callout)
-                    .foregroundStyle(.primary)
-                
-                Link("Terms Of Use", destination: URL(string: "http://nsp-app.ru/#terms")!)
-                    .font(.callout)
-                    .foregroundStyle(.primary)
-            }
-            
-            HStack(alignment: .center, spacing: 4) {
-                Image(systemName: "tag")
-                Text(Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "Unknown")
-            }
-            .font(.caption)
-            .foregroundStyle(.secondary)
-            .padding(.vertical, 4)
-            .padding(.horizontal, 6)
-            .background {
-                RoundedRectangle(cornerRadius: 6)
-                    .foregroundStyle(.ultraThinMaterial)
-            }
-            .onTap {
-                let version = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "Unknown"
-                UIPasteboard.general.string = "App Version: \(version)"
-                UIImpactFeedbackGenerator(style: .light).impactOccurred()
-            }
-        }
-    }
-    
     @ToolbarContentBuilder func makeToolbar() -> some ToolbarContent {
         ToolbarItem(placement: .topBarTrailing) {
             Menu {
@@ -147,6 +111,25 @@ extension AboutMeView {
                         }
                     }
                 }
+                
+                Menu("About", systemImage: "info.circle") {
+                    Link(destination: URL(string: "http://nsp-app.ru/#privacy")!) {
+                        Label("Privacy Policy", systemImage: "shield")
+                    }
+                    Link(destination: URL(string: "http://nsp-app.ru/#terms")!) {
+                        Label("Terms of Use", systemImage: "doc.text")
+                    }
+                    
+                    Divider()
+                    
+                    let version = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "Unknown"
+                    Button {
+                        UIPasteboard.general.string = "App Version: \(version)"
+                        UIImpactFeedbackGenerator(style: .light).impactOccurred()
+                    } label: {
+                        Label("Version: \(version)", systemImage: "tag")
+                    }
+                }
             } label: {
                 Image(systemName: "ellipsis")
             }
@@ -166,5 +149,5 @@ extension AboutMeView {
 }
 
 #Preview {
-    AboutMeView()
+    ProfileView()
 }

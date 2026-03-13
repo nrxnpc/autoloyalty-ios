@@ -126,7 +126,7 @@ extension Main {
                 .navigationDestination(item: $router.destination) { destination in
                     switch destination {
                     case .aboutMe:
-                        AboutMeView()
+                        ProfileView()
                     case .inbox:
                         InboxView()
                     case .catalog:
