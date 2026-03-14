@@ -25,6 +25,7 @@
 		7E1696712F62EE1F005BD85E /* Sweepstakes+Demo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E1696702F62EE1F005BD85E /* Sweepstakes+Demo.swift */; };
 		7E1696732F62F918005BD85E /* CreateBuiltInSweepstakesSetUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E1696722F62F918005BD85E /* CreateBuiltInSweepstakesSetUseCase.swift */; };
 		7E1696752F64B4E0005BD85E /* BonusView+Row.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E1696742F64B4E0005BD85E /* BonusView+Row.swift */; };
+		7E1696772F657E6D005BD85E /* FeedView+Toolbar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E1696762F657E6D005BD85E /* FeedView+Toolbar.swift */; };
 		7E2AA2E82F031B8E007EDD4E /* Vehicles.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 7E2AA2E72F031B8E007EDD4E /* Vehicles.xcstrings */; };
 		7E2AA2EA2F031DDB007EDD4E /* Questions.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 7E2AA2E92F031DDB007EDD4E /* Questions.xcstrings */; };
 		7E3477DE2EF49BB1004F9F01 /* DeleteAccountUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E3477DD2EF49BB1004F9F01 /* DeleteAccountUseCase.swift */; };
@@ -53,7 +54,7 @@
 		7E462FEE2EE63CE100B7F5EC /* FeedView+Bonuses.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E462FED2EE63CE100B7F5EC /* FeedView+Bonuses.swift */; };
 		7E462FF02EE6489C00B7F5EC /* QRScannerView+States.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E462FEF2EE6489C00B7F5EC /* QRScannerView+States.swift */; };
 		7E462FF32EE648D900B7F5EC /* QRScannerView+Actions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E462FF22EE648D900B7F5EC /* QRScannerView+Actions.swift */; };
-		7E462FF62EE65F0F00B7F5EC /* OrdersView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E462FF52EE65F0F00B7F5EC /* OrdersView.swift */; };
+		7E462FF62EE65F0F00B7F5EC /* MyRewardsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E462FF52EE65F0F00B7F5EC /* MyRewardsView.swift */; };
 		7E486C102F01BA5A007405BB /* Akinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E486C0F2F01BA5A007405BB /* Akinator.swift */; };
 		7E486C122F01BD8C007405BB /* cars.csv in Resources */ = {isa = PBXBuildFile; fileRef = 7E486C112F01BD8C007405BB /* cars.csv */; };
 		7E486C162F01C05B007405BB /* AkinatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E486C152F01C05B007405BB /* AkinatorView.swift */; };
@@ -169,6 +170,7 @@
 		7E1696702F62EE1F005BD85E /* Sweepstakes+Demo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Sweepstakes+Demo.swift"; sourceTree = "<group>"; };
 		7E1696722F62F918005BD85E /* CreateBuiltInSweepstakesSetUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateBuiltInSweepstakesSetUseCase.swift; sourceTree = "<group>"; };
 		7E1696742F64B4E0005BD85E /* BonusView+Row.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "BonusView+Row.swift"; sourceTree = "<group>"; };
+		7E1696762F657E6D005BD85E /* FeedView+Toolbar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FeedView+Toolbar.swift"; sourceTree = "<group>"; };
 		7E2AA2E12F031787007EDD4E /* CarMinder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarMinder.swift; sourceTree = "<group>"; };
 		7E2AA2E72F031B8E007EDD4E /* Vehicles.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Vehicles.xcstrings; sourceTree = "<group>"; };
 		7E2AA2E92F031DDB007EDD4E /* Questions.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Questions.xcstrings; sourceTree = "<group>"; };
@@ -196,7 +198,7 @@
 		7E462FED2EE63CE100B7F5EC /* FeedView+Bonuses.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FeedView+Bonuses.swift"; sourceTree = "<group>"; };
 		7E462FEF2EE6489C00B7F5EC /* QRScannerView+States.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "QRScannerView+States.swift"; sourceTree = "<group>"; };
 		7E462FF22EE648D900B7F5EC /* QRScannerView+Actions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "QRScannerView+Actions.swift"; sourceTree = "<group>"; };
-		7E462FF52EE65F0F00B7F5EC /* OrdersView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrdersView.swift; sourceTree = "<group>"; };
+		7E462FF52EE65F0F00B7F5EC /* MyRewardsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyRewardsView.swift; sourceTree = "<group>"; };
 		7E486C0F2F01BA5A007405BB /* Akinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Akinator.swift; sourceTree = "<group>"; };
 		7E486C112F01BD8C007405BB /* cars.csv */ = {isa = PBXFileReference; lastKnownFileType = text; path = cars.csv; sourceTree = "<group>"; };
 		7E486C152F01C05B007405BB /* AkinatorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AkinatorView.swift; sourceTree = "<group>"; };
@@ -420,6 +422,7 @@
 				7E462FEB2EE63CBF00B7F5EC /* FeedView+Balance.swift */,
 				7E462FED2EE63CE100B7F5EC /* FeedView+Bonuses.swift */,
 				7E72CB7C2EF9919C00D647F7 /* FeedView+Recommendations.swift */,
+				7E1696762F657E6D005BD85E /* FeedView+Toolbar.swift */,
 			);
 			path = Feed;
 			sourceTree = "<group>";
@@ -430,14 +433,6 @@
 				7E462FDB2EE5CFF300B7F5EC /* HowToView.swift */,
 			);
 			path = "How To";
-			sourceTree = "<group>";
-		};
-		7E462FF42EE65EFA00B7F5EC /* Orders */ = {
-			isa = PBXGroup;
-			children = (
-				7E462FF52EE65F0F00B7F5EC /* OrdersView.swift */,
-			);
-			path = Orders;
 			sourceTree = "<group>";
 		};
 		7E4BA2002EE061730004CFB3 /* Product */ = {
@@ -454,6 +449,7 @@
 		7E4BA20D2EE0CDBD0004CFB3 /* Bonuses */ = {
 			isa = PBXGroup;
 			children = (
+				7E462FF52EE65F0F00B7F5EC /* MyRewardsView.swift */,
 				7E4BA20E2EE0CDE10004CFB3 /* BonusView.swift */,
 				7E1696742F64B4E0005BD85E /* BonusView+Row.swift */,
 				7E148A6D2F28FF5600276397 /* BonusesView.swift */,
@@ -601,7 +597,6 @@
 				7E72CB7E2EF9939900D647F7 /* Recommendations */,
 				7E72940C2EF6E43A00C37B85 /* Contact Support */,
 				7ECC40282E66FCAE0014E97E /* Authentication */,
-				7E462FF42EE65EFA00B7F5EC /* Orders */,
 				7E462FD22EE4E00100B7F5EC /* Balance */,
 				7E462FDA2EE5CFE100B7F5EC /* How To */,
 				7E4BA20D2EE0CDBD0004CFB3 /* Bonuses */,
@@ -959,6 +954,7 @@
 				7EAF29402EE879DC00E4201A /* View+OnTap.swift in Sources */,
 				7E16966D2F62EDEC005BD85E /* SweepstakesView+Application.swift in Sources */,
 				7E72CB802EF993AE00D647F7 /* RecommendationsView.swift in Sources */,
+				7E1696772F657E6D005BD85E /* FeedView+Toolbar.swift in Sources */,
 				7EAF29422EE882DD00E4201A /* CreateAccountView.swift in Sources */,
 				7E462FEC2EE63CBF00B7F5EC /* FeedView+Balance.swift in Sources */,
 				7E462FD42EE4E02F00B7F5EC /* BalanceView.swift in Sources */,
@@ -971,7 +967,7 @@
 				7E462FE22EE6071A00B7F5EC /* InboxMessageView.swift in Sources */,
 				7E72CB9F2EFC3DA500D647F7 /* SupportMessage+FetchRequest.swift in Sources */,
 				7EE877C42E9FEB9C00CFC230 /* Scope.swift in Sources */,
-				7E462FF62EE65F0F00B7F5EC /* OrdersView.swift in Sources */,
+				7E462FF62EE65F0F00B7F5EC /* MyRewardsView.swift in Sources */,
 				7EAF29552EE8FA6D00E4201A /* PullCatalogUseCase.swift in Sources */,
 				7E462FE82EE61B0400B7F5EC /* BalanceMonitor.swift in Sources */,
 				7EE877C52E9FEB9C00CFC230 /* Scope+Scheduler.swift in Sources */,

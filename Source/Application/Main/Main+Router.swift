@@ -8,7 +8,7 @@ extension Main {
     @Observable
     final class Router {
         enum Destination {
-            case aboutMe
+            case aboutMe(Account)
             case inbox
             case catalog
             case commingSoon
@@ -20,12 +20,12 @@ extension Main {
             case productDetails(String, Namespace.ID)
             case sweepstakesDetails(Sweepstakes, Namespace.ID)
             case howTo(HowTo)
-            case transactionHistory
+            case transactionHistory(Namespace.ID)
+            case scanHistory(Namespace.ID)
+            case offers
             case orders
             case inboxMessage(InboxMessage)
-            case scanner
-            case scanHistory
-            case offers
+            case scanner(Namespace.ID)
             case reauthenticationView
             case contactSupport
             case akinator(Namespace.ID)
@@ -125,8 +125,8 @@ extension Main {
             content
                 .navigationDestination(item: $router.destination) { destination in
                     switch destination {
-                    case .aboutMe:
-                        ProfileView()
+                    case .aboutMe(let account):
+                        ProfileView(account: account)
                     case .inbox:
                         InboxView()
                     case .catalog:
@@ -193,15 +193,23 @@ extension Main {
                             .presentationDetents([.large])
                             .presentationDragIndicator(.visible)
                         }
-                    case .transactionHistory:
+                    case .transactionHistory(let namespace):
                         NavigationView {
                             BalanceTransactionsView()
                         }
                         .presentationDetents([.medium, .large], selection: .constant(.large))
                         .presentationDragIndicator(.visible)
+                        .navigationTransition(.zoom(sourceID: "transactionsHistory", in: namespace))
+                    case .scanHistory(let namespace):
+                        NavigationView {
+                            QRScanHistoryView()
+                        }
+                        .presentationDetents([.large])
+                        .presentationDragIndicator(.visible)
+                        .navigationTransition(.zoom(sourceID: "scansHistory", in: namespace))
                     case .orders:
                         NavigationView {
-                            OrdersView()
+                            MyRewardsView()
                         }
                         .presentationDetents([.medium, .large], selection: .constant(.large))
                         .presentationDragIndicator(.visible)
@@ -211,15 +219,9 @@ extension Main {
                         }
                         .presentationDetents([.large])
                         .presentationDragIndicator(.visible)
-                    case .scanner:
+                    case .scanner(let namespace):
                         NavigationView {
                             QRScannerView()
-                        }
-                        .presentationDetents([.large])
-                        .presentationDragIndicator(.visible)
-                    case .scanHistory:
-                        NavigationView {
-                            QRScanHistoryView()
                         }
                         .presentationDetents([.large])
                         .presentationDragIndicator(.visible)

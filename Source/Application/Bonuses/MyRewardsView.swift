@@ -1,6 +1,6 @@
 import SwiftUI
 
-struct OrdersView: View {
+struct MyRewardsView: View {
     // MARK: - Dependencies
     
     @Environment(\.dismiss) private var dismiss
@@ -28,7 +28,7 @@ struct OrdersView: View {
                 makeOrdersList()
             }
         }
-        .navigationTitle("Orders")
+        .navigationTitle("My rewards")
         .toolbar(content: makeToolbar)
         .sheet(isPresented: $showRedeemInfo) {
             NavigationView {
@@ -40,7 +40,7 @@ struct OrdersView: View {
     }
 }
 
-extension OrdersView {
+extension MyRewardsView {
     @ViewBuilder func makeEmptyState() -> some View {
         ScrollView {
             VStack(spacing: 16) {
@@ -170,6 +170,6 @@ extension Order.OrderStatus {
 
 #Preview {
     NavigationView {
-        OrdersView()
+        MyRewardsView()
     }
 }

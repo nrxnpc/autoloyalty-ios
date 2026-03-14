@@ -6,6 +6,7 @@ struct ProfileView: View, ComponentBuilder {
     
     @Environment(\.dismiss) var dismiss
     @Environment(Main.Router.self) var router
+    @ObservedObject var account: Account
     
     // MARK: - State
     
@@ -17,8 +18,7 @@ struct ProfileView: View, ComponentBuilder {
     var body: some View {
         MakeList {
             makeAboutSection()
-            makeActivitySection()
-            makeRecommendationsSection()
+            makeMyRewardsSection()
         }
         .toolbar(content: makeToolbar)
         .navigationTitle("Profile")
@@ -28,48 +28,64 @@ struct ProfileView: View, ComponentBuilder {
 
 extension ProfileView {
     @ViewBuilder private func makeAboutSection() -> some View {
-        MakeSection() {
+        MakeSection {
             HStack(spacing: 16) {
-                AccountImage(accountID: application.accountID)
+                AccountImage(accountID: account.id)
                     .frame(width: 60, height: 60)
                 
                 VStack(alignment: .leading, spacing: 4) {
-                    MakeTitle(LocalizedStringKey(application.username))
+                    HStack(spacing: 16) {
+                        MakeTitle(LocalizedStringKey(application.username))
+                        Spacer()
+                        Button("", systemImage: "pencil.line") {
+                            router.route(sheet: .changeAboutMe(application))
+                        }
+                        .buttonStyle(.plain)
+                        /// .symbolEffect(.wiggle, options: .repeat(1))
+                    }
                     BalanceLabel(points: application.points)
                         .font(.callout)
                 }
+                .frame(maxWidth: .infinity, alignment: .leading)
             }
-            .padding(.vertical)
-            .frame(maxWidth: .infinity, alignment: .leading)
+            .padding(.vertical, 8)
         }
+        .padding(.vertical)
         .onTapGesture {
             router.route(sheet: .changeAboutMe(application))
         }
     }
     
-    @ViewBuilder private func makeActivitySection() -> some View {
-        MakeSection {
-            MakeListRow(title: "Scan History", subtitle: "QR codes you've recently scanned", icon: "qrcode", iconColor: .blue) {
-                router.route(sheet: .scanHistory)
+    @ViewBuilder private func makeMyRewardsSection() -> some View {
+        MakeSection(title: "My Rewards") {
+            VStack(alignment: .leading, spacing: 16) {
+                makeMyRewardsEmptyState()
+                // if products.isEmpty {
+                //     BonusesView.makeLoadingState()
+                // } else {
+                //     BonusesView.makeCatalogGrid(products: products.prefix(6), router: router, namespace: namespace)
+                //     makeCatalogFooter()
+                // }
             }
-            
-            MakeListRow(title: "Transactions", subtitle: "Full history of your point activity", icon: "arrow.up.arrow.down", iconColor: .green) {
-                router.route(sheet: .transactionHistory)
-            }
-            
-            MakeListRow(title: "Orders", subtitle: "History of your point exchanges", icon: "cart", iconColor: .pink) {
-                router.route(sheet: .orders)
-            }
-            .frame(maxHeight: .infinity)
+            .padding(.horizontal)
+            .padding(.vertical, 8)
         }
     }
     
-    @ViewBuilder private func makeRecommendationsSection() -> some View {
-        MakeSection {
-            MakeListRow(title: "Recommendations & Offers", subtitle: "Personalized offers for liked cars", icon: "heart.text.square", iconColor: .orange) {
-                router.route(sheet: .offers)
+    @ViewBuilder func makeMyRewardsEmptyState() -> some View {
+        VStack(spacing: 16) {
+            Image(systemName: "giftcard")
+                .font(.largeTitle)
+                .foregroundStyle(.pink)
+                /// .symbolEffect(.bounce, options: .repeat(1))
+            HStack(alignment: .center) {
+                Text("Your rewards will appear here once you start redeeming points on bonuses")
+                    .font(.callout)
+                    .foregroundStyle(.secondary)
+                    .multilineTextAlignment(.leading)
             }
         }
+        .padding()
     }
     
     @ToolbarContentBuilder func makeToolbar() -> some ToolbarContent {
@@ -148,6 +164,18 @@ extension ProfileView {
     }
 }
 
+// MARK: - Deprecated
+
+extension ProfileView {
+    @ViewBuilder private func makeRecommendationsSection() -> some View {
+        MakeSection {
+            MakeListRow(title: "Recommendations & Offers", subtitle: "Personalized offers for liked cars", icon: "heart.text.square", iconColor: .orange) {
+                router.route(sheet: .offers)
+            }
+        }
+    }
+}
+
 #Preview {
-    ProfileView()
+    // ProfileView(account: )
 }

@@ -7,6 +7,7 @@ struct BalanceView: View, ComponentBuilder {
     @Dependency(\.scope) var scope
     @Environment(Main.Router.self) var router
     @ObservedObject var account: Account
+    @Namespace internal var namespace
     
     var body: some View {
         ZStack {
@@ -30,6 +31,8 @@ struct BalanceView: View, ComponentBuilder {
         }
         .aspectRatio(1.586, contentMode: .fit)
         .modifier(CardBackground())
+        .matchedTransitionSource(id: "transactionsHistory", in: namespace)
+        .matchedTransitionSource(id: "scansHistory", in: namespace)
         .contextMenu {
             makeContextMenu()
         }
@@ -70,7 +73,7 @@ extension BalanceView {
     
     @ViewBuilder func makeScanButton() -> some View {
         Button {
-            router.route(sheet: .scanner)
+            router.route(sheet: .scanner(namespace))
         } label: {
             HStack {
                 Image(systemName: "qrcode.viewfinder")
@@ -96,13 +99,13 @@ extension BalanceView {
     
     @ViewBuilder func makeContextMenu() -> some View {
         Button {
-            router.route(sheet: .scanHistory)
+            router.route(sheet: .scanHistory(namespace))
         } label: {
             Label("Scan History", systemImage: "qrcode")
         }
         
         Button {
-            router.route(sheet: .transactionHistory)
+            router.route(sheet: .transactionHistory(namespace))
         } label: {
             Label("Transactions", systemImage: "arrow.up.arrow.down")
         }
