@@ -16,7 +16,7 @@ extension Main {
         
         enum SheetDestination {
             case createAccount(Authentication)
-            case changeAboutMe(AboutMe)
+            case changeAboutMe(AboutMe, Account)
             case productDetails(String, Namespace.ID)
             case sweepstakesDetails(Sweepstakes, Namespace.ID)
             case howTo(HowTo)
@@ -157,9 +157,9 @@ extension Main {
                         }
                         .presentationDetents([.large])
                         .presentationDragIndicator(.visible)
-                    case .changeAboutMe(let application):
+                    case .changeAboutMe(let application, let account):
                         NavigationView {
-                            ChangeAboutMeView()
+                            ChangeAboutMeView(account: account)
                                 .environmentObject(application)
                         }
                         .presentationDetents([.medium])

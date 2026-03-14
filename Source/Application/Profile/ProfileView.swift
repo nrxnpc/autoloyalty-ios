@@ -30,7 +30,7 @@ extension ProfileView {
     @ViewBuilder private func makeAboutSection() -> some View {
         MakeSection {
             HStack(spacing: 16) {
-                AccountImage(accountID: account.id)
+                AccountImage(account: account)
                     .frame(width: 60, height: 60)
                 
                 VStack(alignment: .leading, spacing: 4) {
@@ -38,7 +38,7 @@ extension ProfileView {
                         MakeTitle(LocalizedStringKey(application.username))
                         Spacer()
                         Button("", systemImage: "pencil.line") {
-                            router.route(sheet: .changeAboutMe(application))
+                            router.route(sheet: .changeAboutMe(application, account))
                         }
                         .buttonStyle(.plain)
                         /// .symbolEffect(.wiggle, options: .repeat(1))
@@ -52,7 +52,7 @@ extension ProfileView {
         }
         .padding(.vertical)
         .onTapGesture {
-            router.route(sheet: .changeAboutMe(application))
+            router.route(sheet: .changeAboutMe(application, account))
         }
     }
     

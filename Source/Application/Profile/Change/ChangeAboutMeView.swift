@@ -5,6 +5,7 @@ import PhotosUI
 struct ChangeAboutMeView: View, ComponentBuilder {
     @Environment(\.dismiss) var dismiss
     @EnvironmentObject var application: AboutMe
+    @ObservedObject var account: Account
     
     ///  Change Profile Image
     @StateObject private var changeAccountImage: ChangeAccountImage = .init()
@@ -50,7 +51,7 @@ extension ChangeAboutMeView {
     
     @ViewBuilder func makeProfileImage() -> some View {
         VStack(spacing: 16) {
-            AccountImage(accountID: application.accountID)
+            AccountImage(account: account)
                 .frame(width: 160, height: 160)
             PhotosPicker(selection: $changeAccountImage.photosPickerItem, matching: .images, photoLibrary: .shared()) {
                 Text("Change profile picture")
@@ -83,7 +84,7 @@ extension ChangeAboutMeView {
 }
 
 #Preview {
-    let application = AboutMe()
-    ChangeAboutMeView()
-        .environmentObject(application)
+    // let application = AboutMe()
+    // ChangeAboutMeView()
+    //     .environmentObject(application)
 }

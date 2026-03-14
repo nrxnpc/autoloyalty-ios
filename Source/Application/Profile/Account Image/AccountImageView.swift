@@ -8,30 +8,49 @@ struct AccountImage: View, ComponentBuilder {
     /// The environment's managed object context for data fetching.
     @Dependency(\.scope) private var scope
     
+    @ObservedObject var account: Account
+    
     /// A stable instance of the loader to be used by the .task modifier.
     @State private var loader = AttachmentLoader()
-    @State private var accout: FetchedObject<Account>?
     
     /// State to hold the most recently loaded image.
     @State private var image: UIImage?
     
-    /// The account ID for which to display the profile image.
-    let accountID: String
-    
     var body: some View {
         GeometryReader { geometry in
             ZStack {
+                if !account.image.isEmpty {
+                    Circle()
+                        .fill(.regularMaterial)
+                } else {
+                    let color = backgroundColor()
+                    Circle()
+                        .fill(color)
+                }
                 makeBackground(for: geometry)
                 makeImageContent(for: geometry)
             }
             .animation(.smooth, value: image == nil)
             .clipShape(Circle())
         }
-        .task(id: accountID) {
-            self.accout = .init(Account.byID(accountID), context: scope.coreDataContext)
-            for await loadedImage in loader.imageStream(for: accountID, in: scope.coreDataContext) {
-                // The loop will suspend until a new image is yielded by the stream.
-                self.image = loadedImage
+        .onChange(of: account.image) { oldValue, newValue in
+            Task {
+                guard let imageData = newValue.native ?? newValue.raw else {
+                    return
+                }
+                let image = PlatformImage(data: imageData)
+                await MainActor.run {
+                    self.image = image
+                }
+            }
+        }
+        .task {
+            guard let imageData = account.image.native ?? account.image.raw else {
+                return
+            }
+            let image = PlatformImage(data: imageData)
+            await MainActor.run {
+                self.image = image
             }
         }
     }
@@ -44,9 +63,9 @@ private extension AccountImage {
     ]
 
     /// Generates a deterministic background color from a string ID.
-    private func backgroundColor(from externalID: String) -> Color {
+    private func backgroundColor() -> Color {
         // A simple hash function: sum the Unicode scalar values of the characters.
-        let hashValue = externalID.unicodeScalars.map { $0.value }.reduce(0, +)
+        let hashValue = account.id.unicodeScalars.map { $0.value }.reduce(0, +)
         
         // Use the hash value to pick a color from the predefined palette.
         let index = Int(hashValue) % Self.backgroundColors.count
@@ -69,17 +88,9 @@ private extension AccountImage {
     }
         
     @ViewBuilder func makeBackground(for geometry: GeometryProxy) -> some View {
-        if image != nil {
-            Circle()
-                .fill(.regularMaterial)
-        } else if let id = accout?.id {
-            let color = backgroundColor(from: id)
-            Circle()
-                .fill(color)
-        } else {
-            Circle()
-                .fill(.regularMaterial)
-        }
+        let color = backgroundColor()
+        Circle()
+            .fill(color)
     }
     
     @ViewBuilder func makeImageContent(for geometry: GeometryProxy) -> some View {
@@ -88,16 +99,16 @@ private extension AccountImage {
                 .resizable()
                 .scaledToFit()
                 .transition(.opacity)
-        } else if let name = accout?.name, !name.isEmpty {
+        } else if !account.name.isEmpty {
             makeInitialsPlaceholder(for: geometry)
         } else {
-            makeDefaultPlaceholder(for: geometry)
+            makeDefaultPlaceholder()
         }
     }
     
     /// Builds the placeholder view with initials.
     @ViewBuilder func makeInitialsPlaceholder(for geometry: GeometryProxy) -> some View {
-        let accountName = accout?.name
+        let accountName = account.name
         let initialsText = initials(from: accountName)
         
         Text(initialsText)
@@ -107,13 +118,8 @@ private extension AccountImage {
     }
 
     /// Builds the default placeholder view with a person icon.
-    @ViewBuilder func makeDefaultPlaceholder(for geometry: GeometryProxy) -> some View {
-        Image(systemName: "person")
-            .resizable()
-            .fontWeight(.thin)
-            .scaledToFit()
-            .padding(.all, geometry.size.width / 4)
-            .foregroundColor(.gray.opacity(0.65))
-            .transition(.opacity)
+    @ViewBuilder func makeDefaultPlaceholder() -> some View {
+        Circle()
+            .fill(.regularMaterial)
     }
 }

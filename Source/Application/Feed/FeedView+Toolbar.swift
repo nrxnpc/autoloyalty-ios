@@ -35,11 +35,13 @@ extension FeedView {
                     router.route(to: .aboutMe(account))
                 }
             } label: {
-                if let accountID = applicaiton.accountID {
-                    AccountImage(accountID: accountID)
+                if let account = account.first {
+                    AccountImage(account: account)
                         .frame(width: 28, height: 28)
                 } else {
-                    Image(systemName: "person")
+                    Circle()
+                        .fill(.regularMaterial)
+                        .frame(width: 28, height: 28)
                 }
             }
             .contextMenu {
