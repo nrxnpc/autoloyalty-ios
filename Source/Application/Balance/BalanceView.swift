@@ -16,11 +16,15 @@ struct BalanceView: View, ComponentBuilder {
                     makeTitle()
                     makeBalance()
                 }
-                makeScanButton()
+                
+                HStack {
+                    makeScanButton()
+                    makeSecondaryButton()
+                }
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .padding(.horizontal, 16)
-            .padding(.top, 6)
+            .padding(.top, 8)
             .padding(.bottom, 16)
             .clipShape(Rectangle())
         }
@@ -39,15 +43,6 @@ extension BalanceView {
                 .foregroundStyle(.pink.opacity(0.6))
                 .font(.title)
             Spacer()
-            Menu {
-                makeContextMenu()
-            } label: {
-                Image(systemName: "ellipsis")
-                    .font(.callout)
-                    .fontWeight(.bold)
-                    .frame(minWidth: 40, minHeight: 40)
-            }
-            .foregroundStyle(.secondary)
         }
     }
     
@@ -84,7 +79,19 @@ extension BalanceView {
                     .font(.callout)
             }
         }
-        .buttonStyle(StrokeButtonStyle())
+        .buttonStyle(GlassButtonStyle())
+    }
+    
+    @ViewBuilder func makeSecondaryButton() -> some View {
+        Menu {
+            makeContextMenu()
+        } label: {
+            Image(systemName: "ellipsis")
+                .font(.callout)
+                .fontWeight(.bold)
+        }
+        .frame(width: 56, height: 56)
+        .buttonStyle(GlassButtonStyle())
     }
     
     @ViewBuilder func makeContextMenu() -> some View {
@@ -112,12 +119,14 @@ extension BalanceView {
 fileprivate struct CardBackground: ViewModifier {
     func body(content: Content) -> some View {
         if #available(iOS 26.0, *) {
-            content.glassEffect(.regular.interactive(), in: RoundedRectangle(cornerRadius: 16))
+            content.glassEffect(.regular.interactive(), in: RoundedRectangle(cornerRadius: 24))
+                .clipShape(RoundedRectangle(cornerRadius: 24))
         } else {
             content.background {
-                RoundedRectangle(cornerRadius: 16)
+                RoundedRectangle(cornerRadius: 24)
                     .fill(.ultraThinMaterial)
             }
+            .clipShape(RoundedRectangle(cornerRadius: 24))
         }
     }
 }
