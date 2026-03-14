@@ -83,10 +83,10 @@ struct FeedView: View {
     // MARK: - Initialization
     
     init() {
-        _products = FetchRequest(fetchRequest: Product.allProductsFetchRequest(), animation: .smooth)
-        _recommendationSet = FetchRequest(fetchRequest: CarRecommendation.allNeutralSentiment(), animation: .smooth)
-        _account = FetchRequest(fetchRequest: Account.current(), animation: .smooth)
-        _sweepstakes = FetchRequest(fetchRequest: Sweepstakes.activeSweepstakesFetchRequest(), animation: .smooth)
+        _products = FetchRequest(fetchRequest: Product.allProductsFetchRequest(), animation: .snappy)
+        _recommendationSet = FetchRequest(fetchRequest: CarRecommendation.allNeutralSentiment(), animation: .snappy)
+        _account = FetchRequest(fetchRequest: Account.current(), animation: .snappy)
+        _sweepstakes = FetchRequest(fetchRequest: Sweepstakes.activeSweepstakesFetchRequest(), animation: .snappy)
     }
     
     var body: some View {
@@ -107,7 +107,7 @@ struct FeedView: View {
             // makeAutoMindSection()
         }
         .toolbar(content: makeToolbar)
-        .animation(.smooth, value: isBalanceVisible)
+        .animation(.snappy, value: isBalanceVisible)
         .environment(balanceMonitor)
     }
 }

@@ -2,57 +2,69 @@ import Dependencies
 import SwiftUI
 import SwiftUIComponents
 
+/// Balance card view mimicking a physical loyalty card with points display and QR scan action.
 struct BalanceView: View, ComponentBuilder {
     @Dependency(\.scope) var scope
     @Environment(Main.Router.self) var router
-    var account: FetchedResults<Account>
-    
-    var balance: Int {
-        account.first?.points ?? 0
-    }
+    @ObservedObject var account: Account
     
     var body: some View {
         ZStack {
-            VStack(alignment: .leading, spacing: 12) {
-                makeTitle()
-                makeBalance()
+            VStack(alignment: .leading, spacing: 24) {
+                makeLogo()
+                VStack(alignment: .leading, spacing: 0) {
+                    makeTitle()
+                    makeBalance()
+                }
                 makeScanButton()
             }
-            .padding()
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
+            .padding(.horizontal, 16)
+            .padding(.top, 6)
+            .padding(.bottom, 16)
+            .clipShape(Rectangle())
         }
-        .frame(maxWidth: .infinity)
-        .background {
-            RoundedRectangle(cornerRadius: 24)
-                .foregroundStyle(.regularMaterial)
-        }
-        .onTap {
-            router.route(sheet: .transactionHistory)
+        .aspectRatio(1.586, contentMode: .fit)
+        .modifier(CardBackground())
+        .contextMenu {
+            makeContextMenu()
         }
     }
 }
 
 extension BalanceView {
-    @ViewBuilder func makeTitle() -> some View {
-        HStack(alignment: .center, spacing: 2) {
-            Text("Your Points")
-                .font(.callout)
-            
+    @ViewBuilder func makeLogo() -> some View {
+        HStack(alignment: .center, spacing: 8) {
+            Image(systemName: "giftcard")
+                .foregroundStyle(.pink.opacity(0.6))
+                .font(.title)
             Spacer()
-            
-            Button {
-                router.route(sheet: .howTo(.topUpYourBalance))
+            Menu {
+                makeContextMenu()
             } label: {
-                Image(systemName: "info.circle")
+                Image(systemName: "ellipsis")
+                    .font(.callout)
+                    .fontWeight(.bold)
+                    .frame(minWidth: 40, minHeight: 40)
             }
+            .foregroundStyle(.secondary)
+        }
+    }
+    
+    @ViewBuilder func makeTitle() -> some View {
+        HStack(alignment: .center, spacing: 8) {
+            Text("Your Points")
+                .font(.headline)
+            Spacer()
         }
         .foregroundStyle(.secondary)
     }
     
     @ViewBuilder func makeBalance() -> some View {
         HStack(spacing: 0) {
-            Text("\(balance)")
+            Text("\(account.points)")
                 .contentTransition(.numericText())
-                .fontWeight(.semibold)
+                //.fontWeight(.semibold)
             
             Image(systemName: "star.fill")
                 .foregroundColor(.orange)
@@ -73,5 +85,39 @@ extension BalanceView {
             }
         }
         .buttonStyle(StrokeButtonStyle())
+    }
+    
+    @ViewBuilder func makeContextMenu() -> some View {
+        Button {
+            router.route(sheet: .scanHistory)
+        } label: {
+            Label("Scan History", systemImage: "qrcode")
+        }
+        
+        Button {
+            router.route(sheet: .transactionHistory)
+        } label: {
+            Label("Transactions", systemImage: "arrow.up.arrow.down")
+        }
+        
+        Button {
+            router.route(sheet: .howTo(.topUpYourBalance))
+        } label: {
+            Label("How to Earn Points", systemImage: "info.circle")
+        }
+    }
+}
+
+/// Applies card-like background with glass effect for iOS 18+.
+fileprivate struct CardBackground: ViewModifier {
+    func body(content: Content) -> some View {
+        if #available(iOS 26.0, *) {
+            content.glassEffect(.regular.interactive(), in: RoundedRectangle(cornerRadius: 16))
+        } else {
+            content.background {
+                RoundedRectangle(cornerRadius: 16)
+                    .fill(.ultraThinMaterial)
+            }
+        }
     }
 }
