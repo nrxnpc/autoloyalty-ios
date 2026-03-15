@@ -14,6 +14,9 @@ public class Product: Entity {
     @NSManaged public var category: String
     @NSManaged public var stockQuantity: Int
     @NSManaged public var isActive: Bool
+    
+    /// One-to-many relationship: One Product can have multiple Orders
+    @NSManaged public var orders: Set<Order>
 }
 
 extension Product {
@@ -49,5 +52,29 @@ extension Product {
         product.isOutOfStock = raw.stockQuantity <= 0
         product.isFavorite = false
         product.createdAt = ISO8601DateFormatter().date(from: raw.createdAt) ?? .now
+        product.orders = []
+    }
+}
+
+// MARK: - Order Relationship Helpers
+
+extension Product {
+    /// Add an order to this product
+    public func addToOrders(_ order: Order) {
+        var currentOrders = orders
+        currentOrders.insert(order)
+        orders = currentOrders
+    }
+    
+    /// Remove an order from this product
+    public func removeFromOrders(_ order: Order) {
+        var currentOrders = orders
+        currentOrders.remove(order)
+        orders = currentOrders
+    }
+    
+    /// Get all orders sorted by creation date
+    public var sortedOrders: [Order] {
+        orders.sorted { $0.createdAt > $1.createdAt }
     }
 }

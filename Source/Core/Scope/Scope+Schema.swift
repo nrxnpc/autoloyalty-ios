@@ -68,6 +68,7 @@ extension Scope {
                     Field("stockQuantity", .number, default: 0)
                     Field("isActive", .boolean, default: true)
                     Field("image", .url, optional: true)
+                    Relationship("orders", to: "Order", inverse: "product", toMany: true, deleteRule: .denyDeleteRule)
                 }
                 
                 // Balance Transaction
@@ -84,7 +85,7 @@ extension Scope {
                     Field("totalPoints", .number)
                     Field("productName", .text)
                     Field("productCategory", .text)
-                    Relationship("product", to: "Product", optional: true)
+                    Relationship("product", to: "Product", inverse: "orders")
                 }
                 
                 // Scan Item Entity

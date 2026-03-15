@@ -7,11 +7,18 @@ struct ProfileView: View, ComponentBuilder {
     @Environment(\.dismiss) var dismiss
     @Environment(Main.Router.self) var router
     @ObservedObject var account: Account
+    @FetchRequest var rewards: FetchedResults<Product>
+    
+    init(account: Account) {
+        self.account = account
+        _rewards = .init(fetchRequest: Product.myRewards())
+    }
     
     // MARK: - State
     
     @StateObject var application = AboutMe()
     @State var deleteAccountConfirmation: Bool = false
+    @Namespace internal var namespace
     
     // MARK: -
     
@@ -60,15 +67,12 @@ extension ProfileView {
     @ViewBuilder private func makeMyRewardsSection() -> some View {
         MakeSection(title: "My Rewards") {
             VStack(alignment: .leading, spacing: 16) {
-                MyRewardsView.makeEmptyState()
-                    .padding()
-                
-                // if products.isEmpty {
-                //     BonusesView.makeLoadingState()
-                // } else {
-                //     BonusesView.makeCatalogGrid(products: products.prefix(6), router: router, namespace: namespace)
-                //     makeCatalogFooter()
-                // }
+                 if rewards.isEmpty {
+                     MyRewardsView.makeEmptyState()
+                         .padding()
+                 } else {
+                     BonusesView.makeCatalogGrid(products: rewards, router: router, namespace: namespace)
+                 }
             }
             .padding(.horizontal)
             .padding(.vertical, 8)
