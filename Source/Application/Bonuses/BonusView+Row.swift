@@ -1,12 +1,13 @@
 import CoreData
+import Dependencies
 import SwiftUI
-import NukeUI
 import SwiftUIComponents
+import NukeUI
 
 extension BonusView {
     struct Row: View {
-        let product: Product
-        
+        @Dependency(\.scope) var scope
+        @ObservedObject var product: Product
         @State var isFavorite: Bool
         
         init(product: Product) {
@@ -19,12 +20,11 @@ extension BonusView {
                 makeImagePreview()
                 makeItemInfo()
             }
+            .overlay(alignment: .topTrailing) {
+                makeFavoriteButton()
+                    .padding(8)
+            }
             .modifier(DefaultBackgroundStyle())
-            // TODO: disabled
-            // .overlay(alignment: .topTrailing) {
-            //     makeFavoriteButton()
-            //         .padding(8)
-            // }
         }
     }
 }
@@ -80,31 +80,32 @@ extension BonusView.Row {
     @ViewBuilder func makeFavoriteButton() -> some View {
         Button {
             Task {
-                guard let context = product.managedObjectContext else {
-                    return
-                }
-                try await context.perform {
-                    product.isFavorite.toggle()
-                    if context.hasChanges {
-                        try context.save()
-                    }
+                let toggledFavorite = !product.isFavorite
+                await MainActor.run {
+                    isFavorite = toggledFavorite
                 }
                 
-                await MainActor.run {
-                    isFavorite = product.isFavorite
+                do {
+                    try await MarkFaforiteUseCase(scope: scope).setFavotite(toggledFavorite, objectID: product.objectID)
+                } catch {
+                    await MainActor.run {
+                        isFavorite = !toggledFavorite
+                    }
                 }
             }
         } label: {
             ZStack {
-                if isFavorite {
+                if product.isFavorite {
                     Image(systemName: "heart.fill")
+                        .symbolEffect(.bounce, value: product.isFavorite)
                         .foregroundStyle(.red)
                 } else {
                     Image(systemName: "heart")
+                        .symbolEffect(.bounce, value: product.isFavorite)
                         .foregroundStyle(.red)
                 }
             }
-            .animation(.easeInOut, value: isFavorite)
+            .animation(.easeInOut, value: product.isFavorite)
         }
     }
 }

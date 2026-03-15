@@ -26,6 +26,7 @@
 		7E1696732F62F918005BD85E /* CreateBuiltInSweepstakesSetUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E1696722F62F918005BD85E /* CreateBuiltInSweepstakesSetUseCase.swift */; };
 		7E1696752F64B4E0005BD85E /* BonusView+Row.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E1696742F64B4E0005BD85E /* BonusView+Row.swift */; };
 		7E1696772F657E6D005BD85E /* FeedView+Toolbar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E1696762F657E6D005BD85E /* FeedView+Toolbar.swift */; };
+		7E1696792F66DFE9005BD85E /* MarkFaforiteUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E1696782F66DFE9005BD85E /* MarkFaforiteUseCase.swift */; };
 		7E2AA2E82F031B8E007EDD4E /* Vehicles.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 7E2AA2E72F031B8E007EDD4E /* Vehicles.xcstrings */; };
 		7E2AA2EA2F031DDB007EDD4E /* Questions.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 7E2AA2E92F031DDB007EDD4E /* Questions.xcstrings */; };
 		7E3477DE2EF49BB1004F9F01 /* DeleteAccountUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E3477DD2EF49BB1004F9F01 /* DeleteAccountUseCase.swift */; };
@@ -171,6 +172,7 @@
 		7E1696722F62F918005BD85E /* CreateBuiltInSweepstakesSetUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateBuiltInSweepstakesSetUseCase.swift; sourceTree = "<group>"; };
 		7E1696742F64B4E0005BD85E /* BonusView+Row.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "BonusView+Row.swift"; sourceTree = "<group>"; };
 		7E1696762F657E6D005BD85E /* FeedView+Toolbar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FeedView+Toolbar.swift"; sourceTree = "<group>"; };
+		7E1696782F66DFE9005BD85E /* MarkFaforiteUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarkFaforiteUseCase.swift; sourceTree = "<group>"; };
 		7E2AA2E12F031787007EDD4E /* CarMinder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarMinder.swift; sourceTree = "<group>"; };
 		7E2AA2E72F031B8E007EDD4E /* Vehicles.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Vehicles.xcstrings; sourceTree = "<group>"; };
 		7E2AA2E92F031DDB007EDD4E /* Questions.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Questions.xcstrings; sourceTree = "<group>"; };
@@ -739,6 +741,7 @@
 				7E148A692F27B46B00276397 /* PullSupportMessagesUseCase.swift */,
 				7E148A6B2F27B69600276397 /* PushSupportMessagesUseCase.swift */,
 				7E1696722F62F918005BD85E /* CreateBuiltInSweepstakesSetUseCase.swift */,
+				7E1696782F66DFE9005BD85E /* MarkFaforiteUseCase.swift */,
 			);
 			path = "Use Case";
 			sourceTree = "<group>";
@@ -961,6 +964,7 @@
 				7E7294102EF804FD00C37B85 /* InboxUserNotifications.swift in Sources */,
 				7EE877DF2EA2BABD00CFC230 /* Account.swift in Sources */,
 				7E3477EB2EF5E02B004F9F01 /* ScanItem+FetchRequest.swift in Sources */,
+				7E1696792F66DFE9005BD85E /* MarkFaforiteUseCase.swift in Sources */,
 				7E16966F2F62EE03005BD85E /* Sweepstakes+FetchRequest.swift in Sources */,
 				7EE877C32E9FEB9C00CFC230 /* Scope+Grab.swift in Sources */,
 				7E3477E92EF5E005004F9F01 /* ScanItem.swift in Sources */,
