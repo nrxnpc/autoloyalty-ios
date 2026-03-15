@@ -23,7 +23,7 @@ struct MyRewardsView: View {
     var body: some View {
         Group {
             if orders.isEmpty {
-                makeEmptyState()
+                MyRewardsView.makeEmptyState()
             } else {
                 makeOrdersList()
             }
@@ -41,25 +41,18 @@ struct MyRewardsView: View {
 }
 
 extension MyRewardsView {
-    @ViewBuilder func makeEmptyState() -> some View {
-        ScrollView {
-            VStack(spacing: 16) {
-                HStack(alignment: .center) {
-                    Image(systemName: "cart")
-                        .font(.title)
-                        .foregroundStyle(.pink)
-                    Text("Your reward orders will appear here once you start redeeming points from the catalog")
-                        .font(.callout)
-                        .foregroundStyle(.secondary)
-                        .multilineTextAlignment(.leading)
-                }
-            }
-            .padding()
-            .background {
-                RoundedRectangle(cornerRadius: 24)
-                    .foregroundStyle(.regularMaterial)
-            }
-            .padding()
+    @ViewBuilder static func makeEmptyState() -> some View {
+        VStack(spacing: 24) {
+            Image(systemName: "gift")
+                .resizable()
+                .scaledToFit()
+                .frame(width: 64, height: 64)
+                .foregroundStyle(.pink)
+                .symbolEffect(.bounce, options: .repeat(1))
+            Text("Your reward orders will appear here once you start redeeming points from the catalog")
+                .font(.callout)
+                .foregroundStyle(.secondary)
+                .multilineTextAlignment(.center)
         }
     }
     

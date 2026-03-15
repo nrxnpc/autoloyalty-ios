@@ -37,16 +37,17 @@ extension ProfileView {
                     HStack(spacing: 16) {
                         MakeTitle(LocalizedStringKey(application.username))
                         Spacer()
-                        Button("", systemImage: "pencil.line") {
-                            router.route(sheet: .changeAboutMe(application, account))
-                        }
-                        .buttonStyle(.plain)
-                        /// .symbolEffect(.wiggle, options: .repeat(1))
                     }
                     BalanceLabel(points: application.points)
                         .font(.callout)
                 }
                 .frame(maxWidth: .infinity, alignment: .leading)
+                
+                Button("", systemImage: "pencil.line") {
+                    router.route(sheet: .changeAboutMe(application, account))
+                }
+                .buttonStyle(.plain)
+                /// .symbolEffect(.wiggle, options: .repeat(1))
             }
             .padding(.vertical, 8)
         }
@@ -59,7 +60,9 @@ extension ProfileView {
     @ViewBuilder private func makeMyRewardsSection() -> some View {
         MakeSection(title: "My Rewards") {
             VStack(alignment: .leading, spacing: 16) {
-                makeMyRewardsEmptyState()
+                MyRewardsView.makeEmptyState()
+                    .padding()
+                
                 // if products.isEmpty {
                 //     BonusesView.makeLoadingState()
                 // } else {
@@ -70,22 +73,6 @@ extension ProfileView {
             .padding(.horizontal)
             .padding(.vertical, 8)
         }
-    }
-    
-    @ViewBuilder func makeMyRewardsEmptyState() -> some View {
-        VStack(spacing: 16) {
-            Image(systemName: "giftcard")
-                .font(.largeTitle)
-                .foregroundStyle(.pink)
-                /// .symbolEffect(.bounce, options: .repeat(1))
-            HStack(alignment: .center) {
-                Text("Your rewards will appear here once you start redeeming points on bonuses")
-                    .font(.callout)
-                    .foregroundStyle(.secondary)
-                    .multilineTextAlignment(.leading)
-            }
-        }
-        .padding()
     }
     
     @ToolbarContentBuilder func makeToolbar() -> some ToolbarContent {
