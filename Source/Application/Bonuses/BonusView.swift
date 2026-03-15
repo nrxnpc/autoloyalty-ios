@@ -21,7 +21,7 @@ struct BonusView: View {
     @State private var isLoading = true
     
     var canOrder: Bool {
-        !product.isOutOfStock
+        !product.isOutOfStock && account.points >= product.pointsCost
     }
     
     // MARK: - Initialization
@@ -109,13 +109,16 @@ extension BonusView {
                 await claim(product)
             }
         } label: {
-            HStack {
+            HStack(spacing: 0) {
                 if product.isOutOfStock {
-                    Text("Ouf of stock")
+                    Text("Coming Soon")
+                } else if account.points < product.pointsCost {
+                    Text("Required")
+                    BalanceLabel(points: product.pointsCost - account.points, hasBackground: false)
                 } else {
                     Image(systemName: "gift")
                         .foregroundStyle(.pink)
-                    Text("Claim Reward")
+                    Text("Claim Bonus")
                 }
             }
             .fontWeight(.semibold)
@@ -133,9 +136,7 @@ extension BonusView {
         
         do {
             let useCase = ClaimBonusUseCase(scope: scope)
-            /// let secret = try await useCase.execute(productId: product.id)
-            /// FOR TEST ONLY
-            let secret = try await useCase.mockExecuteSuccess(productId: product.id)
+            let _ = try await useCase.execute(productId: product.id)
         } catch ClaimBonusUseCase.ClaimBonusError.operationCompletedButResultDelayed {
             UINotificationFeedbackGenerator().notificationOccurred(.error)
         } catch {

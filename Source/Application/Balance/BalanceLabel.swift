@@ -33,15 +33,17 @@ struct BalanceLabel: View {
     }
     
     var body: some View {
-        HStack(alignment: .firstTextBaseline, spacing: 2) {
+        HStack(alignment: .firstTextBaseline, spacing: 0) {
             Text("\(operation.prefix)\(points)")
                 .foregroundColor(operation.color)
             if hasIcon {
                 Image(systemName: "star.fill")
                     .foregroundColor(.orange)
+                    .scaleEffect(0.7)
             }
         }
-        .padding(.horizontal, 6)
+        .padding(.leading, 6)
+        .padding(.trailing, 2)
         .padding(.vertical, 4)
         .background {
             if hasBackground {
