@@ -59,6 +59,7 @@ struct FeedView: View {
             // TODO: Disabled
             // makeAutoMindSection()
         }
+        .scrollIndicators(.hidden)
         .toolbar(content: makeToolbar)
         .animation(.snappy, value: isBalanceVisible)
         .environment(balanceMonitor)

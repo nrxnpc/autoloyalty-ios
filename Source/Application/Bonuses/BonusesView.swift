@@ -26,7 +26,7 @@ struct BonusesView: View {
     var body: some View {
         ScrollView {
             if showFavoritesOnly && products.isEmpty {
-                makeEmptyFavorites()
+                BonusesView.makeEmptyFavorites()
                     .padding()
             } else {
                 BonusesView.makeCatalogGrid(products: products, account: account, router: router, namespace: namespace)
@@ -43,31 +43,31 @@ struct BonusesView: View {
 // MARK: - View Builder
 
 extension BonusesView {
-    @ViewBuilder func makeEmptyFavorites() -> some View {
-        VStack(spacing: 16) {
-            Text("No Favorites Yet")
-                .font(.headline)
-            
-            HStack(alignment: .firstTextBaseline, spacing: 4) {
-                Text("Tap")
-                Image(systemName: "heart")
-                    .foregroundStyle(.red)
-                Text("on bonus to add them to favorites")
+    @ViewBuilder static func makeEmptyFavorites() -> some View {
+        VStack(spacing: 24) {
+            Image(systemName: "heart.fill")
+                .resizable()
+                .scaledToFit()
+                .frame(width: 64, height: 64)
+                .foregroundStyle(.red)
+                .symbolEffect(.bounce, options: .repeat(1))
+            VStack(spacing: 8) {
+                Text("No Favorites Yet")
+                    .font(.headline)
+                
+                HStack(alignment: .firstTextBaseline, spacing: 4) {
+                    Text("Tap")
+                    Image(systemName: "heart")
+                        .foregroundStyle(.red)
+                    Text("on bonus to add them to favorites")
+                }
+                .font(.subheadline)
+                .foregroundStyle(.secondary)
             }
-            .font(.subheadline)
-            .foregroundStyle(.secondary)
-            
-            Button("Browse Bonuses") {
-                toggleFavoritesFilter()
-            }
-            .buttonStyle(StrokeButtonStyle())
+            .frame(maxWidth: .infinity, alignment: .center)
         }
-        .frame(maxWidth: .infinity, alignment: .center)
-        .padding()
-        .background {
-            RoundedRectangle(cornerRadius: 24)
-                .foregroundStyle(.regularMaterial)
-        }
+        .padding(32)
+        .modifier(DefaultBackgroundStyle())
     }
     
     @ViewBuilder static func makeCatalogGrid<Products: Collection>(products: Products, account: Account, router: Main.Router, namespace: Namespace.ID) -> some View where Products.Element == Product {

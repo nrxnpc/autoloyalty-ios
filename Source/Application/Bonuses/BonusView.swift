@@ -21,7 +21,7 @@ struct BonusView: View {
     @State private var isLoading = true
     
     var canOrder: Bool {
-        return !product.isOutOfStock && account.points >= product.pointsCost
+        !product.isOutOfStock
     }
     
     // MARK: - Initialization
@@ -35,15 +35,12 @@ struct BonusView: View {
                     makeTitle(product.name)
                     makeCost(product.pointsCost)
                     makeDescription(product.productDescription)
-                    Spacer(minLength: 100)
                 }
                 .padding()
             }
         }
+        .scrollIndicators(.hidden)
         .ignoresSafeArea(edges: .top)
-        .overlay(alignment: .bottom) {
-            makeOrderButton(product)
-         }
         .toolbar(content: makeToolbar)
     }
 }
@@ -106,53 +103,43 @@ extension BonusView {
         }
     }
     
-    @ViewBuilder func makeOrderButton(_ product: Product) -> some View {
-        if #available(iOS 26.0, *) {
-            Button {
-                Task {
-                    await createOrder(product)
-                }
-            } label: {
-                HStack {
-                    if product.isOutOfStock {
-                        Text("Ouf of stock")
-                    } else {
-                        Image(systemName: "cart")
-                        Text("Claim Bonus")
-                    }
-                }
-                .fontWeight(.semibold)
-                .frame(maxWidth: .infinity)
-                .padding()
-                .foregroundColor(.primary)
-                .clipShape(RoundedRectangle(cornerRadius: 14))
+    @ViewBuilder func makeClaimButton(_ product: Product) -> some View {
+        Button {
+            Task {
+                await claim(product)
             }
-            .buttonStyle(.glass)
-            .disabled(!canOrder || isOrdering)
-            .padding(.horizontal, 32)
-        } else {
-            Button {
-                Task {
-                    await createOrder(product)
+        } label: {
+            HStack {
+                if product.isOutOfStock {
+                    Text("Ouf of stock")
+                } else {
+                    Image(systemName: "gift")
+                        .foregroundStyle(.pink)
+                    Text("Claim Reward")
                 }
-            } label: {
-                HStack {
-                    if product.isOutOfStock {
-                        Text("Ouf of stock")
-                    } else {
-                        Image(systemName: "cart")
-                        Text("Claim Bonus")
-                    }
-                }
-                .fontWeight(.semibold)
-                .frame(maxWidth: .infinity)
-                .padding()
-                .background(canOrder ? Color.accentColor : Color.gray)
-                .foregroundColor(.primary)
-                .clipShape(RoundedRectangle(cornerRadius: 14))
             }
-            .disabled(!canOrder || isOrdering)
-            .padding(.horizontal, 32)
+            .fontWeight(.semibold)
+            .frame(maxWidth: .infinity)
+            .padding()
+            .foregroundColor(.primary)
+        }
+        .disabled(!canOrder || isOrdering)
+        .padding(.horizontal, 32)
+    }
+    
+    private func claim(_ product: Product) async {
+        isOrdering = true
+        defer { isOrdering = false }
+        
+        do {
+            let useCase = ClaimBonusUseCase(scope: scope)
+            /// let secret = try await useCase.execute(productId: product.id)
+            /// FOR TEST ONLY
+            let secret = try await useCase.mockExecuteSuccess(productId: product.id)
+        } catch ClaimBonusUseCase.ClaimBonusError.operationCompletedButResultDelayed {
+            UINotificationFeedbackGenerator().notificationOccurred(.error)
+        } catch {
+            UINotificationFeedbackGenerator().notificationOccurred(.error)
         }
     }
     
@@ -211,22 +198,6 @@ extension BonusView {
         }
     }
     
-    private func createOrder(_ product: Product) async {
-        isOrdering = true
-        defer { isOrdering = false }
-        
-        do {
-            let useCase = ClaimBonusUseCase(scope: scope)
-            /// let secret = try await useCase.execute(productId: product.id)
-            /// FOR TEST ONLY
-            let secret = try await useCase.mockExecuteSuccess(productId: product.id)
-        } catch ClaimBonusUseCase.ClaimBonusError.operationCompletedButResultDelayed {
-            UINotificationFeedbackGenerator().notificationOccurred(.error)
-        } catch {
-            UINotificationFeedbackGenerator().notificationOccurred(.error)
-        }
-    }
-    
     @ToolbarContentBuilder func makeToolbar() -> some ToolbarContent {
         ToolbarItem(placement: .topBarLeading) {
             Button(action: dismiss.callAsFunction) {
@@ -250,6 +221,10 @@ extension BonusView {
                 }
                 .animation(.snappy, value: product)
             }
+        }
+        
+        ToolbarItem(placement: .bottomBar) {
+            makeClaimButton(product)
         }
     }
 }
