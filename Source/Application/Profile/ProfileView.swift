@@ -71,7 +71,7 @@ extension ProfileView {
                      MyRewardsView.makeEmptyState()
                          .padding()
                  } else {
-                     BonusesView.makeCatalogGrid(products: rewards, router: router, namespace: namespace)
+                     BonusesView.makeCatalogGrid(products: rewards, account: account, router: router, namespace: namespace)
                  }
             }
             .padding(.horizontal)

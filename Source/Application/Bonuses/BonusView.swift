@@ -13,15 +13,15 @@ struct BonusView: View {
     // MARK: -
     
     @ObservedObject var product: Product
+    @ObservedObject var account: Account
     
     // MARK: -
     
     @State private var isOrdering = false
     @State private var isLoading = true
-    @State var balanceMonitor = BalanceMonitor()
     
     var canOrder: Bool {
-        return !product.isOutOfStock && balanceMonitor.balance >= product.pointsCost
+        return !product.isOutOfStock && account.points >= product.pointsCost
     }
     
     // MARK: - Initialization
@@ -216,9 +216,12 @@ extension BonusView {
         defer { isOrdering = false }
         
         do {
-            let useCase = CreateOrderUseCase(scope: scope)
-            _ = try await useCase.execute(productId: product.sync.externalID ?? "")
-            dismiss()
+            let useCase = ClaimBonusUseCase(scope: scope)
+            /// let secret = try await useCase.execute(productId: product.id)
+            /// FOR TEST ONLY
+            let secret = try await useCase.mockExecuteSuccess(productId: product.id)
+        } catch ClaimBonusUseCase.ClaimBonusError.operationCompletedButResultDelayed {
+            UINotificationFeedbackGenerator().notificationOccurred(.error)
         } catch {
             UINotificationFeedbackGenerator().notificationOccurred(.error)
         }

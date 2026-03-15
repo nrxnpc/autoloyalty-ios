@@ -8,6 +8,7 @@ struct BonusesView: View {
     
     // MARK: - Request
     
+    @ObservedObject var account: Account
     @FetchRequest var products: FetchedResults<Product>
     
     // MARK: - State
@@ -17,7 +18,8 @@ struct BonusesView: View {
     
     // MARK: - Initialization
     
-    init() {
+    init(account: Account) {
+        self.account = account
         _products = FetchRequest(fetchRequest: Product.allProductsFetchRequest(), animation: .smooth)
     }
     
@@ -27,7 +29,7 @@ struct BonusesView: View {
                 makeEmptyFavorites()
                     .padding()
             } else {
-                BonusesView.makeCatalogGrid(products: products, router: router, namespace: namespace)
+                BonusesView.makeCatalogGrid(products: products, account: account, router: router, namespace: namespace)
                     .padding()
             }
         }
@@ -68,7 +70,7 @@ extension BonusesView {
         }
     }
     
-    @ViewBuilder static func makeCatalogGrid<Products: Collection>(products: Products, router: Main.Router, namespace: Namespace.ID) -> some View where Products.Element == Product {
+    @ViewBuilder static func makeCatalogGrid<Products: Collection>(products: Products, account: Account, router: Main.Router, namespace: Namespace.ID) -> some View where Products.Element == Product {
         LazyVGrid(columns: Array(repeating: GridItem(.flexible(), spacing: 8), count: 2), spacing: 8) {
             ForEach(Array(products), id: \.id) { product in
                 BonusView.Row(product: product)
@@ -76,7 +78,7 @@ extension BonusesView {
                     .matchedTransitionSource(id: product.id, in: namespace)
                     .contentShape(Rectangle())
                     .onTap {
-                        router.route(sheet: .bonus(product, namespace))
+                        router.route(sheet: .bonus(product, account, namespace))
                     }
             }
         }

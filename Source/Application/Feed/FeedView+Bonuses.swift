@@ -13,8 +13,8 @@ extension FeedView {
             
             if products.isEmpty {
                 BonusesView.makeLoadingState()
-            } else {
-                BonusesView.makeCatalogGrid(products: products.prefix(4), router: router, namespace: namespace)
+            } else if let account = account.first {
+                BonusesView.makeCatalogGrid(products: products.prefix(4), account: account, router: router, namespace: namespace)
             }
         }
         .padding(.horizontal)
@@ -37,7 +37,9 @@ extension FeedView {
         }
         .foregroundStyle(.primary)
         .onTap {
-            router.route(to: .catalog)
+            if let account = account.first {
+                router.route(to: .catalog(account))
+            }
         }
     }
 

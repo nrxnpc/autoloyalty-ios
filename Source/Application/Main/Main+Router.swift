@@ -10,14 +10,14 @@ extension Main {
         enum Destination {
             case aboutMe(Account)
             case inbox
-            case catalog
+            case catalog(Account)
             case commingSoon
         }
         
         enum SheetDestination {
             case createAccount(Authentication)
             case changeAboutMe(AboutMe, Account)
-            case bonus(Product, Namespace.ID)
+            case bonus(Product, Account, Namespace.ID)
             case sweepstakesDetails(Sweepstakes, Namespace.ID)
             case howTo(HowTo)
             case transactionHistory(Namespace.ID)
@@ -129,8 +129,8 @@ extension Main {
                         ProfileView(account: account)
                     case .inbox:
                         InboxView()
-                    case .catalog:
-                        BonusesView()
+                    case .catalog(let account):
+                        BonusesView(account: account)
                     case .commingSoon:
                         CommingSoon()
                     }
@@ -164,9 +164,9 @@ extension Main {
                         }
                         .presentationDetents([.medium])
                         .presentationDragIndicator(.visible)
-                    case .bonus(let product, let namespace):
+                    case .bonus(let product, let account, let namespace):
                         NavigationView {
-                            BonusView(product: product)
+                            BonusView(product: product, account: account)
                         }
                         .presentationDetents([.large])
                         .presentationDragIndicator(.visible)
@@ -291,7 +291,7 @@ extension Main.Router.SheetDestination: Identifiable, Equatable {
         switch self {
         case .createAccount: return "createAccount"
         case .changeAboutMe: return "changeAboutMe"
-        case .bonus(let bonus, _): return bonus.id
+        case .bonus(let bonus, _, _): return bonus.id
         case .sweepstakesDetails(let sweepstake, _): return sweepstake.id
         case .howTo(let howTo): return howTo.id
         case .transactionHistory: return "transactionHistory"
