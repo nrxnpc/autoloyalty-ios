@@ -10,6 +10,7 @@ extension FeedView {
         VStack(alignment: .leading, spacing: 16) {
             makeRecommendationsHeader()
                 .padding(.leading, 16)
+                .padding(.horizontal)
             
             ZStack {
                 RecommendationsView.Compact(recommendationSet: recommendationSet) {
@@ -45,6 +46,7 @@ extension FeedView {
         VStack(alignment: .leading, spacing: 16) {
             makeSweepstakesHeader()
                 .padding(.leading, 16)
+                .padding(.horizontal)
             
             ZStack {
                 SweepstakesView.Paginator(sweepstakes: sweepstakes, namespace: namespace) { sweepstake in
