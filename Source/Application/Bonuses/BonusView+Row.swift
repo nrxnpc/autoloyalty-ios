@@ -8,12 +8,6 @@ extension BonusView {
     struct Row: View {
         @Dependency(\.scope) var scope
         @ObservedObject var product: Product
-        @State var isFavorite: Bool
-        
-        init(product: Product) {
-            self.product = product
-            _isFavorite = .init(initialValue: product.isFavorite)
-        }
         
         var body: some View {
             VStack(alignment: .leading, spacing: 0) {
@@ -79,33 +73,28 @@ extension BonusView.Row {
     
     @ViewBuilder func makeFavoriteButton() -> some View {
         Button {
-            Task {
-                let toggledFavorite = !product.isFavorite
-                await MainActor.run {
-                    isFavorite = toggledFavorite
-                }
-                
-                do {
-                    try await MarkFaforiteUseCase(scope: scope).setFavotite(toggledFavorite, objectID: product.objectID)
-                } catch {
-                    await MainActor.run {
-                        isFavorite = !toggledFavorite
-                    }
-                }
-            }
+            toggleFavorite()
         } label: {
             ZStack {
                 if product.isFavorite {
                     Image(systemName: "heart.fill")
-                        .symbolEffect(.bounce, value: product.isFavorite)
                         .foregroundStyle(.red)
                 } else {
                     Image(systemName: "heart")
-                        .symbolEffect(.bounce, value: product.isFavorite)
                         .foregroundStyle(.red)
                 }
             }
-            .animation(.easeInOut, value: product.isFavorite)
+            .animation(.snappy, value: product.isFavorite)
+        }
+    }
+    
+    private func toggleFavorite() {
+        let context = scope.coreDataContext
+        context.perform {
+            product.isFavorite.toggle()
+            if context.hasChanges {
+                try? context.save()
+            }
         }
     }
 }

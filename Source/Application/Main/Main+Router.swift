@@ -17,7 +17,7 @@ extension Main {
         enum SheetDestination {
             case createAccount(Authentication)
             case changeAboutMe(AboutMe, Account)
-            case productDetails(String, Namespace.ID)
+            case bonus(Product, Namespace.ID)
             case sweepstakesDetails(Sweepstakes, Namespace.ID)
             case howTo(HowTo)
             case transactionHistory(Namespace.ID)
@@ -164,13 +164,13 @@ extension Main {
                         }
                         .presentationDetents([.medium])
                         .presentationDragIndicator(.visible)
-                    case .productDetails(let id, let namespace):
+                    case .bonus(let product, let namespace):
                         NavigationView {
-                            BonusView(id: id)
+                            BonusView(product: product)
                         }
                         .presentationDetents([.large])
                         .presentationDragIndicator(.visible)
-                        .navigationTransition(.zoom(sourceID: id, in: namespace))
+                        .navigationTransition(.zoom(sourceID: product.id, in: namespace))
                     case .sweepstakesDetails(let sweepstake, let namespace):
                         NavigationView {
                             SweepstakesView(sweepstake: sweepstake)
@@ -291,7 +291,7 @@ extension Main.Router.SheetDestination: Identifiable, Equatable {
         switch self {
         case .createAccount: return "createAccount"
         case .changeAboutMe: return "changeAboutMe"
-        case .productDetails(let id, _): return id
+        case .bonus(let bonus, _): return bonus.id
         case .sweepstakesDetails(let sweepstake, _): return sweepstake.id
         case .howTo(let howTo): return howTo.id
         case .transactionHistory: return "transactionHistory"

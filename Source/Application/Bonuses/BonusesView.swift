@@ -76,7 +76,7 @@ extension BonusesView {
                     .matchedTransitionSource(id: product.id, in: namespace)
                     .contentShape(Rectangle())
                     .onTap {
-                        router.route(sheet: .productDetails(product.id, namespace))
+                        router.route(sheet: .bonus(product, namespace))
                     }
             }
         }
@@ -118,7 +118,7 @@ extension BonusesView {
                 .disabled(products.isEmpty)
                 .opacity(products.isEmpty ? 0.2 : 1.0)
                 
-                
+                Divider()
                 Button {
                     toggleFavoritesFilter()
                 } label: {

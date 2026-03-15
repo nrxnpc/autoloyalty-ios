@@ -12,7 +12,7 @@ struct BonusView: View {
     
     // MARK: -
     
-    @FetchRequest var products: FetchedResults<Product>
+    @ObservedObject var product: Product
     
     // MARK: -
     
@@ -20,44 +20,29 @@ struct BonusView: View {
     @State private var isLoading = true
     @State var balanceMonitor = BalanceMonitor()
     
-    var product: Product? {
-        products.first
-    }
-    
     var canOrder: Bool {
-        guard let product else { return false }
         return !product.isOutOfStock && balanceMonitor.balance >= product.pointsCost
     }
     
     // MARK: - Initialization
     
-    init(id: String) {
-        _products = FetchRequest(fetchRequest: Product.by(id: id))
-    }
-    
     var body: some View {
         ScrollView {
             VStack(spacing: 0) {
-                if let product = product {
-                    makeImagePreview(product)
-                    
-                    VStack(spacing: 16) {
-                        makeTitle(product.name)
-                        makeCost(product.pointsCost)
-                        makeDescription(product.productDescription)
-                        Spacer(minLength: 100)
-                    }
-                    .padding()
-                } else {
-                    makeLoadingState()
+                makeImagePreview(product)
+                
+                VStack(spacing: 16) {
+                    makeTitle(product.name)
+                    makeCost(product.pointsCost)
+                    makeDescription(product.productDescription)
+                    Spacer(minLength: 100)
                 }
+                .padding()
             }
         }
         .ignoresSafeArea(edges: .top)
         .overlay(alignment: .bottom) {
-            if let product = product {
-                makeOrderButton(product)
-            }
+            makeOrderButton(product)
          }
         .toolbar(content: makeToolbar)
     }
@@ -217,7 +202,6 @@ extension BonusView {
     }
     
     private func toggleFavorite() {
-        guard let product else { return }
         let context = scope.coreDataContext
         context.perform {
             product.isFavorite.toggle()
@@ -253,7 +237,7 @@ extension BonusView {
                 toggleFavorite()
             } label: {
                 ZStack {
-                    if let product, product.isFavorite {
+                    if product.isFavorite {
                         Image(systemName: "heart.fill")
                             .foregroundStyle(.red)
                     } else {
@@ -261,7 +245,7 @@ extension BonusView {
                             .foregroundStyle(.red)
                     }
                 }
-                .animation(.easeInOut, value: product)
+                .animation(.snappy, value: product)
             }
         }
     }
