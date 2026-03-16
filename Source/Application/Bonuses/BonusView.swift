@@ -24,8 +24,8 @@ struct BonusView: View {
     
     var canOrder: Bool {
         /// TODO: FOR TEST ONLY
-        /// return true
-        !product.isOutOfStock && account.points >= product.pointsCost
+        return true
+        /// !product.isOutOfStock && account.points >= product.pointsCost
     }
     
     init(product: Product, account: Account) {
@@ -198,15 +198,18 @@ extension BonusView {
         
         do {
             let useCase = ClaimBonusUseCase(scope: scope)
-            try await useCase.execute(productId: product.id)
+            /// try await useCase.execute(productId: product.id)
             
             /// TODO: FOR TEST ONLY
-            /// if isRedeemError {
-            ///     try await useCase.mockExecuteDelayed()
-            /// } else {
-            ///     try await useCase.mockExecuteFailure()
-            /// }
-            /// try await useCase.mockExecuteSuccess(productId: product.id)
+            if Bool.random() {
+                try await useCase.mockExecuteSuccess(productId: product.id)
+            } else {
+                if isRedeemError {
+                    try await useCase.mockExecuteDelayed()
+                } else {
+                    try await useCase.mockExecuteFailure()
+                }
+            }
             
             isRedeemed = true
             isRedeemError = false
