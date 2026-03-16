@@ -64,15 +64,16 @@ extension BonusView.Row {
             
             Text(product.name)
                 .font(.subheadline)
-                .lineLimit(showPointsCost ? 2 : 4)
+                .lineLimit(2)
                 .multilineTextAlignment(.leading)
                 .padding(.leading, 6)
+            
             if showPointsCost {
                 Spacer()
             }
         }
         .frame(maxWidth: .infinity, alignment: .leading)
-        .frame(height: 96)
+        .frame(height: showPointsCost ? 96 : 64)
         .padding(.horizontal, 8)
     }
     
