@@ -1,25 +1,6 @@
 import Foundation
 import ScopeGraph
 
-/// Use case for creating new order
-public struct CreateOrderUseCase {
-    private let scope: Scope
-    public init(scope: Scope) {
-        self.scope = scope
-    }
-    
-    public func execute(productId: String, quantity: Int = 1) async throws -> String {
-        let request = RestEndpoint.OrderCreateRequest(productId: productId, quantity: quantity)
-        let response = try await scope.endpoint.createOrder(request)
-        
-        guard response.success, let orderId = response.orderId else {
-            throw NSError(domain: "CreateOrderError", code: 0, userInfo: [NSLocalizedDescriptionKey: response.error ?? "Unknown error"])
-        }
-        
-        return orderId
-    }
-}
-
 /// Use case for claiming bonus (creating order and waiting for sync)
 public struct ClaimBonusUseCase {
     private let scope: Scope
@@ -37,7 +18,7 @@ public struct ClaimBonusUseCase {
         self.retryDelay = retryDelay
     }
     
-    public func execute(productId: String, quantity: Int = 1) async throws -> Order {
+    public func execute(productId: String, quantity: Int = 1) async throws {
         let context = scope.createBackgroundContext()
         guard let product = try context.fetch(Product.by(id: productId)).first else {
             throw ClaimBonusError.unableToPerformOperation
@@ -70,7 +51,7 @@ public struct ClaimBonusUseCase {
             
             if let order = order {
                 try await PullAboutMeUseCase(scope: scope).execute()
-                return order
+                return
             }
             
             // Wait before next retry
@@ -90,7 +71,7 @@ extension ClaimBonusUseCase {
         quantity: Int = 1,
         orderStatus: Order.OrderStatus = .delivered,
         delay: TimeInterval = 0.5
-    ) async throws -> Order {
+    ) async throws {
         // Simulate network delay
         try await Task.sleep(nanoseconds: UInt64(delay * 1_000_000_000))
         
@@ -117,15 +98,14 @@ extension ClaimBonusUseCase {
             order.createdAt = Date()
             product.orders.insert(order)
             try context.save()
-            return order
         }
     }
     
     /// Mock execute - simulates operation failure
     public func mockExecuteFailure(
         errorMessage: String = "Unable to create order",
-        delay: TimeInterval = 0.5
-    ) async throws -> Order {
+        delay: TimeInterval = 1.5
+    ) async throws {
         // Simulate network delay
         try await Task.sleep(nanoseconds: UInt64(delay * 1_000_000_000))
         
@@ -135,8 +115,8 @@ extension ClaimBonusUseCase {
     
     /// Mock execute - simulates delayed result
     public func mockExecuteDelayed(
-        delay: TimeInterval = 0.5
-    ) async throws -> Order {
+        delay: TimeInterval = 1.5
+    ) async throws {
         // Simulate network delay
         try await Task.sleep(nanoseconds: UInt64(delay * 1_000_000_000))
         
@@ -150,7 +130,7 @@ extension ClaimBonusUseCase {
         quantity: Int = 1,
         status: Order.OrderStatus,
         delay: TimeInterval = 0.5
-    ) async throws -> Order {
+    ) async throws {
         try await mockExecuteSuccess(
             productId: productId,
             quantity: quantity,

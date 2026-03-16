@@ -20,11 +20,12 @@ struct BonusView: View {
     @State private var isOrdering = false
     @State private var isLoading = true
     @State var isRedeemed: Bool
+    @State var isRedeemError = false
     
     var canOrder: Bool {
-        // TODO: FOR TEST ONLY
-        return true
-        // !product.isOutOfStock && account.points >= product.pointsCost
+        /// TODO: FOR TEST ONLY
+        /// return true
+        !product.isOutOfStock && account.points >= product.pointsCost
     }
     
     init(product: Product, account: Account) {
@@ -50,16 +51,44 @@ struct BonusView: View {
                         
                         if isRedeemed {
                             Spacer(minLength: 16)
-                            ForEach(Array(product.orders)) { order in
-                                makeRedemptionRow(order)
-                                    .id(order.id)
+                            if product.orders.isEmpty {
+                                makeRedemptionOrdersWaitRow()
+                                    .id("WaitRow")
+                            } else {
+                                ForEach(Array(product.orders)) { order in
+                                    makeRedemptionRow(order)
+                                        .id(order.id)
+                                }
                             }
+                        } else if isRedeemError {
+                            Spacer(minLength: 16)
+                            makeRedemptionOrderErrorRow()
+                                .id("ErrorRow")
                         }
                     }
                     .padding()
                 }
+                .onChange(of: isRedeemError) { _, newRedeemError in
+                    guard newRedeemError else {
+                        return
+                    }
+                    withAnimation(.snappy) {
+                        proxy.scrollTo("ErrorRow", anchor: .bottom)
+                    }
+                }
                 .onChange(of: isRedeemed) { _, newRedeemed in
-                    if let lastOrder = product.orders.first, newRedeemed {
+                    guard newRedeemed else {
+                        return
+                    }
+                    
+                    guard !product.orders.isEmpty else {
+                        withAnimation(.snappy) {
+                            proxy.scrollTo("WaitRow", anchor: .bottom)
+                        }
+                        return
+                    }
+                    
+                    if let lastOrder = product.orders.first {
                         withAnimation(.snappy) {
                             proxy.scrollTo(lastOrder.id, anchor: .bottom)
                         }
@@ -153,24 +182,39 @@ extension BonusView {
             .fontWeight(.semibold)
             .frame(maxWidth: .infinity)
             .padding()
-            .foregroundColor(.primary)
+            .symbolEffect(.pulse, value: isOrdering)
+            .opacity(isOrdering ? 0.6 : 1.0)
         }
-        .disabled(!canOrder || isOrdering)
+        .disabled(isOrdering)
+        .animation(.snappy, value: isOrdering)
         .padding(.horizontal, 32)
     }
     
+    @MainActor
     private func claim(_ product: Product) async {
+        guard canOrder else { return }
         isOrdering = true
         defer { isOrdering = false }
         
         do {
             let useCase = ClaimBonusUseCase(scope: scope)
-            // let _ = try await useCase.execute(productId: product.id)
-            let secret = try await useCase.mockExecuteSuccess(productId: product.id)
+            try await useCase.execute(productId: product.id)
+            
+            /// TODO: FOR TEST ONLY
+            /// if isRedeemError {
+            ///     try await useCase.mockExecuteDelayed()
+            /// } else {
+            ///     try await useCase.mockExecuteFailure()
+            /// }
+            /// try await useCase.mockExecuteSuccess(productId: product.id)
+            
             isRedeemed = true
+            isRedeemError = false
         } catch ClaimBonusUseCase.ClaimBonusError.operationCompletedButResultDelayed {
-            UINotificationFeedbackGenerator().notificationOccurred(.error)
+            isRedeemed = true
+            isRedeemError = false
         } catch {
+            isRedeemError = true
             UINotificationFeedbackGenerator().notificationOccurred(.error)
         }
     }
@@ -286,6 +330,57 @@ extension BonusView {
                     makeCancelledCard()
                 }
             }
+        }
+        .padding()
+        .modifier(DefaultBackgroundStyle())
+    }
+    
+    @ViewBuilder func makeRedemptionOrdersWaitRow() -> some View {
+        VStack(spacing: 12) {
+            HStack {
+                Text(.now, style: .date)
+                    .font(.caption)
+                    .foregroundStyle(.tertiary)
+                Spacer()
+                makeOrderStatusBadge(.pending)
+            }
+            makePreparingCard()
+        }
+        .padding()
+        .modifier(DefaultBackgroundStyle())
+    }
+    
+    @ViewBuilder func makeRedemptionOrderErrorRow() -> some View {
+        VStack(spacing: 12) {
+            HStack {
+                Text(.now, style: .date)
+                    .font(.caption)
+                    .foregroundStyle(.tertiary)
+                Spacer()
+                Text("Error")
+                    .font(.caption)
+                    .fontWeight(.medium)
+                    .padding(.horizontal, 8)
+                    .padding(.vertical, 4)
+                    .background(statusColor(for: .cancelled).opacity(0.2))
+                    .foregroundStyle(statusColor(for: .cancelled))
+                    .clipShape(Capsule())
+            }
+            VStack(spacing: 8) {
+                Image(systemName: "wifi.exclamationmark")
+                    .font(.largeTitle)
+                    .foregroundStyle(.red, .secondary)
+                    .symbolEffect(.bounce, options: .repeat(1))
+                Text("We couldn't process your request. Please check your connection and try again in a moment.")
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+                    .multilineTextAlignment(.center)
+            }
+            .frame(minHeight: 100)
+            .frame(maxWidth: .infinity)
+            .padding()
+            .background(.ultraThinMaterial)
+            .clipShape(RoundedRectangle(cornerRadius: 16))
         }
         .padding()
         .modifier(DefaultBackgroundStyle())
