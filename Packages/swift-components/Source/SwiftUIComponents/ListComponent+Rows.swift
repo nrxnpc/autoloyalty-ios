@@ -39,8 +39,7 @@ public extension ComponentBuilder {
                     .sectionRow()
             }
             .padding(.vertical, 8)
-            .background(.regularMaterial)
-            .clipShape(RoundedRectangle(cornerRadius: 12))
+            .modifier(DefaultBackgroundStyle())
         }
     }
 

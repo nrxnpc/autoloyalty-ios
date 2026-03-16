@@ -10,6 +10,7 @@ extension FeedView {
         VStack(alignment: .leading, spacing: 16) {
             makeRecommendationsHeader()
                 .padding(.leading, 16)
+                .padding(.horizontal)
             
             ZStack {
                 RecommendationsView.Compact(recommendationSet: recommendationSet) {
@@ -36,6 +37,35 @@ extension FeedView {
     }
 }
 
+// MARK: - View Builder
+
+extension FeedView {
+    // MARK: - Sweepstakes Section
+    
+    @ViewBuilder func makeSweepstakesSection(_ sweepstakes: [Sweepstakes]) -> some View {
+        VStack(alignment: .leading, spacing: 16) {
+            makeSweepstakesHeader()
+                .padding(.leading, 16)
+                .padding(.horizontal)
+            
+            ZStack {
+                SweepstakesView.Paginator(sweepstakes: sweepstakes, namespace: namespace) { sweepstake in
+                    router.route(sheet: .sweepstakesDetails(sweepstake, namespace))
+                }
+            }
+        }
+    }
+    
+    @ViewBuilder func makeSweepstakesHeader() -> some View {
+        HStack {
+            Text("Sweepstakes")
+                .font(.title2.weight(.semibold))
+            
+            Spacer()
+        }
+        .foregroundStyle(.primary)
+    }
+}
 extension FeedView {
     // MARK: - Auto Mind Section
     

@@ -8,23 +8,24 @@ extension Main {
     @Observable
     final class Router {
         enum Destination {
-            case aboutMe
+            case aboutMe(Account)
             case inbox
-            case catalog
+            case catalog(Account)
             case commingSoon
         }
         
         enum SheetDestination {
             case createAccount(Authentication)
-            case changeAboutMe(AboutMe)
-            case productDetails(String, Namespace.ID)
+            case changeAboutMe(AboutMe, Account)
+            case bonus(Product, Account, Namespace.ID)
+            case sweepstakesDetails(Sweepstakes, Namespace.ID)
             case howTo(HowTo)
-            case transactionHistory
+            case transactionHistory(Namespace.ID)
+            case scanHistory(Namespace.ID)
+            case offers
             case orders
             case inboxMessage(InboxMessage)
-            case scanner
-            case scanHistory
-            case offers
+            case scanner(Namespace.ID)
             case reauthenticationView
             case contactSupport
             case akinator(Namespace.ID)
@@ -124,12 +125,12 @@ extension Main {
             content
                 .navigationDestination(item: $router.destination) { destination in
                     switch destination {
-                    case .aboutMe:
-                        AboutMeView()
+                    case .aboutMe(let account):
+                        ProfileView(account: account)
                     case .inbox:
                         InboxView()
-                    case .catalog:
-                        CatalogView()
+                    case .catalog(let account):
+                        BonusesView(account: account)
                     case .commingSoon:
                         CommingSoon()
                     }
@@ -156,20 +157,27 @@ extension Main {
                         }
                         .presentationDetents([.large])
                         .presentationDragIndicator(.visible)
-                    case .changeAboutMe(let application):
+                    case .changeAboutMe(let application, let account):
                         NavigationView {
-                            ChangeAboutMeView()
+                            ChangeAboutMeView(account: account)
                                 .environmentObject(application)
                         }
                         .presentationDetents([.medium])
                         .presentationDragIndicator(.visible)
-                    case .productDetails(let id, let namespace):
+                    case .bonus(let product, let account, let namespace):
                         NavigationView {
-                            ProductView(id: id)
+                            BonusView(product: product, account: account)
                         }
                         .presentationDetents([.large])
                         .presentationDragIndicator(.visible)
-                        .navigationTransition(.zoom(sourceID: id, in: namespace))
+                        .navigationTransition(.zoom(sourceID: product.id, in: namespace))
+                    case .sweepstakesDetails(let sweepstake, let namespace):
+                        NavigationView {
+                            SweepstakesView(sweepstake: sweepstake)
+                        }
+                        .presentationDetents([.large])
+                        .presentationDragIndicator(.visible)
+                        .navigationTransition(.zoom(sourceID: sweepstake.id, in: namespace))
                     case .howTo(let howTo):
                         switch howTo {
                         case .topUpYourBalance:
@@ -185,15 +193,23 @@ extension Main {
                             .presentationDetents([.large])
                             .presentationDragIndicator(.visible)
                         }
-                    case .transactionHistory:
+                    case .transactionHistory(let namespace):
                         NavigationView {
                             BalanceTransactionsView()
                         }
                         .presentationDetents([.medium, .large], selection: .constant(.large))
                         .presentationDragIndicator(.visible)
+                        .navigationTransition(.zoom(sourceID: "transactionsHistory", in: namespace))
+                    case .scanHistory(let namespace):
+                        NavigationView {
+                            QRScanHistoryView()
+                        }
+                        .presentationDetents([.large])
+                        .presentationDragIndicator(.visible)
+                        .navigationTransition(.zoom(sourceID: "scansHistory", in: namespace))
                     case .orders:
                         NavigationView {
-                            OrdersView()
+                            MyRewardsView()
                         }
                         .presentationDetents([.medium, .large], selection: .constant(.large))
                         .presentationDragIndicator(.visible)
@@ -203,15 +219,9 @@ extension Main {
                         }
                         .presentationDetents([.large])
                         .presentationDragIndicator(.visible)
-                    case .scanner:
+                    case .scanner(let namespace):
                         NavigationView {
                             QRScannerView()
-                        }
-                        .presentationDetents([.large])
-                        .presentationDragIndicator(.visible)
-                    case .scanHistory:
-                        NavigationView {
-                            QRScanHistoryView()
                         }
                         .presentationDetents([.large])
                         .presentationDragIndicator(.visible)
@@ -281,7 +291,8 @@ extension Main.Router.SheetDestination: Identifiable, Equatable {
         switch self {
         case .createAccount: return "createAccount"
         case .changeAboutMe: return "changeAboutMe"
-        case .productDetails(let id, _): return id
+        case .bonus(let bonus, _, _): return bonus.id
+        case .sweepstakesDetails(let sweepstake, _): return sweepstake.id
         case .howTo(let howTo): return howTo.id
         case .transactionHistory: return "transactionHistory"
         case .orders: return "orders"

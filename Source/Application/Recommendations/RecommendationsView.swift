@@ -165,7 +165,7 @@ struct CarCardView: View {
         ZStack(alignment: .bottom) {
             makePreview()
         }
-        .background(.ultraThinMaterial)
+        .modifier(DefaultBackgroundStyle())
         .cornerRadius(32)
         .shadow(radius: 2, y: 2)
         .overlay(alignment: direction == .left ? .topTrailing : .topLeading) {
@@ -199,31 +199,28 @@ struct CarCardView: View {
                     }
                 }
                 .padding()
-                .background(.ultraThinMaterial)
             }
         }
     }
     
     @ViewBuilder func makeImagePreview() -> some View {
-        ZStack {
-            LazyImage(url: recommendation.imageURL) { state in
-                if let image = state.image {
-                    GeometryReader { geometry in
-                        image
-                            .resizable()
-                            .aspectRatio(contentMode: .fill)
-                            .frame(width: geometry.size.width, height: geometry.size.height)
-                            .clipped()
-                    }
-                } else {
-                    Rectangle()
-                        .fill(.gray.opacity(0.3))
-                        .overlay {
-                            Image(systemName: "car")
-                                .font(.system(size: 40))
-                                .foregroundColor(.gray)
-                        }
+        LazyImage(url: recommendation.imageURL) { state in
+            if let image = state.image {
+                GeometryReader { geometry in
+                    image
+                        .resizable()
+                        .aspectRatio(contentMode: .fill)
+                        .frame(width: geometry.size.width, height: geometry.size.height)
+                        .clipped()
                 }
+            } else {
+                Rectangle()
+                    .fill(.gray.opacity(0.3))
+                    .overlay {
+                        Image(systemName: "car")
+                            .font(.system(size: 40))
+                            .foregroundColor(.gray)
+                    }
             }
         }
     }
@@ -258,10 +255,7 @@ struct CarCardView: View {
             .foregroundColor(.primary)
             .padding(.vertical, 6)
             .padding(.horizontal, 8)
-            .background {
-                RoundedRectangle(cornerRadius: 6)
-                    .foregroundStyle(.ultraThinMaterial)
-            }
+            .modifier(DefaultBackgroundStyle())
     }
     
     @ViewBuilder func makeDescriptionRow() -> some View {

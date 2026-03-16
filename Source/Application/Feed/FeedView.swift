@@ -13,8 +13,10 @@ struct FeedView: View {
     // MARK: - FetchRequests
     
     @FetchRequest var products: FetchedResults<Product>
+    @FetchRequest var rewards: FetchedResults<Product>
     @FetchRequest var recommendationSet: FetchedResults<CarRecommendation>
     @FetchRequest var account: FetchedResults<Account>
+    @FetchRequest var sweepstakes: FetchedResults<Sweepstakes>
     
     var balance: Int {
         account.first?.points ?? 0
@@ -27,6 +29,44 @@ struct FeedView: View {
     /// To show balance on navigation title
     @State internal var isBalanceVisible: Bool = true
     
+    internal let recommendationPrompts = RecommendationPrompts.random
+    internal let autoMindPrompts = RecommendationPrompts.random
+    
+    // MARK: - Initialization
+    
+    init() {
+        _products = FetchRequest(fetchRequest: Product.allProductsFetchRequest(), animation: .snappy)
+        _rewards = FetchRequest(fetchRequest: Product.myRewards(), animation: .snappy)
+        _recommendationSet = FetchRequest(fetchRequest: CarRecommendation.allNeutralSentiment(), animation: .snappy)
+        _account = FetchRequest(fetchRequest: Account.current(), animation: .snappy)
+        _sweepstakes = FetchRequest(fetchRequest: Sweepstakes.activeSweepstakesFetchRequest(), animation: .snappy)
+    }
+    
+    var body: some View {
+        ScrollView {
+            makeBalanceSection()
+            
+            if !sweepstakes.isEmpty {
+                makeSweepstakesSection(Array(sweepstakes))
+            }
+            
+            makeCatalogSection()
+            
+            if !recommendationSet.isEmpty {
+                makeRecommendationsSection()
+            }
+            
+            // TODO: Disabled
+            // makeAutoMindSection()
+        }
+        .scrollIndicators(.hidden)
+        .toolbar(content: makeToolbar)
+        .animation(.snappy, value: isBalanceVisible)
+        .environment(balanceMonitor)
+    }
+}
+
+extension FeedView {
     struct RecommendationPrompts {
         private static let prompts: [LocalizedStringKey] = [
             "Do you like it?",
@@ -51,7 +91,6 @@ struct FeedView: View {
             prompts.randomElement() ?? "Do you like it?"
         }
     }
-    internal let recommendationPrompts = RecommendationPrompts.random
     
     struct AutoMindPrompts {
         private static let prompts: [LocalizedStringKey] = [
@@ -75,116 +114,6 @@ struct FeedView: View {
         
         static var random: LocalizedStringKey {
             prompts.randomElement() ?? "Think of any car"
-        }
-    }
-    internal let autoMindPrompts = RecommendationPrompts.random
-    
-    // MARK: - Initialization
-    
-    init() {
-        _products = FetchRequest(fetchRequest: Product.allProductsFetchRequest(), animation: .smooth)
-        _recommendationSet = FetchRequest(fetchRequest: CarRecommendation.allNeutralSentiment(), animation: .smooth)
-        _account = FetchRequest(fetchRequest: Account.current(), animation: .smooth)
-    }
-    
-    var body: some View {
-        ScrollView {
-            makeBalanceSection()
-            
-            if !recommendationSet.isEmpty {
-                makeRecommendationsSection()
-            }
-            
-            makeCatalogSection()
-            
-            // TODO: Disabled
-            // makeAutoMindSection()
-        }
-        .toolbar(content: makeToolbar)
-        .animation(.smooth, value: isBalanceVisible)
-        .environment(balanceMonitor)
-    }
-}
-
-// MARK: - View Builder
-
-extension FeedView {
-    // MARK: - Toolbar
-    
-    @ToolbarContentBuilder func makeToolbar() -> some ToolbarContent {
-        if !isBalanceVisible {
-            ToolbarItemGroup(placement: .topBarLeading) {
-                Button {
-                    router.route(sheet: .scanner)
-                } label: {
-                    Image(systemName: "qrcode.viewfinder")
-                }
-                
-                Button {
-                    router.route(sheet: .transactionHistory)
-                } label: {
-                    HStack(spacing: 0) {
-                        Text("\(balance)")
-                            .foregroundColor(.primary)
-                        Image(systemName: "star.fill")
-                            .scaleEffect(x: 0.6, y: 0.6)
-                            .foregroundColor(.orange)
-                    }
-                }
-            }
-        }
-        
-        ToolbarItemGroup(placement: .topBarTrailing) {
-            Button {
-                router.route(to: .aboutMe)
-            } label: {
-                if let accountID = applicaiton.accountID {
-                    AccountImage(accountID: accountID)
-                        .frame(width: 28, height: 28)
-                } else {
-                    Image(systemName: "person")
-                }
-            }
-            .contextMenu {
-                Button {
-                    router.route(sheet: .scanHistory)
-                } label: {
-                    Label("Scan History", systemImage: "qrcode") // blue
-                }
-                
-                Button {
-                    router.route(sheet: .transactionHistory)
-                } label: {
-                    Label("Transactions", systemImage: "arrow.up.arrow.down") // green
-                }
-                
-                Button {
-                    router.route(sheet: .orders)
-                } label: {
-                    Label("Orders", systemImage: "cart") // pink
-                }
-            }
-            
-            Button {
-                router.route(to: .inbox)
-            } label: {
-                if inboxMonitor.unreadCount > 0 {
-                    Image(systemName: "bell.badge")
-                        .foregroundStyle(.red, .primary)
-                        .symbolEffect(.wiggle, options: .repeat(3))
-                } else {
-                    Image(systemName: "bell")
-                        .foregroundStyle(.primary)
-                }
-            }
-            .contextMenu {
-                Button {
-                    inboxMonitor.markAllAsRead()
-                } label: {
-                    Label("Mark all as read", systemImage: "checkmark.circle")
-                }
-                .disabled(inboxMonitor.unreadCount == 0)
-            }
         }
     }
 }

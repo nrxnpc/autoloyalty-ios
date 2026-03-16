@@ -67,7 +67,8 @@ extension Scope {
                     Field("category", .text, default: "")
                     Field("stockQuantity", .number, default: 0)
                     Field("isActive", .boolean, default: true)
-                    Relationship("images", to: "Attachment", toMany: true, deleteRule: .cascadeDeleteRule)
+                    Field("image", .url, optional: true)
+                    Relationship("orders", to: "Order", inverse: "product", toMany: true, deleteRule: .denyDeleteRule)
                 }
                 
                 // Balance Transaction
@@ -84,7 +85,10 @@ extension Scope {
                     Field("totalPoints", .number)
                     Field("productName", .text)
                     Field("productCategory", .text)
-                    Relationship("product", to: "Product", optional: true)
+                    Field("promocode", .text, optional: true)
+                    Field("digitalCertificate", .url, optional: true)
+                    Field("instructions", .text, optional: true)
+                    Relationship("product", to: "Product", inverse: "orders")
                 }
                 
                 // Scan Item Entity
@@ -117,6 +121,29 @@ extension Scope {
                     Field("bodyType", .text)
                     Field("drivetrain", .text)
                     Field("color", .text)
+                }
+                
+                // Sweepstakes Entity
+                EntitySchema("Sweepstakes", inherits: "Entity") {
+                    Field("title", .text)
+                    Field("promoDescription", .text)
+                    Field("startDate", .timestamp)
+                    Field("endDate", .timestamp)
+                    Field("statusRaw", .int16)
+                    Field("entryConditionRaw", .int16)
+                    Field("requiredValue", .number, default: 0)
+                    Field("image", .url, optional: true)
+                    Relationship("prizes", to: "Product", optional: true, toMany: true)
+                    Relationship("entries", to: "SweepstakesEntry", inverse: "sweepstakes", toMany: true, deleteRule: .cascadeDeleteRule)
+                }
+                
+                // Sweepstakes Entry Entity
+                EntitySchema("SweepstakesEntry", inherits: "Entity") {
+                    Field("entryDate", .timestamp)
+                    Field("isWinner", .boolean, default: false)
+                    Relationship("account", to: "Account")
+                    Relationship("sweepstakes", to: "Sweepstakes", inverse: "entries")
+                    Relationship("wonProduct", to: "Product", optional: true)
                 }
             }
         }

@@ -1,4 +1,5 @@
 import SwiftUI
+import SwiftUIComponents
 
 struct BalanceTransactionsView: View {
     // MARK: - Dependencies
@@ -42,25 +43,26 @@ struct BalanceTransactionsView: View {
 }
 
 extension BalanceTransactionsView {
+    @ViewBuilder static func makeEmptyState() -> some View {
+        VStack(spacing: 24) {
+            Image(systemName: "arrow.up.arrow.down")
+                .resizable()
+                .scaledToFit()
+                .frame(width: 64, height: 64)
+                .foregroundStyle(.green)
+                .symbolEffect(.bounce, options: .repeat(1))
+            Text("All your point transactions will appear here once you start earning or spending points")
+                .font(.callout)
+                .foregroundStyle(.secondary)
+                .multilineTextAlignment(.center)
+        }
+        .padding(32)
+    }
+    
     @ViewBuilder func makeEmptyState() -> some View {
         ScrollView {
-            VStack(spacing: 16) {
-                HStack(alignment: .center) {
-                    Image(systemName: "arrow.up.arrow.down")
-                        .font(.title)
-                        .foregroundStyle(.green)
-                    Text("All your point transactions will appear here once you start earning or spending points")
-                        .font(.callout)
-                        .foregroundStyle(.secondary)
-                        .multilineTextAlignment(.leading)
-                }
-            }
-            .padding()
-            .background {
-                RoundedRectangle(cornerRadius: 24)
-                    .foregroundStyle(.regularMaterial)
-            }
-            .padding()
+            BalanceTransactionsView.makeEmptyState()
+                .modifier(DefaultBackgroundStyle())
         }
     }
     

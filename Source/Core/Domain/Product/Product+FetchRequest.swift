@@ -44,4 +44,20 @@ extension Product {
         request.sortDescriptors = [NSSortDescriptor(key: "sync.externalID", ascending: true)]
         return request
     }
+    
+    /// Fetch all products that have at least one order (my rewards)
+    public static func myRewards() -> NSFetchRequest<Product> {
+        let request = NSFetchRequest<Product>(entityName: "Product")
+        request.predicate = NSPredicate(format: "orders.@count > 0")
+        request.sortDescriptors = [NSSortDescriptor(keyPath: \Product.createdAt, ascending: false)]
+        return request
+    }
+    
+    /// Fetch all orders for a specific product
+    static func ordersForProduct(_ product: Product) -> NSFetchRequest<Order> {
+        let request = NSFetchRequest<Order>(entityName: "Order")
+        request.predicate = NSPredicate(format: "product == %@", product)
+        request.sortDescriptors = [NSSortDescriptor(keyPath: \Order.createdAt, ascending: false)]
+        return request
+    }
 }
