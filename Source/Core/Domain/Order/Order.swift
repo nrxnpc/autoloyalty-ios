@@ -10,6 +10,10 @@ public class Order: Entity {
     @NSManaged public var productName: String
     @NSManaged public var productCategory: String
     
+    @NSManaged public var promocode: String?
+    @NSManaged public var digitalCertificate: URL?
+    @NSManaged public var instructions: String?
+    
     /// Many-to-one relationship: Each Order must have exactly one Product
     @NSManaged public var product: Product
     
@@ -37,14 +41,21 @@ extension Order {
             existing.productName = raw.product?.name ?? ""
             existing.productCategory = raw.product?.category ?? ""
             
+            existing.promocode = raw.promocode
+            existing.digitalCertificate = raw.digital_certificate_url.flatMap { URL(string: $0) }
+            existing.instructions = raw.instructions
+            
             // Link to Product if available
             if let productID = raw.product?.id {
                 let productRequest = Product.byExternalID(productID)
                 if let product = try? context.fetch(productRequest).first {
                     existing.product = product
                 } else {
-                    // TODO:
-                    // Product.createOrUpdate(from: raw.product, in: context)
+                    if let raw = raw.product {
+                        existing.product = Product.createOrUpdate(from: raw, in: context)
+                    } else {
+                        // TODO: what we can do here?
+                    }
                 }
             }
             
@@ -72,6 +83,9 @@ extension Order {
         order.productName = raw.product?.name ?? ""
         order.productCategory = raw.product?.category ?? ""
         order.product = product
+        order.promocode = raw.promocode
+        order.digitalCertificate = raw.digital_certificate_url.flatMap { URL(string: $0) }
+        order.instructions = raw.instructions
         order.createdAt = ISO8601DateFormatter().date(from: raw.created_at ?? "") ?? .now
     }
     

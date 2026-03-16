@@ -39,6 +39,17 @@ extension Product {
         }
     }
     
+    static func createOrUpdate(from raw: RestEndpoint.OrderProduct, in context: NSManagedObjectContext) -> Product {
+        let request = Product.byExternalID(raw.id)
+        if let existing = try? context.fetch(request).first {
+            existing.name = raw.name
+            existing.category = raw.category
+            return existing
+        } else {
+            return create(from: raw, in: context)
+        }
+    }
+    
     private static func create(from raw: RestEndpoint.Product, in context: NSManagedObjectContext) {
         let product = Product(context: context)
         product.sync.externalID = raw.id
@@ -53,6 +64,23 @@ extension Product {
         product.isFavorite = false
         product.createdAt = ISO8601DateFormatter().date(from: raw.createdAt) ?? .now
         product.orders = []
+    }
+    
+    private static func create(from raw: RestEndpoint.OrderProduct, in context: NSManagedObjectContext) -> Product {
+        let product = Product(context: context)
+        product.sync.externalID = raw.id
+        product.name = raw.name
+        product.productDescription = ""
+        product.category = raw.category
+        product.pointsCost = 0
+        product.stockQuantity = 0
+        product.isActive = false
+        product.image = nil
+        product.isOutOfStock = true
+        product.isFavorite = false
+        product.createdAt = .now
+        product.orders = []
+        return product
     }
 }
 

@@ -65,18 +65,39 @@ extension ProfileView {
     }
     
     @ViewBuilder private func makeMyRewardsSection() -> some View {
-        MakeSection(title: "My Rewards") {
-            VStack(alignment: .leading, spacing: 16) {
-                 if rewards.isEmpty {
-                     MyRewardsView.makeEmptyState()
-                         .padding()
-                 } else {
-                     BonusesView.makeCatalogGrid(products: rewards, account: account, router: router, namespace: namespace)
-                 }
+        VStack(alignment: .leading, spacing: 16) {
+            makeRewardsHeader()
+                .padding(.horizontal)
+            
+            if rewards.isEmpty {
+                MyRewardsView.makeEmptyState()
+                    .padding()
+            } else {
+                BonusesView.makeCatalogGrid(products: rewards, account: account, router: router, namespace: namespace, showPointsCost: false)
             }
-            .padding(.horizontal)
-            .padding(.vertical, 8)
         }
+        .padding(.horizontal)
+        .padding(.vertical, 8)
+    }
+    
+    @ViewBuilder func makeRewardsHeader() -> some View {
+        HStack {
+            Text("My Rewards")
+                .font(.title2.weight(.semibold))
+            
+            Spacer()
+            
+            /// HStack(spacing: 4) {
+            ///     Text("View all")
+            ///     Image(systemName: "chevron.forward")
+            /// }
+            /// .font(.subheadline)
+            /// .foregroundStyle(.secondary)
+        }
+        .foregroundStyle(.primary)
+        /// .onTap {
+        ///     router.route(to: .catalog(account))
+        /// }
     }
     
     @ToolbarContentBuilder func makeToolbar() -> some ToolbarContent {

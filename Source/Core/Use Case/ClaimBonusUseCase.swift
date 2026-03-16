@@ -31,15 +31,24 @@ public struct ClaimBonusUseCase {
         case operationCompletedButResultDelayed
     }
     
-    public init(scope: Scope, maxRetries: Int = 10, retryDelay: TimeInterval = 1.0) {
+    public init(scope: Scope, maxRetries: Int = 3, retryDelay: TimeInterval = 1.0) {
         self.scope = scope
         self.maxRetries = maxRetries
         self.retryDelay = retryDelay
     }
     
     public func execute(productId: String, quantity: Int = 1) async throws -> Order {
+        let context = scope.createBackgroundContext()
+        guard let product = try context.fetch(Product.by(id: productId)).first else {
+            throw ClaimBonusError.unableToPerformOperation
+        }
+        
+        guard let remoteID = product.sync.externalID else {
+            throw ClaimBonusError.unableToPerformOperation
+        }
+        
         // Step 1: Create order and get orderID
-        let request = RestEndpoint.OrderCreateRequest(productId: productId, quantity: quantity)
+        let request = RestEndpoint.OrderCreateRequest(productId: remoteID, quantity: quantity)
         let response = try await scope.endpoint.createOrder(request)
         
         guard response.success, let orderId = response.orderId else {
@@ -54,7 +63,6 @@ public struct ClaimBonusUseCase {
             try await pullOrdersUseCase.execute()
             
             // Check if order exists in local database
-            let context = scope.createBackgroundContext()
             let order = try await context.perform {
                 let request = Order.byExternalID(orderId)
                 return try context.fetch(request).first
@@ -80,7 +88,7 @@ extension ClaimBonusUseCase {
     public func mockExecuteSuccess(
         productId: String,
         quantity: Int = 1,
-        orderStatus: Order.OrderStatus = .pending,
+        orderStatus: Order.OrderStatus = .delivered,
         delay: TimeInterval = 0.5
     ) async throws -> Order {
         // Simulate network delay
@@ -90,7 +98,7 @@ extension ClaimBonusUseCase {
         let context = scope.createBackgroundContext()
         return try await context.perform {
             // Fetch the product
-            let productRequest = Product.byExternalID(productId)
+            let productRequest = Product.by(id: productId)
             guard let product = try context.fetch(productRequest).first else {
                 throw ClaimBonusError.unableToPerformOperation
             }
@@ -100,12 +108,14 @@ extension ClaimBonusUseCase {
             order.sync.externalID = UUID().uuidString
             order.status = orderStatus
             order.quantity = quantity
+            order.promocode = "19FD7JFCK0"
+            order.instructions = "Use promo code for 10% off your purchase until 30/09/2026"
             order.totalPoints = product.pointsCost * quantity
             order.productName = product.name
             order.productCategory = product.category
             order.product = product
             order.createdAt = Date()
-            
+            product.orders.insert(order)
             try context.save()
             return order
         }

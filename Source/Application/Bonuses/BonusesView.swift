@@ -70,10 +70,10 @@ extension BonusesView {
         .modifier(DefaultBackgroundStyle())
     }
     
-    @ViewBuilder static func makeCatalogGrid<Products: Collection>(products: Products, account: Account, router: Main.Router, namespace: Namespace.ID) -> some View where Products.Element == Product {
+    @ViewBuilder static func makeCatalogGrid<Products: Collection>(products: Products, account: Account, router: Main.Router, namespace: Namespace.ID, showPointsCost: Bool = true) -> some View where Products.Element == Product {
         LazyVGrid(columns: Array(repeating: GridItem(.flexible(), spacing: 8), count: 2), spacing: 8) {
             ForEach(Array(products), id: \.id) { product in
-                BonusView.Row(product: product)
+                BonusView.Row(product: product, showPointsCost: showPointsCost)
                     .aspectRatio(1/1.4, contentMode: .fit)
                     .matchedTransitionSource(id: product.id, in: namespace)
                     .contentShape(Rectangle())

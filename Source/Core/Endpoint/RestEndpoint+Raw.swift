@@ -792,6 +792,10 @@ extension RestEndpoint {
         public let status: OrderStatus
         /// Order creation date
         public let created_at: String?
+        
+        public let promocode: String?
+        public let digital_certificate_url: String?
+        public let instructions: String?
     }
     
     /// Order creation response

@@ -85,6 +85,9 @@ extension Scope {
                     Field("totalPoints", .number)
                     Field("productName", .text)
                     Field("productCategory", .text)
+                    Field("promocode", .text, optional: true)
+                    Field("digitalCertificate", .url, optional: true)
+                    Field("instructions", .text, optional: true)
                     Relationship("product", to: "Product", inverse: "orders")
                 }
                 

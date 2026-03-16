@@ -8,6 +8,7 @@ extension BonusView {
     struct Row: View {
         @Dependency(\.scope) var scope
         @ObservedObject var product: Product
+        let showPointsCost: Bool
         
         var body: some View {
             VStack(alignment: .leading, spacing: 0) {
@@ -55,16 +56,20 @@ extension BonusView.Row {
     
     @ViewBuilder func makeItemInfo() -> some View {
         VStack(alignment: .leading, spacing: 4) {
-            BalanceLabel(points: product.pointsCost)
-                .font(.headline)
-                .padding(.top, 6)
+            if showPointsCost {
+                BalanceLabel(points: product.pointsCost)
+                    .font(.headline)
+                    .padding(.top, 6)
+            }
             
             Text(product.name)
                 .font(.subheadline)
-                .lineLimit(2)
+                .lineLimit(showPointsCost ? 2 : 4)
                 .multilineTextAlignment(.leading)
                 .padding(.leading, 6)
-            Spacer()
+            if showPointsCost {
+                Spacer()
+            }
         }
         .frame(maxWidth: .infinity, alignment: .leading)
         .frame(height: 96)
@@ -100,6 +105,6 @@ extension BonusView.Row {
 }
 
 #Preview {
-    BonusView.Row(product: Product())
+    BonusView.Row(product: Product(), showPointsCost: true)
         .frame(width: 200, height: 250)
 }

@@ -19,24 +19,53 @@ struct BonusView: View {
     
     @State private var isOrdering = false
     @State private var isLoading = true
+    @State var isRedeemed: Bool
     
     var canOrder: Bool {
-        !product.isOutOfStock && account.points >= product.pointsCost
+        // TODO: FOR TEST ONLY
+        return true
+        // !product.isOutOfStock && account.points >= product.pointsCost
+    }
+    
+    init(product: Product, account: Account) {
+        self.product = product
+        self.account = account
+        _isRedeemed = .init(initialValue: !product.orders.isEmpty)
     }
     
     // MARK: - Initialization
     
     var body: some View {
         ScrollView {
-            VStack(spacing: 0) {
-                makeImagePreview(product)
-                
-                VStack(spacing: 16) {
-                    makeTitle(product.name)
-                    makeCost(product.pointsCost)
-                    makeDescription(product.productDescription)
+            ScrollViewReader { proxy in
+                VStack(spacing: 0) {
+                    makeImagePreview(product)
+                    
+                    VStack(spacing: 16) {
+                        makeTitle(product.name)
+                        if !isRedeemed {
+                            makeCost(product.pointsCost)
+                        }
+                        makeDescription(product.productDescription)
+                        
+                        if isRedeemed {
+                            Spacer(minLength: 16)
+                            ForEach(Array(product.orders)) { order in
+                                makeRedemptionRow(order)
+                                    .id(order.id)
+                            }
+                        }
+                    }
+                    .padding()
                 }
-                .padding()
+                .onChange(of: isRedeemed) { _, newRedeemed in
+                    if let lastOrder = product.orders.first, newRedeemed {
+                        withAnimation(.snappy) {
+                            proxy.scrollTo(lastOrder.id, anchor: .bottom)
+                        }
+                    }
+                }
+                .animation(.snappy, value: isRedeemed)
             }
         }
         .scrollIndicators(.hidden)
@@ -136,7 +165,9 @@ extension BonusView {
         
         do {
             let useCase = ClaimBonusUseCase(scope: scope)
-            let _ = try await useCase.execute(productId: product.id)
+            // let _ = try await useCase.execute(productId: product.id)
+            let secret = try await useCase.mockExecuteSuccess(productId: product.id)
+            isRedeemed = true
         } catch ClaimBonusUseCase.ClaimBonusError.operationCompletedButResultDelayed {
             UINotificationFeedbackGenerator().notificationOccurred(.error)
         } catch {
@@ -224,8 +255,176 @@ extension BonusView {
             }
         }
         
-        ToolbarItem(placement: .bottomBar) {
-            makeClaimButton(product)
+        if !isRedeemed {
+            ToolbarItem(placement: .bottomBar) {
+                makeClaimButton(product)
+            }
         }
+    }
+}
+
+// MARK: - Redemption Row Components
+
+extension BonusView {
+    @ViewBuilder func makeRedemptionRow(_ order: Order) -> some View {
+        VStack(spacing: 12) {
+            makeOrderHeader(order)
+            if let promocode = order.promocode {
+                makePromocodeCard(promocode)
+                if let instructions = order.instructions {
+                    makeInstructionsCard(instructions)
+                }
+            } else if let digitalCertificate = order.digitalCertificate {
+                makeDigitalCertificateCard(digitalCertificate)
+                if let instructions = order.instructions {
+                    makeInstructionsCard(instructions)
+                }
+            } else {
+                if order.status != .cancelled {
+                    makePreparingCard()
+                } else {
+                    makeCancelledCard()
+                }
+            }
+        }
+        .padding()
+        .modifier(DefaultBackgroundStyle())
+    }
+    
+    @ViewBuilder private func makeOrderHeader(_ order: Order) -> some View {
+        HStack {
+            Text(order.createdAt, style: .date)
+                .font(.caption)
+                .foregroundStyle(.tertiary)
+            Spacer()
+            makeOrderStatusBadge(order.status)
+        }
+    }
+    
+    @ViewBuilder private func makeOrderStatusBadge(_ status: Order.OrderStatus) -> some View {
+        Text(statusTitle(for: status))
+            .font(.caption)
+            .fontWeight(.medium)
+            .padding(.horizontal, 8)
+            .padding(.vertical, 4)
+            .background(statusColor(for: status).opacity(0.2))
+            .foregroundStyle(statusColor(for: status))
+            .clipShape(Capsule())
+    }
+    
+    private func statusColor(for status: Order.OrderStatus) -> Color {
+        switch status {
+        case .pending, .processing: return .orange
+        case .shipped, .delivered: return .green
+        case .cancelled: return .red
+        }
+    }
+    
+    private func statusTitle(for status: Order.OrderStatus) -> String {
+        switch status {
+        case .pending, .processing: return "In Progress"
+        case .shipped, .delivered: return "Available"
+        case .cancelled: return "Cancelled"
+        }
+    }
+    
+    @ViewBuilder private func makePromocodeCard(_ promocode: String) -> some View {
+        HStack(spacing: 0) {
+            Text(promocode)
+                .font(.title2)
+                .fontWeight(.bold)
+                .padding()
+            Spacer()
+            Button {
+                UIPasteboard.general.string = promocode
+                UIImpactFeedbackGenerator(style: .light).impactOccurred()
+            } label: {
+                Image(systemName: "doc.on.doc")
+                    .font(.title3)
+            }
+            .foregroundStyle(.secondary)
+            .padding(.trailing)
+        }
+        .frame(minHeight: 80)
+        .background(.ultraThinMaterial)
+        .clipShape(RoundedRectangle(cornerRadius: 16))
+    }
+    
+    @ViewBuilder private func makeDigitalCertificateCard(_ certificateURL: URL) -> some View {
+        Link(destination: certificateURL) {
+            HStack {
+                VStack(alignment: .leading, spacing: 4) {
+                    Text("Digital Certificate")
+                        .font(.headline)
+                    Text("Tap to view")
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
+                }
+                .padding()
+                Spacer()
+                Image(systemName: "arrow.up.right.square")
+                    .font(.title2)
+                    .padding(.trailing)
+            }
+            .frame(minHeight: 80)
+            .background(.ultraThinMaterial)
+            .clipShape(RoundedRectangle(cornerRadius: 16))
+        }
+        .buttonStyle(.plain)
+    }
+    
+    @ViewBuilder private func makePreparingCard() -> some View {
+        VStack(spacing: 8) {
+            Image(systemName: "clock.fill")
+                .font(.title)
+                .foregroundStyle(.orange)
+                .symbolEffect(.bounce, options: .repeat(1))
+            Text("Preparing Your Bonus")
+                .font(.headline)
+            Text("Your reward is being prepared and will be available soon")
+                .font(.caption)
+                .foregroundStyle(.secondary)
+                .multilineTextAlignment(.center)
+        }
+        .frame(minHeight: 100)
+        .frame(maxWidth: .infinity)
+        .padding()
+        .background(.ultraThinMaterial)
+        .clipShape(RoundedRectangle(cornerRadius: 16))
+    }
+    
+    @ViewBuilder private func makeInstructionsCard(_ instructions: String) -> some View {
+        HStack(alignment: .firstTextBaseline) {
+            Image(systemName: "info.circle")
+                .font(.caption)
+            Text(instructions)
+                .font(.caption)
+        }
+        .foregroundStyle(.tertiary)
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .padding()
+        .background(.ultraThinMaterial)
+        .clipShape(RoundedRectangle(cornerRadius: 16))
+    }
+    
+    @ViewBuilder private func makeCancelledCard() -> some View {
+        VStack(spacing: 8) {
+            Image(systemName: "xmark.circle")
+                .font(.title)
+                .foregroundStyle(.red)
+            
+            Text("Order Cancelled")
+                .font(.headline)
+            
+            Text("This order has been cancelled and is no longer available")
+                .font(.caption)
+                .foregroundStyle(.secondary)
+                .multilineTextAlignment(.center)
+        }
+        .frame(minHeight: 100)
+        .frame(maxWidth: .infinity)
+        .padding()
+        .background(.ultraThinMaterial)
+        .clipShape(RoundedRectangle(cornerRadius: 16))
     }
 }
